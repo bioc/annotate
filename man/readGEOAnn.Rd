@@ -4,6 +4,7 @@
 \alias{getGPLNames}
 \alias{getSAGEFileInfo}
 \alias{getSAGEGPL}
+\alias{readUrl}
 \title{Function to extract data from the GEO web site}
 \description{
   Data files that are available at GEO web site are identified by GEO
@@ -18,6 +19,7 @@ getGPLNames(url ="http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?")
 getSAGEFileInfo(url =
                        "http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?view=platforms&prtype=SAGE&dtype=SAGE")
 getSAGEGPL(organism = "Homo sapiens", enzyme = c("NlaIII", "Sau3A")
+readUrl(url)
 }
 \arguments{
   \item{url}{\code{url} the url for the CGI script at GEO}
