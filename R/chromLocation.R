@@ -60,6 +60,13 @@
 
     setMethod("geneToChrom", "chromLocation", function(object)
               object@geneToChrom, where=where)
+
+    setMethod("show", "chromLocation", function(object) {
+        cat("Instance of a chromLocation class with the following fields:\n")
+        cat("\tSpecies: ", object@species, "\n\t")
+        cat("Data source: ", object@datSource, "\n\t")
+        cat("Number of chromosomes for this species: ", object@nChrom, "\n")
+    })
 }
 
 buildChromClass <- function(species, datSource, chromList,
