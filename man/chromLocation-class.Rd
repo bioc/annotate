@@ -1,6 +1,13 @@
 \name{chromLocation-class}
 \docType{class}
-\alias{chromLocation-class}
+\alias{chromLocation}
+\alias{species}
+\alias{datSource}
+\alias{nChrom}
+\alias{chromNames}
+\alias{chromLocs}
+\alias{chromLengths}
+\alias{geneToChrom}
 \title{Class chromLocation, a class for describing genes and their
   chromosome mappings.}
 \description{  This class provides a mechanism for mapping a set of
