@@ -563,10 +563,14 @@ getQuery4UG <- function (ids){
     return(TRUE)
   else return(FALSE)
   bIDs <- sapply(ugs, badUG)
-  
-  temp <- paste("http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=",
-                ugs[[i]][1], "&CID=", ugs[[i]][2], sep = "")
-  temp[bIDs] <- "&nbsp;"
+  temp <- vector()
+  for( i in seq(along=ids)){
+    if(!bIDs[i])
+    temp[i] <- paste("http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=",
+                     ugs[[i]][1], "&CID=", ugs[[i]][2], sep = "")
+    else
+    temp[i] <- "&nbsp;"
+  }
   return(temp)
 }
 
