@@ -105,7 +105,7 @@ checkArgs <- function(llID, chromosome, upBase, downBase){
 
 findChr4LL <- function(llID, chrEnv, organism){
     options(show.error.message = FALSE)
-    chr <- try(get(llID, chrEnv))
+    chr <- try(chrEnv[[llID]])
     options(show.error.message = TRUE)
     if(inherits(chr, "try-error")){
         stop(paste("LocusLink id", llID, "could not be found in any",
