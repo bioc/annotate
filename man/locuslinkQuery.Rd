@@ -15,10 +15,8 @@ locuslinkQuery(query,...,lladdress="LocusLink/")
 \details{
   A simple function which takes a search string and a set of species,
   and will perform a locuslink query, returning the results to the
-  browser.  Tips on creating good search strings can be found at:
-  http://www.ncbi.nih.gov/LocusLink/help.html#query.  The current
-  species abbreivations can be found at:
-  http://www.ncbi.nih.gov/LocusLink/help.html#urls.
+  browser.  Tips on creating good search strings, as well as current
+  species abbreviations can be found at: \code{http://www.ncbi.nih.gov/LocusLink/help.html}
 }
 \value{
   No value is returned.  The user's web browser is directed to the

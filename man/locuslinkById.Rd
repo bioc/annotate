@@ -7,7 +7,7 @@
   URL to query for that \em{gene}. 
 }
 \usage{
-locuslink(..., lladdress="LocusLink/")
+locuslinkByID(..., lladdress="LocusLink/")
 }
 \arguments{
   \item{...}{The Locuslink accession numbers. }

@@ -18,7 +18,7 @@
 
     if (is.null(getGeneric("source")))
         setGeneric("datSource", function(object)
-                   standardGeneric("source"), where=where)
+                   standardGeneric("datSource"), where=where)
 
     if (is.null(getGeneric("nChrom")))
         setGeneric("nChrom", function(object)
