@@ -43,12 +43,17 @@ genelocator <- function(x) {
   }
 }
 
-function (genelist, filename, othernames)
+ll.htmlpage <- function (genelist, filename, title, othernames)
 {
     outfile <- file(filename, "w")
     cat("<html>", "<head>", "<TITLE>BioConductor Gene Listing</TITLE>",
-        "</head>", "<body>", "<H1 ALIGN=CENTER > BioConductor Gene Listing </H1>",
-        "<TABLE BORDER=4>", "<CAPTION> Locus Link Genes </CAPTION>",
+        "</head>", "<body bgcolor=#708090 >",
+        "<H1 ALIGN=CENTER > BioConductor Gene Listing </H1>",
+        file = outfile, sep = "\n")
+    if( !missing(title) )
+        cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
+            file=outfile, sep = "\n")
+    cat("<TABLE BORDER=4>", "<CAPTION> Locus Link Genes </CAPTION>",
         file = outfile, sep = "\n")
     rh <- "<TD> <A HREF=\"http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
     nrows <- length(genelist)
