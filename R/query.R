@@ -56,7 +56,7 @@ locuslinkByID <- function(..., lladdress="LocusLink/") {
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
-    args <- paste(params,collapse=",")
+    args <- paste(params,collapse="%2c")
 
     query <- paste(ncbiURL, lladdress, "LocRpt.cgi?l=", args, sep="")
 
@@ -76,7 +76,7 @@ genbank <- function(..., disp=c("data","browser")[1],
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
-    args <- paste(params,collapse=",")
+    args <- paste(params,collapse="%2c")
     ## See if we need to transform accession based arguments
     err <- args
     args <- .transformAccession(args, disp, type,db="genbank")
@@ -113,7 +113,7 @@ pubmed  <- function(..., disp=c("data","browser")[1],
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
-    args <- paste(params,collapse=",")
+    args <- paste(params,collapse="%2c")
     ## See if we need to transform accession based arguments
     err <- args
     args <- .transformAccession(args, disp, type,"pubmed")
