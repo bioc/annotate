@@ -51,12 +51,14 @@ serializeDataPkgEnvs <- function(pkgDir) {
     dataSets <- ls(paste("package", pkg, sep=":"))
     if (length(dataSets) == 0)
         return(0)
-    dataSets <- dataSets[dataSets != pkg]
-    dataSets <- dataSets[dataSets != paste(pkg, "ORGANISM", sep="")]
-    dataSets <- dataSets[dataSets != paste(pkg, "QC", sep="")]
 
-    for (i in seq(along=dataSets))
-        serializeEnv(dataSets[i], paste(dataSets[i], ".xml.gz", sep=""))
-
-    i
+    for (i in seq(along=dataSets)) {
+        if (is.environment(dataSets[i])) {
+            print(paste("Converting", dataSets[i]))
+            serializeEnv(dataSets[i], paste(dataSets[i], ".xml.gz", sep=""))
+        }
+        else
+            print(paste(dataSets[i], "is not an environment, skipping."))
+    }
+    NULL
 }
