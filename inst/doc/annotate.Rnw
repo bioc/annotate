@@ -211,8 +211,6 @@ developers that make use of these interface functions will find that
 their code needs much less maintenance.
 
 
-
-
 \bibliography{annotate}
 
 \end{document}
