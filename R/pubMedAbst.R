@@ -9,12 +9,12 @@
 
     setMethod("show", "pubMedAbst", function(object) {
         cat("An object of class 'pubMedAbst':\n")
-        cat("Title:  ", articleTitle(object), "\n")
+        cat("Title:  ", articleTitle(object), "\n", fill=TRUE)
         cat("PMID:   ", pmid(object), "\n")
         cat("Authors:", paste(authors(object), collapse=", "),
-            "\n")
-        cat("Journal:", journal(object), "\n")
-        cat("Date:   ", pubDate(object), "\n")
+            "\n", fill=TRUE)
+        cat("Journal:", journal(object), "\n", fill=TRUE)
+        cat("Date:   ", pubDate(object), "\n", fill=TRUE)
     })
 
     ## Define generics
