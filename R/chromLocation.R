@@ -97,6 +97,24 @@ buildChromClass <- function(species, datSource, chromList,
 
     return(newChroms)
 }
+usedChromGenes <- function(eSet, chrom, specChrom) {
+    ## Passed an instance of an exprSet, a chromosome name, and
+    ## an instance of a chromLocation object - will return the
+    ## set of genes in the eset that exist on the named chromosome.
+
+    ## Extract the gene names of the chromosome of interest
+    cLocs <- chromLocs(specChrom)
+    genes <- cLocs[[chrom]]
+
+    ## Extract out of the expr set the genes that belong on this chrom
+    usedGenes <- genes[names(genes) %in% geneNames(eSet)]
+
+    ## Order the genes by location
+    usedGenes <- sort(abs(usedGenes))
+
+    return(usedGenes)
+}
+
 
 .fillGenEnv <- function(chromLocList, chromLocEnv) {
 # Given a chromLocs list, will fill the chromLocEnv with the appropriate
