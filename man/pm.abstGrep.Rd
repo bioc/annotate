@@ -26,7 +26,7 @@ pm.abstGrep(pattern, absts, ...)
 }
 \author{ Robert Gentleman }
 
-\seealso{ \code{\link{pm.getabst}}, \code{\link{pm.title}}}
+\seealso{ \code{\link{pm.getabst}}, \code{\link{pm.titles}}}
 
 \examples{
   hoxa9 <- "U82759_at"

@@ -25,7 +25,7 @@ shorter version containing a small subset of the data provided by PubMed.
 }
 \author{ Robert Gentleman }
 
-\seealso{ \code{\link{pm.abstGrep}}, \code{\link{pm.title}} }
+\seealso{ \code{\link{pm.abstGrep}}, \code{\link{pm.titles}} }
 
 \examples{
 hoxa9 <- "U82759_at"
