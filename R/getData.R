@@ -29,17 +29,32 @@ getGO <- function(x, data) {
     lookUp(x, data, "GO")
  }
 
- getGOdesc <- function(x) {
-     #require("GO") || stop("need the GO library")
-     #d <- match.arg(which)
+ getGOdesc <- function(x, which = c("BP", "CC", "MF", "ANY")) {
+     require("GO") || stop("need the GO library")
+     which <- match.arg(which)
      #de <- switch(d, MF=GOMFID2TERM, BP=GOBPID2TERM, CC=GOCCID2TERM,
      #             stop(paste(which, "did not match a GO data type")))
      #ans <- multiget(x, env=de)
      #ans[is.na(ans)] <- NULL
      #ans
-     ans <- lookUp(x, "GO", "TERM")
-     ans[is.na(ans)] <- NULL
-     ans
+     options(show.error.messages = FALSE)
+     ans <- try(lookUp(x, "GO", "TERM"))
+     options(show.error.messages = TRUE)
+     if(inherits(ans, "try-error")){
+         warning(paste("Invalid GO term", x))
+         return(NULL)
+     }else{
+         if(which == "ANY"){
+             return(ans)
+         }else{
+             ans <- ans[names(ans) == which]
+             if(length(ans) == 0){
+                 return(NULL)
+             }else{
+                 return(ans)
+             }
+         }
+     }
  }
 
   getSYMBOL <- function(x, data) {
