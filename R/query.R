@@ -30,36 +30,40 @@ locuslink <- function(geneid, lladdress =
     openBrowser(query)
 }
 
-genbank <- function(geneid, gbaddress) {
-    if(is.na(geneid))
-       stop("gene id is NA, cannot proceed")
-    if(missing(gbaddress))
-       gbaddress <- "http://www.ncbi.nlm.nih.gov/"
-    qname <- "htbin-post/Entrez/query?db=2&form=1&term="
-    query <- paste(gbaddress, qname, geneid, sep="")
-    openBrowser(query)
+genbank <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
+    if (length(c(...)) == 0)
+        stop("No Gene ID, cannot proceed")
+
+    ncbiURL <- .getNcbiURL()
+
+    ## Build up the query URL
+    args <- paste(...,sep=",")
+    dbname <- "Nucleotide"
+    query <- paste(ncbiURL, pmaddress, dbname, "&id=", args, sep="")
+
+    ## Determine if we are displaying this data in a browser or
+    ## returning an XMLDocument object
+    if (disp == "data") {
+        require(XML) || stop("XML package is unavailable!")
+        return(xmlTreeParse(query,isURL=TRUE))
+    }
+    else {
+        openBrowser(query)
+    }
 }
 
-pubmed  <- function(..., disp=c("data","browser")[1], pmaddress="entrez/") {
+pubmed  <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
 
     if (length(c(...)) == 0)
         stop("No PMID, cannot proceed")
 
-    BioCOpt <- getOption("BioC")
-
-    if (!is.null(BioCOpt)) {
-        pmURL <- BioCOpt$Annotate$urls$ncbi
-    }
-
-    if (!exists(pmURL)) {
-        pmURL <- "http://www.ncbi.nih.gov/"
-    }
+    ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
     args <- paste(...,sep=",")
-    qname <-"utils/pmfetch.fcgi?db=PubMed&report=xml&mode=text&tool=bioconductor&id="
+    dbname <-"PubMed"
 
-    query <- paste(pmURL, pmaddress, qname, args, sep="")
+    query <- paste(pmURL, pmaddress, dbname, "&id=", args, sep="")
 
 
     ## Determine if we are displaying this data in a browser or
@@ -72,6 +76,25 @@ pubmed  <- function(..., disp=c("data","browser")[1], pmaddress="entrez/") {
         openBrowser(query)
     }
 
+}
+
+.getNcbiURL <- function() {
+    ## Returns the URL for NCBI, which should be located in Annotate's
+    ## option set
+    BioCOpt <- getOption("BioC")
+
+    if (!is.null(BioCOpt)) {
+        pmURL <- BioCOpt$Annotate$urls$ncbi
+    }
+
+    if (!exists("pmURL")) {
+        pmURL <- "http://www.ncbi.nih.gov/"
+    }
+}
+
+.pmfetch <- function() {
+    ## Returns the base query string for the pmfetch engine @ pubmed
+    return("entrez/utils/pmfetch.fcgi?report=xml&mode=text&tool=bioconductor&db=")
 }
 
 genelocator <- function(x) {
