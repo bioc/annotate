@@ -327,73 +327,8 @@ genelocator <- function(x) {
   }
 }
 
-pmAbst2html2 <- function(absts, baseFilename,
-                         title,
-                         table.center=TRUE) {
-    if (!is.list(absts)) {
-        if (is(absts,"pubMedAbst"))
-            absts <- list(absts)
-        else
-            stop("'absts' parameter does not seem to be valid.")
-    }
 
-    if (missing(baseFilename))
-        baseFilename <- ""
-    if (missing(title))
-        title <- "BioConductor Abstract List"
-
-    topText <- paste("<html>\n<head>\n<title>Bioconductor Abstract List</title>",
-                     "\n</head>\n<body bgcolor=#708090>\n",
-                     "<H1 ALIGN=CENTER>BioConductor Abstract List</H1>\n",
-                     "</body></title>", sep="")
-    top <- new("HTMLPage", fileName=paste(baseFilename,"Top.html",sep=""),
-               pageText= topText)
-
-    head <- c("Article Title", "Publication Date")
-    headOut <- paste("<TH>", head, "</TH>", collapse="\n")
-    tableHeader <- paste("<TR>",headOut,"</TR>", sep="\n")
-    sideText <- paste("<TABLE BORDER=1>", tableHeader, sep="\n")
-
-    nrows = length(absts)
-    pmids <- unlist(lapply(absts,pmid))
-    dates <- unlist(lapply(absts,pubDate))
-    queries <- unlist(lapply(absts,
-                             function(x){pm <- pmid(x);out<-pmidQuery(pm);out}))
-    titles <- unlist(lapply(absts, articleTitle))
-    anchors <- makeAnchor(queries, titles, toMain=TRUE)
-    tds <- paste("<TD>",anchors,"</TD><TD>",dates,"</TD>",sep="",
-                 collapse="\n</TR>\n<TR>\n")
-    tds <- paste("<TR>",tds,"</TR>")
-    sideText <- paste(sideText, tds)
-    if (table.center)
-        sideText <- paste("<CENTER>",sideText,"</CENTER>", sep="\n")
-    sideText <- paste("<html>", "<head>",
-                      "<title>BioConductor Abstract List</title>",
-                      "</head>","<body bgcolor=#708090>",
-                      sideText, "</body>", "</html>", sep="\n")
-    side <- new("HTMLPage",
-                fileName=paste(baseFilename,"Side.html",sep=""),
-                pageText=sideText)
-
-    metaText <- paste("<meta HTTP-EQUIV=\"REFRESH\" CONTENT=\"1;",
-                      queries[1],"\">",sep="")
-    mainText <- paste("<html>", "<head>",
-                      "<title>BioConductor Abstract List</title>",
-                      "</head>","<body bgcolor=#708090>",
-                      metaText,
-                      "</body>","</html>", sep="\n")
-
-    main <- new("HTMLPage",
-                fileName=paste(baseFilename,"Main.html",sep=""),
-                pageText=mainText)
-
-    page <- new("FramedHTMLPage", topPage=top, sidePage=side, mainPage=main,
-                fileName=paste(baseFilename,"index.html",sep=""),
-                pageTitle=title)
-    toFile(page)
-}
-
-pmAbst2HTML <- function(absts, filename, title, simple=TRUE,
+pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
                       table.center=TRUE) {
     ## Currently just a very naive implementation of a pmid2html type
     ## of thing.  Intended to be temporary just while I'm testing some
@@ -406,24 +341,16 @@ pmAbst2HTML <- function(absts, filename, title, simple=TRUE,
             stop("'absts' parameter does not seem to be valid.")
     }
 
+    ## Assign a default filename.  If we're using frames, then
+    ## 'filename' is really just the base filename, so make it empty
     if (missing(filename))
-        filename <- "absts.html"
+        if (frames)
+            fileName <- ""
+        else
+            filename <- "absts.html"
 
-    outfile <- file(filename,"w")
-    cat("<html>", "<head>", "<TITLE>BioConductor Abstract List</TITLE>",
-        "</head>", "<body bgcolor=#708090 >",
-        "<H1 ALIGN=CENTER > BioConductor Abstract List </H1>",
-        file = outfile, sep = "\n")
-    if ( !missing(title) )
-        cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
-            file=outfile, sep = "\n")
-    if( table.center )
-        cat("<CENTER> \n", file=outfile)
-
-    cat("<TABLE BORDER=1>", file = outfile, sep = "\n")
-    head <- c("Article Title", "Publication Date")
-    headOut <- paste("<TH>", head, "</TH>")
-    cat("<TR>",headOut,"</TR>", file=outfile, sep="\n")
+    if (missing(title))
+        title <- "BioConductor Abstract List"
 
     nrows = length(absts)
     pmids <- unlist(lapply(absts,pmid))
@@ -431,16 +358,77 @@ pmAbst2HTML <- function(absts, filename, title, simple=TRUE,
     queries <- unlist(lapply(absts,
                              function(x){pm <- pmid(x);out<-pmidQuery(pm);out}))
     titles <- unlist(lapply(absts, articleTitle))
-    anchors <- makeAnchor(queries, titles)
-    tds <- paste("<TD>",anchors,"</TD><TD>",dates,"</TD>",sep="")
-    for (td in tds)
-        cat("<TR>", td, "</TR>", file=outfile,sep="\n")
+    ## If we're using frames, need to point the anchors to
+    ## the main frame, otherwise not.
+    anchors <- makeAnchor(queries, titles, toMain=frames)
 
-    cat("</TABLE>",file=outfile)
-    if( table.center )
-        cat("</CENTER> \n", file=outfile)
-    cat("</body>", "</html>", sep = "\n", file = outfile)
-    close(outfile)
+    topText <- paste("<html>\n<head>\n<title>Bioconductor Abstract List</title>",
+                     "\n</head>\n<body bgcolor=#708090>\n",
+                     "<H1 ALIGN=CENTER>BioConductor Abstract List</H1>\n",
+                     "</body></title>", sep="")
+    head <- c("Article Title", "Publication Date")
+    headOut <- paste("<TH>", head, "</TH>", collapse="\n")
+
+    if (frames) {
+        top <- new("HTMLPage", fileName=paste(filename,"Top.html",sep=""),
+                   pageText= topText)
+        tableHeader <- paste("<TR>",headOut,"</TR>", sep="\n")
+        sideText <- paste("<TABLE BORDER=1>", tableHeader, sep="\n")
+
+        tds <- paste("<TD>",anchors,"</TD><TD>",dates,"</TD>",sep="",
+                     collapse="\n</TR>\n<TR>\n")
+        tds <- paste("<TR>",tds,"</TR>")
+        sideText <- paste(sideText, tds)
+        if (table.center)
+            sideText <- paste("<CENTER>",sideText,"</CENTER>", sep="\n")
+        sideText <- paste("<html>", "<head>",
+                          "<title>BioConductor Abstract List</title>",
+                          "</head>","<body bgcolor=#708090>",
+                          sideText, "</body>", "</html>", sep="\n")
+        side <- new("HTMLPage",
+                    fileName=paste(filename,"Side.html",sep=""),
+                    pageText=sideText)
+
+        metaText <- paste("<meta HTTP-EQUIV=\"REFRESH\" CONTENT=\"1;",
+                          queries[1],"\">",sep="")
+        mainText <- paste("<html>", "<head>",
+                          "<title>BioConductor Abstract List</title>",
+                          "</head>","<body bgcolor=#708090>",
+                          metaText,
+                          "</body>","</html>", sep="\n")
+
+        main <- new("HTMLPage",
+                    fileName=paste(filename,"Main.html",sep=""),
+                    pageText=mainText)
+
+        page <- new("FramedHTMLPage", topPage=top, sidePage=side, mainPage=main,
+                    fileName=paste(filename,"index.html",sep=""),
+                    pageTitle=title)
+        toFile(page)
+    }
+    else {
+        outfile <- file(filename,"w")
+        cat(topText, file = outfile)
+        if ( !missing(title) )
+            cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
+                file=outfile, sep = "\n")
+        if( table.center )
+            cat("<CENTER> \n", file=outfile)
+
+        cat("<TABLE BORDER=1>", file = outfile, sep = "\n")
+        cat("<TR>",headOut,"</TR>", file=outfile, sep="\n")
+
+        tds <- paste("<TD>",anchors,"</TD><TD>",dates,"</TD>",sep="")
+        for (td in tds)
+            cat("<TR>", td, "</TR>", file=outfile,sep="\n")
+
+        cat("</TABLE>",file=outfile)
+        if( table.center )
+            cat("</CENTER> \n", file=outfile)
+        cat("</body>", "</html>", sep = "\n", file = outfile)
+        close(outfile)
+    }
+    NULL
 }
 
 ll.htmlpage <- function (genelist, filename, title, othernames,
