@@ -2,18 +2,6 @@
 ##helper functions for dealing with data environments (soon to be hash
 ##tables)
 
-
-### Define the contents method
-if( !isGeneric("contents") && !exists("contents", mode="function") )
-    setGeneric("contents", function(object)
-               standardGeneric("contents"))
-
-setMethod("contents", "environment",
-          function(object)
-          multiget(ls(env=object), env=object))
-
-## Done w/ contents method
-
 getGO <- function(x, data="hgu95a") {
      library(data, character.only=TRUE)
      GOenv <- get(paste(data, "GO",sep=""))
@@ -48,6 +36,16 @@ getGO <- function(x, data="hgu95a") {
       unlist(multiget(x, env=LLenv))
   }
 
+.initCont <- function(where) {
+  if( !isGeneric("contents") && !exists("contents", mode="function") )
+       setGeneric("contents", function(object)
+                  standardGeneric("contents"),
+               where=where)
+
+  setMethod("contents", "environment",
+     function(object)
+         multiget(ls(env=object), env=object), where=where)
+}
 
 installDataPackage <- function(pkg, lib=.libPaths()[1]) {
     require(reposTools)||stop("installDataPackage requires package reposTools")
@@ -55,6 +53,6 @@ installDataPackage <- function(pkg, lib=.libPaths()[1]) {
     z <- getReposEntry("http://www.bioconductor.org/data/dataRepos")
     x <- install.packages2(pkg, z, lib=lib)
     if (length(statusList(x)) == 0)
-        stop(paste("Data package",pkg,"does not seem to\nexist",
-                   "in the Bioconductor data package repository."))
+        stop(paste("Data package",pkg,"does not seem to exist",
+                   "in the Bioconductor\ndata package repository."))
 }
