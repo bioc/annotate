@@ -1,5 +1,5 @@
 % \VignetteIndexEntry{Using Data Packages}
-% \VignetteDepends{hgu95av2, GO}
+% \VignetteDepends{hgu95av2, GO(>= 1.6.0)}
 % \VignetteKeywords{Annotation}
 %\VignettePackage{annotate}
 
@@ -195,7 +195,7 @@ pre-defined S4 objects containing data for the ids, ontology, and
 evidence code of Gene Ontology terms corresponding to the three
 keys. The following code shows how to access the GO id, evidence code
 and ontology of the Gene Ontology term corresponding to probe id
-\textit{699\_s\_at}: 
+\textit{699\_s\_at}:
 
 <<<>>=
 temp <- get("699_s_at", hgu95av2GO)
@@ -225,7 +225,7 @@ package named \Rpackage{GO}. AS package \Rpackage{hgu95av2} and
 two packages using \Rpackage{GO} id as shown below:
 
 <<>>=
-mget(names(get("699_s_at", hgu95av2GO)), GOTERM)
+mget(names(get("699_s_at", hgu95av2GO)), GOTERMS)
 @
 
 It turns out that probe id \textit{GO:0005085} (corresponding to
