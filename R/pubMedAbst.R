@@ -59,7 +59,7 @@
     setMethod("journal", "pubMedAbst", function(object)
               object@journal, where=where)
     setMethod("pubDate", "pubMedAbst", function(object)
-              object@pubData, where=where)
+              object@pubDate, where=where)
     setMethod("abstUrl", "pubMedAbst", function(object)
               object@abstUrl, where=where)
 }
