@@ -114,7 +114,7 @@ contains a URL for its journal:
 abstUrl(goodAbsts[[2]])
 @
 
-This URL can then be used (either using the \verb+openBrowser+
+This URL can then be used (either using the \verb+browseURL+
 function from {\em annotate} or directly from your favorite browser)
 to view the full article as well as any related information provided
 by the authors.
