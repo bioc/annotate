@@ -48,8 +48,8 @@ use PubMed ID values.  To obtain these, we can use the annotation
 tools within package {\em annotate}.
 
 <<annotation>>=
-library(hgu95a)
-ids <- multiget(affys,envir=hgu95aPMID)
+library(hgu95av2)
+ids <- multiget(affys,envir=hgu95av2PMID)
 ids <- unlist(ids,use.names=FALSE)
 ids <- ids[!is.na(as.numeric(ids))]
 ids
