@@ -7,3 +7,5 @@ Maintainer: R. Gentleman <rgentlem@hsph.harvard.edu>
 Depends: R (>= 1.9.0), Biobase, XML (>= 0.92-2), reposTools, tkWidgets
 Suggests: hgu95av2, genefilter
 License: LGPL
+ReleaseLevel: devel
+
