@@ -1,8 +1,5 @@
 .initChromLocation <- function() {
-    # Defines the chromLocation class and creates its associated environment
-
-    # Define the environment object used in the class
-    chromLocEnv <- new.env(hash=TRUE)
+    # Defines the chromLocation class
 
     # Define the class structure of the chromLocation object
     setGeneric("chromLocation", function(object)
@@ -11,7 +8,7 @@
     setClass("chromLocation", representation(species="character",
              datSource="character", nChrom="numeric",
              chromNames="vector", chromLocs="list",
-             chromLengths="vector", geneToChrom="chromLocEnv"))
+             chromLengths="vector", geneToChrom="environment"))
 
 
     # Define the accessors
@@ -65,7 +62,29 @@
               object@geneToChrom)
 }
 
-fillGenEnv <- function(chromLocList) {
+buildChromClass <- function(species, datSource, chromList,
+                             chromLengths) {
+# Passed a species name, the source of the data, a list which contains
+# all the genes/location sorted by chromosome.  Will return a new
+#instance of a chromLocation class, based on this information.
+
+    # Derive the other necessary information for this instantiation
+    nChrom <- length(chromList)
+    chromNames <- labels(chromList)
+    chromEnv <- new.env(hash=TRUE)
+    .fillGenEnv(chromList, chromEnv)
+
+    # INstantiate the new class and return it.
+    newChroms <- new("chromLocation", species=species,
+                      datSource=datSource, nChrom=nChrom,
+                      chromNames=chromNames, chromLocs=chromList,
+                      chromLengths=chromLengths,
+                      geneToChrom=chromEnv)
+
+    return(newChroms)
+}
+
+.fillGenEnv <- function(chromLocList, chromLocEnv) {
 # Given a chromLocs list, will fill the chromLocEnv with the appropriate
 # data
 
@@ -73,19 +92,19 @@ fillGenEnv <- function(chromLocList) {
         # Convert the numeric name to the character name
         newName <- labels(chromLocList[i]);
 
-                                        # Get the gene names and location data
+        # Get the gene names and location data
         chromData <- chromLocList[[i]]
         geneNames <- labels(chromData)
         newStrand <- vector(mode="character", length=length(geneNames))
         newPos <- as.numeric(chromData[geneNames])
-        ifelse(newPos>0, newStrand <- "+", newStrand <- "-")
+        newStrand <- ifelse(newPos>0, "+", "-")
         newPos <- abs(newPos)
 
         for (j in 1:length(geneNames)) {
 
             # Instantiate a new location object for this gene
             newLoc <- new("chromLoc",
-                          chrom=newName[j],position=newPos[j],
+                          chrom=newName,position=newPos[j],
                           strand=newStrand[j])
 
             # Add the gene and chromLoc object to the environment
