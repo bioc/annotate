@@ -1,5 +1,8 @@
 .First.lib <- function(libname, pkgname, where) {
-  require(methods)
+  if( version$major == "1" && as.numeric(version$minor) < 4 )
+    require(RSMethods)
+  else 
+    require(methods)
    if(missing(where)) {
         where <- match(paste("package:", pkgname, sep=""), search())
         if(is.na(where)) {
