@@ -1,21 +1,21 @@
-# This function takes a character string for the name of the annotation
-# package for an Affymetrix chip and then returns a list of vectors
+# This function takes a character string for the name of a platform
+# specific annotation data package and then returns a list of vectors
 # with LocusLink ids as names and vectors of character strings for
-# names of probes contained by the chip and belong to the LocusLink ids.
+# names of probes associated with the LocusLink ids as values.
 #
-# chipName - a character string for the name of an annotation data
-# package for a given Affymetrix chip.
+# baseName - a character string for the name of a platform specific
+# annotation data package (e. g. for an Affymetrix chip).
 #
 # Copyright 2004, Jianhua Zhang. All rights reserved.
 #
 
-probesByLL <- function(chipName){
+probesByLL <- function(baseName){
 
-    require(chipName, character.only = TRUE) ||
+    require(baseName, character.only = TRUE) ||
     stop(paste("The annotation package for", chipName, "is not available!"))
 
-    temp <- unlist(lookUp(ls(get(paste(chipName, "LOCUSID", sep = ""))),
-                      chipName, "LOCUSID"))
+    temp <- unlist(lookUp(ls(get(paste(baseName, "LOCUSID", sep = ""))),
+                      baseName, "LOCUSID"))
     temp <- temp[!is.na(temp)]
     temp <- split.data.frame(cbind(temp, names(temp)), factor(temp))
 
