@@ -29,6 +29,5 @@ genelocator(x)
 
 \examples{
 ## This is an interactive function so the examples won't work!
-
 }
 \keyword{ iplot }
