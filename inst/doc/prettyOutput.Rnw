@@ -77,20 +77,20 @@ should see small $p$--values and large test statistics (we hope).
 
 Now, to assemble our web page we need to get the annotation data and
 to then associate the annotation with the $t$--test results.
-We will read in the gene symbol and the LocusLink identifier using the 
-\verb+read.annotation+ function. This function reads data from a file
-and stores it in an {\em environment}. We extract the data from the
+We first obtain gene symbol and the LocusLink identifier data by
+loading the appropriate environments using \verb+data+.
+We extract the data from the
 environment using either \verb+get+ or \verb+multiget+.
 
 <<>>=
-hgu95ll <- read.annotation("hgu95All")
-hgu95sym <- read.annotation("hgu95Asym")
-igenes.ll <- multiget(igenes, env=hgu95ll)
-igenes.sym <- multiget(igenes, env=hgu95sym)
+data(hgu95All)
+data(hgu95Asym)
+igenes.ll <- multiget(igenes, env=hgu95All)
+igenes.sym <- multiget(igenes, env=hgu95Asym)
 @
 
 And now we are ready to wrap this all up using
-\verb+ll.htmlpage+. This function takes the LocusLink identifiers and 
+\verb+ll.htmlpage+. This function takes the LocusLink identifiers and
 wraps them in an HTML anchor that is linked to the appropriate
 LocusLink web page.
 
@@ -101,7 +101,7 @@ ll.htmlpage(igenes.ll, "HOWTO.igenes",
                  round(igenes.gp2mean, 3),round(igenes.pvals, 3)))
 @
 And you can load this page up in your favorite browser. The genes are
-clickable. 
+clickable.
 An \verb+NA+ in the output for LocusLink represents a gene or EST that
 we have not yet successfully mapped to a LocusLink identifier.
 

@@ -58,13 +58,13 @@ implementation of {\em annotate} that used a relational database
 rather than hash tables we currently feel that this would be little
 used and hence not worth the effort. However, we would be happy to
 provide advice and support if an effort to build such an interface is
-attempted. 
+attempted.
 
 \section*{Experimental Data}
 
 We currently can access a great deal of data. Examples include
 chromosome number, chromosomal location (cytoband or bp).
-The Gene Ontology (GO) categorizations. 
+The Gene Ontology (GO) categorizations.
 Other information such as syntenic regions or orthologous grouping can
 also be obtained.
 
@@ -112,8 +112,8 @@ to some criteria.
  genes.ord <- genes.used[ord.mn,]
 
  # the translation from Affy to locus link id's
- hgu95ll <- read.annotation("hgu95All")
- llnames <- multiget(row.names(genes.ord), env=hgu95ll)
+ data(hgu95All)
+ llnames <- multiget(row.names(genes.ord), env=hgu95All)
 
  ll.htmlpage(llnames, "selectedG.html",
             "Top 60 Genes", row.names(genes.ord))
@@ -121,14 +121,14 @@ to some criteria.
 @
 
 %$
-\section{Translators Vignette} 
+\section{Translators Vignette}
 
 In this section we show how to build and use translators. Many of the
 basic data sets required for this step are distributed with the
-\verb+annotate+ library. Others are available from the Bioconductor 
-web site. 
+\verb+annotate+ library. Others are available from the Bioconductor
+web site.
 
 
-\end{document} 
+\end{document}
 
 
