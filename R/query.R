@@ -430,19 +430,19 @@ pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
     invisible(NULL)
 }
 
-htmlpage <- function (genelist, filename, title, othernames, table.head, 
+htmlpage <- function (genelist, filename, title, othernames, table.head,
                          table.center = TRUE, repository = "ll"){
   outfile <- file(filename, "w")
   type <- "text/css"
-  cat("<html>", "<head>", "<TITLE>Differentially Expressed Genes</TITLE>", 
+  cat("<html>", "<head>", "<TITLE>Differentially Expressed Genes</TITLE>",
       "</head>", "<body bgcolor=#FFFFFF >", "<H1 ALIGN=CENTER > Differentially Expressed Genes </H1>",
       # CSS to allow reasonable spacing for multiple links per cell
       paste("<style type=", type,">",sep = ""), "p{ margin-top: 1px; margin-bottom: 1px; padding-left: 10px; text-indent: -10px }",
       "</style>", file = outfile, sep = "\n")
-  if (!missing(title)) 
-    cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n", 
+  if (!missing(title))
+    cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
         file = outfile, sep = "\n")
-  if (table.center) 
+  if (table.center)
     cat("<CENTER> \n", file = outfile)
   cat("<TABLE BORDER=4>", file = outfile, sep = "\n")
   if (!missing(table.head)) {
@@ -455,7 +455,7 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
       nrows <- length(genelist[[1]])
     }else stop("The lists of genes to annotate must all be of equal length.")
   }else nrows <- length(genelist)
-  
+
   if (is.list(repository)){
     rows <- ""
     for(i in seq(along=repository)){
@@ -476,10 +476,10 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
       else others <- paste("<TD>", othernames, "</TD>", sep = "")
     rows <- paste(rows, others)
     }
-  for (i in 1:nrows) cat("<TR>", rows[i], "</TR>", file = outfile, 
+  for (i in 1:nrows) cat("<TR>", rows[i], "</TR>", file = outfile,
                            sep = "\n")
   cat("</TABLE>", file = outfile)
-  if (table.center) 
+  if (table.center)
     cat("</CENTER> \n", file = outfile)
   cat("</body>", "</html>", sep = "\n", file = outfile)
   close(outfile)
@@ -518,17 +518,17 @@ getCells <-  function(ids, repository = "ug"){
     out <- vector()
     for(i in seq(along = ids)){
       if(!blanks[i])
-        out[i] <- paste(" <A HREF=\"", temp[i], "\">", 
+        out[i] <- paste(" <A HREF=\"", temp[i], "\">",
                         ids[i], "</A>", sep = "")
       else
         out[i] <-  temp[i]
       }
   }
   return(out)
-}  
+}
 
 getQueryLink <-function (ids, repository = "ug"){
-  switch(tolower(repository), ug = return(getQuery4UG(ids)), 
+  switch(tolower(repository), ug = return(getQuery4UG(ids)),
          ll = return(getQuery4LL(ids)), affy = return(getQuery4Affy(ids)),
          gb = return(getQuery4GB(ids)), sp = return(getQuery4SP(ids)),
          omim = return(getQuery4OMIM(ids)), stop("Unknown repository name"))
@@ -555,7 +555,7 @@ getQuery4Affy <- function (ids){
         out[i] <- "&nbsp;"
     }
   }else{
-   out <- paste("https://www.affymetrix.com/LinkServlet?&probeset=", 
+   out <- paste("https://www.affymetrix.com/LinkServlet?&probeset=",
           ids, sep = "")
   }
   return(out)
@@ -568,16 +568,16 @@ getQuery4UG <- function (ids){
     ugs <- strsplit(as.character(ids), "\\.")
   else
     ugs <- strsplit(ids, "\\.")
-  badUG <- function(x) if (length(x) != 2 || nchar(x[1]) != 
-                           2) 
+  badUG <- function(x) if (length(x) != 2 || nchar(x[1]) !=
+                           2)
     return(TRUE)
   else return(FALSE)
   bIDs <- sapply(ugs, badUG)
-  
+
   temp <- vector()
   for(i in seq(along = ids)){
     if(!bIDs[i])
-      temp[i] <- paste("http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=", 
+      temp[i] <- paste("http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=",
                        ugs[[i]][1], "&CID=", ugs[[i]][2], sep = "")
     else
       temp[i] <- "&nbsp;"
@@ -605,7 +605,7 @@ getQuery4LL <- function (ids){
   out <- vector()
   for( i in seq(along = ids)){
     if(!blanks[i])
-      out [i] <- paste("http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=", 
+      out [i] <- paste("http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=",
                        ids[i], sep = "")
     else
       out[i] <- "&nbsp;"
@@ -631,7 +631,7 @@ getQuery4GB <- function (ids){
   else
     out <-  paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=Nucleotide&cmd=search&term=",
                   ids, sep="")
-  
+
   return(out)
 }
 
@@ -652,7 +652,7 @@ getQuery4SP <- function(ids){
   }
   else
     out <- paste("http://us.expasy.org/cgi-bin/get-entries?disp=1&AC=", ids, sep="")
-  
+
   return(out)
 }
 
@@ -677,7 +677,7 @@ getQuery4OMIM <- function(ids){
   out <- vector()
   for( i in seq(along = ids)){
     if(!blanks[i])
-      out [i] <- paste("http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=", 
+      out [i] <- paste("http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=",
                        ids[i], sep = "")
     else
       out[i] <- "&nbsp;"
@@ -685,3 +685,49 @@ getQuery4OMIM <- function(ids){
   return(out)
 }
 
+ll.htmlpage <- function (genelist, filename, title, othernames,
+                         table.head, table.center=TRUE,
+                         repository = "ll")
+{
+    .Deprecated("htmlpage", package="annotate")
+    outfile <- file(filename, "w")
+    cat("<html>", "<head>", "<TITLE>BioConductor Linkage List</TITLE>",
+        "</head>", "<body bgcolor=#708090 >",
+        "<H1 ALIGN=CENTER > BioConductor Linkage List </H1>",
+        file = outfile, sep = "\n")
+    if( !missing(title) )
+        cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
+            file=outfile, sep = "\n")
+
+    if( table.center )
+        cat("<CENTER> \n", file=outfile)
+
+    cat("<TABLE BORDER=4>", file = outfile, sep = "\n")
+    if( !missing(table.head) ) {
+        headout <- paste("<TH>", table.head, "</TH>")
+        cat("<TR>", headout, "</TR>", file=outfile, sep="\n")
+    }
+#    rh <- "<TD> <A HREF=\"http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
+    nrows <- length(genelist)
+    rows <- getTDRows(genelist, repository)
+#    rows <- paste(rh, genelist, "\">", genelist, "</A> </TD>",
+#        sep = "")
+    if( !missing(othernames) ) {
+        if( is.list(othernames) ) {
+            others <- ""
+            for(nm in othernames)
+                others <- paste(others,"<TD>", nm, "</TD>", sep="")
+        }
+        else
+            others <- paste("<TD>", othernames, "</TD>", sep="")
+        rows <- paste(rows, others)
+    }
+    for (i in 1:nrows)
+        cat("<TR>", rows[i], "</TR>", file = outfile, sep = "\n")
+    cat("</TABLE>",file=outfile)
+    if( table.center )
+        cat("</CENTER> \n", file=outfile)
+    cat("</body>", "</html>", sep = "\n", file = outfile)
+
+    close(outfile)
+}
