@@ -63,11 +63,14 @@ locuslinkByID <- function(..., lladdress="LocusLink/") {
     openBrowser(query)
 }
 
-genbank <- function(..., disp=c("data","browser")[1],
-                    type=c("uid","accession")[2],
+genbank <- function(..., disp=c("data","browser"),
+                    type=c("accession", "uid"),
                     pmaddress=.pmfetch("Nucleotide",disp,type)) {
     params <- list(...)
     params <- unlist(params)
+
+    disp <- match.arg(disp)
+    type <- match.arg(type)
 
     if (length(params) == 0) {
         stop("No Gene ID, cannot proceed")
@@ -100,11 +103,14 @@ genbank <- function(..., disp=c("data","browser")[1],
     }
 }
 
-pubmed  <- function(..., disp=c("data","browser")[1],
-                    type=c("uid","accession")[1],
+pubmed  <- function(..., disp=c("data","browser"),
+                    type=c("uid","accession"),
                     pmaddress=.pmfetch("PubMed",disp,type)) {
     params <- list(...)
     params <- unlist(params)
+
+    disp <- match.arg(disp)
+    type <- match.arg(type)
 
     if (length(params) == 0) {
         stop("No PMID, cannot proceed")
@@ -138,12 +144,14 @@ pubmed  <- function(..., disp=c("data","browser")[1],
     }
 }
 
-accessionToUID <- function(...,db=c("genbank","pubmed")[1]) {
+accessionToUID <- function(...,db=c("genbank","pubmed")) {
     ## Passed an accession #, returns a pubmed UID
 
     accNum <- list(...)
     accNum <- unlist(accNum)
     accNum <- paste(accNum,collapse="+OR+")
+
+    db <- match.arg(db)
 
     ## Certain functions will be passing in a single string of comma
     ## deliminated Accession #s.  Change the commas to "+OR+"
@@ -212,8 +220,11 @@ accessionToUID <- function(...,db=c("genbank","pubmed")[1]) {
     return(ncbiURL)
 }
 
-.getIdTag <- function(disp=c("data","browser")[1],
-                      type=c("uid","accession")[1]) {
+.getIdTag <- function(disp=c("data","browser"),
+                      type=c("uid","accession")) {
+    disp <- match.arg(disp)
+    type <- match.arg(type)
+
     if (disp == "data") {
         return("&id=")
     }
@@ -227,9 +238,12 @@ accessionToUID <- function(...,db=c("genbank","pubmed")[1]) {
     }
 }
 
-.pmfetch <- function(db="PubMed", disp=c("data","browser")[1],
-                     type=c("uid","accession")[1]) {
+.pmfetch <- function(db="PubMed", disp=c("data","browser"),
+                     type=c("uid","accession")) {
     ## Returns the base query string for the pmfetch engine @ pubmed
+
+    disp <- match.arg(disp)
+    type <- match.arg(type)
 
     if (disp == "data") {
         base <-
