@@ -35,6 +35,22 @@ GO2heatmap = function(x, eset, data="hgu133plus2", ...) {
     return(dataM)
 }
 
+GOmnplot = function (x, eset, data = "hgu133plus2", group, ...)
+{
+    mapE = get(paste(data, "GO2ALLPROBES", sep = ""))
+    whG = mapE[[x]]
+    whG = unique(whG)
+    whGs = whG[whG %in% geneNames(eset)]
+    dataM = exprs(eset)[whGs, ]
+    tts = apply(dataM, 1, function(x) sapply(split(x, group), mean))
+    rn = row.names(tts)
+    if( length(levels(factor(group))) != 2 )
+        stop("only works for factors with two levels")
+    plot(tts[1,], tts[2,], xlab=rn[1], ylab=rn[2], ...)
+    abline(a=0, b=1)
+    return(tts)
+}
+
 p2LL = function(data) {
     LLe = get(paste(data, "LOCUSID", sep=""))
     g1 = unlist(as.list(LLe))
@@ -54,4 +70,20 @@ KEGG2heatmap = function (x, eset, data = "hgu133plus2", ...)
     return(dataM)
 }
 
+
+KEGGmnplot = function (x, eset, data = "hgu133plus2", group, ...)
+{
+    mapE = get(paste(data, "PATH2PROBE", sep = ""))
+    whG = mapE[[x]]
+    whG = unique(whG)
+    whGs = whG[whG %in% geneNames(eset)]
+    dataM = exprs(eset)[whGs, ]
+    tts = apply(dataM, 1, function(x) sapply(split(x, group), mean))
+    rn = row.names(tts)
+    if( length(levels(factor(group))) != 2 )
+        stop("only works for factors with two levels")
+    plot(tts[1,], tts[2,], xlab=rn[1], ylab=rn[2], ...)
+    abline(a=0, b=1)
+    return(tts)
+}
 
