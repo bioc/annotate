@@ -18,11 +18,11 @@ pm.abstGrep(pattern, absts, ...)
   The \code{absts} are a list of PubMed XML objects that have been downloaded 
   and parsed. This function lets the user quickly search the abstracts
   for any regular expression. The returned value is a logical vector
-  indicating which of the abstarcts contain the regular expression.
+  indicating which of the abstracts contain the regular expression.
 }
 \value{
  The returned value is a logical vector
-  indicating which of the abstarcts contain the regular expression.
+  indicating which of the abstracts contain the regular expression.
 }
 \author{ Robert Gentleman }
 
