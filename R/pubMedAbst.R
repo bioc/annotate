@@ -153,12 +153,11 @@ buildPubMedAbst <- function(xml) {
 }
 
 pm.getabst <- function(geneids, basename) {
-    pmenvN <- paste(basename, "pmed", sep="")
-    envName <- paste(pmenvN, "env", sep="")
-    if( !exists(envName, mode = "environment") ) 
-        assign(envName, read.annotation(pmenvN), envir=.GlobalEnv)
-    pmed <- get(envName, envir=.GlobalEnv)
-    pmids <- multiget(geneids, env=pmed)
+    pmenvN <- paste(basename, "PMID", sep="")
+    library(basename, character.only=TRUE)
+    if( !exists(pmenvN, mode = "environment") ) 
+        stop("could not access PubMed ids for this data")
+    pmids <- multiget(geneids, env=pmenvN)
     numids <- length(geneids)
     rval <- vector("list", length=numids)
     for(i in 1:numids) {
