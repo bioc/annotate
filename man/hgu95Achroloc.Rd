@@ -1,0 +1,30 @@
+\name{hgu95Achroloc}
+\non_function{}
+\alias{hgu95Achroloc}
+
+
+\title{Annotation data for the Affymetrix HGU95A GeneChip}
+\usage{data(hgu95Achroloc)}
+
+\format{
+  These data sets provide environments with mappings from the Affymetrix
+  identifiers to chromosomal location, in bases.
+  The environments function like hashtables and can be accessed using
+  \code{multiget}.
+  If the returned value is \code{NA} then the current 
+  mapping was unable to identify this. Mappings and data sources are
+  constantly evolving so updating often is recommended.
+
+}
+\description{Data, in the form of environments for the Affymetrix U95A
+ chip.}
+
+\source{The \code{AnnBuilder} package.}
+
+\examples{
+ data(hgu95Achroloc)
+ data(eset)
+ multiget(geneNames(eset)[330:340], env=hgu95Achroloc)
+
+}
+\keywords{datasets}
