@@ -22,8 +22,10 @@
 \alias{show,chromLocation-method}
 \title{Class chromLocation, a class for describing genes and their
   chromosome mappings.}
-\description{  This class provides a mechanism for mapping a set of
-  genes to their respective locations in chromosomes.
+\description{  This class provides chromosomal information provided by a
+  Bioconductor metadata package.  By creating the object once for a
+  particular package, it can be used in a variety of locations without
+  the need to recomputed values repeatedly 
 }
 \section{Creating Objects}{
 \code{  new('chromLocation',}\cr
@@ -51,7 +53,6 @@
       the appropriate gene symbol}
   }
 }
-
 \section{Methods}{
   \describe{
     \item{chromLengths}{(chromLocation): Gets the lengths of the
@@ -73,7 +74,7 @@
    curWarn <- getOption("warn")
    options(warn=0)
    on.exit(options(warn=curWarn), add=TRUE)
-   if (require(hgu95av2)) {
+   if (require("hgu95av2")) {
      z <- buildChromLocation("hgu95av2")
 
      ## find the number of chromosomes
