@@ -22,8 +22,8 @@ usedChromGenes(eSet, chrom, specChrom)
 \author{ Jeff Gentry}
 \examples{
     data(eset)
-    data(hgu95ProbLocs)
-    usedChromGenes(eset,"1",hgu95ProbLocs)
+    data(hgu95AProbLocs)
+    usedChromGenes(eset,"1",hgu95AProbLocs)
 }
 \keyword{ interface }
 
