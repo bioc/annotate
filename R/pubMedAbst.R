@@ -176,6 +176,7 @@ pm.getabst <- function(geneids, basename) {
     pmids <- multiget(geneids, env=pmenv)
     numids <- length(geneids)
     rval <- vector("list", length=numids)
+    names(rval) <- geneids
     for(i in 1:numids) {
         pm <- pmids[[i]]
         if( is.na(pm) ) 
