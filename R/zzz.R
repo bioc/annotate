@@ -26,5 +26,7 @@
     .initPubMedAbst(where)
     where <- match(paste("package:", pkgname, sep=""), search())
     .initCont(where)
+    where <- match(paste("package:", pkgname, sep=""), search())
+    .initHTMLClasses(where)
     .buildAnnotateOpts()
 }
