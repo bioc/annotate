@@ -188,5 +188,5 @@ pm.abstGrep <- function(pattern, absts, ...)
     rval
 }
 
-pm.titles <- sapply(absts[[1]], function(x) articleTitle(x))
+pm.titles <- function(absts) sapply(absts[[1]], function(x) articleTitle(x))
 
