@@ -15,28 +15,21 @@ lookUp <- function(x, data, what){
         stop(paste(what, "is an invalid element name"))
     }
     if(length(x) == 1){
-        mapping <- get(x, env = get(paste(data, what, sep = "")))
+        mapping <- get(paste(data, what, sep = ""))[[x]]
     }else{
-        mapping <- multiget(x, env = get(paste(data, what, sep = "")))
+        mapping <- mget(x, env=get(paste(data, what, sep="")),
+                        ifnotfound=NA)
     }
     return(mapping)
 }
 
 getGO <- function(x, data) {
-     # library(data, character.only=TRUE)
-     # GOenv <- get(paste(data, "GO",sep=""))
-     #multiget(x, env=GOenv)
     lookUp(x, data, "GO")
  }
 
  getGOdesc <- function(x, which = c("BP", "CC", "MF", "ANY")) {
      require("GO") || stop("need the GO library")
      which <- match.arg(which)
-     #de <- switch(d, MF=GOMFID2TERM, BP=GOBPID2TERM, CC=GOCCID2TERM,
-     #             stop(paste(which, "did not match a GO data type")))
-     #ans <- multiget(x, env=de)
-     #ans[is.na(ans)] <- NULL
-     #ans
      options(show.error.messages = FALSE)
      ans <- try(lookUp(x, "GO", "TERM"))
      options(show.error.messages = TRUE)
@@ -58,23 +51,14 @@ getGO <- function(x, data) {
  }
 
   getSYMBOL <- function(x, data) {
-     #library(data, character.only=TRUE)
-     #GOenv <- get(paste(data, "SYMBOL",sep=""))
-     #unlist(multiget(x, env=GOenv))
       unlist(lookUp(x, data, "SYMBOL"))
  }
 
   getPMID <- function(x, data) {
-      #library(data, character.only=TRUE)
-      #PMenv <- get(paste(data, "PMID", sep=""))
-      #multiget(x, env=PMenv)
       lookUp(x, data, "PMID")
   }
 
   getLL <- function(x, data) {
-      #library(data, character.only=TRUE)
-      #LLenv <- get(paste(data, "LOCUSID", sep=""))
-      #unlist(multiget(x, env=LLenv))
       unlist(lookUp(x, data, "LOCUSID"))
   }
 
@@ -84,7 +68,7 @@ getGO <- function(x, data) {
 
   setMethod("contents", "environment",
      function(object)
-         multiget(ls(env=object), env=object))
+         mget(ls(env=object), env=object, ifnotfound=NA))
 
 installDataPackage <- function(pkga, liba=.libPaths()[1]) {
     require("reposTools")||

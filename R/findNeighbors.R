@@ -31,16 +31,14 @@ findNeighbors <- function(chrLoc, llID, chromosome, upBase, downBase,
     neighbors <- list()
     # There may be chances that a llID be mapped to genes on different CHR
     for(i in chromosome){
-        start <- unlist(multiget(ls(get(paste(chrLoc, chromosome,
-                                              "START", sep = ""))),
-                                 get(paste(chrLoc, chromosome,
-                                           "START", sep = ""))),
-                        use.names = TRUE)
-        end <- unlist(multiget(ls(get(paste(chrLoc, chromosome,
-                                              "END", sep = ""))),
-                                 get(paste(chrLoc, chromosome,
-                                           "END", sep = ""))),
-                        use.names = TRUE)
+        start <- unlist(contents(get(paste(chrLoc, chromosome,
+                                           "START", sep=""))),
+                        use.names=TRUE)
+
+        end <- unlist(contents(get(paste(chrLoc, chromosome,
+                                              "END", sep=""))),
+                      use.names=TRUE)
+
         if(!missing(llID)){
             # greb the ones in the range
             foundUp <- weightByConfi(start[start > upperB &
