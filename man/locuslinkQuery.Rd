@@ -25,6 +25,7 @@ locuslinkQuery(query,...,lladdress="LocusLink/")
 \author{Jeff Gentry }
 \seealso{\code{\link{genbank}} \code{\link{pubmed}} \code{\link{locuslinkByID}}}
 \examples{
-   locuslinkQuery("abc","Hs","Mm")
+   if( interactive() )
+      locuslinkQuery("abc","Hs","Mm")
 }
 \keyword{ interface }

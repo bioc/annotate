@@ -47,7 +47,10 @@ pubmed(...,disp=c("data","browser")[1], type=c("uid","accession")[1],
   \code{\link{locuslinkQuery}}, \code{\link{xmlTreeParse}}}
 
 \examples{
-   for (dp in c("data","browser"))
+   if( interactive() )
+    opts <- c("data","browser") else
+    opts <- "data"
+   for (dp in opts)
      pubmed("11780146","11886385","11884611",disp=dp)
 }
 \keyword{ interface }

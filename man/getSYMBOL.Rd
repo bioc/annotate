@@ -17,13 +17,13 @@ getLL(x, data = "hgu95a")
 getGO(x, data = "hgu95a")
 getPMID(x, data = "hgu95a")
 getGOdesc(x, which=c("MF","BP","CC") )
-contents(env)
+contents(object)
 }
 \arguments{
   \item{x}{The identifiers to be mapped (usually manufacturer)}
   \item{data}{A character string identifying the data source }
   \item{which}{For \code{getGOdesc} indicates which GO hierarchy to use.}
-  \item{env}{The environment (data table) that you want to get all
+  \item{object}{The environment (data table) that you want to get all
     contents from}
 }
 \details{

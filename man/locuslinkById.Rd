@@ -29,6 +29,7 @@ appropriate link.
 \seealso{\code{\link{genbank}} \code{\link{pubmed}} \code{\link{locuslinkQuery}}}
 
 \examples{
-  locuslinkByID(7531,9025,2315)
+  if( interactive() )
+      locuslinkByID(7531,9025,2315)
 }
 \keyword{ interface }

@@ -15,21 +15,16 @@
     options("BioC"=BioC)
 }
 
-.First.lib <- function(libname, pkgname, where) {
-    require(Biobase)
+.First.lib <- function(libname, pkgname) {
+    require(Biobase) || stop("cannot load annotate without Biobase")
 
-  if(missing(where)) {
-        where <- match(paste("package:", pkgname, sep=""), search())
-        if(is.na(where)) {
-            warning(paste("Not a package name: ",pkgname))
-            return()
-        }
-        where <- pos.to.env(where)
-    }
-
+    where <- match(paste("package:", pkgname, sep=""), search())
     .initChromLoc(where)
+    where <- match(paste("package:", pkgname, sep=""), search())
     .initChromLocation(where)
+    where <- match(paste("package:", pkgname, sep=""), search())
     .initPubMedAbst(where)
-
+    where <- match(paste("package:", pkgname, sep=""), search())
+    .initCont(where)
     .buildAnnotateOpts()
 }
