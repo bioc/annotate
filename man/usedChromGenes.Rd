@@ -25,6 +25,4 @@ usedChromGenes(eSet, chrom, specChrom)
     data(hgu95AProbLocs)
     usedChromGenes(eset,"1",hgu95AProbLocs)
 }
-\keyword{ interface }
-
-  
+\keyword{interface}

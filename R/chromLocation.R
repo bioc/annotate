@@ -132,15 +132,14 @@ usedChromGenes <- function(eSet, chrom, specChrom) {
         newStrand <- ifelse(newPos>0, "+", "-")
         newPos <- abs(newPos)
 
+        newLoc <- list()
+
         for (j in 1:length(geneNames)) {
-
-            # Instantiate a new location object for this gene
-            newLoc <- new("chromLoc",
-                          chrom=newName,position=newPos[j],
-                          strand=newStrand[j])
-
-            # Add the gene and chromLoc object to the environment
-            assign(geneNames[j], newLoc, env=chromLocEnv)
+            ## Instantiate a new location object for this gene
+            newLoc[[j]] <- new("chromLoc",
+                               chrom=newName,position=newPos[j],
+                               strand=newStrand[j])
         }
+        multiassign(geneNames, newLoc, env=chromLocEnv)
     }
 }
