@@ -1,3 +1,10 @@
 The genes in gender.genes represent genes on the U95A chip that
 are related to gender (x/y chromasomes).
 The first 13 are Y's the next 34 are X
+
+The files and their descriptions:
+hgu95v2fgroup : U95v2 chip, functional group by Affy number
+u95id         : Affy number index to Identification
+u95LL         : Affy number index to LocusLink
+u95name       : Affy number index to gene name
+LLu95         : Locuslink number to Affy #
