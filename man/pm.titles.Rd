@@ -22,11 +22,10 @@ element is the title of the corresponding abstract.
 \seealso{ \code{\link{pm.abstGrep}} }
 
 \examples{
-hoxa9 <- "U82759_at"
-
-absts <- pm.getabst(hoxa9, "hu6800")
-
-pm.titles(absts)
-
+ hoxa9 <- "37809_at"
+ if( require(hgu95av2) ) {
+    absts <- pm.getabst(hoxa9, "hgu95av2")
+    pm.titles(absts)
+ }
 }
 \keyword{ manip }

@@ -21,13 +21,14 @@ locuslinkByID(..., lladdress="LocusLink/", browse=TRUE)
   "View" pulldown menu on the page.
 }
 \value{
-  If \code{browse} is TRUE, the user's web browser is directed to that URL.
-  The URL found is returned if \code{browse} is FALSE.  
+  If \code{browse} is \code{TRUE}, the user's web browser is directed to
+  that URL. The URL found is returned if \code{browse} is \code{FALSE}.
 }
 
 \author{Jeff Gentry }
 
-\seealso{\code{\link{genbank}} \code{\link{pubmed}} \code{\link{locuslinkQuery}}}
+\seealso{\code{\link{genbank}} \code{\link{pubmed}}
+  \code{\link{locuslinkQuery}}}
 
 \examples{
   if( interactive() )

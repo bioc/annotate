@@ -503,7 +503,14 @@ getQueryLink <- function(ids, repository = "ug"){
 
 getQuery4UG <- function(ids){
     # UG ids = XX.yyyy. Split by "."
-    temp <- matrix(unlist(strsplit(ids, "\\."), use.names = FALSE),
+    ugs <- strsplit(ids, "\\.")
+    badUG <- function(x) if(length(x) != 2 || nchar(x[1]) != 2)
+        return(TRUE) else return(FALSE)
+    bIDs <- sapply(ugs, badUG)
+    if( any(bIDs) )
+        stop(paste("id(s):", paste(ids[bIDs], collapse=", "),
+                   "are not correct"))
+    temp <- matrix(unlist(ugs, use.names = FALSE),
                    ncol = 2, byrow = TRUE)
     paste("http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=",
               temp[,1], "&CID=", temp[,2], sep = "")

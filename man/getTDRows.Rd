@@ -8,7 +8,7 @@
   cell of a HTML file} 
 \description{
   Given a vector of ids, the functions will create a vector of hypertext
-  links to a defined public repositories such as LoculLink, UniGene
+  links to a defined public repositories such as LocusLink, UniGene
   .... The linkages can be placed in a html file constructed by
   \code{\link{ll.htmlpage}} 
 }
@@ -21,7 +21,7 @@ getQuery4LL(ids)
 
 \arguments{
   \item{ids}{\code{ids} a vector of character string for ids that will
-    used to construct hypotext links}
+    used to construct hypertext links}
   \item{repository}{\code{repository} A character string for the name of
     a public repositories. Valid values include "ll", "ug"} 
 }

@@ -12,10 +12,10 @@
   chips etc) to other identifiers.
 }
 \usage{
-getSYMBOL(x, data = "hgu95av2")
-getLL(x, data = "hgu95av2")
-getGO(x, data = "hgu95av2")
-getPMID(x, data = "hgu95av2")
+getSYMBOL(x, data)
+getLL(x, data)
+getGO(x, data)
+getPMID(x, data)
 getGOdesc(x, which=c("MF","BP","CC") )
 contents(object)
 }
@@ -45,10 +45,14 @@ contents(object)
 \examples{
   data(eset)
   gN <- geneNames(eset)[100:105]
-  getSYMBOL(gN)
-  gg<- getGO(gN)
-  getGOdesc(gg[[2]], "MF")
-  getLL(gN)
-  getPMID(gN)
+  if( require("hgu95av2", character.only=TRUE)
+       && require("GO", character.only=TRUE) ) {
+      getSYMBOL(gN,"hgu95av2" )
+      gg<- getGO(gN, "hgu95av2")
+      getGOdesc(gg[[2]], "MF")
+      getLL(gN, "hgu95av2")
+      getPMID(gN, "hgu95av2")
+  } else
+   cat("could not run all examples\n")
 }
 \keyword{manip}

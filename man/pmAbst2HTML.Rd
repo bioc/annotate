@@ -34,13 +34,15 @@ pmAbst2HTML(absts, filename, title, simple = TRUE, table.center = TRUE)
 
 \seealso{\code{pubMedAbst}}
 \examples{
-           x <- pubmed("9695952","8325638","8422497")
+        x <- pubmed("9695952","8325638","8422497")
         a <- xmlRoot(x)
         numAbst <- length(xmlChildren(a))
         absts <- list()
         for (i in 1:numAbst) {
            absts[[i]] <- buildPubMedAbst(a[[i]])
         }
-        pmAbst2HTML(absts,filename=tempfile())
+        fname <- tempfile()
+        pmAbst2HTML(absts,filename=fname)
+        file.remove(fname)
 }
 \keyword{utilities}

@@ -2,7 +2,7 @@
 ##helper functions for dealing with data environments (soon to be hash
 ##tables)
 
-getGO <- function(x, data="hgu95av2") {
+getGO <- function(x, data) {
      library(data, character.only=TRUE)
      GOenv <- get(paste(data, "GO",sep=""))
      multiget(x, env=GOenv)
@@ -18,19 +18,19 @@ getGO <- function(x, data="hgu95av2") {
      ans
  }
 
-  getSYMBOL <- function(x, data="hgu95av2") {
+  getSYMBOL <- function(x, data) {
      library(data, character.only=TRUE)
      GOenv <- get(paste(data, "SYMBOL",sep=""))
      unlist(multiget(x, env=GOenv))
  }
 
-  getPMID <- function(x, data="hgu95av2") {
+  getPMID <- function(x, data) {
       library(data, character.only=TRUE)
       PMenv <- get(paste(data, "PMID", sep=""))
       multiget(x, env=PMenv)
   }
 
-  getLL <- function(x, data="hgu95av2") {
+  getLL <- function(x, data) {
       library(data, character.only=TRUE)
       LLenv <- get(paste(data, "LOCUSID", sep=""))
       unlist(multiget(x, env=LLenv))

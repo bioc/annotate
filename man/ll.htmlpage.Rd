@@ -8,7 +8,7 @@
 }
 \usage{
 ll.htmlpage(genelist, filename, title, othernames, table.head,
-     table.center = TRUE, repository = "ug" )
+     table.center = TRUE, repository = "ll" )
 )
 }
 \arguments{
@@ -36,8 +36,8 @@ ll.htmlpage(genelist, filename, title, othernames, table.head,
 \examples{
  gnames <- as.character(6810:6820)
  ll.htmlpage(gnames, "fff.html")
- #to remove the file
- system("rm fff.html")
+
+ file.remove("fff.html")
 }
 \keyword{ file }
 

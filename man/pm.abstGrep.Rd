@@ -29,13 +29,14 @@ pm.abstGrep(pattern, absts, ...)
 \seealso{ \code{\link{pm.getabst}}, \code{\link{pm.titles}}}
 
 \examples{
-  hoxa9 <- "U82759_at"
+  hoxa9 <- "37809_at"
+  if( require(hgu95av2) ) {
+     absts <- pm.getabst(hoxa9, "hgu95av2")
 
-absts <- pm.getabst(hoxa9, "hu6800")
+     pm.abstGrep("NUP98", absts[[1]])
 
-pm.abstGrep("NUP98", absts[[1]])
-
-pm.abstGrep("apoptosis", absts[[1]])
+     pm.abstGrep("apoptosis", absts[[1]])
+  }
 
 }
 \keyword{ manip }
