@@ -1,5 +1,6 @@
 \name{pmAbst2HTML}
 \alias{pmAbst2HTML}
+\alias{pmAbst2html2}
 \title{HTML Generation for PubMed Abstracts}
 \description{
   This function will take a \code{pubMedAbst} object, or a list of these
