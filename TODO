@@ -25,3 +25,12 @@ Please feel free to add to it or to start implementing stuff:
     readers. What would be even better would be to have stored binary forms
     of environments (or memory-mapped environments).
 
+---
+some comments after 26 oct meetings
+
+options-like structure (or object-like, e.g., lm.object) for htmlTable
+and htmlPage so that htmlTable( listOfContent, listOfMarkup, tableOptions )
+and htmlPage( listOfContent, listOfMarkup, pageOptions ) have good defaults.
+constraints on content elements of listsOfContent will be needed --
+same number of elements per list element, e.g.  role of the container
+class should be considered
