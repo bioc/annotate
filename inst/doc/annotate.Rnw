@@ -112,7 +112,7 @@ to some criteria.
  genes.ord <- genes.used[ord.mn,]
 
  # the translation from Affy to locus link id's
- hgu95ll <- read.annotation("hgu95v2ll")
+ hgu95ll <- read.annotation("hgu95All")
  llnames <- multiget(row.names(genes.ord), env=hgu95ll)
 
  ll.htmlpage(llnames, "selectedG.html",
