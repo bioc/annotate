@@ -144,7 +144,8 @@ usedChromGenes <- function(eSet, chrom, specChrom) {
     usedGenes <- genes[names(genes) %in% geneNames(eSet)]
 
     ## Order the genes by location
-    usedGenes <- lapply(usedGenes, function(x){ord<-order(abs(x));x[ord]})
+    ord <- order(abs(usedGenes))
+    usedGenes <- as.list(usedGenes[ord])
 
     return(usedGenes)
 }
