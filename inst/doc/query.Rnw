@@ -49,7 +49,7 @@ tools within package {\em annotate}.
 
 <<annotation>>=
 library("hgu95av2")
-ids <- multiget(affys,envir=hgu95av2PMID)
+ids <- getPMID(affys,"hgu95av2")
 ids <- unlist(ids,use.names=FALSE)
 ids <- ids[!is.na(as.numeric(ids))]
 ids

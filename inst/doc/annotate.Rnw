@@ -3,7 +3,7 @@
 % likely to be overwritten.
 %
 % \VignetteIndexEntry{Annotation Overview}
-% \VignetteDepends{Biobase, genefilter, annotate}
+% \VignetteDepends{Biobase, genefilter, annotate, hgu95av2}
 % \VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}
 
@@ -91,9 +91,10 @@ to some criteria.
 <<>>=
  ## load up the libraries
 
- library(Biobase)
- library(genefilter)
- library(annotate)
+ library("Biobase")
+ library("genefilter")
+ library("annotate")
+ library("hgu95av2")
 
 
  ## load the example data
@@ -112,8 +113,8 @@ to some criteria.
  genes.ord <- genes.used[ord.mn,]
 
  # the translation from Affy to locus link id's
- data(hgu95All)
- llnames <- multiget(row.names(genes.ord), env=hgu95All)
+ # data(hgu95All)
+ llnames <- getLL(row.names(genes.ord), "hgu95av2")
 
  ll.htmlpage(llnames, "selectedG.html",
             "Top 60 Genes", row.names(genes.ord))

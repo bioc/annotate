@@ -28,7 +28,8 @@ weightByConfi(foundLLs)
     data package that contains mappings between LocusLink ids and their
     locations on chromosomes. For each chromosome, there assumed to be
     mappings for the strat and end locations of genes represented by
-    LocusLink ids}
+    LocusLink ids. The data package needs to be built using
+    chrLocPkgBuilder of AnnBuilder}
   \item{llID}{\code{llID} a character string for the LocusLink id
     representing a gene whose nighbors are sought. llID can be missing}
   \item{chromosome}{\code{chromosome} a character string for the number

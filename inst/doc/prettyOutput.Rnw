@@ -3,7 +3,7 @@
 % likely to be overwritten.
 %
 % \VignetteIndexEntry{HOWTO Get HTML Output}
-% \VignetteDepends{annotate, ctest}
+% \VignetteDepends{annotate, ctest, hgu95av2}
 % \VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}
 \documentclass{article}
@@ -30,7 +30,8 @@ We have arbitrarily selected 15 genes of {\em interest}, you will have
 obtained your list in some meaningful way!
 
 <<>>=
-library(annotate)
+library("annotate")
+library("hgu95av2")
 data(eset)
 igenes <- geneNames(eset)[245:260]
 igenes
@@ -83,10 +84,8 @@ We extract the data from the
 environment using either \verb+get+ or \verb+multiget+.
 
 <<>>=
-data(hgu95All)
-data(hgu95Asym)
-igenes.ll <- multiget(igenes, env=hgu95All)
-igenes.sym <- multiget(igenes, env=hgu95Asym)
+igenes.ll <- getLL(igenes, "hgu95av2")
+igenes.sym <- getSYMBOL(igenes, "hgu95av2")
 @
 
 And now we are ready to wrap this all up using
