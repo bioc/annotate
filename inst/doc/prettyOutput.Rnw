@@ -3,10 +3,8 @@
 % likely to be overwritten.
 %
 % \VignetteIndexEntry{HOWTO Get HTML Output}
-
-
-
-% \VignetteIndexEntry{Chromosomal Locations}
+% \VignetteDepends{annotate}
+% \VignetteKeywords{Expression Analysis, Annotation}
 \documentclass{article}
 
 \usepackage{hyperref}
