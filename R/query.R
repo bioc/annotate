@@ -24,7 +24,7 @@ locuslinkQuery <- function(query,...,lladdress="LocusLink/") {
     query <- paste(ncbiURL, lladdress,
     "list.cgi?Q=",query,"&ORG=",species,"&V=0",sep="")
 
-    openBrowser(query)
+    browseURL(query)
 }
 
 locuslinkByID <- function(..., lladdress="LocusLink/") {
@@ -41,7 +41,7 @@ locuslinkByID <- function(..., lladdress="LocusLink/") {
 
     query <- paste(ncbiURL, lladdress, "LocRpt.cgi?l=", args, sep="")
 
-    openBrowser(query)
+    browseURL(query)
 }
 
 genbank <- function(..., disp=c("data","browser"),
@@ -80,7 +80,7 @@ genbank <- function(..., disp=c("data","browser"),
         return(.handleXML(query))
     }
     else {
-        openBrowser(query)
+        browseURL(query)
     }
 }
 
@@ -121,7 +121,7 @@ pubmed  <- function(..., disp=c("data","browser"),
         return(.handleXML(query))
     }
     else {
-        openBrowser(query)
+        browseURL(query)
     }
 }
 
