@@ -109,7 +109,7 @@ CHRLOC2chromLoc <- function(chrEnv) {
             names(y)
     }))
     chromNames <- factor(chromNames)
-    a <- split(chrLocs, chromNames)
+    a <- split(singleLocs, chromNames)
     chrLocList <- lapply(a, function(x) {g <- unlist(lapply(x, function(y)
                                                         {names(y) <- NULL; y})); g})
 
