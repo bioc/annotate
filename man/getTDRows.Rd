@@ -6,6 +6,7 @@
 \alias{getQuery4LL}
 \alias{getQuery4GB}
 \alias{getQuery4Affy}
+\alias{getQuery4FB}
 \alias{getCells}
 \alias{getTDRows}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -27,6 +28,7 @@ getQuery4SP(ids)
 getQuery4GB(ids)
 getQuery4OMIM(ids)
 getQuery4Affy(ids)
+getQuery4FB{ids}
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,7 +37,8 @@ getQuery4Affy(ids)
     hypertext links. A list should be used in cases where there are
     multiple ids per gene.}
   \item{repository}{ A character string for the name of a public
-    repository. Valid values include "ll", "ug", "gb", "sp", "omim", "affy". }
+    repository. Valid values include "ll", "ug", "gb", "sp", "omim",
+    "affy", and "fb". }
 }
 \details{
  \code{\link{getQuery4LL}} constructs hypertext links to LocusLink using the
@@ -55,6 +58,9 @@ getQuery4Affy(ids)
  
  \code{\link{getQuery4OMIM}} constructs hypertext links to OMIM using the
  provided ids.
+
+ \code{\link{getQuery4FB}} constructs hypertext links to FlyBase using
+ the provided ids.
  
  \code{\link{getQueryLink}} directs calls to construct hypertext links using
  the provided ids.
@@ -64,10 +70,10 @@ getQuery4Affy(ids)
  \code{\link{getCells}} constructs each cell of the resulting table.
 
  Note that some of these functions (\code{getQuery4OMIM},
- \code{getQuery4UG}, \code{getQuery4LL}) attempt to return empty cells
- for ids that don't make sense, rather than broken links. For the other
- getQuery4XX functions, the end user must replace all nonsense ids with
- "&nbsp;" in order to have an empty cell. 
+ \code{getQuery4UG}, \code{getQuery4LL}), \code{getQuery4FB} attempt to
+ return empty cells for ids that don't make sense, rather than broken
+ links. For the other getQuery4XX functions, the end user must replace
+ all nonsense ids with "&nbsp;" in order to have an empty cell. 
  
 }
 \value{
