@@ -68,13 +68,23 @@ genbank <- function(..., disp=c("data","browser")[1],
                     pmaddress=.pmfetch("Nucleotide",disp,type)) {
     params <- list(...)
     params <- unlist(params)
-    if (length(params) == 0)
+
+    if (length(params) == 0) {
         stop("No Gene ID, cannot proceed")
+    }
 
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
     args <- paste(params,collapse=",")
+    ## See if we need to transform accession based arguments
+    err <- args
+    args <- .transformAccession(args, disp, type)
+
+   if (is.null(args)) {
+        print(paste("No XML records available for accession number",err))
+        return(NULL)
+    }
 
     id <- .getIdTag(disp,type)
 
@@ -96,13 +106,26 @@ pubmed  <- function(..., disp=c("data","browser")[1],
     params <- list(...)
     params <- unlist(params)
 
-    if (length(params) == 0)
+    if (length(params) == 0) {
         stop("No PMID, cannot proceed")
+    }
+    else if (disp == "data") {
+        params <- accessionToUID(params,"pubmed")
+    }
 
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
     args <- paste(params,collapse=",")
+    ## See if we need to transform accession based arguments
+    err <- args
+    args <- .transformAccession(args, disp, type)
+
+    if (is.null(args)) {
+        print(paste("No XML records available for accession number",err))
+        return(NULL)
+    }
+
 
     id <- .getIdTag(disp,type)
 
@@ -119,20 +142,55 @@ pubmed  <- function(..., disp=c("data","browser")[1],
     }
 }
 
-.handleXML <- function(query) {
+accessionToUID <- function(accNum,db=c("genbank","pubmed")[1]) {
+    ## Passed an accession #, returns a pubmed UID
+
+    if (db == "genbank") {
+        db <- "nucleotide"
+    }
+    else {
+        db <- "PubMed"
+    }
+
+    query <- paste(.getNcbiURL(), "entrez/utils/pmqty.fcgi?db=", db,
+                   "&tool=bioconductor&mode=xml&term=",accNum,sep="")
+
+    ## Currently doubling up on code from .handleXML as I can't yet find a
+    ## way to retrieve values back through the extra layer of
+    ## indirection.
+
     require(XML) || stop("XML package is unavailable!")
     options(show.error.messages = FALSE)
     on.exit(options(show.error.messages = TRUE))
-    xml <- try(xmlTreeParse(query,isURL=TRUE))
+    retVal <- NULL
+    result <- try(xmlTreeParse(query,isURL=TRUE,handlers=
+                               list(Id=function(x,attrs) {retVal <<- xmlValue(x[[1]])})))
     options(show.error.messages = TRUE)
+
+    if (!is.null(retVal)) {
+        ## In the event of multiple IDs, it returns as a monolithic
+        ## which is space delimited.  Change this to comma deliminated
+        retVal <- gsub(" *", "\\,", retVal)
+    }
+
+    return(retVal)
+}
+
+
+.handleXML <- function(query,handlers=NULL) {
+    require(XML) || stop("XML package is unavailable!")
+    options(show.error.messages = FALSE)
+    on.exit(options(show.error.messages = TRUE))
+    retVal <- NULL
+    xml <- try(xmlTreeParse(query,isURL=TRUE,handlers=NULL,asTree=TRUE))
+    options(show.error.messages = TRUE)
+
     if (inherits(xml,"try-error") == TRUE) {
         print("Could not retrieve XML data, please check your settings.")
         print("Returning an object of class try-error")
-        return(xml)
     }
-    else {
-        return(xml)
-    }
+
+    return(xml)
 }
 
 .getNcbiURL <- function() {
@@ -185,6 +243,17 @@ pubmed  <- function(..., disp=c("data","browser")[1],
         base <- paste(base1,base2,sep="")
     }
     return(paste(base,db,sep=""))
+}
+
+.transformAccession <- function(args, disp, type) {
+    ## Used to change accession ID arguments to query functions
+    ## into UIDs if necessary.  Returns NULL if there aren't any left.
+    if ((disp == "data")&&(type=="accession")) {
+        err <- args
+        args <- accessionToUID(args)
+    }
+
+    return(args)
 }
 
 genelocator <- function(x) {

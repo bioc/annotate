@@ -2,35 +2,43 @@
 \alias{genbank}
 \title{A function to open the browser to Genbank with the selected gene. }
 \description{
-  Given a vector of Genbank accession numbers, the user can either have a
-  browser display a URL showing a Pubmed query for those identifiers,
-  or a XMLdoc object with the same data.  
+  Given a vector of Genbank accession numbers or NCBI UIDs, the user can
+  either have a browser display a URL showing a Genbank query for those
+  identifiers, or a XMLdoc object with the same data.  
 }
 \usage{
-genbank(...,disp=c("data","browser")[1], pmaddress=.pmfetch())
+genbank(...,disp=c("data","browser")[1], type=c("uid","accession")[2],
+        pmaddress=.pmfetch())
 }
 \arguments{
-  \item{...}{Vectorized set of Pubmed ID's}
+  \item{...}{Vectorized set of Genbank accession numbers or NCBI UIDs}
   \item{disp}{Either "Data" or "Browser" (default is data).  Data
     returns a XMLDoc, while Browser will display information in the
     user's browser.}
+  \item{type}{Denotes whether the arguments are accession numbers or
+    UIDS.  Defaults to accession values.}
   \item{pmaddress}{Specific path to the pubmed pmfetch engine from the
     NCBI website.}
 
 }
 \details{
   A simple function to retrieve Genbank data given a specific ID, either
-  through XML or through a web browser.  WARNING:  The powers that be
-  at NCBI have been known to ban the IP addresses of users who abuse
-  their servers (currently defined as less then 2 seconds between
-  queries).  Do NOT put this function in a type loop or you may find
-  your access revoked.
+  through XML or through a web browser.  This function will accept
+  either Genbank accession numbers or NCBI UIDs (defined as a Pubmed
+  ID or a Medline ID) - although the types must not be mixed in a single
+  call. 
 
+  WARNING:  The powers that be at NCBI have been known to ban the IP
+  addresses of users who abuse their servers (currently defined as less
+  then 2 seconds between queries).  Do NOT put this function in a type
+  loop or you may find your access revoked.
 }
 \value{
-  If the option "data" is used, an object of type XMLDoc is returned.
-  Otherwise, nothing is returned.
+  If the option "data" is used, an object of type XMLDoc is returned,
+  unless there was an error with the query in which case an object of
+  type try-error is returned.
 
+  If the option "browser" is used, nothing is returned.
 }
 
 \author{R. Gentleman }
@@ -39,7 +47,11 @@ genbank(...,disp=c("data","browser")[1], pmaddress=.pmfetch())
   \code{\link{locuslinkQuery}}, \code{\link{xmlTreeParse}}}
 
 \examples{
+   ## Use UIDs to get data in both browser & data forms
    for (dp in c("data","browser"))
-     genbank("12345","9997",disp=dp)
+     genbank("12345","9997",disp=dp,type="uid")
+
+   ## Use accession numbers to retrieve browser info
+   genbank("U03397","AF030427",disp="browser")
 }
 \keyword{interface }
