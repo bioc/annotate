@@ -8,7 +8,7 @@
 \alias{homoURL}
 \alias{homoACC}
 \alias{homoHGID}
-\alias{print}
+\alias{show}
 \alias{homoPS}
 \alias{orgNameNCode}
 \alias{homoPS,homoData-method}
@@ -18,7 +18,7 @@
 \alias{homoURL,homoData-method}
 \alias{homoACC,homoData-method}
 \alias{homoHGID,homoData-method}
-\alias{print,homoData-method}
+\alias{show,homoData-method}
 \title{Class "homoData"}
 \description{A class to present data for HomologGene data of a matching
   sequence} 

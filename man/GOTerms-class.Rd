@@ -7,6 +7,7 @@
 \alias{Term}
 \alias{Secondary}
 \alias{Synonym}
+\alias{show}
 \alias{GOTerms-class}
 \alias{Ontology,GOTerms-method}
 \alias{Definition,GOTerms-method}
@@ -14,7 +15,7 @@
 \alias{Term,GOTerms-method}
 \alias{Secondary,GOTerms-method}
 \alias{Synonym,GOTerms-method}
-\alias{print,GOTerms-method}
+\alias{show,GOTerms-method}
 
 \title{Class "GOTerms"}
 \description{A class to represent Gene Ontology terms for a given node}

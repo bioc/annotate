@@ -58,21 +58,31 @@ if(!isGeneric("homoHGID")){
 setMethod("homoHGID", "homoData",
           function(object) object@homoHGID)
 
-# Print the contents of a homoPS object
-if(!isGeneric("print")){
-    setGeneric("print",
-               function(x, ...) standardGeneric("print"))
-}
-setMethod("print", "homoData",
-          function(x, ...) {
-               print(paste("homoOrg:", homoOrg(x)))
-               print(paste("homoLL:", homoLL(x)))
-               print(paste("homoHGID:", homoHGID(x)))
-               print(paste("homoACC:", homoACC(x)))
-               print(paste("homoType:", homoType(x)))
-               print(paste("homoPS:", homoPS(x)))
-               print(paste("homoURL:", homoURL(x)))
-           })
+setMethod("show", "homoData",
+          function(object) {
+              if(!is.na(homoOrg(object))){
+                  cat(paste("homoOrg:", homoOrg(object)))
+              }
+              if(!is.na(homoLL(object))){
+                  cat(paste("\nhomoLL:", homoLL(object)))
+              }
+              if(!is.na(homoHGID(object))){
+                  cat(paste("\nhomoHGID:", homoHGID(object)))
+              }
+              if(!is.na(homoACC(object))){
+                  cat(paste("\nhomoACC:", homoACC(object)))
+              }
+              if(!is.na(homoType(object))){
+                  cat(paste("\nhomoType:", homoType(object)))
+              }
+              if(!is.na(homoPS(object))){
+                  cat(paste("\nhomoPS:", homoPS(object)))
+              }
+              if(!is.na(homoURL(object))){
+                  cat(paste("\nhomoURL:", homoURL(object)))
+              }
+              cat("\n")
+})
 
 
 homoData <- function(organism, LL, type, PS, ACC, HGID, URL){

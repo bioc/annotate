@@ -50,16 +50,28 @@ if(!isGeneric("Ontology")){
 setMethod("Ontology", "GOTerms",
           function(object) object@Ontology)
 
-setMethod("print", "GOTerms",
-          function(x, ...) {
-               print("An object of class GOTerms")
-               print(paste("GOID =", GOID(x)))
-               print(paste("GO term =", Term(x)))
-               print(paste("Synonymous term =", Synonym(x)))
-               print(paste("Secondary GO ids =", Secondary(x)))
-               print(paste("Definition for GO term =", Definition(x)))
-               print(paste("Ontology =", Ontology(x)))
-           })
+setMethod("show", "GOTerms",
+          function(object) {
+              if(!is.na(GOID(object))){
+                  cat(paste("GOID =", GOID(object)))
+              }
+              if(!is.na(Term(object))){
+                  cat(paste("\nGO term =", Term(object)))
+              }
+              if(!is.na(Synonym(object)[1])){
+                  cat(paste("\nSynonymous term =", Synonym(object)))
+              }
+              if(!is.na(Secondary(object)[1])){
+                  cat(paste("\nSecondary GO ids =", Secondary(object)))
+              }
+              if(!is.na(Definition(object))){
+                  cat(paste("\nDefinition for GO term =", Definition(object)))
+              }
+              if(!is.na(Ontology(object))){
+                  cat(paste("\nOntology =", Ontology(object)))
+              }
+              cat("\n")
+})
 
 
 GOTerms <- function(GOId, term, ontology, synonym = "", secondary = "",
