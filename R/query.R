@@ -475,18 +475,15 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
         if(is.list(nm)){
           ## The assumption here is that if nm is a list, for some cells there will be
           ## multiple lines. This code just makes those cells multi-line.
-        out <- vector()
-        for(j in seq(along = nm)){
-          if(length(nm[[j]]) == 1) out[j] <- paste("<TD>", nm[[j]], "</TD>", sep="")
-          if(length(nm[[j]]) > 1){
-            out[j] <- paste(sapply(nm[[j]], function(x) paste("<P>", x, "</P>", sep="")),
-                            sep="", collapse="")
-            out[j] <- paste("<TD>", out[j], "</TD>", sep="") 
+          out <- vector()
+          for(j in seq(along = nm)){
+            out[j] <- paste("<P>", nm[[j]], "</P>", sep="", collapse="")
           }
+          out <- paste("<TD>", out, "</TD>", sep="")
+          others <- paste(others, out, sep="")
         }
-        others <- paste(others, out, sep="")
-      }
-        else others <- paste(others, "<TD>", nm, "</TD>", sep = "")
+        if(is.vector(nm) && !is.list(nm))
+          others <- paste(others, "<TD>", nm, "</TD>", sep = "")
       }
     }
     else others <- paste("<TD>", othernames, "</TD>", sep = "")
@@ -591,7 +588,7 @@ getQuery4LL <- function (ids){
   }
   if(is.numeric(ids))
     blanks <- is.na(ids)
-  out <- paste("http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=",
+  out <- paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=gene&cmd=Retrieve&dopt=Graphics&list_uids=",
                ids, sep = "")
   out[blanks] <- "&nbsp;"
   return(out)
