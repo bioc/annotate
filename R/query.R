@@ -685,49 +685,49 @@ getQuery4OMIM <- function(ids){
   return(out)
 }
 
-ll.htmlpage <- function (genelist, filename, title, othernames,
-                         table.head, table.center=TRUE,
-                         repository = "ll")
-{
-    .Deprecated("htmlpage", package="annotate")
-    outfile <- file(filename, "w")
-    cat("<html>", "<head>", "<TITLE>BioConductor Linkage List</TITLE>",
-        "</head>", "<body bgcolor=#708090 >",
-        "<H1 ALIGN=CENTER > BioConductor Linkage List </H1>",
-        file = outfile, sep = "\n")
-    if( !missing(title) )
-        cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
-            file=outfile, sep = "\n")
+#ll.htmlpage <- function (genelist, filename, title, othernames,
+#                         table.head, table.center=TRUE,
+#                         repository = "ll")
+#{
+#    .Deprecated("htmlpage", package="annotate")
+#    outfile <- file(filename, "w")
+#    cat("<html>", "<head>", "<TITLE>BioConductor Linkage List</TITLE>",
+#        "</head>", "<body bgcolor=#708090 >",
+#        "<H1 ALIGN=CENTER > BioConductor Linkage List </H1>",
+#        file = outfile, sep = "\n")
+#    if( !missing(title) )
+#        cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
+#            file=outfile, sep = "\n")
 
-    if( table.center )
-        cat("<CENTER> \n", file=outfile)
+#    if( table.center )
+#        cat("<CENTER> \n", file=outfile)
 
-    cat("<TABLE BORDER=4>", file = outfile, sep = "\n")
-    if( !missing(table.head) ) {
-        headout <- paste("<TH>", table.head, "</TH>")
-        cat("<TR>", headout, "</TR>", file=outfile, sep="\n")
-    }
+#    cat("<TABLE BORDER=4>", file = outfile, sep = "\n")
+#    if( !missing(table.head) ) {
+#        headout <- paste("<TH>", table.head, "</TH>")
+#        cat("<TR>", headout, "</TR>", file=outfile, sep="\n")
+#    }
 #    rh <- "<TD> <A HREF=\"http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
-    nrows <- length(genelist)
-    rows <- getTDRows(genelist, repository)
+#    nrows <- length(genelist)
+#    rows <- getTDRows(genelist, repository)
 #    rows <- paste(rh, genelist, "\">", genelist, "</A> </TD>",
 #        sep = "")
-    if( !missing(othernames) ) {
-        if( is.list(othernames) ) {
-            others <- ""
-            for(nm in othernames)
-                others <- paste(others,"<TD>", nm, "</TD>", sep="")
-        }
-        else
-            others <- paste("<TD>", othernames, "</TD>", sep="")
-        rows <- paste(rows, others)
-    }
-    for (i in 1:nrows)
-        cat("<TR>", rows[i], "</TR>", file = outfile, sep = "\n")
-    cat("</TABLE>",file=outfile)
-    if( table.center )
-        cat("</CENTER> \n", file=outfile)
-    cat("</body>", "</html>", sep = "\n", file = outfile)
+#    if( !missing(othernames) ) {
+#        if( is.list(othernames) ) {
+#            others <- ""
+#            for(nm in othernames)
+#                others <- paste(others,"<TD>", nm, "</TD>", sep="")
+#        }
+#        else
+#            others <- paste("<TD>", othernames, "</TD>", sep="")
+#        rows <- paste(rows, others)
+#    }
+#    for (i in 1:nrows)
+#        cat("<TR>", rows[i], "</TR>", file = outfile, sep = "\n")
+#    cat("</TABLE>",file=outfile)
+#    if( table.center )
+#        cat("</CENTER> \n", file=outfile)
+#    cat("</body>", "</html>", sep = "\n", file = outfile)
 
-    close(outfile)
-}
+#    close(outfile)
+#}

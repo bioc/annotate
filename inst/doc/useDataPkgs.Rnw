@@ -1,5 +1,5 @@
 % \VignetteIndexEntry{Using Data Packages}
-% \VignetteDepends{hgu95av2, GO(>= 1.6.0)}
+% \VignetteDepends{hgu95av2, GO(>= 1.6.0), hsahomology, xlahomology, zebrafish, xenopuslaevis}
 % \VignetteKeywords{Annotation}
 %\VignettePackage{annotate}
 

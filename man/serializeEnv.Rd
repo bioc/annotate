@@ -1,5 +1,6 @@
 \name{serializeEnv}
 \alias{serializeEnv}
+\alias{serializeDataPkgEnvs}
 \title{A Function To Serialize Environment}
 \description{
   This function will serialize an environment in R to an XML format
@@ -7,10 +8,12 @@
 }
 \usage{
 serializeEnv(env, fname)
+serializeDataPkgEnvs(pkgDir)
 }
 \arguments{
   \item{env}{The name of the environment to serialize.}
   \item{fname}{The name of the output file.}
+  \item{pkgDir}{The directory where a data package is}
 }
 \details{
    The environment is converted into an XML format and then outputted to
