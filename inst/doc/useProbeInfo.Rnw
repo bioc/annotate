@@ -95,9 +95,57 @@ as.matrix(match1)
 myPr[1,5]
 @
 And we can see that in this case the 13th nucleotide is indeed in
-exactly the place that has been predicted. It is relatively
+exactly the place that has been predicted.
+
+
+One additional thing to note is that Affymetrix does not accurately report the strandedness of the
+probes, so it is necessary to check the reverse complement of the sequence prior to
+assuming that the probe does not interrogate the correct gene.
+
+<<getRev>>=
+
+myp = ps[100]
+
+myA = get(myp, rae230aACCNUM)
+
+wp = rae230aprobe$Probe.Set.Name == myp
+
+myPr = rae230aprobe[wp,]
+
+myseq = getSeq4Acc(myA)
+
+mybs = NucleotideString(myseq, "DNA")
+
+match2 = matchDNAPattern(as.character(myPr[1,1]), mybs)
+
+nchar(match2)
+
+match2 = matchDNAPattern(revString(as.character(myPr[1,1])), mybs)
+
+nchar(match2)
+
+nchar(myseq) - as.matrix(match2)
+myPr[1,5]
+@
+
+Again, we see that the 13th nucleotide is exactly where predicted. It is relatively
 straightforward to check the other 25mers, and to develop different
 visualization tools that can be used to investigate the available data.
+
+\section*{Other Sources of Information}
+
+There are other tools available that may also be of some interest. For instance, the
+Mental Health Research Institute at the University of Michigan have various custom
+cdf files for Affymetrix data analysis that have been updated using more current annotation
+information from GenBank and Ensembl.
+
+\url {http://brainarray.mhri.med.umich.edu/Brainarray/Database/CustomCDF/genomic_curated_CDF.asp}
+
+The Weizmann Institute of Science have a database that can be queried to get the sensitivity and specificity
+for the probes on the Affymetrix HG-U95av2 chip. Although the information here is limited to a particular chip,
+this general idea is something that an enterprising end-user might want to replicate for other chips.
+
+\url {http://genecards.weizmann.ac.il/geneannot/}
 
 \end{document}
 

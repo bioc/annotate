@@ -39,7 +39,7 @@ htmlpage(genelist, filename, title, othernames, table.head, table.center = TRUE,
   This function is used only for the side effect of creating an HTML table.
 }
 
-\author{Robert Gentleman <rgentelm@jimmy.harvard.edu>, further
+\author{Robert Gentleman <rgentlem@jimmy.harvard.edu>, further
   modifications by James W. MacDonald <jmacdon@med.umich.edu> }
 
 \examples{
