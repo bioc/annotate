@@ -169,7 +169,9 @@ buildPubMedAbst <- function(xml) {
 
 pm.getabst <- function(geneids, basename) {
     pmenvN <- paste(basename, "PMID", sep="")
-    require(basename, character.only=TRUE) || stop(paste("Library",
+    do.call("require", list(package=basename)) || stop(paste("Library",
+##FIXME: use this after 1.7.0 is released
+##    require(basename, character.only=TRUE) || stop(paste("Library",
                       basename,"is unavailable"))
     if( !exists(pmenvN, mode = "environment") )
         stop("could not access PubMed ids for this data")
