@@ -157,7 +157,8 @@ pm.getabst <- function(geneids, basename) {
     library(basename, character.only=TRUE)
     if( !exists(pmenvN, mode = "environment") ) 
         stop("could not access PubMed ids for this data")
-    pmids <- multiget(geneids, env=pmenvN)
+    pmenv <- get(pmenvN)
+    pmids <- multiget(geneids, env=pmenv)
     numids <- length(geneids)
     rval <- vector("list", length=numids)
     for(i in 1:numids) {
