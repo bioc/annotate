@@ -2,40 +2,51 @@
 \alias{serializeEnv}
 \title{A Function To Serialize Environment}
 \description{
-  This function is primarily a wrapper around the \code{.saveRDS}
-  function.  It takes the name of an environment and will serialize the
-  environment to a file, either as the environment or as a list
-  representation.  
+  This function will serialize an environment in R to an XML format
+  stored in a compressed file.
 }
 \usage{
-serializeEnv(env, fname, asList=TRUE, ...)
+serializeEnv(env, fname)
 }
 \arguments{
   \item{env}{The name of the environment to serialize.}
   \item{fname}{The name of the output file.}
-  \item{asList}{Whether to convert the environment to a list first.}
-  \item{\dots}{Other arguments to pass on to \code{\link{.saveRDS}}}
 }
 \details{
-  The output file will default to using a binary format, as per the
-  defaults of \code{\link{.saveRDS}}, if users wish to use an ASCII
-  file, passing in \code{ascii=TRUE} to the \code{\dots} argument will
-  suffice.
+   The environment is converted into an XML format and then outputted to
+   a gzipped file (using \code{\link{gzfile}}).  The values in the
+   environment are serialized (using \code{\link{serialize}}) in ASCII
+   format although the keys are stored in plain text.
 
-  The environment stored can be retrieved using the
-  \code{\link{.readRDS}} function.
-  
-  The default for \code{asList} is to provide the environment as a list
-  in the serialized output file.  Care should be taken by the user to
-  know which was the case when using \code{\link{.readRDS}}.
+   The format of the XML is very simple, with the primary block being
+   \code{values}, which contain blocks of \code{entries}, and each entry
+   having a \code{key} and a \code{value}.  For instance, if we had an
+   environment with one value in it, the character \code{c} with a key
+   of \code{a} (e.g. \code{assign("a", "c", env=foo)}), this is what the
+   output would look like.
+   
+   \preformatted{
+     <?xml version="1.0"?>
+     <values xmlns:bt="http://www.bioconductor.org/RGDBM">
+        <entry>
+           <key>
+             a
+           </key>
+           <value>
+              A\n2\n131072\n66560\n1040\n1\n1033\n1\nc\n
+           </value>
+	</entry>    
+     </values>
+   }
 }
 \author{Jeff Gentry}
-\seealso{\code{\link{.saveRDS}}, \code{\link{.readRDS}}}
+\seealso{\code{\link{serEnv2gdbm}}, \code{\link{gzfile}},
+  \code{\link{serialize}}} 
 \examples{
    z <- new.env()
-   assign(z, "a", 1)
-   assign(z, "b", 2)
-   assign(z, "c", 3)
+   assign("a", 1, env=z)
+   assign("b", 2, env=z)
+   assign("c", 3, env=z)
    serializeEnv(z, tempfile())
 }
 \keyword{utilities}

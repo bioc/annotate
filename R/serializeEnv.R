@@ -18,6 +18,8 @@ serializeEnv <- function(env, fname) {
  out <- paste(out, "\n</values>", sep="")
 
  outFile <- gzfile(fname)
+ open(outFile, open="wb")
  cat(out, file=outFile)
+ close(outFile)
 }
 
