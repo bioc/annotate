@@ -8,6 +8,51 @@ u95id         : Affy number index to Identifier
 u95LL         : Affy number index to LocusLink
 u95name       : Affy number index to gene name
 LLu95         : Locuslink number to Affy #
+mf1           : File with multiple lines each in the format of "molecular
+                function name,Affy#1,Affy#2, ..., Affy#n" to goup
+                Affy#s into gene ontology goups based on the gene
+                ontology of the parents on the top most level of the
+                tree provided by Gene Ontology Consortium.
+mf2           : File with multiple lines each in the format of "molecular
+                function name,Affy#1,Affy#2, ..., Affy#n" to goup
+                Affy#s into gene ontology goups based on the gene
+                ontology of the parents on the second top most level of the
+                tree provided by Gene Ontology Consortium.   
+mf3           : File with multiple lines each in the format of "molecular
+                function name,Affy#1,Affy#2, ..., Affy#n" to goup
+                Affy#s into gene ontology goups based on the gene
+                ontology of the parents on the thrid top most level of the
+                tree provided by Gene Ontology Consortium.             
+cc1           : File with multiple lines each in the format of "cellular
+                component name,Affy#1,Affy#2, ..., Affy#n" to goup
+                Affy#s into gene ontology goups based on the gene
+                ontology of the parents on the top most level of the
+                tree provided by Gene Ontology Consortium.
+cc2           : File with multiple lines each in the format of "cellular
+                component name,Affy#1,Affy#2, ..., Affy#n" to goup
+                Affy#s into gene ontology goups based on the gene
+                ontology of the parents on the second top most level of the
+                tree provided by Gene Ontology Consortium.   
+cc3           : File with multiple lines each in the format of "cellular
+                component name,Affy#1,Affy#2, ..., Affy#n" to goup
+                Affy#s into gene ontology goups based on the gene
+                ontology of the parents on the thrid top most level of the
+                tree provided by Gene Ontology Consortium.
+bp1           : File with multiple lines each in the format of "biological
+                process name,Affy#1,Affy#2, ..., Affy#n" to goup
+                Affy#s into gene ontology goups based on the gene
+                ontology of the parents on the top most level of the
+                tree provided by Gene Ontology Consortium.
+bp2           : File with multiple lines each in the format of "biological 
+                process name,Affy#1,Affy#2, ..., Affy#n" to goup
+                Affy#s into gene ontology goups based on the gene
+                ontology of the parents on the second top most level of the
+                tree provided by Gene Ontology Consortium.   
+bp3           : File with multiple lines each in the format of "biological
+                process name,Affy#1,Affy#2, ..., Affy#n" to goup
+                Affy#s into gene ontology goups based on the gene
+                ontology of the parents on the thrid top most level of the
+                tree provided by Gene Ontology Consortium.                         
 
 Identifier is GenBank Accession number (unique for each sequence that a
 researcher submitted to GenBank);
@@ -49,3 +94,4 @@ locuslink <- function(geneid, lladdress) {
               query, " &", sep = ""))
     return(invisible())
 }
+
