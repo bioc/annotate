@@ -20,11 +20,11 @@ serializeEnv <- function(env, fname) {
      "<values xmlns:bt=\"http://www.bioconductor.org/RGDBM\">",
      file=outFile)
  for (i in seq(along=envList)) {
-     cat("\n\t<entry>\n\t\t<key>\n\t\t<![CDATA[",
-         "\n\t\t\t", keys[i], "\n\t\t]]>",
-         "\n\t\t</key>\n\t\t<value>\n\t\t<![CDATA[\n\t\t\t",
+     cat("\n<entry>\n\t<key>\n\t\t<![CDATA[",
+          keys[i], "]]>",
+         "\n\t\t</key>\n\t\t<value>\n\t\t<![CDATA[",
          serialize(envList[[i]], NULL, ascii=TRUE),
-         "\n\t\t]]>\n\t\t</value>\n\t</entry>", file=outFile, append=TRUE)
+         "]]>\n\t\t</value>\n\t</entry>", file=outFile, append=TRUE)
  }
  cat("\n</values>", file=outFile, append=TRUE)
 
