@@ -174,110 +174,113 @@ gets the HGIDs and percent similarity of these homologous genes:
     ps <- unlist(sapply(goodGenes, function(x) x[["homoPS"]]))
 @
 
-\subsubsection{Task 3}
+%\subsubsection{Task 3}
 
-For all Affymetrix Danio rerio probe-set IDs, find the
-Affymetrix Xenopus laevis probe-set ID of the homologous
-gene.
+%For all Affymetrix Danio rerio probe-set IDs, find the
+%Affymetrix Xenopus laevis probe-set ID of the homologous
+%gene.
 
-Below is example code to accomplish this task. The code looks up
-homologies and Affymetrix probe-set IDs using GenBank accession
-numbers. More homologies can be found by also using Locus Link IDs,
-but we did not put code for that in the example in order to limit the
-complexity of the example code. The code below takes tens of minutes
-to run.
+%Below is example code to accomplish this task. The code looks up
+%homologies and Affymetrix probe-set IDs using GenBank accession
+%numbers. More homologies can be found by also using Locus Link IDs,
+%but we did not put code for that in the example in order to limit the
+%complexity of the example code. The code below takes tens of minutes
+%to run.
 
-The overall goal of all the code in this subsection is to set
-\texttt{homoloProbeSets} to be a matrix with Affymetrix Denio rerio
-probe-set IDs in the first column and the Affymetrix Xenopus laevis
-probe-set ID of the corresponding homologous gene in the second
-column.
+%The overall goal of all the code in this subsection is to set
+%\texttt{homoloProbeSets} to be a matrix with Affymetrix Denio rerio
+%probe-set IDs in the first column and the Affymetrix Xenopus laevis
+%probe-set ID of the corresponding homologous gene in the second
+%column.
 
-<<>>=
-#
-#  Set homoloProbeSets to be a matrix with Affy zebrafish probe-set IDs
-#  in the first column and the Affy xenopuslaevis probe-set ID of the
-#  corresponding homologous gene in the second column.
-#
+%<<>>=
+%#
+%#  Set homoloProbeSets to be a matrix with Affy zebrafish probe-set IDs
+%#  in the first column and the Affy xenopuslaevis probe-set ID of the
+%#  corresponding homologous gene in the second column.
+%#
 
-require("Biobase")
-require("zebrafish")                      # Danio rerio
-require("xenopuslaevis")                  # Xenopus laevis
-@
+%require("Biobase")
+%require("zebrafish")                      # Danio rerio
+%require("xenopuslaevis")                  # Xenopus laevis
+%require("drehomology")
+%@
 
-The function \Rfunction{swapKeyVal} returns an environment with keywords
-and values of the input environment swapped.
+%The function \Rfunction{swapKeyVal} returns an environment with keywords
+%and values of the input environment swapped.
 
-<<>>=
-swapKeyVal <- function(inputEnvironment) {
-  tmp <- as.list(inputEnvironment)
-  vals <- as.list(names(tmp))
-  names(vals) <- tmp
-  l2e(vals)
-}
-@
+%<<>>=
+%swapKeyVal <- function(inputEnvironment) {
+%  tmp <- as.list(inputEnvironment)
+%  vals <- as.list(names(tmp))
+%  names(vals) <- tmp
+%  l2e(vals)
+% }
+%@
 
-The line below set \texttt{psids.Xl} to be an environment that maps
-Xenopus laevis GenBank IDs to Affymetrix xenopus probe-set IDs
+%The line below set \texttt{psids.Xl} to be an environment that maps
+%Xenopus laevis GenBank IDs to Affymetrix xenopus probe-set IDs
 
-<<>>=
-psids.Xl <- swapKeyVal(xenopuslaevisACCNUM)
-@
+%<<>>=
+%psids.Xl <- swapKeyVal(xenopuslaevisACCNUM)
+%@
 
-The line below sets \texttt{psids.Dr} to be a list of the Affymetrix
-zebrafish probe-set IDs
+%The line below sets \texttt{psids.Dr} to be a list of the Affymetrix
+%zebrafish probe-set IDs
 
-<<>>=
-#psids.Dr <- names(as.list(zebrafishACCNUM))
-psids.Dr <- ls(zebrafishACCNUM)
-@
+%<<>>=
+%#psids.Dr <- names(as.list(zebrafishACCNUM))
+%psids.Dr <- ls(zebrafishACCNUM)
+%@
 
-The next two lines set \Robject{homoloProbeSets} to be an empty matrix
-with one column for each species.
+%The next two lines set \Robject{homoloProbeSets} to be an empty matrix
+%with one column for each species.
 
-<<>>=
-homoloProbeSets <- matrix(character(0), nrow=0, ncol=2)
-colnames(homoloProbeSets) <- c('zebrafish', 'xenopuslaevis')
-@
+%<<>>=
+%homoloProbeSets <- matrix(character(0), nrow=0, ncol=2)
+%colnames(homoloProbeSets) <- c('zebrafish', 'xenopuslaevis')
+%@
 
-For each Danio rerio probe-set ID, we look for the homologous Xenopus
-laevis probe-set ID. (The use of \Rfunction{sub()} below is to chop off
-extensions to GenBank IDs that indicate version number because those
-extensions are not in \Robject{xenopuslaevisACCNUM}.)
+%For each Danio rerio probe-set ID, we look for the homologous Xenopus
+%laevis probe-set ID. (The use of \Rfunction{sub()} below is to chop off
+%extensions to GenBank IDs that indicate version number because those
+%extensions are not in \Robject{xenopuslaevisACCNUM}.)
 
-<<>>=
-for (psid.Dr in psids.Dr) {
+%<<>>=
+%for (psid.Dr in psids.Dr) {
+%print(psid.Dr)
 
-  listOfLists <- ACC2homology(zebrafishACCNUM[[psid.Dr]], "drehomology")
-  targetHomoGene <- NULL
+%  listOfLists <- ACC2homology(zebrafishACCNUM[[psid.Dr]], "drehomology")
+%  targetHomoGene <- NULL
 
-  for (homoGeneList in listOfLists) {
-    for (homoGene in homoGeneList) {
-      if (homoGene[["homoOrg"]] == 'Xenopus laevis') {
-        targetHomoGene <- homoGene
-        break
-      }
-    }
-  }
+%  for (homoGeneList in listOfLists) {
+%    for (homoGene in homoGeneList) {
+%      if (homoGene[["homoOrg"]] == 'xla') {
+%        targetHomoGene <- homoGene
+%        break
+%      }
+%    }
+%  }
 
-  if (!is.null(targetHomoGene)) {
-    # The GenBank IDs in xenopuslaevisACCNUM do not have extensions that
-    # indicate version number, so we chop off the extensions.
-    acc <- sub('\\.[0-9]+$', '', targetHomoGene[["homoACC"]])
-    psid.Xl <- psids.Xl[[acc]]
-    if (!is.null(psid.Xl)) {
-      homoloProbeSets <- rbind(homoloProbeSets, c(psid.Dr, psid.Xl))
-    }
-  }
-}
-@
+%  if (!is.null(targetHomoGene)) {
+%    # The GenBank IDs in xenopuslaevisACCNUM do not have extensions that
+%    # indicate version number, so we chop off the extensions.
+%    acc <- sub('\\.[0-9]+$', '', targetHomoGene[["homoHGID"]])
+%    acc <- drehomologyHGID2ACC[[acc]]
+%    psid.Xl <- psids.Xl[[acc]]
+%    if (!is.null(psid.Xl)) {
+%      homoloProbeSets <- rbind(homoloProbeSets, c(psid.Dr, psid.Xl))
+%    }
+%  }
+% }
+%@
 
-Now let's see how many homologies we found and look at the first ten.
+%Now let's see how many homologies we found and look at the first ten.
 
-<<>>=
-print(dim(homoloProbeSets))
-print(homoloProbeSets[1:10,])
-@
+%<<>>=
+%print(dim(homoloProbeSets))
+%print(homoloProbeSets[1:10,])
+%@
 
 \section{Session Information}
 
