@@ -6,30 +6,31 @@
 then suitable for further rendering.
 }
 \usage{
-pm.getabst(affyids, basename)
+pm.getabst(geneids, basename)
 }
 \arguments{
-  \item{affyids}{The identifiers used to find Abstracts }
+  \item{geneids}{The identifiers used to find Abstracts }
   \item{basename}{The base name of the annotation package to use. }
 }
 \details{
-
+We rely on the annotation in the package associated with the 
+\code{basename} to provide PubMed identifiers for the genes described by
+the gene identifiers.
+With these in hand we then use the \code{pmfetch} utility to download the
+PubMed abstracts in XML form. These are then translated (transformed) to a 
+shorter version containing a small subset of the data provided by PubMed.
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of `comp1'}
-  \item{comp2 }{Description of `comp2'}
-  ...
+ A list containing one XML component for each abstract obtained.
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
+\author{ Robert Gentleman }
 
-\seealso{ ~~objects to SEE ALSO as \code{\link{~~fun~~}}, ~~~ }
+\seealso{ \code{\link{pm.abstGrep}}, \code{\link{pm.title}} }
 
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
+hoxa9 <- "U82759_at"
+
+absts <- pm.getabst(hoxa9, "hgu68")
+
 }
-\keyword{ ~kwd1 }
+\keyword{ manip }

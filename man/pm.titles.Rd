@@ -1,32 +1,32 @@
 \name{pm.titles}
 \alias{pm.titles}
-\title{  }
+\title{Obtain the titles of the PubMed abstracts.  }
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+ This function returns the titles from a list of PubMed abstracts.
 }
 \usage{
 pm.titles(absts)
 }
 \arguments{
-  \item{absts}{ }
+  \item{absts}{The list of PubMed abstracts. }
 }
 \details{
+  It simply uses \code{sapply}
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of `comp1'}
-  \item{comp2 }{Description of `comp2'}
-  ...
+A character vector of length equal to the number of abstracts. Each
+element is the title of the corresponding abstract.
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
+\author{ Robert Gentleman }
 
-\seealso{ ~~objects to SEE ALSO as \code{\link{~~fun~~}}, ~~~ }
+\seealso{ \code{\link{pm.abstGrep}} }
 
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
+hoxa9 <- "U82759_at"
+
+absts <- pm.getabst(hoxa9, "hgu68")
+
+pm.titles(absts)
+
 }
-\keyword{ ~kwd1 }
+\keyword{ manip }
