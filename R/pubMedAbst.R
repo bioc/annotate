@@ -24,7 +24,7 @@
             cat("\n")
         }}, where=where)
 
-    ## Define accessors
+    ## Define generics
     if (is.null(getGeneric("authors")))
         setGeneric("authors", function(object)
                    standardGeneric("authors"), where=where)

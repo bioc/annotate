@@ -22,6 +22,18 @@ UniGeneQuery <- function(query, UGaddress="UniGene/",
     return(query)
 }
 
+pmidQuery <- function(query) {
+    if (missing(query))
+        stop("No query, cannot proceed!")
+
+    query <- paste(query,collapse="%2c")
+    ncbiURL <- .getNcbiURL()
+
+    query <- paste(ncbiURL,"/entrez/query.fcgi?cmd=Retrieve&db=PubMed&",
+                 "list_uids=",query,"&dopt=Abstract&tool=bioconductor",sep="")
+
+    return(query)
+}
 
 locuslinkQuery <- function(query,...,lladdress="LocusLink/") {
     params <- list(...)
@@ -304,6 +316,56 @@ genelocator <- function(x) {
   }
 }
 
+pmAbst2html <- function(absts, filename, title, simple=TRUE,
+                      table.center=TRUE) {
+    ## Currently just a very naive implementation of a pmid2html type
+    ## of thing.  Intended to be temporary just while I'm testing some
+    ## of this stuff.
+
+    if (!is.list(absts)) {
+        if (is(absts,"pubMedAbst"))
+            absts <- list(absts)
+        else
+            stop("'absts' parameter does not seem to be valid.")
+    }
+
+    if (missing(filename))
+        filename <- "absts.html"
+
+    outfile <- file(filename,"w")
+    cat("<html>", "<head>", "<TITLE>BioConductor Abstract List</TITLE>",
+        "</head>", "<body bgcolor=#708090 >",
+        "<H1 ALIGN=CENTER > BioConductor Abstract List </H1>",
+        file = outfile, sep = "\n")
+    if ( !missing(title) )
+        cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
+            file=outfile, sep = "\n")
+    if( table.center )
+        cat("<CENTER> \n", file=outfile)
+
+    cat("<TABLE BORDER=1>", file = outfile, sep = "\n")
+    head <- c("Article Title", "Publication Date")
+    headOut <- paste("<TH>", head, "</TH>")
+    cat("<TR>",headOut,"</TR>", file=outfile, sep="\n")
+
+    nrows = length(absts)
+    pmids <- unlist(lapply(absts,pmid))
+    dates <- unlist(lapply(absts,pubDate))
+    queries <- unlist(lapply(absts,
+                             function(x){pm <- pmid(x);out<-pmidQuery(pm);out}))
+    titles <- unlist(lapply(absts, articleTitle))
+    anchors <- makeAnchor(queries, titles)
+    tds <- paste("<TD>",anchors,"</TD><TD>",dates,"</TD>",sep="")
+    for (td in tds)
+        cat("<TR>", td, "</TR>", file=outfile,sep="\n")
+
+    cat("</TABLE>",file=outfile)
+    if( table.center )
+        cat("</CENTER> \n", file=outfile)
+    cat("</body>", "</html>", sep = "\n", file = outfile)
+    close(outfile)
+}
+
 ll.htmlpage <- function (genelist, filename, title, othernames,
                          table.head, table.center=TRUE,
                          repository = "ug")
@@ -342,10 +404,10 @@ ll.htmlpage <- function (genelist, filename, title, othernames,
     }
     for (i in 1:nrows)
         cat("<TR>", rows[i], "</TR>", file = outfile, sep = "\n")
-    cat("</TABLE>", "</body>", "</html>", sep = "\n", file = outfile)
-
+    cat("</TABLE>",file=outfile)
     if( table.center )
         cat("</CENTER> \n", file=outfile)
+    cat("</body>", "</html>", sep = "\n", file = outfile)
 
     close(outfile)
 }
@@ -374,3 +436,4 @@ getQuery4LL <- function(ids){
     paste("http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=",
           ids, sep = "")
 }
+
