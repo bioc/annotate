@@ -19,9 +19,18 @@ the gene identifiers.
 With these in hand we then use the \code{pmfetch} utility to download the
 PubMed abstracts in XML form. These are then translated (transformed) to a 
 shorter version containing a small subset of the data provided by PubMed.
+
+This function has the side effect of creating an environment in 
+\code{.GlobalEnv} that contains the mapping for the requested data.
+This is done for efficiency -- so we don't continually read in the data
+when there are many different queries to be performed.
 }
 \value{
- A list containing one XML component for each abstract obtained.
+ A list of lists containing objects of class \code{pubMedAbst}.
+ There will be one element of the list for each identifier.
+ Each of these elements is a list containing one abstract (of
+ class \code{pubMedAbst} for each PubMed identifier associated with
+ the gene identifier.
 }
 \author{ Robert Gentleman }
 

@@ -154,7 +154,10 @@ buildPubMedAbst <- function(xml) {
 
 pm.getabst <- function(geneids, basename) {
     pmenvN <- paste(basename, "pmed", sep="")
-    pmed <- read.annotation(pmenvN)
+    envName <- paste(pmenvN, "env", sep="")
+    if( !exists(envName, mode = "environment") ) 
+        assign(envName, read.annotation(pmenvN), envir=.GlobalEnv)
+    pmed <- get(envName, envir=.GlobalEnv)
     pmids <- multiget(geneids, env=pmed)
     numids <- length(geneids)
     rval <- vector("list", length=numids)
@@ -188,5 +191,11 @@ pm.abstGrep <- function(pattern, absts, ...)
     rval
 }
 
-pm.titles <- function(absts) sapply(absts[[1]], function(x) articleTitle(x))
+pm.titles <- function (absts) {
+     numa <- length(absts)
+     rval <- vector("list", length=numa)
+     for(j in 1:numa)
+         rval[[j]] <- sapply(absts[[j]], function(x) articleTitle(x))
+     rval
+}
 
