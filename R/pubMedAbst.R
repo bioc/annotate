@@ -7,7 +7,7 @@
     setClass("pubMedAbst",
              representation(authors="vector", abstText="character",
              articleTitle="character", journal="character",
-             pubDate="character"), where=where)
+             pubDate="character", url="character"), where=where)
 
     ## Define accessors
     if (is.null(getGeneric("authors")))
@@ -30,6 +30,10 @@
         setGeneric("pubDate", function(object)
                    standardGeneric("pubData"), where=where)
 
+    if (is.null(getGeneric("url")))
+        setGeneric("url",function(object)
+                   standardGeneric("url"),where=where)
+
     ## Methods
     setMethod("authors", "pubMedAbst", function(object)
               object@authors, where=where)
@@ -41,13 +45,15 @@
               object@journal, where=where)
     setMethod("pubDate", "pubMedAbst", function(object)
               object@pubData, where=where)
+    setMethod("url", "pubMedAbst", function(object)
+              object@url, where=where)
 }
 
 buildPubMedAbst <- function(xml) {
     ## Passed in a XML tree detailing a single article
     ## will parse the XML and create a new class
 
-    xmlArticle <- xml[[1]]["MedlineCitation"][[1]]["Article"]
+    xmlArticle <- xml["MedlineCitation"][[1]]["Article"]
 
     articleTitle <- xmlArticle[[1]]["ArticleTitle"]
     articleTitle <- as.character(xmlChildren(articleTitle[[1]])$text)[5]
@@ -56,10 +62,14 @@ buildPubMedAbst <- function(xml) {
     abstText <- as.character(xmlChildren(abstText[[1]])$text)[5]
 
     xmlJournal <- xmlArticle[[1]]["Journal"]
-
     pubDateBase <- xmlJournal[[1]]["JournalIssue"][[1]]["PubDate"]
     pubDateMonth <- pubDateBase[[1]]["Month"]
     pubDateMonth <- as.character(xmlChildren(pubDateMonth[[1]])$text)[5]
+
+    journal <-
+        xml["MedlineCitation"][[1]]["MedlineJournalInfo"][[1]]["MedlineTA"]
+
+    journal <- as.character(xmlChildren(journal[[1]])$text)[5]
 
     pubDateYear <- pubDateBase[[1]]["Year"]
     pubDateYear <- as.character(xmlChildren(pubDateYear[[1]])$text)[5]
@@ -79,7 +89,14 @@ buildPubMedAbst <- function(xml) {
         authors[i] <- paste(first,mid,last)
     }
 
+    url <-
+        as.character(xmlChildren(xml["PubmedData"][[1]]["URL"][[1]])$text)[5]
+
+
     newPMA <- new("pubMedAbst", articleTitle=articleTitle,
-                  abstText=abstText, pubDate=pubDate,authors=authors)
+                  abstText=abstText, pubDate=pubDate,authors=authors,
+                  journal=journal,url=url)
     return(newPMA)
 }
+
+

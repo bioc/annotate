@@ -29,6 +29,7 @@
 
     .initChromLoc(where)
     .initChromLocation(where)
+    .initPubMedAbst(where)
 
     .buildAnnotateOpts()
 }
