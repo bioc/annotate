@@ -1,6 +1,7 @@
 \name{readGEOAnn}
 \alias{readGEOAnn}
 \alias{readIDNAcc}
+\alias{getGPLNames}
 \title{Function to extract data from the GEO web site}
 \description{
   Data files that are available at GEO web site are identified by GEO
@@ -9,8 +10,9 @@
   and returns a matrix containing the data.
 }
 \usage{
-readGEOAnn(url, GEOAccNum)
-readIDNAcc(url, GEOAccNum)
+readGEOAnn(GEOAccNum, url = "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
+readIDNAcc(GEOAccNum, url = "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
+getGPLNames(url ="http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?") 
 }
 \arguments{
   \item{url}{\code{url} the url for the CGI script at GEO}
@@ -25,19 +27,31 @@ readIDNAcc(url, GEOAccNum)
   \code{\link{readIDNAcc}} calls \code{\link{readGEOAnn}} to read the
   data and the extracts the columns for probe ids and accession numbers.
   The \code{GEOAccNum} has to be the id for an Affymetrix chip.
+
+  \code{\link{getGPLNames}} parses the html file that lists GEO
+  accession numbers and descriptions of the array represented by the
+  corresponding GEO accession numbers.  
 }
 \value{
-  Both functions return a matrix.
+  Both \code{link{readGEOAnn}} and \code{link{readIDNAcc}} return a
+  matrix.
+
+  \code{\link{getGPLNames}} returns a named vector of the names of
+  commericial arrays. The names of the vector are the corresponding GEO
+  accession number.
 }
 \references{\url{www.ncbi.nlm.nih.gov/geo}}
 \author{Jianhua Zhang}
 \note{This function is part of the Bioconductor project at Dana-Farber
   Cancer Institute to provide Bioinformatics functionalities through R}
 
-\seealso{\code{\link{GEO-class}}}
 \examples{
-temp <- readGEOAnn(GEOAccNum = "GPL49")
-temp2 <- readIDNAcc(GEOAccNum = "GPL97")
+# Get array names and GEO accession numbers
+geoAccNums <- getGPLNames()
+# Read the annotation data file for HG-U133A which is GPL96 based on
+# examining geoAccNums 
+temp <- readGEOAnn(GEOAccNum = "GPL96")
+temp2 <- readIDNAcc(GEOAccNum = "GPL96")
 }
 \keyword{manip}
 
