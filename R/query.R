@@ -40,6 +40,17 @@ genbank <- function(geneid, gbaddress) {
     openBrowser(query)
 }
 
+pubmed <- function(pmid, pmaddress) {
+    if(is.na(pmid) )
+        stop("pmid is NA, cannot proceed")
+    if(missing(pmaddress))
+        pmaddress <- "www.ncbi.nlm.nih.gov/entrez/"
+    qname <-
+    "query.fcgi?cmd=Retrieve&db=PubMed&dopt=DocSum&list_uids="
+    query <- paste(pmaddress, qname, pmid, sep="")
+    openBrowser(query)
+}
+
 genelocator <- function(x) {
   done<-FALSE
   while(!done) {
