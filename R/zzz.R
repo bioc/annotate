@@ -18,4 +18,8 @@
 .First.lib <- function(libname, pkgname) {
     require(Biobase) || stop("cannot load annotate without Biobase")
     .buildAnnotateOpts()
+    if(.Platform$OS.type == "windows" && require(Biobase) && interactive()
+        && .Platform$GUI ==  "Rgui"){
+        addPDF2Vig("annotate")
+    }
 }
