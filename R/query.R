@@ -21,16 +21,19 @@ openBrowser <- function(query) {
     return(NULL)
 }
 
-locuslink <- function(geneid, lladdress =
-    "http://www.ncbi.nlm.nih.gov/LocusLink/") {
-    if(is.na(geneid))
-       stop("gene id is NA, cannot proceed")
-    whichq <- "LocRpt.cgi?l="
-    query <- paste(lladdress, whichq, geneid, sep="")
-    openBrowser(query)
+locuslinkByID <- function(..., lladdress="LocusLink/") {
+
+    if (length(c(...)) == 0)
+        stop("No Locuslink ID, cannot proceed")
+
+    ncbiURL <- .getNcbiURL()
+
+    ## Build up the query URL
+
 }
 
-genbank <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
+genbank <- function(..., disp=c("data","browser")[1],
+                    pmaddress=.pmfetch("Nucleotide",disp)) {
     if (length(c(...)) == 0)
         stop("No Gene ID, cannot proceed")
 
@@ -38,8 +41,10 @@ genbank <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
 
     ## Build up the query URL
     args <- paste(...,sep=",")
-    dbname <- "Nucleotide"
-    query <- paste(ncbiURL, pmaddress, dbname, "&id=", args, sep="")
+
+    id <- .getIdTag(disp)
+
+    query <- paste(ncbiURL, pmaddress, id, args, sep="")
 
     ## Determine if we are displaying this data in a browser or
     ## returning an XMLDocument object
@@ -52,7 +57,8 @@ genbank <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
     }
 }
 
-pubmed  <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
+pubmed  <- function(..., disp=c("data","browser")[1],
+                    pmaddress=.pmfetch("PubMed",disp)) {
 
     if (length(c(...)) == 0)
         stop("No PMID, cannot proceed")
@@ -61,9 +67,10 @@ pubmed  <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
 
     ## Build up the query URL
     args <- paste(...,sep=",")
-    dbname <-"PubMed"
 
-    query <- paste(ncbiURL, pmaddress, dbname, "&id=", args, sep="")
+    id <- .getIdTag(disp)
+
+    query <- paste(ncbiURL, pmaddress, id, args, sep="")
 
 
     ## Determine if we are displaying this data in a browser or
@@ -94,10 +101,30 @@ pubmed  <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
     return(ncbiURL)
 }
 
-.pmfetch <- function() {
-    ## Returns the base query string for the pmfetch engine @ pubmed
-    return("entrez/utils/pmfetch.fcgi?report=xml&mode=text&tool=bioconductor&db=")
+.getIdTag <- function(disp=c("data","browser")[1]) {
+    if (disp == "data") {
+        return("&id=")
+    }
+    else {
+        return("&list_uids=")
+    }
 }
+
+.pmfetch <- function(db="PubMed", disp=c("data","browser")[1]) {
+    ## Returns the base query string for the pmfetch engine @ pubmed
+
+
+
+    if (disp == "data") {
+        base <-
+    "entrez/utils/pmfetch.fcgi?report=xml&mode=text&tool=bioconductor&db="
+    }
+    else {
+        base <- "entrez/query.fcgi?cmd=Retrieve&tool=bioconductor&db="
+    }
+    return(paste(base,db,sep=""))
+}
+
 
 genelocator <- function(x) {
   done<-FALSE

@@ -38,6 +38,7 @@ genbank(...,disp=c("data","browser")[1], pmaddress=.pmfetch())
 \seealso{\code{\link{pubmed}}, \code{\link{locuslink}}, \code{\link{xmlTreeParse}}}
 
 \examples{
- genbank("X07820")
+   for (dp in c("data","browser"))
+     genbank("12345","9997",disp=dp)
 }
 \keyword{interface }

@@ -36,6 +36,7 @@ pubmed(...,disp=c("data","browser")[1], pmaddress=.pmfetch())
 \seealso{\code{\link{genbank}}, \code{\link{locuslink}}, \code{\link{xmlTreeParse}}}
 
 \examples{
-  pubmed("11780146") #Structure of the Bcr-Abl 
+   for (dp in c("data","browser"))
+     pubmed("11780146","11886385","11884611",disp=dp)
 }
 \keyword{ interface }
