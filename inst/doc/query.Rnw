@@ -7,6 +7,7 @@
 % \VignetteIndexEntry{HOWTO: Use the automated query tools}
 % \VignetteDepends{Biobase, annotate, XML, edd, class, genClass, mva}
 % \VignetteKeywords{Expression Analysis, Annotation}
+%\VignettePackage{annotate}
 \documentclass{article}
 
 \usepackage{hyperref}

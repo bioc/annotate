@@ -5,6 +5,7 @@
 % \VignetteIndexEntry{HOWTO Get HTML Output}
 % \VignetteDepends{annotate}
 % \VignetteKeywords{Expression Analysis, Annotation}
+%\VignettePackage{annotate}
 \documentclass{article}
 
 \usepackage{hyperref}

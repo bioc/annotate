@@ -5,7 +5,7 @@
 % \VignetteIndexEntry{Annotation Overview}
 % \VignetteDepends{Biobase, genefilter, annotate}
 % \VignetteKeywords{Expression Analysis, Annotation}
-
+%\VignettePackage{annotate}
 
 \documentclass{article}
 
