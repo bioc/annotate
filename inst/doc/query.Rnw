@@ -40,7 +40,7 @@ either retrieve the data (usually in XML) or have it rendered in a
 browser on the local machine. To do this you will need the
 \Rpackage{Biobase}, \Rpackage{XML}, and \Rpackage{annotate} packages.
 The functionality in this article was first described in
-\citep{Gentleman&GentryRnews02}, although some enhancements have been
+\citep{PubMedRnews}, although some enhancements have been
 made since the writing of that article.
 
 Assembling and using meta-data annotation is a non-trivial task. In
@@ -260,7 +260,7 @@ pmAbst2HTML(goodAbsts, filename=fnameBase, frames=TRUE)
         \end{center}
 \end{figure}
 
-\bibliography{query}
+\bibliography{annotate}
 
 \end{document}
 
