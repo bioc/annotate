@@ -41,7 +41,7 @@ locuslinkQuery <- function(query,...,lladdress="LocusLink/", browse=TRUE) {
     params <- list(...)
     params <- unlist(params,use.names=FALSE)
 
-    if (is.na(query))
+    if (is.na(query) || length(query) == 0 )
         stop("No query, cannot proceed!")
 
     if (length(c(params)) == 0) {
@@ -585,30 +585,31 @@ getQuery4UG <- function (ids){
   return(temp)
 }
 
-getQuery4LL <- function (ids){
-  # Here we rely on Locus Link ids being all numeric to filter out garbage
-  # that will result in busted links.
-  if(is.factor(ids)){
+getQuery4LL <- function (ids) {
+  ## Here we rely on Locus Link ids being all numeric to filter out garbage
+  ## that will result in busted links.
+  if (is.factor(ids)) {
     options(warn = -1)
     ids <- as.numeric(as.character(ids))
     options(warn = 0)
     blanks <- is.na(ids)
   }
-  if(is.character(ids)){
+  if (is.character(ids)) {
     options(warn = -1)
     ids <- as.numeric(ids)
     options(warn = 0)
     blanks <- is.na(ids)
   }
-  if(is.numeric(ids))
+  if (is.numeric(ids))
     blanks <- is.na(ids)
   out <- vector()
-  for( i in seq(along = ids)){
-    if(!blanks[i])
-      out [i] <- paste("http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=",
-                       ids[i], sep = "")
-    else
-      out[i] <- "&nbsp;"
+  for (i in seq(along = ids)) {
+    if (!blanks[i])
+      out[i] <- 
+        paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=gene&cmd=Retrieve&dopt=Graphics&list_uids=", 
+
+              ids[i], sep = "")
+    else out[i] <- "&nbsp;"
   }
   return(out)
 }
