@@ -40,15 +40,38 @@ genbank <- function(geneid, gbaddress) {
     openBrowser(query)
 }
 
-pubmed <- function(pmid, pmaddress) {
-    if(is.na(pmid) )
-        stop("pmid is NA, cannot proceed")
-    if(missing(pmaddress))
-        pmaddress <- "http://www.ncbi.nlm.nih.gov/entrez/"
-    qname <-
-    "query.fcgi?cmd=Retrieve&db=PubMed&dopt=DocSum&list_uids="
-    query <- paste(pmaddress, qname, pmid, sep="")
-    openBrowser(query)
+pubmed  <- function(..., disp=c("data","browser")[1], pmaddress="entrez/") {
+
+    if (length(c(...)) == 0)
+        stop("No PMID, cannot proceed")
+
+    BioCOpt <- getOption("BioC")
+
+    if (!is.null(BioCOpt)) {
+        pmURL <- BioCOpt$Annotate$urls$ncbi
+    }
+
+    if (!exists(pmURL)) {
+        pmURL <- "http://www.ncbi.nih.gov/"
+    }
+
+    ## Build up the query URL
+    args <- paste(...,sep=",")
+    qname <-"utils/pmfetch.fcgi?db=PubMed&report=xml&mode=text&tool=bioconductor&id="
+
+    query <- paste(pmURL, pmaddress, qname, args, sep="")
+
+
+    ## Determine if we are displaying this data in a browser or
+    ## returning an XMLDocument object
+    if (disp == "data") {
+        require(XML) || stop("XML package is unavailable!")
+        return(xmlTreeParse(query,isURL=TRUE))
+    }
+    else {
+        openBrowser(query)
+    }
+
 }
 
 genelocator <- function(x) {

@@ -1,3 +1,20 @@
+.buildAnnotateOpts <- function() {
+    if (is.null(getOption("BioC"))) {
+        BioC <- list()
+        class(BioC) <- "BioCOptions"
+        options("BioC"=BioC)
+    }
+
+    Annotate <- list()
+    class(Annotate) <- "BioCPkg"
+    Annotate$urls <- list()
+    Annotate$urls$ncbi <- "http://www.ncbi.nih.gov/"
+
+    BioC <- getOption("BioC")
+    BioC$Annotate <- Annotate
+    options("BioC"=BioC)
+}
+
 .First.lib <- function(libname, pkgname, where) {
     require(Biobase)
 
@@ -12,4 +29,6 @@
 
     .initChromLoc(where)
     .initChromLocation(where)
+
+    .buildAnnotateOpts()
 }
