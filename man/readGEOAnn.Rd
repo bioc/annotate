@@ -2,6 +2,8 @@
 \alias{readGEOAnn}
 \alias{readIDNAcc}
 \alias{getGPLNames}
+\alias{getSAGEFileInfo}
+\alias{getSAGEGPL}
 \title{Function to extract data from the GEO web site}
 \description{
   Data files that are available at GEO web site are identified by GEO
@@ -13,11 +15,18 @@
 readGEOAnn(GEOAccNum, url = "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
 readIDNAcc(GEOAccNum, url = "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
 getGPLNames(url ="http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?") 
+getSAGEFileInfo(url =
+                       "http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?view=platforms&prtype=SAGE&dtype=SAGE")
+getSAGEGPL(organism = "Homo sapiens", enzyme = c("NlaIII", "Sau3A")
 }
 \arguments{
   \item{url}{\code{url} the url for the CGI script at GEO}
   \item{GEOAccNum}{\code{GEOAccNum} a character string for the GEO
     accession number of a desired file (e. g. GPL97)}
+  \item{organism}{\code{organism} a character string for the name of the
+    organism of interests}
+  \item{enzyme}{\code{enzyme} a character string that can be eighter
+    NlaII or Sau3A for the enzyme used to create SAGE tags}
 }
 \details{
   \code{url} is the CGI script that processes user's
