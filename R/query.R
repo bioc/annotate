@@ -1,25 +1,6 @@
 #Copyright 2001 R.Gentleman, all rights reserved
 #functions to look up particular genes at different sites
 
-openBrowser <- function(query) {
-    OST <- .Platform$OS.type
-    if( OST == "windows" ) {
-        shell.exec(query)
-    }
-    else if( OST == "unix" ) {
-        if (is.null(getOption("browser")))
-            stop("options(\"browser\") not set")
-        browser <- getOption("browser")
-        system(paste(browser, " -remote 'openURL(",
-                     query, ")' 2>/dev/null || ", browser, " ",
-                     query, " &", sep = ""))
-    }
-    else {
-        msg <- paste("don't know how to open the browser on", OST)
-        stop(msg)
-    }
-    return(NULL)
-}
 
 locuslinkQuery <- function(query,...,lladdress="LocusLink/") {
     params <- list(...)
