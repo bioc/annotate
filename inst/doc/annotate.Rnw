@@ -54,7 +54,7 @@ first category. The other three have their own vignettes.
 
 
 There are two different, but complementary strategies for accessing
-meta-data. One is to used highly curated data that have been assembled
+meta-data. One is to use highly curated data that have been assembled
 from many different sources and a second is to rely on on-line
 sources. The former tends to be less current but more comprehensive
 while the latter tends to be current but can be less comprehensive and
@@ -86,7 +86,7 @@ provided in the \Rfunction{annotate} package is provided in
 We now turn our attention to interfaces to the meta-data packages and
 how and when they will be useful.  The annotation library provides
 interface support for the different meta-data packages
-(\url{http://www.bioconductor.org/data/meta-data} that are available
+(\url{http://www.bioconductor.org/data/metaData.html} that are available
 through the Bioconductor Project. We have tried to make these
 different meta-data packages modular, in the sense that all of them
 should have similar sets of mappings from manufacturer IDs to specific
@@ -168,18 +168,18 @@ hgu95av2LOCUSID[["1000_at"]]
 hgu95av2LOCUSID$"1000_at"
 
 @
-And in all cases we see that the the LocusLink identifier is
+And in all cases we see that the LocusLink identifier is
 \Sexpr{hgu95av2LOCUSID[["1000_at"]]}.
 
 If you want to get more than one
 object from an environment you also have a number of choices. You can
 extract them one at a time using either a \texttt{for} loop or
-\Rfunction{apply} (we hope to have an \Rfunction{eapply} in the next
-release of R). It will be more efficient to use \Rfunction{mget} since
-it does the retrieval using internal code and is optimized. You may
-also want to turn the environment into a named list, so that you can
-perform different list operations on it, this can be done using the
-function \Rfunction{contents} or \Rfunction{as.list}.
+\Rfunction{apply} or \Rfunction{eapply}. It will be more efficient to
+use \Rfunction{mget} since it does the retrieval using internal code
+and is optimized. You may also want to turn the environment into a
+named list, so that you can perform different list operations on it,
+this can be done using the function \Rfunction{contents} or
+\Rfunction{as.list}.
 
 <<tolist>>=
 LLs = as.list(hgu95av2LOCUSID)
