@@ -9,6 +9,21 @@
              articleTitle="character", journal="character",
              pubDate="character", abstUrl="character"), where=where)
 
+    setMethod("show", "pubMedAbst", function(object) {
+         cat("An object of class pubMedAbs \n")
+         slots <- slotNames(object)
+         for (what in slots) {
+            if (identical(what, ".Data")) 
+                next
+           cat("Slot \"", what, "\":\n", sep = "")
+           if( what == "articleTitle" || what == "abstText") 
+	       cat(paste("\t", substr(slot(object, what), 1, 70), 
+                   "...\n", sep=""))
+	   else
+               print(slot(object, what))
+            cat("\n")
+        }}, where=where)
+
     ## Define accessors
     if (is.null(getGeneric("authors")))
         setGeneric("authors", function(object)

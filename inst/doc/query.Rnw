@@ -77,8 +77,8 @@ abstract.  (And for a future example, at the same time, we will
 extract from each class the actual abstract text).
 
 <<>>=
-arts <- list()
-absts <- vector()
+arts <- vector("list", length=numAbst)
+absts <- rep(NA, numAbst)
 for (i in 1:numAbst) {
    ## Generate the PubMedAbst object for this abstract
    arts[[i]] <- buildPubMedAbst(a[[i]])
@@ -116,7 +116,7 @@ abstUrl(goodAbsts[[2]])
 
 This URL can then be used (either using the \verb+openBrowser+
 function from {\em annotate} or directly from your favorite browser)
-to view the full article as well as any related information provided 
+to view the full article as well as any related information provided
 by the authors.
 
 Lastly, as a demonstration for how one can use the /verb+query+
@@ -129,12 +129,12 @@ of PubMed IDs with another function:
 y <- genbank(ids, type="uid")
 b <- xmlRoot(x)
 @
-At this point of time, the object 'b' can be manipulated in a similar
-manner as 'a' from the PubMed example.
+At this point the object {\tt b} can be manipulated in a manner similar
+to {\tt a} from the PubMed example.
 
 Also, note that both \verb+pubmed+ and \verb+genbank+ have an option
 to display the data directly in the browser instead of XML, by
-specifying \{em disp="browser"} in the parameter listing.
+specifying {\tt disp="browser"} in the parameter listing.
 
 \end{document}
 
