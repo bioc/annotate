@@ -7,12 +7,12 @@
 \alias{getQuery4GB}
 \alias{getQuery4Affy}
 \alias{getQuery4FB}
-\alias{getQuery4EN
+\alias{getQuery4EN}
 \alias{getCells}
 \alias{getTDRows}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ Functions to create hypertext links that can be placed in a table
-cell of a HTML file }
+
+\title{Functions to create hypertext links that can be placed in a table
+  cell of a HTML file }
 \description{
   Given a vector of ids, the functions will create a vector of
   hypertext links to a defined public repositories such as
