@@ -28,7 +28,7 @@
 
     if (is.null(getGeneric("pubDate")))
         setGeneric("pubDate", function(object)
-                   standardGeneric("pubData"), where=where)
+                   standardGeneric("pubDate"), where=where)
 
     if (is.null(getGeneric("abstUrl")))
         setGeneric("abstUrl",function(object)
