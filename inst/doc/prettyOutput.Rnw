@@ -8,24 +8,39 @@
 %\VignettePackage{annotate}
 \documentclass{article}
 
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\usepackage{hyperref}
+
+\usepackage[authoryear,round]{natbib}
+\usepackage{times}
+
+\bibliographystyle{plainnat}
+
 \usepackage{hyperref}
 
 \begin{document}
-\title{Howto get pretty html output for my gene list}
+\title{HowTo: get pretty HTML output for my gene list}
+\author{R. Gentleman}
 \maketitle{}
 
 \section{Overview}
 
 This document demonstrates how you can get a nice--ish annotated html
 (web--page) output for the genes or probes that you have selected.
-To do this you will need both the {\em biobase} and {\em annotate}
+To do this you will need both the \Rpackage{Biobase} and \Rpackage{annotate}
 packages. You will also need to obtain annotation data for the
 experiment itself. In the example here the data come from Affymetrix
 U95A chips and that annotation is supplied by the Bioconductor
-project\footnote{If you have other needs please contact us.}.
+Project.
 
-First we load the {\em annotate} package (this will automatically load
-{\em biobase}  as well) and then obtain our test data.
+First we load the \Rpackage{annotate} package (this will automatically load
+\Rpackage{Biobase}  as well) and then obtain our test data.
 We have arbitrarily selected 15 genes of {\em interest}, you will have
 obtained your list in some meaningful way!
 

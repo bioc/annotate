@@ -23,21 +23,28 @@ getUniqAnnItem()
 }
 \arguments{
   \item{x}{The identifiers to be mapped (usually manufacturer)}
-  \item{data}{A character string identifying the data source }
+  \item{data}{The basename of the meta-data package to be used. }
   \item{what}{\code{what} a character string for the name of an
     annotation element of an annotation data package}
   \item{which}{\code{which} a character string in the form of MF, BP,
     CC, or ANY to indicated the GO category of interests}
 }
 \details{
+  Users must supply the basename of the meta-data package that they
+  want to use to provide the mappings. The name of the meta-data
+  package is the same as the basename.
+  
   Appropriate translations are done. In some cases such as \code{getLL}
   and \code{getSYMBOL} there will only be one match and a vector is
   returned. In other cases such as \code{getPMID} and \code{getGO} there
   may be multiple matches and a list is returned.
+
   For \code{getGOdesc} the input vector is GO identifiers (not
   manufacturer identifiers) and in the output any identifier that does
   not have a description in the selected GO hierarchy (MF, BP or CC) is
-  dropped. \code{lookUp} is a general function that can be used to look
+  dropped.
+
+  \code{lookUp} is a general function that can be used to look
   up matches. All other translation functions use \code{lookUp}
 
   A BioC annotation data package contains annotation data environments
@@ -53,7 +60,7 @@ getUniqAnnItem()
   input are possible.
 }
 \author{R. Gentleman}
-\seealso{\code{\link{multiget}}}
+\seealso{\code{\link{mget}}}
 \examples{
   data(eset)
   gN <- geneNames(eset)[100:105]
