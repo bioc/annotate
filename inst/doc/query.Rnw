@@ -251,14 +251,22 @@ pmAbst2HTML(goodAbsts, filename=fnameBase, frames=TRUE)
 @
 
 \begin{figure}[htb]
-	\begin{center}
-	  \includegraphics{noframes}
-	  \caption{pmAbst2HTML without frames}
+        \begin{center}
+          \includegraphics{noframes}
+          \caption{pmAbst2HTML without frames}
 
-	  \includegraphics{frames}
-	  \caption{pmAbst2HTML with frames}
+          \includegraphics{frames}
+          \caption{pmAbst2HTML with frames}
         \end{center}
 \end{figure}
+
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE,results=tex>>=
+sessionInfo()
+@
 
 \bibliography{annotate}
 

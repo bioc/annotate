@@ -279,6 +279,13 @@ print(dim(homoloProbeSets))
 print(homoloProbeSets[1:10,])
 @
 
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE,results=tex>>=
+sessionInfo()
+@
 
 \end{document}
 

@@ -30,36 +30,36 @@
 
 \section{Overview}
 The intent of this vignette is to show how to make reasonably nice looking HTML tables for presenting
-the results of a microarray analysis. These tables are a very nice format because you can insert 
-clickable links to various public annotation databases, which facilitates the downstream analysis. 
-In addition, the format is quite compact, can be posted on the web, and can be viewed using any number 
-of free web browsers. One caveat; an HTML table is probably not the best format for presenting the 
-results for \emph{all} of the genes on a chip. For even a small (5000 gene) chip, the file could be 10 Mb 
-or more, which would take an inordinate amount of time to open and view. Also note that the Bioconductor 
-project supplies annotation packages for many of the more popular Affymetrix chips, as well as for many 
-commercial spotted cDNA chips. For chips that have annotation packages, the \Rpackage{annaffy} package 
-is the preferred method for making HTML tables. 
+the results of a microarray analysis. These tables are a very nice format because you can insert
+clickable links to various public annotation databases, which facilitates the downstream analysis.
+In addition, the format is quite compact, can be posted on the web, and can be viewed using any number
+of free web browsers. One caveat; an HTML table is probably not the best format for presenting the
+results for \emph{all} of the genes on a chip. For even a small (5000 gene) chip, the file could be 10 Mb
+or more, which would take an inordinate amount of time to open and view. Also note that the Bioconductor
+project supplies annotation packages for many of the more popular Affymetrix chips, as well as for many
+commercial spotted cDNA chips. For chips that have annotation packages, the \Rpackage{annaffy} package
+is the preferred method for making HTML tables.
 
-To make an annotated HTML table, the only requirement is that we have some sort of annotation data for the 
-microarray that we are using. Most manufacturers supply data in various formats that can be read into 
-\Rpackage{R}. For instance, Affymetrix supplies CSV files that can be read into \Rpackage{R} using the 
+To make an annotated HTML table, the only requirement is that we have some sort of annotation data for the
+microarray that we are using. Most manufacturers supply data in various formats that can be read into
+\Rpackage{R}. For instance, Affymetrix supplies CSV files that can be read into \Rpackage{R} using the
 \Rmethod{read.csv()} function \url{http://www.affymetrix.com/support/technical/byproduct.affx?cat=arrays}.
 
 \section{Data Analysis}
 I will assume that the reader is familiar with the analysis of microarray data, and has a set of genes that
 she would like to use. In addition, I will assume that the reader is familiar enough with \Rpackage{R} that
-she can subset the data based on a list of genes, and reorder based on a particular statistic. For any questions 
-about subsetting or ordering data, please see ``An Introduction to R''. For questions regarding microarray analysis, 
+she can subset the data based on a list of genes, and reorder based on a particular statistic. For any questions
+about subsetting or ordering data, please see ``An Introduction to R''. For questions regarding microarray analysis,
 please consult the vignettes for, say \Rpackage{limma}, \Rpackage{multtest}, or \Rpackage{marray}.
 
 \section{Getting Started}
 We first load the \Rpackage{annotate} package, as well as some data. These data will be from the Affymetrix
-HG-U95av2 chip (for which we would normally use \Rpackage{annaffy}). To keep the HTML table small, we will take a 
+HG-U95av2 chip (for which we would normally use \Rpackage{annaffy}). To keep the HTML table small, we will take a
 subset of fifteen genes as an example.
 
 <<echo=FALSE, eval=TRUE>>=
 options(width=70)
-@ 
+@
 
 <<>>=
 library("annotate")
@@ -91,7 +91,7 @@ SwissProt and GenBank IDs have to be done manually. I will give examples of how 
 <<>>=
 gb
 ll
-@ 
+@
 
 The UniGene and SwissProt IDs present different challenges, so we will modify them separately. For the UniGene IDs we need to
 strip off the extra information appended to each ID. If we didn't do this, our hyperlink would not work correctly.
@@ -100,17 +100,17 @@ strip off the extra information appended to each ID. If we didn't do this, our h
 ug
 ug <- sub(" //.*$", "", ug)
 ug
-@ 
+@
 
 The SwissProt IDs present a different challenge. Here there isn't any extra information. Instead, we have multiple IDs for some of the
 genes, and missing IDs for some of the others. Because the code for SwissProt IDs will not automatically handle missing data, we have to
-convert the missing data to an HTML empty cell identifier (``\&nbsp;''). For \Rmethod{htmlpage()} to correctly handle multiple IDs, 
+convert the missing data to an HTML empty cell identifier (``\&nbsp;''). For \Rmethod{htmlpage()} to correctly handle multiple IDs,
 we have to convert the character vector into a \emph{list} of character vectors.
 <<>>=
 sp
 sp <- strsplit(sub("---","&nbsp;",as.character(sp)), "///")
 sp
-@ 
+@
 
 We have converted the data to a list of character vectors, and also converted the ``---'' missing data identifier
 to the HTML character for an empty cell.
@@ -125,7 +125,7 @@ dat <- exprs(eset)[igenes,1:10]
 FC <- rowMeans(dat[igenes,1:5]) - rowMeans(dat[igenes,6:10])
 pval <- esApply(eset[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$p.value)
 tstat <- esApply(eset[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$statistic)
-@ 
+@
 
 It is also usually a good idea to include gene names in the table. Normally the names would be subsetted from
 the annotation data, but here we have to supply them. Again, we have to manually convert any missing names to
@@ -140,15 +140,15 @@ name <- c("hypothetical protein LOC221823",
           "caspase 8, apoptosis-related cysteine protease","muscle specific gene","---","---","chemokine (C motif) ligand 1",
           "---","G antigen 1","G antigen 6","Fc fragment of IgG, low affinity IIIb, receptor for (CD16)")
 @
-<<>>= 
+<<>>=
 name
 name <- gsub("---", "&nbsp;", name)
 name
-@ 
- 
+@
+
 
 We can now build our HTML table. To make the process more transparent, this will be done in steps. In practice
-however, this can be done in one line. Note here that the genelist consists of annotation data that will be 
+however, this can be done in one line. Note here that the genelist consists of annotation data that will be
 hyperlinked to online databases, whereas othernames consists of other data that will not be hyperlinked.
 
 <<buildTable>>=
@@ -161,6 +161,14 @@ head <- c("Probe ID", "UniGene", "LocusLink", "GenBank", "SwissProt", "Gene Name
           "Sample 7", "Sample 8", "Sample 9", "Sample 10")
 repository <- list("affy", "ug", "ll", "gb", "sp")
 htmlpage(genelist, filename, title, othernames, head, repository = repository)
-@ 
+@
+
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE,results=tex>>=
+sessionInfo()
+@
 
 \end{document}

@@ -147,6 +147,15 @@ this general idea is something that an enterprising end-user might want to repli
 
 \url {http://genecards.weizmann.ac.il/geneannot/}
 
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE,results=tex>>=
+sessionInfo()
+@
+
+
 \end{document}
 
 
