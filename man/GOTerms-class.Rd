@@ -7,7 +7,7 @@
 \alias{Term}
 \alias{Secondary}
 \alias{Synonym}
-\alias{show}
+%\alias{show}
 \alias{GOTerms-class}
 \alias{Ontology,GOTerms-method}
 \alias{Definition,GOTerms-method}

@@ -18,7 +18,7 @@
 \alias{homoURL,homoData-method}
 \alias{homoACC,homoData-method}
 \alias{homoHGID,homoData-method}
-%\alias{show,homoData-method}
+\alias{show,homoData-method}
 \title{Class "homoData"}
 \description{A class to present data for HomologGene data of a matching
   sequence} 
