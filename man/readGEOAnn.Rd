@@ -44,11 +44,11 @@ readUrl(url)
   corresponding GEO accession numbers.  
 }
 \value{
-  Both \code{link{readGEOAnn}} and \code{link{readIDNAcc}} return a
+  Both \code{\link{readGEOAnn}} and \code{\link{readIDNAcc}} return a
   matrix.
 
   \code{\link{getGPLNames}} returns a named vector of the names of
-  commericial arrays. The names of the vector are the corresponding GEO
+  commercial arrays. The names of the vector are the corresponding GEO
   accession number.
 }
 \references{\url{www.ncbi.nlm.nih.gov/geo}}
