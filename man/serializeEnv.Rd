@@ -43,7 +43,7 @@ serializeDataPkgEnvs(pkgDir)
    }
 }
 \author{Jeff Gentry}
-\seealso{\code{\link{serEnv2gdbm}}, \code{\link{gzfile}},
+\seealso{\code{\link{gzfile}},
   \code{\link{serialize}}} 
 \examples{
    z <- new.env()
