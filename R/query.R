@@ -181,7 +181,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")[1]) {
 
 
 .handleXML <- function(query,handlers=NULL) {
-    require(XML) || stop("XML package is unavailable!")
+    require(XML) || stop("Sorry, you need the XML package!")
     options(show.error.messages = FALSE)
     on.exit(options(show.error.messages = TRUE))
     retVal <- NULL
