@@ -28,3 +28,19 @@ getSEQ <- function(gi){
         return(paste(seq[2:length(seq)], sep = "", collapse = ""))
     }
 }
+
+revBase <- function(x){
+  tot <- which(x == "A")
+  tog <- which(x == "C")
+  toa <- which(x == "T")
+  toc <- which(x == "G")
+  x[tot] <- "T"
+  x[toa] <- "A"
+  x[toc] <- "C"
+  x[tog] <- "G"
+  x
+}
+  
+revString <- function(x)
+  sapply(lapply(lapply(strsplit(x, NULL), rev), revBase), paste, collapse="")
+
