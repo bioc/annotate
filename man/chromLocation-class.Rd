@@ -10,6 +10,16 @@
 \alias{probesToChrom}
 \alias{geneSymbols}
 \alias{chromInfo}
+\alias{organism,chromLocation-method}
+\alias{dataSource,chromLocation-method}
+\alias{nChrom,chromLocation-method}
+\alias{chromNames,chromLocation-method}
+\alias{chromLocs,chromLocation-method}
+\alias{chromLengths,chromLocation-method}
+\alias{probesToChrom,chromLocation-method}
+\alias{geneSymbols,chromLocation-method}
+\alias{chromInfo,chromLocation-method}
+\alias{show,chromLocation-method}
 \title{Class chromLocation, a class for describing genes and their
   chromosome mappings.}
 \description{  This class provides a mechanism for mapping a set of

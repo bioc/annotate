@@ -9,6 +9,15 @@
 \alias{pubDate}
 \alias{abstUrl}
 \alias{pmid}
+\alias{pubMedAbst,pubMedAbst-method}
+\alias{authors,pubMedAbst-method}
+\alias{abstText,pubMedAbst-method}
+\alias{articleTitle,pubMedAbst-method}
+\alias{journal,pubMedAbst-method}
+\alias{pubDate,pubMedAbst-method}
+\alias{abstUrl,pubMedAbst-method}
+\alias{pmid,pubMedAbst-method}
+\alias{show,pubMedAbst-method}  
 \title{Class pubMedAbst, a class to handle PubMed abstracts, and methods
 for processing them.}
 \description{  This is a class representation for PubMed abstracts. }

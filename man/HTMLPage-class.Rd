@@ -11,6 +11,22 @@
 \alias{toFile}
 \alias{topPage}
 \alias{pageTitle}
+\alias{HTMLPage,HTMLPage-method}
+\alias{FramedHTMLPage,HTMLPage-method}
+\alias{fileName,HTMLPage-method}
+\alias{mainPage,HTMLPage-method}
+\alias{sidePage,HTMLPage-method}
+\alias{pageText,HTMLPage-method}
+\alias{toFile,HTMLPage-method}
+\alias{topPage,HTMLPage-method}
+\alias{pageTitle,HTMLPage-method}
+\alias{show,HTMLPage-method}
+\alias{initialize,FramedHTMLPage-method}
+\alias{mainPage,FramedHTMLPage-method}
+\alias{show,FramedHTMLPage-method}
+\alias{sidePage,FramedHTMLPage-method}
+\alias{toFile,FramedHTMLPage-method}
+\alias{topPage,FramedHTMLPage-method}
 \title{Classes to represent HTML pages}
 \description{Class \code{HTMLPage} and \code{FramedHTMLPage} are a pair
   of experimental classes used to explore concepts of representing HTML
