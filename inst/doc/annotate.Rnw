@@ -1,0 +1,85 @@
+\documentclass{article}
+
+\begin{document}
+\title{Bioconductor: Annotation Package Overview}
+\maketitle{}
+
+
+\section{Overview}
+
+The annotation library will provide an interface to relevant
+biological data.
+This comes in many different flavors and will undoubtedly be based on
+being able to access the web and various non--R resources.
+
+One of the current capabilities of annotate is to provide translation
+facilities. Ideally we will have small libraries of translators for
+the different genomes.
+Translators are implemented using environments in R. We may try to
+devise a mechansim suitable for SPlus at some point.
+
+Currently annotate also provides the facilities for querying a
+database backend and other sources. These may move into a separate
+developer's version of annotate. Having a large database backend
+provides much more flexibility than can be achieved through
+environments. However, environments have the advantage of being
+entirely contained in R.
+
+\section{Description}
+
+\section{Improvements}
+
+We need to get a better mechanism for translating from one identifier
+to another.
+
+
+\section{Some examples}
+
+In the following example we show how to produce a simple web page with
+links to Locus Link (at NCBI) for genes that were selected according
+to some criteria.
+
+<<annotate>>=
+ ## load up the libraries
+
+ library(Biobase)
+ library(genefilter)
+ library(annotate)
+
+
+ ## load the example data
+ data(geneData)
+
+ f1 <- kOverA(10,500)
+ ff <- filterfun(f1)
+ whichg <- genefilter(geneData,ff)
+ sum(whichg)
+ ## should get 60
+ genes.used <- geneData[whichg,]
+
+ ## now put them in order of mean expression
+ mnexpr <- apply(genes.used, 1, mean)
+ ord.mn <- order(mnexpr)
+ genes.ord <- genes.used[ord.mn,]
+
+ # the translation from Affy to locus link id's
+ hgu95ll <- read.annotation("hgu95v2ll")
+ llnames <- multiget(row.names(genes.ord), env=hgu95ll)
+
+ ll.htmlpage(llnames, "selectedG.html",
+            "Top 60 Genes", row.names(genes.ord))
+
+@
+
+%$
+\section{Tranlators Vignette} 
+
+In this section we show how to build and use translators. Many of the
+basic data sets required for this step are distributed with the
+\verb+annotate+ library. Others are available from the Bioconductor 
+web site. 
+
+
+\end{document} 
+
+
