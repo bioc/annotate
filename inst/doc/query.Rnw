@@ -120,7 +120,7 @@ function from {\em annotate} or directly from your favorite browser)
 to view the full article as well as any related information provided
 by the authors.
 
-Lastly, as a demonstration for how one can use the /verb+query+
+Lastly, as a demonstration for how one can use the \verb+query+
 toolset to cross reference several databases, we can use the same set
 of PubMed IDs with another function:
 
