@@ -13,21 +13,21 @@ serializeEnv <- function(env, fname) {
 
  keys <- names(envList)
 
- out <- "<?xml version=\"1.0\"?>\n"
- out <- paste(out,
-              "<values xmlns:bt=\"http://www.bioconductor.org/RGDBM\">")
- for (i in seq(along=envList)) {
-     out <- paste(out, "\n\t<entry>\n\t\t<key>\n\t\t<![CDATA[",
-                  "\n\t\t\t", keys[i], "\n\t\t]]>",
-                  "\n\t\t</key>\n\t\t<value>\n\t\t<![CDATA[\n\t\t\t",
-                  serialize(envList[[i]], NULL, ascii=TRUE),
-                  "\n\t\t]]>\n\t\t</value>\n\t</entry>", sep="")
- }
- out <- paste(out, "\n</values>", sep="")
-
  outFile <- gzfile(fname)
  open(outFile, open="wb")
- cat(out, file=outFile)
+
+ cat("<?xml version=\"1.0\"?>\n",
+     "<values xmlns:bt=\"http://www.bioconductor.org/RGDBM\">",
+     file=outFile)
+ for (i in seq(along=envList)) {
+     cat("\n\t<entry>\n\t\t<key>\n\t\t<![CDATA[",
+         "\n\t\t\t", keys[i], "\n\t\t]]>",
+         "\n\t\t</key>\n\t\t<value>\n\t\t<![CDATA[\n\t\t\t",
+         serialize(envList[[i]], NULL, ascii=TRUE),
+         "\n\t\t]]>\n\t\t</value>\n\t</entry>", file=outFile, append=TRUE)
+ }
+ cat("\n</values>", file=outFile, append=TRUE)
+
  close(outFile)
 }
 
@@ -53,7 +53,8 @@ serializeDataPkgEnvs <- function(pkgDir) {
         return(0)
 
     for (i in seq(along=dataSets)) {
-        if (is.environment(dataSets[i])) {
+        cmd <- paste("is.environment(", dataSets[i], ")")
+        if (eval(parse(text=cmd))) {
             print(paste("Converting", dataSets[i]))
             serializeEnv(dataSets[i], paste(dataSets[i], ".xml.gz", sep=""))
         }
