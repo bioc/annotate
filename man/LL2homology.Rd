@@ -6,15 +6,15 @@
   LocusLink ids or HomoloGeneIDs}
 \description{
   Given a set of LocusLink ids or NCBI HomoloGeneIDs, the functions obtain the
-  homology data and represent them as a list of sub-lists of homoData
-  objects using the homology data package. A sub-list can be of
+  homology data and represent them as a list of sub-lists using the
+  homology data package for the organism of interest. A sub-list can be of
   length 1 or greater depending on whether a LocusLink id can be mapped
   to one or more HomoloGeneIDs.
 }
 \usage{
-LL2homology(llids)
-HGID2homology(hgid)
-ACC2homology(accs)
+LL2homology(homoPkg, llids)
+HGID2homology(hgid, homoPkg)
+ACC2homology(accs, homoPkg)
 }
 \arguments{
   \item{llids}{\code{llids} a vector of character strings or numberic
@@ -26,12 +26,15 @@ ACC2homology(accs)
     NCBI for organisms}
   \item{accs}{\code{accs} a vector of character strings for a set of
     GenBank Accession numbers}
+  \item{homoPkg}{\code{homoPkg} a character string for the name of the
+    homology data package for a given organism, which is a short version
+    of the scientific name of the organism plus homology (e. g. hsahomology)}
 }
 \details{
   The homology data package has to be installed before executing any of
   the two functions.
 
-  A homoData object has the following slots:
+  Each sub-list  has the following elements:
 
   homoOrg - a named vector of a single character string whose value
   is the scientific name of the organism and name the numeric code
@@ -56,26 +59,21 @@ ACC2homology(accs)
   homoURL - a url to the source if the homology relationship is a
   curated orthology.
   
-  HomoData objects with homoType = B or b will not have any value
+  Sub-lists with homoType = B or b will not have any value
   for homoURL and objects with homoType = c will not have any value
   for homoPS.
-  
-  The value of a given slot of a homoData object can be accessed by
-  using homoOrg(xxx) for the homoOrg slot of the homoData object
-  xxx, for example.
 }
 \value{
-  Both functions returns a list of homoData objects containing data for
+  Both functions returns a list of sub-lists containing data for
   homologous genes in other organisms.
 }
 \references{\url{http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?=homologene}}
 \author{Jianhua Zhang}
 
-\seealso{\code{\link{homoData-class}}}
 \examples{
-  if(require("homology")){
-      llids <- ls(env = homologyLL2HGID)[2:5]
-      LL2homology(llids)
+  if(require("hsahomology")){
+      llids <- ls(env = hsahomologyLL2HGID)[2:5]
+      LL2homology("hsahomology", llids)
   }
 }
 \keyword{misc}

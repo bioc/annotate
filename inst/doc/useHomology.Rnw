@@ -18,7 +18,7 @@
 \usepackage{times}
 
 \begin{document}
-\title{How to use the \Rpackage{homology} package}
+\title{How to use the \Rpackage{homology} packages}
 
 \author{Jianhua Zhang \and Ben Wittner}
 \date{}
@@ -26,107 +26,108 @@
 
 \section*{Introduction}
 
-The \Rpackage{homology} package was built based on a source
+The \Rpackage{homology} packages was built based on a source
 data file provided by HomoloGene
 (\url{http://www.ncbi.nlm.nih.gov/HomoloGene/}).
-This vignette illustrates how to use the \Rpackage{homology} package
+This vignette illustrates how to use the \Rpackage{homology} packages
 to explore the homologous relationships among organisms. Two or more
 organisms have homologous relationships if their genes share an
 arbitrary threshold level of similarity determined by alignment of
 matching bases.
 
 This vignette demonstrates the usage of the \Rpackage{homology}
-package by performing two tasks to introduce users to the
-package, although the potential use of the package is well beyond the
+packages by performing two tasks to introduce users to the
+packages, although the potential use of the packages is well beyond the
 scope of the tasks.
 
 \section*{Contents of the package}
 
-As other Bioconductor data packages, the \Rpackage{homology} package
+The \Rpackage{homology} packages are built on organism
+bases with a separate data package for each of the species contained
+in the source file. The packages are named following a convention of
+\Rpackage{XXXhomology} where XXX are a three letter string consisting of the
+first letter of the genus name and the first two letters of the
+species name of a given organism. For example, hsahomology is the
+package for human (Homo sapiens).
+
+As other Bioconductor data packages, the \Rpackage{homology} packages
 contains environment objects in the \texttt{data} subdirectory that
 will be loaded when the package is loaded. A full list of the
-environment objects is shown below:
+environment objects is shown below (using the package for human as an
+example:
 
 <<>>=
 library("annotate")
-library("homology")
-homology()
+library("hsahomology")
+hsahomology()
 @
 
-Objects with the organism specified by the organism code (used by NCBI
-for organism) following the \texttt{homology} portion of the name
-contains all the HomoloGeneIDs for the organism. For example,
-\Robject{homology9606} contains all the HomoloGeneIDs for
-human. Organism codes and the corresponding scientific names of
-organisms can be accessed using the \Robject{homologyORGCODE} and are
-shown below:
-
-<<>>=
-homologyORGCODE
-@
-
-\Robject{homologyDATA} has HomoloGeneIDs as keys and lists of
-\Rclass{homoData} objects for other organisms that have been
+\Robject{XXXhomologyDATA} has HomoloGeneIDs as keys and lists of
+sub-lists containing data for other organisms that have been
 identified to have homology relationships as the corresponding
 values. The list for a given HomologGene ID may have one or more
-\Rclass{homoData} objects depending on whether homology relationships
-have been identified in only one or more other organisms.
+sub-lists depending on whether homology relationships have been
+identified in only one or more other organisms.
 
-A \Rclass{homoData} object has slots for the name of the organism
+Each sub-list has an element for the name of the organism
 (homoOrg), LocusLink ID (homoLL), HomologGeneID (homoHGID), GenBank
 accession number (homoACC) of the best matching sequence, type of
 similarity (homoType. B - reciprocal best best between three or more
-organisms, b
-- reciprocal best match between two organisms, and c - curated
+organisms, b - reciprocal best match between two organisms, and c - curated
 homology relationship between two organisms), percent of identity
 (homoPS) measured as the percentage of base pair alignment between the
 matching sequences, and a url (homoURL) to the source if the
-relationship is a curated orthology. The homoData objects with
-homoType = B or b will not have any value for homoURL and objects with
+relationship is a curated orthology. A sub-list with
+homoType = B or b will not have any value for homoURL and sublist with
 homoType = c will not have any value for homoPS.
 
-The \Robject{homologyLL2HGID} environment contains mappings between
+The \Robject{XXXhomologyLL2HGID} environment contains mappings between
 LocusLink identifiers and HGIDs (HomoloGene IDs used by HomoloGene to
 represent sequences represented by the LocusLink ids). This
 environment allows users to map LocusLink ids to HGIDs and then use
 the obtained HGIDs to locat homologous genes in other organisms using
 the environment that contains data for homologous genes found in other
-organisms using \Robject(homologyDATA).
+organisms using \Robject(XXXhomologyDATA).
 
 
-\subsection{Use \Rpackage{homology} to explore homologous
+\subsection{Use \Rpackage{XXXhomology} to explore homologous
   relationships among organisms}
 
 \subsubsection{Task 1}
 
-Given LocusLink id 25 in human, how to find all other species
+Given LocusLink id 25 in human (Homo sapiens), how to find all other species
 containing homologous genes of best best matches with percent
 similarity values above 80.00?
 
 First we call a function \Rfunction{LL2homology} in
 \Rpackage{annotate} to obtain data for all the homologous genes of
-LocusLink id 25.
+LocusLink id 25 in human.
 
 <<>>=
-homoGenes <- LL2homology("25")
+homoGenes <- LL2homology("hsahomology", "25")
 @
 
-\Robject{homoGenes} is a list of \Rclass{homoData} objects. We are
-only interested in genes that are best best matches (homoType = B) to
-LocusLink id 25 with percent identity values greater than 80.00. The
-following code finds and prints the names of the organisms and
-LocusLink IDs and HGIDs for genes that satisfy the conditions:
+\Robject{homoGenes} is a list of sub-lists with elements shown below:
+
+<<>>=
+names(homoGenes[[1]][[1]])
+@
+
+We are only interested in genes that are best best matches (homoType =
+B) to LocusLink id 25 with percent identity values greater than
+80.00. The following code finds and prints the names of the organisms
+and LocusLink IDs and HGIDs for genes that satisfy the conditions:
 
 <<>>=
 # A given LocusLink id may be mapped to more than one HGID. Use the
 # data for the first one here
 goodG <- sapply(homoGenes[[1]], function(x){
-    (homoType(x) == "B" && homoPS(x) > 80.00)})
+    (x[["homoType"]] == "B" && x[["homoPS"]] > 80.00)})
 
 geneList <- homoGenes[[1]][goodG]
-sapply(geneList, function(x) homoOrg(x))
-sapply(geneList, function(x) homoLL(x))
-sapply(geneList, function(x) homoHGID(x))
+sapply(geneList, function(x) x[["homoOrg"]])
+sapply(geneList, function(x) x[["homoLL"]])
+sapply(geneList, function(x) x[["homoHGID"]])
 @
 
 \subsubsection{Task 2}
@@ -135,23 +136,24 @@ Find all the genes in \texttt{Xenopus laevis} that are homologous to
 genes of \texttt{Danio rerio} with percent identity values greater
 than 90.00.
 
-The organism code for \texttt{Xenopus laevis} is:
+%The organism code for \texttt{Xenopus laevis} is:
 
-<<>>=
-homologyORGCODE["Xenopus laevis"]
-@
+%<<>>=
+%homologyORGCODE["Xenopus laevis"]
+%@
 
 The object containing homology data for \texttt{Xenopus laevis}
-is \Robject{homology8355}, which is a vector of HGIDs. Genes in
-\texttt{Xenopus laevis} that satisfy the conditions can be obtained
-using the following code chunk.
+is \Robject{xlahomologyHGID} in \Rpackage{zlahomology}, which is a
+vector of HGIDs. Genes in \texttt{Xenopus laevis} that satisfy the
+conditions can be obtained using the following code chunk.
 
 <<>>=
-temp <- mget(homology8355, homologyDATA)
+require("xlahomology")
+temp <- mget(xlahomologyHGID, xlahomologyDATA)
 tempFun <- function(x){
    for(i in x){
-       if(!is.na(homoOrg(i)) && homoOrg(i) == "Danio rerio"
-                                           && homoPS(i) > 90.00){
+       if(!is.na(i[["homoOrg"]]) && i[["homoOrg"]] == "Danio rerio"
+                                           && i[["homoPS"]] > 90.00){
            return(i)
        }
    }
@@ -161,18 +163,17 @@ goodGenes <- sapply(temp, tempFun)
 goodGenes <- goodGenes[!is.na(goodGenes)]
 @
 
-\Robject{goodGenes} obtained above is a list of \Robject(homoData)
-objects. The names of the list are the HGIDs for genes in
-\texttt{Xenopus laevis} and the corresponding \Robject(homoData)
-objects contain information about the homologous genes in
-\texttt{"Danio rerio"}. The following code chunk gets the HGIDs and
-percent similarity of these homologous genes:
+\Robject{goodGenes} obtained above is a list of sub-lists. The names
+of the list are the HGIDs for genes in \texttt{Xenopus laevis} and the
+corresponding \Robject(homoData) objects contain information about the
+homologous genes in \texttt{"Danio rerio"}. The following code chunk
+gets the HGIDs and percent similarity of these homologous genes:
 
 <<>>=
     # Get the HGIDs
-    hgids <- unlist(sapply(goodGenes, homoHGID))
+    hgids <- unlist(sapply(goodGenes, function(x) x[["homoHGID"]]))
     # Get the percent similarities
-    ps <- unlist(sapply(goodGenes, homoPS))
+    ps <- unlist(sapply(goodGenes, function(x) x[["homoPS"]]))
 @
 
 \subsubsection{Task 3}
@@ -201,9 +202,9 @@ column.
 #  corresponding homologous gene in the second column.
 #
 
-library(Biobase)
-library(zebrafish)                      # Danio rerio
-library(xenopuslaevis)                  # Xenopus laevis
+require("Biobase")
+require("zebrafish")                      # Danio rerio
+require("xenopuslaevis")                  # Xenopus laevis
 @
 
 The function \Rfunction{swapKeyVal} returns an environment with keywords
@@ -249,12 +250,12 @@ extensions are not in \Robject{xenopuslaevisACCNUM}.)
 <<>>=
 for (psid.Dr in psids.Dr) {
 
-  listOfLists <- ACC2homology(zebrafishACCNUM[[psid.Dr]])
+  listOfLists <- ACC2homology(zebrafishACCNUM[[psid.Dr]], "drehomology")
   targetHomoGene <- NULL
 
   for (homoGeneList in listOfLists) {
     for (homoGene in homoGeneList) {
-      if (homoOrg(homoGene) == 'Xenopus laevis') {
+      if (homoGene[["homoOrg"]] == 'Xenopus laevis') {
         targetHomoGene <- homoGene
         break
       }
@@ -264,7 +265,7 @@ for (psid.Dr in psids.Dr) {
   if (!is.null(targetHomoGene)) {
     # The GenBank IDs in xenopuslaevisACCNUM do not have extensions that
     # indicate version number, so we chop off the extensions.
-    acc <- sub('\\.[0-9]+$', '', homoACC(targetHomoGene))
+    acc <- sub('\\.[0-9]+$', '', targetHomoGene[["homoACC"]])
     psid.Xl <- psids.Xl[[acc]]
     if (!is.null(psid.Xl)) {
       homoloProbeSets <- rbind(homoloProbeSets, c(psid.Dr, psid.Xl))

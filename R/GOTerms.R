@@ -56,16 +56,16 @@ setMethod("show", "GOTerms",
                   cat(paste("GOID =", GOID(object)))
               }
               if(!is.na(Term(object))){
-                  cat(paste("\nGO term =", Term(object)))
+                  cat(paste("\nTerm =", Term(object)))
               }
               if(!is.na(Synonym(object)[1])){
-                  cat(paste("\nSynonymous term =", Synonym(object)))
+                  cat(paste("\nSynonym =", Synonym(object)))
               }
               if(!is.na(Secondary(object)[1])){
-                  cat(paste("\nSecondary GO ids =", Secondary(object)))
+                  cat(paste("\nSecondary =", Secondary(object)))
               }
               if(!is.na(Definition(object))){
-                  cat(paste("\nDefinition for GO term =", Definition(object)))
+                  cat(paste("\nDefinition =", Definition(object)))
               }
               if(!is.na(Ontology(object))){
                   cat(paste("\nOntology =", Ontology(object)))
