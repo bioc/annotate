@@ -1,4 +1,5 @@
-findNeighbors <- function(chrLoc, llID, chromosome, upBase, downBase){
+findNeighbors <- function(chrLoc, llID, chromosome, upBase, downBase,
+                          mergeOrNot = TRUE){
 
     require(chrLoc, character.only = TRUE) ||
                            stop(paste("Chromomosome location chrLoc",
@@ -23,10 +24,10 @@ findNeighbors <- function(chrLoc, llID, chromosome, upBase, downBase){
         location <- as.numeric(get(llID, get(paste(chrLoc,
                                       chromosome, "START", sep = ""))))
     }else{
-        location <- 0
+        location <- (downBase - upBase)/2
     }
-    lowerB <- getBoundary(location, downBase, TRUE)
-    upperB <- getBoundary(location, upBase, FALSE)
+    upperB <- getBoundary(location, upBase, TRUE)
+    downB <- getBoundary(location, downBase, FALSE)
     neighbors <- list()
     # There may be chances that a llID be mapped to genes on different CHR
     for(i in chromosome){
@@ -41,22 +42,18 @@ findNeighbors <- function(chrLoc, llID, chromosome, upBase, downBase){
                                            "END", sep = ""))),
                         use.names = TRUE)
         # greb the ones in the range
-        foundLLs <- c(start[start >= lowerB & start <= upperB],
-                      end[end >= lowerB & end <= upperB])
-        if(length(foundLLs) != 0){
-            temp <- unique(names(foundLLs))
-            foundLLs <- gsub("(^.*)\\..*", "\\1", temp)
-            names(foundLLs) <- gsub("^.*\\.(.*)", "\\1", temp)
-            # Remove LLs named Unconfident if one named Confident exists
-            if(any(duplicated(foundLLs))){
-                foundLLs <- c(foundLLs[names(foundLLs) == "Confident"],
-                              foundLLs[names(foundLLs) != "Confident"])
-                foundLLs <- foundLLs[!duplicated(foundLLs)]
+        foundUp <- weightByConfi(start[start >= upperB & start <= downB])
+        foundDown <- weightByConfi(end[end <= downB & end >= upperB])
+
+        if(length(foundUp) != 0 || length(foundDown) != 0){
+            if(mergeOrNot){
+                neighbors[[as.character(i)]] <- unique(c(foundUp, foundDown))
+            }else{
+                neighbors[[as.character(i)]] <- list(upstream = foundUp,
+                                                     downstream = foundDown)
             }
-            neighbors[[as.character(i)]] <- foundLLs
         }
     }
-
 
     if(length(neighbors) == 0){
         warning("No Genes in the defined region satisfy the condition")
@@ -142,5 +139,23 @@ getBoundary <- function(loc, base, lower = TRUE){
         }else{
             return(as.numeric(loc) + base)
         }
+    }
+}
+
+weightByConfi <- function(foundLLs){
+    if(length(foundLLs) != 0){
+        temp <- unique(names(foundLLs))
+        foundLLs <- gsub("(^.*)\\..*", "\\1", temp)
+        names(foundLLs) <- gsub("^.*\\.(.*)", "\\1", temp)
+        # Remove LLs named Unconfident if one named Confident exists
+        if(any(duplicated(foundLLs))){
+            foundLLs <- c(foundLLs[names(foundLLs) == "Confident"],
+                          foundLLs[names(foundLLs) != "Confident"])
+            foundLLs <- foundLLs[!duplicated(foundLLs)]
+        }
+
+        return(foundLLs)
+    }else{
+        return("")
     }
 }

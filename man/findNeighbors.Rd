@@ -3,7 +3,8 @@
 \alias{checkArgs}
 \alias{findChr4LL}
 \alias{getValidChr}
-\alias{getBoundary} 
+\alias{getBoundary}
+\alias{weightByConfi}
 \title{A function to locate neighboring genes within a defined range
   around a target gene represented by a LocusLink id }
 \description{
@@ -15,11 +16,12 @@
   chromosome the target gene resides
 }
 \usage{
-findNeighbors(chrLoc, llID, chromosome, upBase, downBase)
+findNeighbors(chrLoc, llID, chromosome, upBase, downBase, mergeOrNot = TRUE)
 checkArgs(llID, chromosome, upBase, downBase)
 findChr4LL(llID, chrEnv, organism)
 getValidChr(organism)
 getBoundary(loc, base, lower = TRUE)
+weightByConfi(foundLLs)
 } 
 \arguments{
   \item{chrLoc}{\code{chrLoc} a character string for the name of the
@@ -55,6 +57,10 @@ getBoundary(loc, base, lower = TRUE)
   \item{base}{\code{base} either a \code{downBase} or \code{upBase}}
   \item{lower}{\code{lower} a boolean indicating whether the lower or
     upper boundary of search limit is sought}
+  \item{mergeOrNot}{\code{mergeOrNot} a boolean to indicate whether gene
+    found up and down streams will be merged (TRUE)}
+  \item{foundLLs}{\code{foundLLs} a vector of character strings for
+    LocusLink ids}
 }
 \details{
   A chrLoc data package can be created using function
