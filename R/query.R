@@ -388,7 +388,7 @@ pmAbst2html2 <- function(absts, baseFilename,
     toFile(page)
 }
 
-pmAbst2html <- function(absts, filename, title, simple=TRUE,
+pmAbst2HTML <- function(absts, filename, title, simple=TRUE,
                       table.center=TRUE) {
     ## Currently just a very naive implementation of a pmid2html type
     ## of thing.  Intended to be temporary just while I'm testing some
