@@ -10,8 +10,8 @@ openBrowser <- function(query) {
         if (is.null(getOption("browser")))
             stop("options(\"browser\") not set")
         browser <- getOption("browser")
-        system(paste(browser, " -remote \"openURL(",
-                     query, ")\" 2>/dev/null || ", browser, " ",
+        system(paste(browser, " -remote 'openURL(",
+                     query, ")' 2>/dev/null || ", browser, " ",
                      query, " &", sep = ""))
     }
     else {
@@ -44,7 +44,7 @@ pubmed <- function(pmid, pmaddress) {
     if(is.na(pmid) )
         stop("pmid is NA, cannot proceed")
     if(missing(pmaddress))
-        pmaddress <- "www.ncbi.nlm.nih.gov/entrez/"
+        pmaddress <- "http://www.ncbi.nlm.nih.gov/entrez/"
     qname <-
     "query.fcgi?cmd=Retrieve&db=PubMed&dopt=DocSum&list_uids="
     query <- paste(pmaddress, qname, pmid, sep="")
