@@ -17,11 +17,11 @@ whatACC <- function(accs){
     if(regexpr("^[a-zA-Z]{2}\\.[0-9]+$", accs[1]) > 0){
         return("UniGene")
     }
-    if(regexpr("^(NP_)|(NG_)|(NM_)|(NC_)|(XR_)|(XM_)|(XP_)[0-9]+$",
+    if(regexpr("^(NP_)|(NG_)|(NM_)|(NC_)|(XR_)|(XM_)|(XP_)[0-9]+[._]?[0-9]?$",
                accs[1]) > 0){
         return("RefSeq")
     }
-    if(regexpr("^[a-zA-Z]+[0-9]+$", accs[1]) > 0){
+    if(regexpr("^[A-Z]+[0-9]+[._]?[0-9]$", accs[1]) > 0){
         return("GBAcc")
     }
     if(regexpr("^[0-9]+$", accs[1]) > 0){
