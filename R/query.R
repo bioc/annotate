@@ -1,6 +1,27 @@
 #Copyright 2001 R.Gentleman, all rights reserved
 #functions to look up particular genes at different sites
 
+UniGeneQuery <- function(query, UGaddress="UniGene/",
+                         type="CID") {
+    if (missing(query))
+        stop("No query, cannot proceed!")
+
+    ##they are of the form HH.xxxx, where HH specifies the species
+    q1 <- strsplit(query, "\\.")
+    if( length(q1[[1]]) == 2 ) {
+        id <- sapply(q1, function(x) x[2])
+        species <- sapply(q1, function(x) x[1])
+    }
+
+    ncbiURL <- .getNcbiURL()
+    ## Build up the query URL
+
+    query <- paste(ncbiURL, UGaddress,
+    "clust.cgi?ORG=",species,"&", type, "=",id, sep="")
+
+    return(query)
+}
+
 
 locuslinkQuery <- function(query,...,lladdress="LocusLink/") {
     params <- list(...)
