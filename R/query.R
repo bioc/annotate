@@ -1,12 +1,12 @@
 #Copyright 2001 R.Gentleman, all rights reserved
 #functions to look up particular genes at different sites
 
-locuslink <- function(geneid, lladdress) {
+locuslink <- function(geneid, lladdress =
+    "http://www.ncbi.nlm.nih.gov/LocusLink/") {
     if(is.na(geneid))
        stop("gene id is NA, cannot proceed")
-    if(missing(lladdress))
-       lladdress <- "http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
-    query <- paste(lladdress, geneid, sep="")
+    whichq <- "LocRpt.cgi?l="
+    query <- paste(lladdress, whichq, geneid, sep="")
     if (is.null(getOption("browser")))
        stop("options(\"browser\") not set")
     browser <- getOption("browser")
