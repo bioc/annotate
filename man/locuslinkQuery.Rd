@@ -22,8 +22,8 @@ locuslinkQuery(query,...,lladdress="LocusLink/", brose=TRUE)
   species abbreviations can be found at: \code{http://www.ncbi.nih.gov/LocusLink/help.html}
 }
 \value{
-  The URL found is returned.  If \code{browse} is TRUE, the user's web
-  browser is directed to that URL.
+  If \code{browse} is TRUE, the user's web browser is directed to that URL.
+  The URL found is returned if \code{browse} is FALSE.  
 
 }
 \author{Jeff Gentry }
