@@ -73,9 +73,14 @@ locuslinkByID <- function(..., lladdress="LocusLink/", browse=TRUE) {
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
-    args <- paste(params,collapse="%2c")
-
-    query <- paste(ncbiURL, lladdress, "LocRpt.cgi?l=", args, sep="")
+    if (length(params) == 1) {
+        args <- paste(params,collapse="%2c")
+        query <- paste(ncbiURL, lladdress, "LocRpt.cgi?l=", args, sep="")
+    }
+    else {
+        args <- paste(params,collapse="&ID=")
+        query <- paste(ncbiURL, lladdress, "list.cgi?ID=", args, sep="")
+    }
 
     if (browse)
         browseURL(query)
