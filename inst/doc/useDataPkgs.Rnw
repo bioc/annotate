@@ -237,7 +237,7 @@ process (BP)\textit{exocytosis}.
 
 The version number of R and packages loaded for generating the vignette were:
 
-<<echo=FALSE,results=tex>>=
+<<echo=FALSE>>=
 sessionInfo()
 @
 

@@ -264,7 +264,7 @@ pmAbst2HTML(goodAbsts, filename=fnameBase, frames=TRUE)
 
 The version number of R and packages loaded for generating the vignette were:
 
-<<echo=FALSE,results=tex>>=
+<<echo=FALSE>>=
 sessionInfo()
 @
 

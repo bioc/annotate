@@ -286,7 +286,7 @@ gets the HGIDs and percent similarity of these homologous genes:
 
 The version number of R and packages loaded for generating the vignette were:
 
-<<echo=FALSE,results=tex>>=
+<<echo=FALSE>>=
 sessionInfo()
 @
 
