@@ -3,13 +3,13 @@
 ##tables)
 
 ## JZ added lookUp and modified the other functions so that they all
-## use lookUp
+## use lookUp. Nov. 6, 2003.
 lookUp <- function(x, data, what){
     if(length(x) < 1){
         stop("No key(s) provided")
     }
     require(data, character.only = TRUE) ||
-        stop(paste("Data package", pkgName, "not available"))
+        stop(paste("Data package", data, "not available"))
     if(length(x) == 1){
         mapping <- get(x, env = get(paste(data, what, sep = "")))
     }else{
