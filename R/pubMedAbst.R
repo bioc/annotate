@@ -5,22 +5,17 @@
     setClass("pubMedAbst",
              representation(pmid="character", authors="vector", abstText="character",
              articleTitle="character", journal="character",
-             pubDate="character", abstUrl="character"))
+             pubDate="character"))
 
     setMethod("show", "pubMedAbst", function(object) {
-         cat("An object of class pubMedAbs \n")
-         slots <- slotNames(object)
-         for (what in slots) {
-            if (identical(what, ".Data"))
-                next
-           cat("Slot \"", what, "\":\n", sep = "")
-           if( what == "articleTitle" || what == "abstText")
-	       cat(paste("\t", substr(slot(object, what), 1, 70),
-                   "...\n", sep=""))
-	   else
-               print(slot(object, what))
-            cat("\n")
-        }})
+        cat("An object of class 'pubMedAbst':\n")
+        cat("Title:  ", articleTitle(object), "\n")
+        cat("PMID:   ", pmid(object), "\n")
+        cat("Authors:", paste(authors(object), collapse=", "),
+            "\n")
+        cat("Journal:", journal(object), "\n")
+        cat("Date:   ", pubDate(object), "\n")
+    })
 
     ## Define generics
     if (is.null(getGeneric("authors")))
@@ -43,10 +38,6 @@
         setGeneric("pubDate", function(object)
                    standardGeneric("pubDate"))
 
-    if (is.null(getGeneric("abstUrl")))
-        setGeneric("abstUrl",function(object)
-                   standardGeneric("abstUrl"))
-
     if (is.null(getGeneric("pmid")))
         setGeneric("pmid", function(object)
                    standardGeneric("pmid"))
@@ -62,8 +53,6 @@
               object@journal)
     setMethod("pubDate", "pubMedAbst", function(object)
               object@pubDate)
-    setMethod("abstUrl", "pubMedAbst", function(object)
-              object@abstUrl)
     setMethod("pmid", "pubMedAbst", function(object)
               object@pmid)
 
@@ -156,18 +145,12 @@ buildPubMedAbst <- function(xml) {
         }
     }
 
-    abstUrl <-
-        try(as.character(xmlChildren(xml["PubmedData"][[1]]["URL"][[1]])$text)[6])
-    if (inherits(abstUrl,"try-error") == TRUE) {
-        abstUrl <- "No URL Provided"
-    }
-
     ## Restore error messages
     options(show.error.messages=TRUE)
 
     newPMA <- new("pubMedAbst", articleTitle=articleTitle,
                   abstText=abstText, pubDate=pubDate,authors=authors,
-                  journal=journal,abstUrl=abstUrl, pmid=pmid)
+                  journal=journal, pmid=pmid)
 
     return(newPMA)
 }

@@ -49,7 +49,8 @@ genbank(...,disp=c("data","browser"), type=c("accession","uid"),
 \examples{
    ## Use UIDs to get data in both browser & data forms
    if( interactive() )
-      disp <- c("data","browser") else
+      disp <- c("data","browser")
+   else
       disp <- "data"
    for (dp in disp)
      genbank("12345","9997",disp=dp,type="uid")

@@ -362,9 +362,9 @@ pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
     ## the main frame, otherwise not.
     anchors <- makeAnchor(queries, titles, toMain=frames)
 
-    topText <- paste("<html>\n<head>\n<title>Bioconductor Abstract List</title>",
+    topText <- paste("<html>\n<head>\n<title>", title, "</title>",
                      "\n</head>\n<body bgcolor=#708090>\n",
-                     "<H1 ALIGN=CENTER>BioConductor Abstract List</H1>\n",
+                     "<H1 ALIGN=CENTER>", title, "</H1>\n",
                      "</body></title>", sep="")
     head <- c("Article Title", "Publication Date")
     headOut <- paste("<TH>", head, "</TH>", collapse="\n")
@@ -409,9 +409,6 @@ pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
     else {
         outfile <- file(filename,"w")
         cat(topText, file = outfile)
-        if ( !missing(title) )
-            cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
-                file=outfile, sep = "\n")
         if( table.center )
             cat("<CENTER> \n", file=outfile)
 
@@ -428,7 +425,7 @@ pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
         cat("</body>", "</html>", sep = "\n", file = outfile)
         close(outfile)
     }
-    NULL
+    invisible(NULL)
 }
 
 ll.htmlpage <- function (genelist, filename, title, othernames,
