@@ -156,7 +156,7 @@ homologyORGCODE["Xenopus laevis"]
 
 Gens in \texttt{Xenopus laevis} that satisfy the conditions are:
 
-<<>> =
+<<>>=
 temp <- as.list(homology8355)
 tempFun <- function(x){
    found <- NULL
@@ -180,7 +180,7 @@ would like to have a matrix with the LocusLink ids for genes in
 homologous genes in \texttt{"Danio rerio"} in another column. The
 following code does that:
 
-<<>> =
+<<>>=
 geneMat <- matrix(ncol = 2, nrow = 0)
 ll2HGID <- as.list(homologyLL2HGID)
 ll2HGID <- ll2HGID[!is.na(ll2HGID)]
