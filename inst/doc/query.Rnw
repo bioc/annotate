@@ -1,0 +1,138 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+
+
+% \VignetteIndexEntry{"HOWTO: Use the automated query tools"}
+% \Vpacks{Biobase, annotate, XML}
+\documentclass{article}
+
+\usepackage{hyperref}
+
+\author{Jeff Gentry}
+
+\begin{document}
+\title{Overview: Automated Querying of PubMed Data}
+\maketitle{}
+
+\section{Overview}
+
+This article demonstrates how you can make use of the \verb+query+ toolset
+available in the Bioconductor project to automatically search PubMed
+and other resources, and utilize that data within your R session.  To
+do this you will need the {\em Biobase}, {\em XML}, and {\em annotate}
+packages.  These must be installed in your version of R and when you
+start R you must load with the \verb+library+ command.
+
+\section{Accessing PubMed information}
+
+First we load the {\em annotate} package (this will automatically
+load the {\em Biobase} package, as well as the {\em XML} package if it
+is needed).  For this example, we are utilizing the example data in
+\verb+eset+ to show how this could work with a real world analysis.
+
+<<>>=
+library(annotate)
+data(eset)
+affys <- geneNames(eset)[490:500]
+affys
+@
+
+Here we have selected an arbitrary set of 10 genes to be interested in
+from our sample data.  However, \verb+eset+ provided us with
+Affymetrix identifiers, and for the \verb+pubmed+ function, we need to
+use PubMed ID values.  To obtain these, we can use the annotation
+tools within package {\em annotate}.
+
+<<>>=
+hgu95pm <- read.annotation("hgu95Apmed")
+ids <- multiget(affys,envir=hgu95pm)
+ids <- unlist(ids,use.names=FALSE)
+ids <- ids[!is.na(as.numeric(ids))]
+ids
+@
+
+At this point, we have genes identified in a proper manner for use
+with the PubMed databases.  So if we want to see what, if any,
+material is stored there for these genes, we can retrieve it in the
+following manner (Note: This is the point where the {\em XML} package
+gets loaded):
+
+<<>>=
+x <- pubmed(ids)
+a <- xmlRoot(x)
+numAbst <- length(xmlChildren(a))
+numAbst
+@
+
+Our search of the 30 PubMed IDs (from the 10 Affymetrix IDs) has
+resulted  in the same number of abstracts from PubMed (stored
+in R using XML format).  The {\em annotate} package also provides a
+\verb+PubMedAbst+ class, which will take the raw XML format from
+PubMed and extract the interesting sections for easy reviewal - at
+this time we will generate an instance of this class for each returned
+abstract.  (And for a future example, at the same time, we will
+extract from each class the actual abstract text).
+
+<<>>=
+arts <- list()
+absts <- vector()
+for (i in 1:numAbst) {
+   ## Generate the PubMedAbst object for this abstract
+   arts[[i]] <- buildPubMedAbst(a[[i]])
+   ## Retrieve the abstract text for this abstract
+   absts[i] <- abstText(arts[[i]])
+}
+arts[[7]]
+@
+
+As you can see, the \verb+PubMedAbst+ class provides several key
+pieces of information: authors, abstract text, article title, journal,
+publication date of the journal and any related URL.  These can all
+be individually extracted utilizing the provided methods (such as
+'abstText' in the above example).
+
+Next, suppose we are interested in only the abstracts that deal with
+cDNA.  We can utilize the power of R here, now that we have all the
+abstracts relating to our genes of interest neatly organized.
+
+<<>>=
+found <- grep("cDNA",absts)
+goodAbsts <- arts[found]
+length(goodAbsts)
+@
+
+So 12 of the articles relating to our genes of interest mention the
+term cDNA in their abstracts.  Suppose at this point you identify one
+particular abstract that you want to look further at the 2nd abstract
+obtained.  A brief scan of its contents (from above) shows that it
+contains a URL for its journal:
+
+<<>>=
+abstUrl(goodAbsts[[2]])
+@
+
+This URL can then be used (either using the \verb+openBrowser+
+function from {\em annotate} or directly from your favorite browser)
+to view the full article as well as any related information provided 
+by the authors.
+
+Lastly, as a demonstration for how one can use the /verb+query+
+toolset to cross reference several databases, we can use the same set
+of PubMed IDs with another function:
+<<>>=
+## Must use parameter "uid" here as genbank defaults to using
+## Genbank accession numbers
+y <- genbank(ids, type="uid")
+b <- xmlRoot(x)
+@
+At this point of time, the object 'b' can be manipulated in a similar
+manner as 'a' from the PubMed example.
+
+Also, note that both \verb+pubmed+ and \verb+genbank+ have an option
+to display the data directly in the browser instead of XML, by
+specifying \{em disp="browser"} in the parameter listing.
+
+\end{document}
+
