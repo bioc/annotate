@@ -5,7 +5,7 @@
 
 
 % \VignetteIndexEntry{HOWTO: Use the automated query tools}
-% \VignetteDepends{Biobase, annotate, XML, edd, class, genClass, mva}
+% \VignetteDepends{Biobase, annotate, XML, edd, class, genClass, mva, hgu95av2}
 % \VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}
 \documentclass{article}
@@ -35,7 +35,7 @@ is needed).  For this example, we are utilizing the example data in
 \verb+eset+ to show how this could work with a real world analysis.
 
 <<data>>=
-library(annotate)
+library("annotate")
 data(eset)
 affys <- geneNames(eset)[490:500]
 affys
@@ -48,7 +48,7 @@ use PubMed ID values.  To obtain these, we can use the annotation
 tools within package {\em annotate}.
 
 <<annotation>>=
-library(hgu95av2)
+library("hgu95av2")
 ids <- multiget(affys,envir=hgu95av2PMID)
 ids <- unlist(ids,use.names=FALSE)
 ids <- ids[!is.na(as.numeric(ids))]

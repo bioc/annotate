@@ -90,7 +90,7 @@ weightByConfi(foundLLs)
   Cancer Institute to provide bioinformatics functionalities through R}
 
 \examples{
-if(require(humanCHRLOC)){
+if(require("humanCHRLOC")){
    findNeighbors("humanCHRLOC", "10228", upBase = 600000, downBase = 600000)
 }else{
    print("Can not find neighbors without the required data package")

@@ -9,7 +9,7 @@ getGO <- function(x, data) {
  }
 
  getGOdesc <- function(x, which=c("MF","BP","CC") ) {
-     require(GO) || stop("need the GO library")
+     require("GO") || stop("need the GO library")
      d <- match.arg(which)
      de <- switch(d, MF=GOMFID2TERM, BP=GOBPID2TERM, CC=GOCCID2TERM,
                   stop(paste(which, "did not match a GO data type")))
@@ -44,12 +44,13 @@ getGO <- function(x, data) {
      function(object)
          multiget(ls(env=object), env=object))
 
-installDataPackage <- function(pkg, lib=.libPaths()[1]) {
-    require(reposTools)||stop("installDataPackage requires package reposTools")
+installDataPackage <- function(pkga, liba=.libPaths()[1]) {
+    require("reposTools")||
+              stop("installDataPackage requires package reposTools")
 
     z <- getReposEntry("BIOCData")
-    x <- install.packages2(pkg, z, lib=lib)
+    x <- install.packages2(pkga, z, lib=liba)
     if (length(statusList(x)) == 0)
-        stop(paste("Data package",pkg,"does not seem to exist",
+        stop(paste("Data package",pkga,"does not seem to exist",
                    "in the Bioconductor\ndata package repository."))
 }
