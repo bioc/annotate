@@ -65,7 +65,14 @@
         cat("Instance of a chromLocation class with the following fields:\n")
         cat("\tSpecies: ", object@species, "\n\t")
         cat("Data source: ", object@datSource, "\n\t")
-        cat("Number of chromosomes for this species: ", object@nChrom, "\n")
+        cat("Number of chromosomes for this species: ", object@nChrom, "\n\t")
+
+        ## Build up a matrix of chromosome names & their locations
+        cat("Chromosomes of this species and their lengths in base pairs:")
+        for (i in 1:object@nChrom) {
+            cat("\n\t\t",object@chromNames[i],":",object@chromLengths[i])
+        }
+        cat("\n")
     })
 }
 
