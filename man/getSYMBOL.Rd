@@ -5,6 +5,7 @@
 \alias{getPMID}
 \alias{getLL}
 \alias{contents}
+\alias{contents,environment-method}
 \title{Functions to deal with Data Packages}
 \description{
   The functions documented here are intended to make it easier to map
