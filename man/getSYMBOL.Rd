@@ -12,10 +12,10 @@
   chips etc) to other identifiers.
 }
 \usage{
-getSYMBOL(x, data = "hgu95a")
-getLL(x, data = "hgu95a")
-getGO(x, data = "hgu95a")
-getPMID(x, data = "hgu95a")
+getSYMBOL(x, data = "hgu95av2")
+getLL(x, data = "hgu95av2")
+getGO(x, data = "hgu95av2")
+getPMID(x, data = "hgu95av2")
 getGOdesc(x, which=c("MF","BP","CC") )
 contents(object)
 }
