@@ -199,7 +199,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     require(XML) || stop("XML package is unavailable!")
     ## Make sure that XML version is what we require
     ## !!! Need to make this automatic, hardcode version in for now
-    xmlVers <- package.description("XML",fields="Version")
+    xmlVers <- packageDescription("XML",fields="Version")
     reqXmlVers <- "0.92-2"
     if (compareVersion(xmlVers,reqXmlVers) < 0)
         stop(paste("Installed XML version is ",xmlVers,
@@ -228,7 +228,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     require(XML) || stop("Sorry, you need the XML package!")
     ## Make sure that XML version is what we require
     ## !!! Need to make this automatic, hardcode version in for now
-    xmlVers <- package.description("XML",fields="Version")
+    xmlVers <- packageDescription("XML",fields="Version")
     reqXmlVers <- "0.92-2"
     if (compareVersion(xmlVers,reqXmlVers) < 0)
         stop(paste("Installed XML version is ",xmlVers,
