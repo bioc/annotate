@@ -61,25 +61,25 @@ setMethod("homoHGID", "homoData",
 setMethod("show", "homoData",
           function(object) {
               if(length(homoOrg(object)) > 0 && !is.na(homoOrg(object))){
-                  cat(paste("homoOrg:", homoOrg(object)))
+                  cat(paste("homoOrg:", homoOrg(object)), fill = TRUE)
               }
               if(length(homoLL(object)) > 0 && !is.na(homoLL(object))){
-                  cat(paste("\nhomoLL:", homoLL(object)))
+                  cat(paste("\nhomoLL:", homoLL(object)), fill = TRUE)
               }
               if(length(homoHGID(object)) > 0 && !is.na(homoHGID(object))){
-                  cat(paste("\nhomoHGID:", homoHGID(object)))
+                  cat(paste("\nhomoHGID:", homoHGID(object)), fill = TRUE)
               }
               if(length(homoACC(object)) > 0 && !is.na(homoACC(object))){
-                  cat(paste("\nhomoACC:", homoACC(object)))
+                  cat(paste("\nhomoACC:", homoACC(object)), fill = TRUE)
               }
               if(length(homoType(object)) > 0 && !is.na(homoType(object))){
-                  cat(paste("\nhomoType:", homoType(object)))
+                  cat(paste("\nhomoType:", homoType(object)), fill = TRUE)
               }
               if(length(homoPS(object)) > 0 && !is.na(homoPS(object))){
-                  cat(paste("\nhomoPS:", homoPS(object)))
+                  cat(paste("\nhomoPS:", homoPS(object)), fill = TRUE)
               }
               if(length(homoURL(object)) > 0 && !is.na(homoURL(object))){
-                  cat(paste("\nhomoURL:", homoURL(object)))
+                  cat(paste("\nhomoURL:", homoURL(object)), fill = TRUE)
               }
               cat("\n")
 })
