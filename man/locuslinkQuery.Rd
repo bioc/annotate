@@ -5,7 +5,7 @@
 \description{Given a search string, will query the Locuslink site and
   passes the returned page to the browser.}
 \usage{
-locuslinkQuery(query,...,lladdress="LocusLink/", brose=TRUE)
+locuslinkQuery(query,...,lladdress="LocusLink/", browse=TRUE)
 }
 \arguments{
   \item{query}{The search query to use}
