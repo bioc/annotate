@@ -12,7 +12,12 @@
 \title{Class chromLocation, a class for describing genes and their
   chromosome mappings.}
 \description{  This class provides a mechanism for mapping a set of
-  genes to their respective locations in chromosomes.}
+  genes to their respective locations in chromosomes.
+  Details on how to construct an object of this class from Bioconductor
+  data packags are given in the \code{byChroms} vignette in the
+  \code{geneplotter} package.
+
+}
 \section{Creating Objects}{
 \code{  new('chromLocation',}\cr
 \code{    species      = ...., # Object of class character}\cr
