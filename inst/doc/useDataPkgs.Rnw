@@ -26,7 +26,7 @@
 
 \section*{Overview}
 
-The Bioconductor project maintains a rich body of annoation data
+The Bioconductor project maintains a rich body of annotation data
 assembled into R libraries. The purpose of this vignette
 is to discuss the structure, contents, and usage of these
 annotation data libraries. Executable code is provided as examples.
@@ -52,7 +52,7 @@ generic data for various genomes.
      \includegraphics[width=\textwidth, angle=0]{DPChart}
    \end{center}
    \caption{{\small \label{fig:DPChart}A diagram showing the overall
-       structrue and inter-relationship of Bioconductor annotation
+       structure and inter-relationship of Bioconductor annotation
        data packages. Boxes show a single or group of data
        packages. Lines between two boxes indicate connections through
        the key denoted by the text beside each line.}}
@@ -95,7 +95,7 @@ cancatinations of the names of mapped ids with a 2 in between
 The KEGG library contains mappings between ids such as Locuslink
 and \Rpackage{GO} to \Rpackage{KEGG} pathway ids and thus pathway names. The \Rpackage{GO} library
 maintain the directed acyclic graph structure of the original
-data from Gene Ontology Consortum by providing mappings of GO ids to
+data from Gene Ontology Consortium by providing mappings of GO ids to
 their direct parents or children for each of the three categories
 (molecular function, cellular component, and biological process). In
 addition, mappings between LocusLink and \Rpackage{GO} ids are provided with
@@ -104,10 +104,10 @@ annotation of a gene to a particular \Rpackage{GO} term.
 
 \section*{Usage}
 
-All the annoation libraries can be obtained from the Bioconductor web
+All the annotation libraries can be obtained from the Bioconductor web
 site (\url{http://www.bioconductor.org}). To illustrate their usages,
 we use the library for Affymetrix HG\_U95Av2 chip (\Rpackage{hgu95av2}) as
-an example for platform specific data packages and the GO library for
+an example for platform specific data packages and the \Rpackage{GO} library for
 non-platform specific data packages. We assume that R
 (\url{www.r-project.org}) and Bioconductor's Biobase and annotation
 libraries have already been installed.
@@ -135,7 +135,7 @@ library(GO)
 
 \subsection*{Documentations}
 
-Each library contains documentaions for the library in general and
+Each library contains documentations for the library in general and
 each of the individual environment objects contained by the
 library. Two documents at the library level can be accessed by typing
 a library name proceeded by a question mark (e. g. ?hgu95av2) and
@@ -162,7 +162,7 @@ example, \Robject{hgu95av2GO} annotates probes on the HG\-U95Av2 chip
 with ids of the Gene Ontology terms the probes correspond to.
 
 The name of an environment object consists of package name (\Rpackage{hgu95av2}) and
-environment name (GO) to avoid confusion when multiple libraries are loaded
+environment name (\Rpackage{GO}) to avoid confusion when multiple libraries are loaded
 to the system at the same time. Data contained by an environment can
 be accessed easily using Bioconductor's existing functions. For example, the following code
 stores all the keys contained by the \Robject{hgu95av2GO} environment object to
@@ -218,11 +218,11 @@ annotation data packages are linked by common public data identifiers
 to allow traverse between packages (Fig. 1). Using the example above,
 we know that probe id \textit{699\_s\_at} are annotated by two Gene Ontology
 ids \textit{GO:0005085} and \textit{GO:0006887}. The Gene Ontology
-trems for various Gene Ontology ids, however, are stored in another
-package named \textit{GO}. AS package \Rpackage{hgu95av2} and
+terms for various Gene Ontology ids, however, are stored in another
+package named \Rpackage{GO}. AS package \Rpackage{hgu95av2} and
 \Rpackage{GO} are linked by \Rpackage{GO} ids, one can annotate probe id
 \textit{699\_s\_at} with Gene Ontology terms by linking data in the
-two packages using \textit{GO} id as shown below:
+two packages using \Rpackage{GO} id as shown below:
 
 <<>>=
 mget(names(get("699_s_at", hgu95av2GO)), GOTERM)
