@@ -30,7 +30,7 @@ genbank(...,disp=c("data","browser"), type=c("accession","uid"),
 
   WARNING:  The powers that be at NCBI have been known to ban the IP
   addresses of users who abuse their servers (currently defined as less
-  then 2 seconds between queries).  Do NOT put this function in a type
+  then 2 seconds between queries).  Do NOT put this function in a tight
   loop or you may find your access revoked.
 }
 \value{
@@ -48,15 +48,18 @@ genbank(...,disp=c("data","browser"), type=c("accession","uid"),
 
 \examples{
    ## Use UIDs to get data in both browser & data forms
-   if( interactive() )
+
+   if ( interactive() ) {
       disp <- c("data","browser")
-   else
+   } else {
       disp <- "data"
+   }
+
    for (dp in disp)
      genbank("12345","9997",disp=dp,type="uid")
 
    ## Use accession numbers to retrieve browser info
-   if( interactive() )
+   if ( interactive() )
        genbank("U03397","AF030427",disp="browser")
 }
 \keyword{interface }
