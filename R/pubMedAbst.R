@@ -76,7 +76,7 @@ buildPubMedAbst <- function(xml) {
     }
 
     ## Retrieve Article Title
-    articleTitle <- xmlArticle[[1]][["Article"]]
+    articleTitle <- xmlArticle[[1]][["ArticleTitle"]]
     articleTitle <-
     try(as.character(xmlChildren(articleTitle)$text)[6])
     if (inherits(articleTitle,"try-error") == TRUE) {
