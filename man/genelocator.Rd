@@ -29,8 +29,6 @@ genelocator(x)
 
 \examples{
 ## This is an interactive function so the examples won't work!
-##-- ==>  Define data, use random,
-  frob(bar)
-  x<- 11
+
 }
 \keyword{ iplot }

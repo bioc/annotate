@@ -70,13 +70,3 @@ ll.htmlpage <- function (genelist, filename, title, othernames)
 }
 
 
-htmltable <- list(head=function(caption) if(missing(caption))
- "<TABLE BORDER=4>" else paste("<TABLE BORDER=4> <CAPTION> ",
-         caption, "</CAPTION>"),
-                  tail = function() "</TABLE>")
-
-htmlrow <- list(head=function() "<TR>", tail= function() "</TR> \n")
-
-html.aref <- function(prefix, loc, x) paste("<A HREF=\"", prefix, loc,
-                                            "\">", x, "</A>")
-
