@@ -1,17 +1,17 @@
 \name{GOTerms-class}
 \docType{class}
 \alias{GOTerms}
-\alias{GOId}
-\alias{Category}
-\alias{Definition}
+\alias{GOID}
 \alias{Ontology}
+\alias{Definition}
+\alias{Term}
 \alias{Secondary}
 \alias{Synonym}
 \alias{GOTerms-class}
-\alias{Category,GOTerms-method}
-\alias{Definition,GOTerms-method}
-\alias{GOId,GOTerms-method}
 \alias{Ontology,GOTerms-method}
+\alias{Definition,GOTerms-method}
+\alias{GOID,GOTerms-method}
+\alias{Term,GOTerms-method}
 \alias{Secondary,GOTerms-method}
 \alias{Synonym,GOTerms-method}
 \alias{print,GOTerms-method}
@@ -25,32 +25,40 @@
 }
 \section{Slots}{
   \describe{
-    \item{\code{GOId}:}{Object of class \code{"character"} A character
+    \item{\code{GOID}:}{Object of class \code{"character"} A character
       stirng for the GO id of a primary node}
-    \item{\code{Ontology}:}{Object of class \code{"character"} A
+    \item{\code{Term}:}{Object of class \code{"character"} A
       character string that defines the role of gene product
       corresponding to the primary GO id}
     \item{\code{Synonym}:}{Object of class \code{"character"} other
-      synonymous ontology terms of the primary GO id}
+      ontology terms that are considered to be synonymous to the primary
+      term attached to the GO id (e.g. type I programmed cell death is a
+      synonym of apoptosis). Synonymous here can mean that the
+      synonym is an exact synonym of the primary term, is related to the
+      primary term, is broader than the primary term, is more precise
+      than the primary term, or  name is related to the term, but is not
+      exact, broader or narrower.}
     \item{\code{Secondary}:}{Object of class \code{"character"} GO ids
-      that secondary to the primary GO id as results of merging}
+      that are secondary to the primary GO id as results of merging GO
+      terms so that One GO id becomes the primary GO id and the rest
+      become the secondary}
     \item{\code{Definition}:}{Object of class \code{"character"} Further
       definition of the ontology of the primary GO id}
-    \item{\code{Category}:}{Object of class \code{"character"} Gene
+    \item{\code{Ontology}:}{Object of class \code{"character"} Gene
       Ontology category. Can be MF - molecular function, CC - cellular
       component, or BP - biological process}
   }
 }
 \section{Methods}{
   \describe{
-    \item{Category}{\code{signature(object = "GOTerms")}: The get method
-      for slot Category}
-    \item{Definition}{\code{signature(object = "GOTerms")}: The get
-      method for slot Definition}
-    \item{GOId}{\code{signature(object = "GOTerms")}: The get method for
-      slot GOId}
     \item{Ontology}{\code{signature(object = "GOTerms")}: The get method
       for slot Ontology}
+    \item{Definition}{\code{signature(object = "GOTerms")}: The get
+      method for slot Definition}
+    \item{GOID}{\code{signature(object = "GOTerms")}: The get method for
+      slot GOID}
+    \item{Term}{\code{signature(object = "GOTerms")}: The get method
+      for slot Term}
     \item{Secondary}{\code{signature(object = "GOTerms")}: The get
       method for slot Secondary}
     \item{Synonym}{\code{signature(object = "GOTerms")}: The get method
@@ -68,20 +76,11 @@
   \code{\link{GOPkgBuilder}}
 }
 \examples{
-  goTerms <- new("GOTerms", GOId = "GO:1234567", Ontology = "Test",
-                 Category = "MF")
-  GOId(goTerms)
+  goTerms <- new("GOTerms", GOID = "GO:1234567", Term = "Test",
+                 Ontology = "MF")
+  GOID(goTerms)
+  Term(goTerms)
   Ontology(goTerms)
-  Category(goTerms)
 }
 \keyword{classes}
-
-
-
-
-
-
-
-
-
 
