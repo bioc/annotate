@@ -24,7 +24,7 @@ serializeEnv <- function(env, fname) {
           keys[i], "]]>",
          "\n\t\t</key>\n\t\t<value>\n\t\t<![CDATA[",
          serialize(envList[[i]], NULL, ascii=TRUE),
-         "]]>\n\t\t</value>\n\t</entry>", file=outFile, append=TRUE)
+         "]]>\n\t\t</value>\n\t</entry>", sep="", file=outFile, append=TRUE)
  }
  cat("\n</values>", file=outFile, append=TRUE)
 
