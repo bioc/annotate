@@ -4,7 +4,48 @@ The first 13 are Y's the next 34 are X
 
 The files and their descriptions:
 hgu95v2fgroup : U95v2 chip, functional group by Affy number
-u95id         : Affy number index to Identification
+u95id         : Affy number index to Identifier
 u95LL         : Affy number index to LocusLink
 u95name       : Affy number index to gene name
 LLu95         : Locuslink number to Affy #
+
+Identifier is GenBank Accession number (unique for each sequence that a
+researcher submitted to GenBank);
+
+"FirstofLocuslink First of Name" are the first match to LocusLink
+
+It seems that the annotation was made from the following:
+So, one seems to go to these locations and grab the files. 
+It would be good to have some idea of how to process/handle them.
+
+
+Unigene files downloaded: Hs.data (1/9/01), Mm.data (12/18/00), Rn.data (4/9/01)
+
+
+GeneOntology files downloaded: process.ontology, function.ontology, component.ontology (3/5/01)
+
+LocusLink files downloaded: LL_tmpl.txt (8/1/01), but many files below used was constructed using an earlier version
+
+To access a web page:
+CString str(gene_info.Info[CurUnit].LocusLink);
+        str = "http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=" + str;
+        ShellExecute((HWND) GetDesktopWindow(), "open",str, NULL, NULL,
++SW_SHOW);
+
+====================
+R code for browsers
+===================
+locuslink <- function(geneid, lladdress) {
+    if(is.na(geneid))
+       stop("gene id is NA, cannot proceed")
+    if(missing(lladdress))
+       lladdress <- "http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
+    query <- paste(lladdress, geneid, sep="")
+    if (is.null(getOption("browser"))) 
+       stop("options(\"browser\") not set")
+    browser <- getOption("browser")
+    system(paste(browser, " -remote \"openURL(", 
+              query, ")\" 2>/dev/null || ", browser, " ", 
+              query, " &", sep = ""))
+    return(invisible())
+}

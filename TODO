@@ -13,11 +13,15 @@ Please feel free to add to it or to start implementing stuff:
     -functional groups
     -basic mappings
     -proteins
-    -chromasome mapping
+    -chromosome mapping
 
  3) A set of tools that let us select data from a data frame (such as the 
   output of dChip) according to the data in these files.
 
  4) Do we want to explore a Tcl/Tk interface to selection?
 
+
+ 5) Need to store the data files compressed (.gz) and then use the appropriate
+    readers. What would be even better would be to have stored binary forms
+    of environments (or memory-mapped environments).
 
