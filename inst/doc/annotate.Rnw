@@ -112,7 +112,7 @@ to some criteria.
 @
 
 %$
-\section{Tranlators Vignette} 
+\section{Translators Vignette} 
 
 In this section we show how to build and use translators. Many of the
 basic data sets required for this step are distributed with the
