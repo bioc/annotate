@@ -31,3 +31,14 @@ genbank <- function(geneid, gbaddress) {
               query, " &", sep = ""))
     return(invisible())
 }
+
+genelocator <- function(x) {
+  done<-FALSE
+  while(!done) {
+    v <- identify(x, n=1)
+    if (length(v)==0)
+      done <- TRUE
+    else
+      print(paste("hi I'm number", v))
+  }
+}
