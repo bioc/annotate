@@ -28,6 +28,13 @@
 \author{ Jeff Gentry }
 
 \examples{
-   z <- buildChromLocation("hgu95av2")
+   ## A bit of a hack to not have a package dependency on hgu95av2
+   ## but need to fiddle w/ the warn level to not fail the example anyways.
+   curWarn <- getOption("warn")
+   options(warn=0)
+   on.exit(options(warn=curWarn), add=TRUE)
+   if (require(hgu95av2)) {
+     z <- buildChromLocation("hgu95av2")
+   } else print("This example requires the hgu95av2 data package")
 }
 \keyword{ utilities }
