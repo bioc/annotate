@@ -1,0 +1,23 @@
+Here is a start of a list of ideas:
+Please feel free to add to it or to start implementing stuff:
+
+ 1) The file, data/mgu74v2id
+   contains an environment that has the affy number linked to (the 
+  genbank number??)
+
+   It would be nice to be able to select a set of genes and
+   get a webpage set up with the Affy #, and links to various
+   databases (genbank in particular).
+
+ 2) We need to decide which databases we will store in data:
+    -functional groups
+    -basic mappings
+    -proteins
+    -chromasome mapping
+
+ 3) A set of tools that let us select data from a data frame (such as the 
+  output of dChip) according to the data in these files.
+
+ 4) Do we want to explore a Tcl/Tk interface to selection?
+
+
