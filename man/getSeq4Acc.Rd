@@ -22,9 +22,8 @@ getSEQ(gi)
     number corresponding to \code{accNum}}
 }
 \details{
-  The NCBI database is first quired for a gi number associated with the
-  given GenBank Accession number. The gi number is then used to obtain
-  the FASTA file for the nucleotide sequence.
+  The NCBI database is quired for the given GenBank Accession number to
+  obtain the FASTA file for the nucleotide sequence.
 
   getGI and getSEQ are help functions of getSeq4Acc.
 }
