@@ -9,6 +9,14 @@
 
 \documentclass{article}
 
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
 \usepackage{hyperref}
 \begin{document}
 \title{Bioconductor: Annotation Package Overview}
@@ -16,22 +24,28 @@
 
 \section{Overview}
 
-The annotation library provides an interface to relevant
-biological data.
-Assembling annotation data and associating it with the relevant
-experimental data is not a simple task.
-This package is likely to be in a constant state of flux for at least
-two reasons. First the available data itself will be in a state of
-flux for the forseable future. Our understanding of it and how it
-relates to the experimental data will also mature over time.
+The annotation library provides interface support for the different
+meta-data packages (\url{http://www.bioconductor.org/data/meta-data}
+that are available through the Bioconductor Project. We have tried to
+make these different meta-data packages modular, in the sense that all
+of them should have similar sets of mappings from manufacturer IDs to
+specific biological data such as chromosomal location, GO, and
+LocusLink identifiers.
 
-The annotation for Bioconductor is handled by two systems. One, {\em
-AnnBuilder} is a system for assembling and relating the data from
+Annotation in the Bioconductor Project is handled by two systems. One,
+\Rpackage{AnnBuilder} is a system for assembling and relating the data from
 various sources. It is much more {\em industrial} and takes advantage
 of many different non-R tools. These include Perl and a relational
 database. The second package is {\em annotate}. This package is
-designed to provide experiment level annotation data suitable for the
-analysis of individual experiments (or combinations of experiments).
+designed to provide experiment level annotation resources and to help
+users associate the outputs of \Rpackage{AnnBuilder} with their
+particular data.
+
+There will be some need for the structure of the meta-data packages to
+evolve over time and by making use of the functions provided in
+\Rpackage{annotate} users and developers should shield themselves from
+many of the changes. We will endeavor to keep the \Rpackage{annotate}
+interfaces constant.
 
 Any given experiment typically involves a set of known identifiers
 (probes in the case of a microarray experiment). These identifiers are
@@ -45,41 +59,104 @@ one direction (Affymetrix to LocusLink) we have no problem, but when
 going the other we need some mechanism for dealing with the
 multiplicity of matches.
 
-Databases have a long history and there are some solutions available
-for the issues of one--to--many and many--to--many relationships.
-However, in {\em annotate} our approach is to use hash tables to
-provide translation.
-Thus we must either break the one--to--many relationships or have the
-stored value in a hash table be a vector of values.
+\subsection*{A Short Example}
 
-While it would be reasonably straightforward to provide an
-implementation of {\em annotate} that used a relational database
-rather than hash tables we currently feel that this would be little
-used and hence not worth the effort. However, we would be happy to
-provide advice and support if an effort to build such an interface is
-attempted.
+We will consider the Affymetrix human gene chip, \texttt{hgu95av2},
+for our example. We first load this package and \Rpackage{annotate}.
 
-\section*{Experimental Data}
+<<loadlibs>>=
+library("annotate")
+library("hgu95av2")
+ls("package:hgu95av2")
+@
+We see the listing of twenty or thirty different R objects in this
+package. Most of them represent mappings from the identifiers on the
+Affymetrix chip to the different biological resources and you can find
+out more about them by using the R help system, since each has a
+manual page that describes the data together with other information
+such as where, when and what files were used to construct the
+mappings. Also, each meta-data package has one object that has the
+same name as the package, in this case it is \Robject{hgu95av2}. This
+is function and it can be invoked to find out some of the different
+statistics regarding the mappings that were done. Its manual page
+lists all data resources that were used to create the meta-data package.
 
+<<qc>>=
+hgu95av2()
+@
+
+Now let's consider a specific object, say the
+\Robject{hgu95av2LOCUSID} object.
+<<locusid>>=
+hgu95av2LOCUSID
+@
+If we type its name we see that it is an R \texttt{environment}; all
+this means is that it is a special data type that is efficient at
+storing and retrieving mappings between symbols (the Affymetrix
+identifiers) and associated values (the LocusLink IDs).
+
+We can retrieve values from this environment in many different ways
+(and the reader is referred to the R help pages for more details on
+using some of the functions described briefly here).
+Suppose that we are interested in finding the LocusLink ID for the
+Affymetrix probe, \texttt{1000_at}. Then we can do it in any one of
+the following ways:
+<<getting>>=
+
+get("1000_at", env=hgu95av2LOCUSID)
+hgu95av2LOCUSID[["1000_at"]]
+hgu95av2LOCUSID$"1000_at"
+
+@
+And in all cases we see that the the LocusLink identifier is
+\Sexpr{hgu95av2LOCUSID[["1000_at"]]}.
+
+If you want to get more than one
+object from an environment you also have a number of choices. You can
+extract them one at a time using either a \texttt{for} loop or
+\Rfunction{apply} (we hope to have an \Rfunction{eapply} in the next
+release of R). It will be more efficient to use \Rfunction{mget} since
+it does the retrieval using internal code and is optimized. You may
+also want to turn the environment into a named list, so that you can
+perform different list operations on it, this can be done using the
+function \Rfunction{contents} or \Rfunction{as.list}.
+
+<<tolist>>=
+LLs = as.list(hgu95av2LOCUSID)
+length(LLs)
+names(LLs)[1:10]
+
+@
+
+\subsection*{Experimental Data}
+
+%%FIXME: Jianhua, can you provide specific references to environments
+%%in the hgu95av2 library - GO is hgu95av2GO etc;
+%%also if you have a web location for packages descriptions can you
+%%add it above
 We currently can access a great deal of data. Examples include
 chromosome number, chromosomal location (cytoband or bp).
 The Gene Ontology (GO) categorizations.
 Other information such as syntenic regions or orthologous grouping can
 also be obtained.
 
-Since these data are likely to be constantly changing (and we will be
-constantly updating the data) we will provide some data with the
-annotate package but will also provide data for downloading
-(automatically) from the Bioconductor website
-(\url{www.bioconductor.org}).
-The data will be provided in two different forms. One is in files
-marked up in XML. The other will be as saved R data objects. The
-latter will be preferable for most users since they are relatively
-fast to load and provide the data in an internal format ready for use.
+%%FIXME: Jianhua, here please describe all of the getLL etc functions
+%% imagine that the person you are describing them to knows R but not
+%%about these functions
 
-Researchers with special needs should feel free to contact us
-regarding the production of annotation data specialized to their
-needs.
+
+\subsection*{Chromosomal Location}
+
+While in many situations chromosomal location is not related to
+expression there are some cases where it is useful to be able to
+determine chromosomal locations for the probes and to carry out a
+number of other tasks. We mainly use these tools for constructing
+visualizations of gene expression data, but they are likely to be
+useful for other purposes.
+
+%%FIXME: put in the chromosomal location stuff here....
+
+
 
 \section{Some examples}
 
