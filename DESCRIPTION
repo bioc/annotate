@@ -4,5 +4,5 @@ Version: 0.5
 Author: R. Gentleman
 Description: Using R enviroments for dealing with annotation data.
 Maintainer: R. Gentleman <rgentlem@hsph.harvard.edu>
-Dependencies: Biobase
+Depends: Biobase
 License: LGPL
