@@ -6,11 +6,11 @@
   convert them into NCBI UID values.
 }
 \usage{
-accessionToUID(accNum,db=c("genbank","pubmed")[1])
+accessionToUID(...,db=c("genbank","pubmed")[1])
 }
 \arguments{
-  \item{accNum}{Accession number to be transformed.}
-  \item{db}{Which database this accession number refers to.}
+  \item{...}{Accession numbers to be transformed.}
+  \item{db}{Which database this accession number refers to, defaults to Genbank}
 }
 \details{
   Utilizes the PubMed tool pmqty.cgi to convert an accession number
@@ -32,7 +32,10 @@ accessionToUID(accNum,db=c("genbank","pubmed")[1])
 
      ## The two returns from genbank should be the same
      genbank("U03397",type="accession",disp="data")
-     x <- accessionToUID("U03397","genbank")
+     x <- accessionToUID("U03397",db="genbank")
      genbank(x, type="uid",disp="data")
+
+     ## Can handle multiple inputs
+     accessionToUID("M16653","U892893",db="pubmed")
 }
 \keyword{interface}
