@@ -1,74 +1,72 @@
-.initPubMedAbst <- function(where) {
+## Define the class structure of the pubMedAbst object
+setGeneric("pubMedAbst", function(object)
+           standardGeneric("pubMedAbst"))
 
-    ## Define the class structure of the pubMedAbst object
-    setGeneric("pubMedAbst", function(object)
-               standardGeneric("pubMedAbst"), where=where)
+setClass("pubMedAbst",
+         representation(pmid="character", authors="vector", abstText="character",
+                        articleTitle="character", journal="character",
+                        pubDate="character", abstUrl="character"))
 
-    setClass("pubMedAbst",
-             representation(pmid="character", authors="vector", abstText="character",
-             articleTitle="character", journal="character",
-             pubDate="character", abstUrl="character"), where=where)
+setMethod("show", "pubMedAbst", function(object) {
+    cat("An object of class pubMedAbs \n")
+    slots <- slotNames(object)
+    for (what in slots) {
+        if (identical(what, ".Data"))
+            next
+        cat("Slot \"", what, "\":\n", sep = "")
+        if( what == "articleTitle" || what == "abstText")
+            cat(paste("\t", substr(slot(object, what), 1, 70),
+                      "...\n", sep=""))
+        else
+            print(slot(object, what))
+        cat("\n")
+    }})
 
-    setMethod("show", "pubMedAbst", function(object) {
-         cat("An object of class pubMedAbs \n")
-         slots <- slotNames(object)
-         for (what in slots) {
-            if (identical(what, ".Data"))
-                next
-           cat("Slot \"", what, "\":\n", sep = "")
-           if( what == "articleTitle" || what == "abstText")
-	       cat(paste("\t", substr(slot(object, what), 1, 70),
-                   "...\n", sep=""))
-	   else
-               print(slot(object, what))
-            cat("\n")
-        }}, where=where)
+## Define generics
+if (is.null(getGeneric("authors")))
+    setGeneric("authors", function(object)
+               standardGeneric("authors"))
 
-    ## Define generics
-    if (is.null(getGeneric("authors")))
-        setGeneric("authors", function(object)
-                   standardGeneric("authors"), where=where)
+if (is.null(getGeneric("abstText")))
+    setGeneric("abstText", function(object)
+               standardGeneric("abstText"))
 
-    if (is.null(getGeneric("abstText")))
-        setGeneric("abstText", function(object)
-                   standardGeneric("abstText"), where=where)
+if (is.null(getGeneric("articleTitle")))
+    setGeneric("articleTitle", function(object)
+               standardGeneric("articleTitle"))
 
-    if (is.null(getGeneric("articleTitle")))
-        setGeneric("articleTitle", function(object)
-                   standardGeneric("articleTitle"), where=where)
+if (is.null(getGeneric("journal")))
+    setGeneric("journal", function(object)
+               standardGeneric("journal"))
 
-    if (is.null(getGeneric("journal")))
-        setGeneric("journal", function(object)
-                   standardGeneric("journal"), where=where)
+if (is.null(getGeneric("pubDate")))
+    setGeneric("pubDate", function(object)
+               standardGeneric("pubDate"))
 
-    if (is.null(getGeneric("pubDate")))
-        setGeneric("pubDate", function(object)
-                   standardGeneric("pubDate"), where=where)
+if (is.null(getGeneric("abstUrl")))
+    setGeneric("abstUrl",function(object)
+                   standardGeneric("abstUrl"))
 
-    if (is.null(getGeneric("abstUrl")))
-        setGeneric("abstUrl",function(object)
-                   standardGeneric("abstUrl"),where=where)
+if (is.null(getGeneric("pmid")))
+    setGeneric("pmid", function(object)
+               standardGeneric("pmid"))
 
-    if (is.null(getGeneric("pmid")))
-        setGeneric("pmid", function(object)
-                   standardGeneric("pmid"), where=where)
+## Methods
+setMethod("authors", "pubMedAbst", function(object)
+          object@authors)
+setMethod("abstText", "pubMedAbst", function(object)
+          object@abstText)
+setMethod("articleTitle", "pubMedAbst", function(object)
+          object@articleTitle)
+setMethod("journal", "pubMedAbst", function(object)
+          object@journal)
+setMethod("pubDate", "pubMedAbst", function(object)
+          object@pubDate)
+setMethod("abstUrl", "pubMedAbst", function(object)
+          object@abstUrl)
+setMethod("pmid", "pubMedAbst", function(object)
+          object@pmid)
 
-    ## Methods
-    setMethod("authors", "pubMedAbst", function(object)
-              object@authors, where=where)
-    setMethod("abstText", "pubMedAbst", function(object)
-              object@abstText, where=where)
-    setMethod("articleTitle", "pubMedAbst", function(object)
-              object@articleTitle, where=where)
-    setMethod("journal", "pubMedAbst", function(object)
-              object@journal, where=where)
-    setMethod("pubDate", "pubMedAbst", function(object)
-              object@pubDate, where=where)
-    setMethod("abstUrl", "pubMedAbst", function(object)
-              object@abstUrl, where=where)
-    setMethod("pmid", "pubMedAbst", function(object)
-              object@pmid, where=where)
-}
 
 buildPubMedAbst <- function(xml) {
     ## Passed in a XML tree detailing a single article
