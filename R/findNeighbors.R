@@ -41,16 +41,27 @@ findNeighbors <- function(chrLoc, llID, chromosome, upBase, downBase,
                                  get(paste(chrLoc, chromosome,
                                            "END", sep = ""))),
                         use.names = TRUE)
-        # greb the ones in the range
-        foundUp <- weightByConfi(start[start >= upperB & start <= downB])
-        foundDown <- weightByConfi(end[end <= downB & end >= upperB])
-
-        if(length(foundUp) != 0 || length(foundDown) != 0){
-            if(mergeOrNot){
-                neighbors[[as.character(i)]] <- unique(c(foundUp, foundDown))
-            }else{
-                neighbors[[as.character(i)]] <- list(upstream = foundUp,
-                                                     downstream = foundDown)
+        if(!missing(llID)){
+            # greb the ones in the range
+            foundUp <- weightByConfi(start[start > upperB &
+                                           start < location])
+            foundDown <- weightByConfi(end[end < downB &
+                                           end > location])
+            if(length(foundUp) != 0 || length(foundDown) != 0){
+                if(mergeOrNot){
+                    neighbors[[as.character(i)]] <- unique(c(foundUp,
+                                                             foundDown))
+                }else{
+                    neighbors[[as.character(i)]] <-
+                        list(upstream = foundUp, downstream = foundDown)
+                }
+            }
+        }else{
+            found <- weightByConfi(c(start[start >= upperB &
+                                           start <= location],
+                                     end[end <= downB & end >= location]))
+            if(length(found) != 0){
+                 neighbors[[as.character(i)]] <- unique(found)
             }
         }
     }
