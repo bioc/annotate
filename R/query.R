@@ -1,35 +1,43 @@
 #Copyright 2001 R.Gentleman, all rights reserved
 #functions to look up particular genes at different sites
 
+openBrowser <- function(query) {
+    OST <- .Platform$OS.type
+    if( OST == "windows" ) {
+        shell.exec(query)
+    }
+    else if( OST == "unix" ) {
+        if (is.null(getOption("browser")))
+            stop("options(\"browser\") not set")
+        browser <- getOption("browser")
+        system(paste(browser, " -remote \"openURL(",
+                     query, ")\" 2>/dev/null || ", browser, " ",
+                     query, " &", sep = ""))
+    }
+    else {
+        msg <- paste("don't know how to open the browser on", OST)
+        stop(msg)
+    }
+    return(NULL)
+}
+
 locuslink <- function(geneid, lladdress =
     "http://www.ncbi.nlm.nih.gov/LocusLink/") {
     if(is.na(geneid))
        stop("gene id is NA, cannot proceed")
     whichq <- "LocRpt.cgi?l="
     query <- paste(lladdress, whichq, geneid, sep="")
-    if (is.null(getOption("browser")))
-       stop("options(\"browser\") not set")
-    browser <- getOption("browser")
-    system(paste(browser, " -remote \"openURL(",
-              query, ")\" 2>/dev/null || ", browser, " ",
-              query, " &", sep = ""))
-    return(invisible())
+    openBrowser(query)
 }
 
 genbank <- function(geneid, gbaddress) {
     if(is.na(geneid))
        stop("gene id is NA, cannot proceed")
     if(missing(gbaddress))
-       gbaddress <- "http://www3.ncbi.nlm.nih.gov/"
+       gbaddress <- "http://www.ncbi.nlm.nih.gov/"
     qname <- "htbin-post/Entrez/query?db=2&form=1&term="
     query <- paste(gbaddress, qname, geneid, sep="")
-    if (is.null(getOption("browser")))
-       stop("options(\"browser\") not set")
-    browser <- getOption("browser")
-    system(paste(browser, " -remote \"openURL(",
-              query, ")\" 2>/dev/null || ", browser, " ",
-              query, " &", sep = ""))
-    return(invisible())
+    openBrowser(query)
 }
 
 genelocator <- function(x) {
