@@ -65,14 +65,13 @@ if(!isGeneric("print")){
 }
 setMethod("print", "homoData",
           function(x, ...) {
-               print("An object of class homoData")
-               print(paste("Organism =", homoOrg(x)))
-               print(paste("Locuslink ID =", homoLL(x)))
-               print(paste("Internal HomoloGene id =", homoHGID(x)))
-               print(paste("GenBank accession number =", homoACC(x)))
-               print(paste("Type of similarity =", homoType(x)))
-               print(paste("Percent similarity =", homoPS(x)))
-               print(paste("URL for percent similarity =", homoURL(x)))
+               print(paste("homoOrg:", homoOrg(x)))
+               print(paste("homoLL:", homoLL(x)))
+               print(paste("homoHGID:", homoHGID(x)))
+               print(paste("homoACC:", homoACC(x)))
+               print(paste("homoType:", homoType(x)))
+               print(paste("homoPS:", homoPS(x)))
+               print(paste("homoURL:", homoURL(x)))
            })
 
 
