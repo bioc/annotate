@@ -76,16 +76,16 @@ buildPubMedAbst <- function(xml) {
     on.exit(options(show.error.messages=TRUE))
 
     ## Retrieve Article Title
-    articleTitle <- xmlArticle[[1]]["ArticleTitle"]
+    articleTitle <- xmlArticle[[1]][["Article"]]
     articleTitle <-
-    try(as.character(xmlChildren(articleTitle[[1]])$text)[5])
+    try(as.character(xmlChildren(articleTitle)$text)[6])
     if (inherits(articleTitle,"try-error") == TRUE) {
         articleTitle <- "No Title Provided"
     }
 
     ## Retrieve the abstract
     abstText <- xmlArticle[[1]]["Abstract"][[1]]["AbstractText"]
-    abstText <- try(as.character(xmlChildren(abstText[[1]])$text)[5])
+    abstText <- try(as.character(xmlChildren(abstText[[1]])$text)[6])
    if (inherits(abstText,"try-error") == TRUE) {
        abstText <- "No Abstract Provided"
    }
@@ -97,13 +97,13 @@ buildPubMedAbst <- function(xml) {
         xmlArticle[[1]]["Journal"][[1]]["JournalIssue"][[1]]["PubDate"]
     pubDateMonth <- pubDateBase[[1]]["Month"]
     pubDateMonth <-
-        try(as.character(xmlChildren(pubDateMonth[[1]])$text)[5])
+        try(as.character(xmlChildren(pubDateMonth[[1]])$text)[6])
     if (inherits(pubDateMonth,"try-error") == TRUE) {
         pubDateMonth <- "Month"
     }
     pubDateYear <- pubDateBase[[1]]["Year"]
     pubDateYear <-
-        try(as.character(xmlChildren(pubDateYear[[1]])$text)[5])
+        try(as.character(xmlChildren(pubDateYear[[1]])$text)[6])
     if (inherits(pubDateYear, "try-error") == TRUE) {
         pubDateYear <- "Year"
     }
@@ -113,7 +113,7 @@ buildPubMedAbst <- function(xml) {
     ## Get the journal this was published in
     journal <-
         xml["MedlineCitation"][[1]]["MedlineJournalInfo"][[1]]["MedlineTA"]
-    journal <- try(as.character(xmlChildren(journal[[1]])$text)[5])
+    journal <- try(as.character(xmlChildren(journal[[1]])$text)[6])
     if (inherits(journal,"try-error") == TRUE) {
         journal <- "No Journal Provided"
     }
@@ -130,29 +130,23 @@ buildPubMedAbst <- function(xml) {
         for (i in 1:numAuthors) {
             curAuthor <- authorList[[1]][i]
             last <-
-                try(as.character(xmlChildren(curAuthor[[1]]["LastName"][[1]])$text)[5])
+                try(as.character(xmlChildren(curAuthor[[1]]["LastName"][[1]])$text)[6])
             if (inherits(last,"try-error") == TRUE) {
                 last <- "LastName"
             }
 
-            first <-
-                try(as.character(xmlChildren(curAuthor[[1]]["ForeName"][[1]])$text)[5])
-            if (inherits(first,"try-error") == TRUE) {
-                first <- "FirstName"
+            initial <-
+                try(as.character(xmlChildren(curAuthor[[1]]["Initials"][[1]])$text)[6])
+            if (inherits(initial,"try-error") == TRUE) {
+                initial <- "M"
             }
 
-            mid <-
-                try(as.character(xmlChildren(curAuthor[[1]]["Initials"][[1]])$text)[5])
-            if (inherits(mid,"try-error") == TRUE) {
-                mid <- "M"
-            }
-
-            authors[i] <- paste(first,mid,last)
+            authors[i] <- paste(initial,last)
         }
     }
 
     abstUrl <-
-        try(as.character(xmlChildren(xml["PubmedData"][[1]]["URL"][[1]])$text)[5])
+        try(as.character(xmlChildren(xml["PubmedData"][[1]]["URL"][[1]])$text)[6])
     if (inherits(abstUrl,"try-error") == TRUE) {
         abstUrl <- "No URL Provided"
     }
