@@ -5,7 +5,7 @@
                standardGeneric("pubMedAbst"), where=where)
 
     setClass("pubMedAbst",
-             representation(authors="vector", abstText="character",
+             representation(pmid="character", authors="vector", abstText="character",
              articleTitle="character", journal="character",
              pubDate="character", abstUrl="character"), where=where)
 
@@ -49,6 +49,10 @@
         setGeneric("abstUrl",function(object)
                    standardGeneric("abstUrl"),where=where)
 
+    if (is.null(getGeneric("pmid")))
+        setGeneric("pmid", function(object)
+                   standardGeneric("pmid"), where=where)
+
     ## Methods
     setMethod("authors", "pubMedAbst", function(object)
               object@authors, where=where)
@@ -62,18 +66,28 @@
               object@pubDate, where=where)
     setMethod("abstUrl", "pubMedAbst", function(object)
               object@abstUrl, where=where)
+    setMethod("pmid", "pubMedAbst", function(object)
+              object@pmid, where=where)
 }
 
 buildPubMedAbst <- function(xml) {
     ## Passed in a XML tree detailing a single article
     ## will parse the XML and create a new class
 
-    xmlArticle <- xml["MedlineCitation"][[1]]["Article"]
+    xmlMedline <- xml["MedlineCitation"][[1]]
+    xmlArticle <- xmlMedline["Article"]
 
     ## Disable error messages, and wrap potential error causers
     ## w/ trys
     options(show.error.messages = FALSE)
     on.exit(options(show.error.messages=TRUE))
+
+    ## Get the PMID
+    pmid <- xmlMedline["PMID"][[1]]
+    pmid <- try(as.character(xmlChildren(pmid)$text)[6])
+    if (inherits(pmid,"try-error") == TRUE) {
+        pmid <- "No PMID Provided"
+    }
 
     ## Retrieve Article Title
     articleTitle <- xmlArticle[[1]][["Article"]]
@@ -156,7 +170,7 @@ buildPubMedAbst <- function(xml) {
 
     newPMA <- new("pubMedAbst", articleTitle=articleTitle,
                   abstText=abstText, pubDate=pubDate,authors=authors,
-                  journal=journal,abstUrl=abstUrl)
+                  journal=journal,abstUrl=abstUrl, pmid=pmid)
 
     return(newPMA)
 }
