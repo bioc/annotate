@@ -85,7 +85,7 @@ name. Each data package in the CHRLOC group has LocusLink ids mapped
 to chromosomal location where transcription of genes corresponding to
 the LocusLink ids begins and ends. There is a START and END
 environment for LocusLink ids on each of the chromosomes
-(e. g. \Robject{humanCHRLOC1START} and \Rboject{humanCHRLOC1END} for human chromosome
+(e. g. \Robject{humanCHRLOC1START} and \Robject{humanCHRLOC1END} for human chromosome
 number 1). Each library in the LLMappings group provides
 mappings/reverse mappings between LocusLink ids and some other
 commonly used public repository identifiers. Environment names are a
