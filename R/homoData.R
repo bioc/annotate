@@ -60,25 +60,25 @@ setMethod("homoHGID", "homoData",
 
 setMethod("show", "homoData",
           function(object) {
-              if(!is.na(homoOrg(object))){
+              if(length(homoOrg(object)) > 0 && !is.na(homoOrg(object))){
                   cat(paste("homoOrg:", homoOrg(object)))
               }
-              if(!is.na(homoLL(object))){
+              if(length(homoLL(object)) > 0 && !is.na(homoLL(object))){
                   cat(paste("\nhomoLL:", homoLL(object)))
               }
-              if(!is.na(homoHGID(object))){
+              if(length(homoHGID(object)) > 0 && !is.na(homoHGID(object))){
                   cat(paste("\nhomoHGID:", homoHGID(object)))
               }
-              if(!is.na(homoACC(object))){
+              if(length(homoACC(object)) > 0 && !is.na(homoACC(object))){
                   cat(paste("\nhomoACC:", homoACC(object)))
               }
-              if(!is.na(homoType(object))){
+              if(length(homoType(object)) > 0 && !is.na(homoType(object))){
                   cat(paste("\nhomoType:", homoType(object)))
               }
-              if(!is.na(homoPS(object))){
+              if(length(homoPS(object)) > 0 && !is.na(homoPS(object))){
                   cat(paste("\nhomoPS:", homoPS(object)))
               }
-              if(!is.na(homoURL(object))){
+              if(length(homoURL(object)) > 0 && !is.na(homoURL(object))){
                   cat(paste("\nhomoURL:", homoURL(object)))
               }
               cat("\n")
