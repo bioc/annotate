@@ -4,10 +4,8 @@
 \alias{getGOdesc}
 \alias{getPMID}
 \alias{getLL}
-\alias{contents}
 \alias{lookUp}
 \alias{getUniqAnnItem}
-\alias{contents,environment-method}
 \title{Functions to deal with Data Packages}
 \description{
   The functions documented here are intended to make it easier to map
@@ -20,15 +18,12 @@ getLL(x, data)
 getGO(x, data)
 getPMID(x, data)
 getGOdesc(x, which)
-contents(object)
 lookUp(x, data, what)
 getUniqAnnItem()
 }
 \arguments{
   \item{x}{The identifiers to be mapped (usually manufacturer)}
   \item{data}{A character string identifying the data source }
-  \item{object}{The environment (data table) that you want to get all
-    contents from}
   \item{what}{\code{what} a character string for the name of an
     annotation element of an annotation data package}
   \item{which}{\code{which} a character string in the form of MF, BP,
