@@ -27,6 +27,8 @@
         where <- pos.to.env(where)
     }
 
+    options(pdfViewer="acroread")
+
     .initChromLoc(where)
     .initChromLocation(where)
     .initPubMedAbst(where)
