@@ -1,6 +1,7 @@
 \name{pubMedAbst-class}
 \docType{class}
 \alias{pubMedAbst-class}
+\alias{pubMedAbst}
 \alias{authors}
 \alias{abstText}
 \alias{articleTitle}
