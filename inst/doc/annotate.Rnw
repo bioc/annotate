@@ -88,7 +88,8 @@ In the following example we show how to produce a simple web page with
 links to Locus Link (at NCBI) for genes that were selected according
 to some criteria.
 
-<<annotate>>=
+%%<<annotate>>=
+<<>>=
  ## load up the libraries
 
  library(Biobase)
