@@ -20,4 +20,4 @@ makeAnchor(link, title, toMain = FALSE)
 \examples{
 makeAnchor("http://www.bioconductor.org","Bioconductor")
 }
-\keyword{Utilities}
+\keyword{utilities}
