@@ -1,9 +1,12 @@
-makeAnchor <- function(link, title) {
+makeAnchor <- function(link, title, toMain=FALSE) {
     ## Takes a vector of links and a vector of titles -
     ## returns a vector of anchors.
 
     ## !! Should allow links to be URL objects as well as strings
-    out <- paste("<A HREF=",link,">",title,"</A>",sep="")
+    out <- paste("<A HREF=",link,sep="")
+    if (toMain)
+        out <- paste(out," target=\"main\"", sep="")
+    out <- paste(out,">",title,"</A>",sep="")
     out
 }
 
@@ -82,7 +85,16 @@ makeAnchor <- function(link, title) {
     }, where=where)
 
     setMethod("initialize", "FramedHTMLPage",
-              function(.Object) {
+              function(.Object, topPage=new("HTMLPage"),
+                       sidePage=new("HTMLPage"),
+                       mainPage=new("HTMLPage"),
+                       fileName=new("character"),
+                       pageTitle=new("character")) {
+                  .Object@pageTitle <- pageTitle
+                  .Object@fileName <- fileName
+                  .Object@topPage <- topPage
+                  .Object@sidePage <- sidePage
+                  .Object@mainPage <- mainPage
                   topName <- fileName(topPage(.Object))
                   sideName <- fileName(sidePage(.Object))
                   mainName <- fileName(mainPage(.Object))
@@ -91,10 +103,10 @@ makeAnchor <- function(link, title) {
                   t <- paste("<TITLE>",pageTitle(.Object),"</TITLE>")
                   out <- paste(out,t,"</HEAD>",
                                "<frameset rows=\"70,*\" border =\" 0\" frameborder=\" no\" framespacing =\" 0\">",
-                               "  <frame name=\"banner\" scrolling=\"no\" noresize target=\"contents\" src=\"topName\" marginwidth=\"0\" marginheight=\"0\">",
-                               "  <frameset cols=\"177,*\">",
-                               "    <frame name=\"contents\" target=\"main\" src=\"sideName\" marginwidth=\"10\" marginheight=\"10\" scrolling=\"auto\" noresize>",
-                               "    <frame name=\"main\" scrolling=\"auto\" noresize src=\"\" marginwidth =\" 10\" marginheight =\" 10\" target=\"_self\">",
+                               "  <frame name=\"banner\" scrolling=\"no\" noresize target=\"contents\" src=\"",topName,"\" marginwidth=\"0\" marginheight=\"0\">",
+                               "  <frameset cols=\"250,*\">",
+                               "    <frame name=\"contents\" target=\"main\" src=\"",sideName,"\" marginwidth=\"10\" marginheight=\"10\" scrolling=\"auto\" noresize>",
+                               "    <frame name=\"main\" scrolling=\"auto\" noresize src=\"",mainName,"\" marginwidth =\" 10\" marginheight =\" 10\" target=\"_self\">",
                                "  </frameset>","  <noframes>","  <body>","",
                                "  <p>This page uses frames, but your browser doesn't support them.</p>",
                                "", "  </body>","  </noframes>",

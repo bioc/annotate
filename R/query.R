@@ -322,6 +322,72 @@ genelocator <- function(x) {
   }
 }
 
+pmAbst2html2 <- function(absts, baseFilename,
+                         title,
+                         table.center=TRUE) {
+    if (!is.list(absts)) {
+        if (is(absts,"pubMedAbst"))
+            absts <- list(absts)
+        else
+            stop("'absts' parameter does not seem to be valid.")
+    }
+
+    if (missing(baseFilename))
+        baseFilename <- ""
+    if (missing(title))
+        title <- "BioConductor Abstract List"
+
+    topText <- paste("<html>\n<head>\n<title>Bioconductor Abstract List</title>",
+                     "\n</head>\n<body bgcolor=#708090>\n",
+                     "<H1 ALIGN=CENTER>BioConductor Abstract List</H1>\n",
+                     "</body></title>", sep="")
+    top <- new("HTMLPage", fileName=paste(baseFilename,"Top.html",sep=""),
+               pageText= topText)
+
+    head <- c("Article Title", "Publication Date")
+    headOut <- paste("<TH>", head, "</TH>", collapse="\n")
+    tableHeader <- paste("<TR>",headOut,"</TR>", sep="\n")
+    sideText <- paste("<TABLE BORDER=1>", tableHeader, sep="\n")
+
+    nrows = length(absts)
+    pmids <- unlist(lapply(absts,pmid))
+    dates <- unlist(lapply(absts,pubDate))
+    queries <- unlist(lapply(absts,
+                             function(x){pm <- pmid(x);out<-pmidQuery(pm);out}))
+    titles <- unlist(lapply(absts, articleTitle))
+    anchors <- makeAnchor(queries, titles, toMain=TRUE)
+    tds <- paste("<TD>",anchors,"</TD><TD>",dates,"</TD>",sep="",
+                 collapse="\n</TR>\n<TR>\n")
+    tds <- paste("<TR>",tds,"</TR>")
+    sideText <- paste(sideText, tds)
+    if (table.center)
+        sideText <- paste("<CENTER>",sideText,"</CENTER>", sep="\n")
+    sideText <- paste("<html>", "<head>",
+                      "<title>BioConductor Abstract List</title>",
+                      "</head>","<body bgcolor=#708090>",
+                      sideText, "</body>", "</html>", sep="\n")
+    side <- new("HTMLPage",
+                fileName=paste(baseFilename,"Side.html",sep=""),
+                pageText=sideText)
+
+    metaText <- paste("<meta HTTP-EQUIV=\"REFRESH\" CONTENT=\"1;",
+                      queries[1],"\">",sep="")
+    mainText <- paste("<html>", "<head>",
+                      "<title>BioConductor Abstract List</title>",
+                      "</head>","<body bgcolor=#708090>",
+                      metaText,
+                      "</body>","</html>", sep="\n")
+
+    main <- new("HTMLPage",
+                fileName=paste(baseFilename,"Main.html",sep=""),
+                pageText=mainText)
+
+    page <- new("FramedHTMLPage", topPage=top, sidePage=side, mainPage=main,
+                fileName=paste(baseFilename,"index.html",sep=""),
+                pageTitle=title)
+    toFile(page)
+}
+
 pmAbst2html <- function(absts, filename, title, simple=TRUE,
                       table.center=TRUE) {
     ## Currently just a very naive implementation of a pmid2html type
