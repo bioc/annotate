@@ -1,6 +1,6 @@
 \name{chromLocation-class}
 \docType{class}
-\alias{chromLocation}
+\alias{chromLocation-class}
 \alias{species}
 \alias{datSource}
 \alias{nChrom}
