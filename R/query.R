@@ -189,6 +189,8 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 
 
 .handleXML <- function(query,handlers=NULL) {
+    ## In the case of an error retrieving proper XML output,
+    ## will return NA to the calling function
     require(XML) || stop("Sorry, you need the XML package!")
     options(show.error.messages = FALSE)
     on.exit(options(show.error.messages = TRUE))
@@ -197,8 +199,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     options(show.error.messages = TRUE)
 
     if (inherits(xml,"try-error") == TRUE) {
-        print("Could not retrieve XML data, please check your settings.")
-        print("Returning an object of class try-error")
+        return(NA)
     }
 
     return(xml)
