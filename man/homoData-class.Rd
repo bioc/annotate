@@ -68,9 +68,6 @@ Objects can be created by calls of the form \code{new("homoData", ...)}.
 \note{This function is part of the Bioconductor project at Dana-Farber
   Cancer Institute to provide Bioinfomatics functionalities throug R}
 
-\seealso{
-  \code{\link{homoPkgBuilder}}
-}
 \examples{
     new("homoData", homoPS = 82.3, homoLL = 2324853, homoOrg = "Homo sapins",
 homoType = "B", homoURL = "", homoHGID = 12345)

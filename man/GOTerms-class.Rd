@@ -73,9 +73,6 @@
 \note{GOTerms objects are used to represent GO terms for primary GO
   nodes in the annotation data package GO}
 
-\seealso{
-  \code{\link{GOPkgBuilder}}
-}
 \examples{
   goTerms <- new("GOTerms", GOID = "GO:1234567", Term = "Test",
                  Ontology = "MF")
