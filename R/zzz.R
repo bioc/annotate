@@ -7,11 +7,11 @@
 
     Annotate <- list()
     class(Annotate) <- "BioCPkg"
-    Annotate$urls <- list()
-    Annotate$urls$ncbi <- "http://www.ncbi.nih.gov/"
+    Annotate$urls <- list( ncbi = "http://www.ncbi.nih.gov/",
+          data="http://www.bioconductor.org/datafiles/annotate/")
 
     BioC <- getOption("BioC")
-    BioC$Annotate <- Annotate
+    BioC$annotate <- Annotate
     options("BioC"=BioC)
 }
 

@@ -202,7 +202,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")[1]) {
     BioCOpt <- getOption("BioC")
 
     if (!is.null(BioCOpt)) {
-        ncbiURL <- BioCOpt$Annotate$urls$ncbi
+        ncbiURL <- BioCOpt$annotate$urls$ncbi
     }
 
     if (!exists("ncbiURL")) {
