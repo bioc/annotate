@@ -16,7 +16,7 @@ findNeighbors <- function(chrLoc, llID, chromosome, upBase, downBase){
     if(missing(chromosome)){
         chromosome <- findChr4LL(llID, get(paste(chrLoc,
                                                  "LOCUSID2CHR", sep = "")),
-                                 get(paste(chrLoc,"ORGANISM", sep = "")))
+                                gsub("CHRLOC", "", chrLoc))
     }
     if(!missing(llID)){
         # Find the location for the target gene
