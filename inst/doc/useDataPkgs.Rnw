@@ -1,5 +1,5 @@
 % \VignetteIndexEntry{Using Data Packages}
-% \VignetteDepends{hgu95av2, GO(>= 1.6.0), hsahomology, xlahomology, zebrafish, xenopuslaevis}
+% \VignetteDepends{hgu95av2, GO(>= 1.6.0)}
 % \VignetteKeywords{Annotation}
 %\VignettePackage{annotate}
 
@@ -60,7 +60,7 @@ generic data for various genomes.
 
 Each annotation library, when installed, contains a \texttt{data} and
 \texttt{man} subdirectory filled with assembled data and documentation
-about the data, respectively. Assembled data are stored as binary R
+about the data, respectively. Most assembled data are stored as binary R
 environment objects (hash table with key-value pairs) associating annotation
 values to a set of keys. For each environment object in the
 \texttt{data} directory, there is a corresponding help file in the

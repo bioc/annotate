@@ -1,5 +1,5 @@
 % \VignetteIndexEntry{Using the homology package}
-% \VignetteDepends{annotate(>= 1.4.2, homology(>= 1.6.0}
+% \VignetteDepends{annotate(>= 1.4.2), hsahomology, xlahomology, zebrafish, xenopuslaevis}
 % \VignetteKeywords{Annotation}
 %\VignettePackage{annotate}
 
@@ -18,7 +18,7 @@
 \usepackage{times}
 
 \begin{document}
-\title{How to use the \Rpackage{homology} packages}
+\title{How to use the homology packages}
 
 \author{Jianhua Zhang \and Ben Wittner}
 \date{}
@@ -26,35 +26,33 @@
 
 \section*{Introduction}
 
-The \Rpackage{homology} packages was built based on a source
+The homology packages are a group of data packages built based on a source
 data file provided by HomoloGene
-(\url{http://www.ncbi.nlm.nih.gov/HomoloGene/}).
-This vignette illustrates how to use the \Rpackage{homology} packages
-to explore the homologous relationships among organisms. Two or more
-organisms have homologous relationships if their genes share an
-arbitrary threshold level of similarity determined by alignment of
-matching bases.
+(\url{http://www.ncbi.nlm.nih.gov/HomoloGene/}). There is a separate
+package for each individual organism. This vignette illustrates how to
+use the homology packages to explore the homologous relationships
+among organisms. Two or more organisms have homologous relationships
+if their genes share an arbitrary threshold level of similarity
+determined by alignment of matching bases.
 
-This vignette demonstrates the usage of the \Rpackage{homology}
-packages by performing two tasks to introduce users to the
-packages, although the potential use of the packages is well beyond the
-scope of the tasks.
+This vignette demonstrates the usage of the homology packages by
+performing two tasks to introduce users to the packages, although the
+potential use of the packages is well beyond the scope of the tasks.
 
-\section*{Contents of the package}
+\section*{Contents of the packages}
 
-The \Rpackage{homology} packages are built on organism
-bases with a separate data package for each of the species contained
-in the source file. The packages are named following a convention of
-\Rpackage{XXXhomology} where XXX are a three letter string consisting of the
-first letter of the genus name and the first two letters of the
-species name of a given organism. For example, hsahomology is the
-package for human (Homo sapiens).
+The homology packages are built on organism bases with a separate data
+package for each of the species contained in the source file. The
+packages are named following a convention of \Rpackage{XXXhomology}
+where XXX are a three letter string consisting of the first letter of
+the genus name and the first two letters of the species name of a
+given organism. For example, hsahomology is the package for human
+(Homo sapiens).
 
-As other Bioconductor data packages, the \Rpackage{homology} packages
-contains environment objects in the \texttt{data} subdirectory that
-will be loaded when the package is loaded. A full list of the
-environment objects is shown below (using the package for human as an
-example:
+As other Bioconductor data packages, the homology packages contains
+environment objects in the \texttt{data} subdirectory that will be
+loaded when the package is loaded. A full list of the environment
+objects is shown below (using the package for human as an example):
 
 <<>>=
 library("annotate")
