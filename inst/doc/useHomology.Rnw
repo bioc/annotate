@@ -26,7 +26,7 @@
 
 \section*{Introduction}
 
-The \Rpackage{homology} package is built based on a source
+The \Rpackage{homology} package was built based on a source
 data file provided by HomoloGene
 (\url{http://www.ncbi.nlm.nih.gov/HomoloGene/}).
 This vignette illustrates how to use the \Rpackage{homology} package
@@ -45,8 +45,7 @@ scope of the tasks.
 As other Bioconductor data packages, the \Rpackage{homology} package
 contains environment objects in the \texttt{data} subdirectory that
 will be loaded when the package is loaded. A full list of the
-environment objects is shown below (based on version
-\Sexpr{packageDescription("homology")$Version} of \Rpackage{homology}):
+environment objects is shown below:
 
 <<>>=
 library("annotate")
@@ -54,25 +53,24 @@ library("homology")
 homology()
 @
 
-Each environment object contains data for homologous genes found in
-other organisms that have shown homologous relationships with the organism
-specified by the organism code (used by NCBI for organism) following the
-\texttt{homology} portion of the name for the environment. For example,
-\Robject{homology9606} relates human genes to genes in other
-organisms. Organism codes
-and the corresponding scientific names of organisms can be accessed
-using the \Robject{homologyORGCODE} and are shown below:
+Objects with the organism specified by the organism code (used by NCBI
+for organism) following the \texttt{homology} portion of the name
+contains all the HomoloGeneIDs for the organism. For example,
+\Robject{homology9606} contains all the HomoloGeneIDs for
+human. Organism codes and the corresponding scientific names of
+organisms can be accessed using the \Robject{homologyORGCODE} and are
+shown below:
 
 <<>>=
 homologyORGCODE
 @
 
-Environments with an organism code component in their names have
-HomologGeneIDs as keys and lists of \Rclass{homoData} objects for other
-organisms that have been identified to have homology relationships as
-the corresponding values. The list for a given HomologGene ID may have
-one or more \Rclass{homoData} objects depending on whether homology
-relationships have been identified in only one or more other organisms.
+\Robject{homologyDATA} has HomoloGeneIDs as keys and lists of
+\Rclass{homoData} objects for other organisms that have been
+identified to have homology relationships as the corresponding
+values. The list for a given HomologGene ID may have one or more
+\Rclass{homoData} objects depending on whether homology relationships
+have been identified in only one or more other organisms.
 
 A \Rclass{homoData} object has slots for the name of the organism
 (homoOrg), LocusLink ID (homoLL), HomologGeneID (homoHGID), GenBank
@@ -89,11 +87,11 @@ homoType = c will not have any value for homoPS.
 
 The \Robject{homologyLL2HGID} environment contains mappings between
 LocusLink identifiers and HGIDs (HomoloGene IDs used by HomoloGene to
-represent sequences). This environment allows users to map
-LocusLink ids to HGIDs and then use the obtained HGIDs to locat homologous
-genes in other organisms using the environment that contains data for
-homologous genes found in other organisms.
-
+represent sequences represented by the LocusLink ids). This
+environment allows users to map LocusLink ids to HGIDs and then use
+the obtained HGIDs to locat homologous genes in other organisms using
+the environment that contains data for homologous genes found in other
+organisms using \Robject(homologyDATA).
 
 
 \subsection{Use \Rpackage{homology} to explore homologous
@@ -101,45 +99,31 @@ homologous genes found in other organisms.
 
 \subsubsection{Task 1}
 
-Given LocusLink id 13797 in human, how to find all other species
+Given LocusLink id 25 in human, how to find all other species
 containing homologous genes of best best matches with percent
 similarity values above 80.00?
 
-First, we need to know which environment contains the data we
-need by finding out the organism code for humans.
-
-<<>> =
-homologyORGCODE["Homo sapiens"]
-@
-
-%%FIXME: 13797 is a mouse locus link id....
-Now we start with the LocusLink ID 13797 and look for homologous
-genes. Note that this is a mouse gene and so we need to start with the
-mouse mappings (Mus musculus).
+First we call a function \Rfunction{LL2homology} in
+\Rpackage{annotate} to obtain data for all the homologous genes of
+LocusLink id 25.
 
 <<>>=
-homoGenes <- homology9606[[as.character(homologyLL2HGID[["13797"]])]]
+homoGenes <- LL2homology("25")
 @
 
-\Robject{homoGenes} is a list of \Rclass{homoData} objects. We are only
-interested in genes that are best best matches (homoType = B) to
-LocusLink id 13797 with percent identity values greater than
-80.00. The following code filters out those genes:
+\Robject{homoGenes} is a list of \Rclass{homoData} objects. We are
+only interested in genes that are best best matches (homoType = B) to
+LocusLink id 25 with percent identity values greater than 80.00. The
+following code finds and prints the names of the organisms and
+LocusLink IDs and HGIDs for genes that satisfy the conditions:
 
 <<>>=
-goodG = sapply(homoGenes, function(x) {
-        if(homoType(x) == "B" && homoPS(x) > 80.00)
-            TRUE
-        else
-            FALSE})
+# A given LocusLink id may be mapped to more than one HGID. Use the
+# data for the first one here
+goodG <- sapply(homoGenes[[1]], function(x){
+    (homoType(x) == "B" && homoPS(x) > 80.00)})
 
-geneList = homoGenes[goodG]
-@
-
-The names of the organisms and LocusLink IDs and HGIDs for genes that
-satisfy the conditions are:
-
-<<>>=
+geneList <- homoGenes[[1]][goodG]
 sapply(geneList, function(x) homoOrg(x))
 sapply(geneList, function(x) homoLL(x))
 sapply(geneList, function(x) homoHGID(x))
@@ -148,8 +132,8 @@ sapply(geneList, function(x) homoHGID(x))
 \subsubsection{Task 2}
 
 Find all the genes in \texttt{Xenopus laevis} that are homologous to
-genes of \texttt{Danio rerio} with percent identity (homoType = B or
-b) values greater than 90.00.
+genes of \texttt{Danio rerio} with percent identity values greater
+than 90.00.
 
 The organism code for \texttt{Xenopus laevis} is:
 
@@ -157,56 +141,39 @@ The organism code for \texttt{Xenopus laevis} is:
 homologyORGCODE["Xenopus laevis"]
 @
 
-Genes in \texttt{Xenopus laevis} that satisfy the conditions are:
-%%FIXME: don't see how the homoType gets used in this next code chunk
+The object containing homology data for \texttt{Xenopus laevis}
+is \Robject{homology8355}, which is a vector of HGIDs. Genes in
+\texttt{Xenopus laevis} that satisfy the conditions can be obtained
+using the following code chunk.
 
 <<>>=
-temp <- as.list(homology8355)
+temp <- mget(homology8355, homologyDATA)
 tempFun <- function(x){
-   found <- NULL
    for(i in x){
        if(!is.na(homoOrg(i)) && homoOrg(i) == "Danio rerio"
                                            && homoPS(i) > 90.00){
-           found <- homoLL(i)
+           return(i)
        }
    }
-   return(found)
+   return(NA)
 }
-goodGenes <- unlist(sapply(temp, tempFun))
+goodGenes <- sapply(temp, tempFun)
 goodGenes <- goodGenes[!is.na(goodGenes)]
 @
 
-%%FIXME: is this such a good idea? I think that only a few of the
-%%danio rerio genes will have LocusLink IDs; it will probably be
-%%better to use ACC - or perhaps HGIDs?
-\Robject{goodGenes} obtained above is a named vector with names being
-the HGIDs for genes in \texttt{Xenopus laevis} and values being the
-LocusLink ids for the homologous genes in \texttt{"Danio rerio"}. We
-would like to have a matrix with the LocusLink ids for genes in
-\texttt{Xenopus laevis} in one column and the LocusLink ids for
-homologous genes in \texttt{"Danio rerio"} in another column. The
-following code does that:
+\Robject{goodGenes} obtained above is a list of \Robject(homoData)
+objects. The names of the list are the HGIDs for genes in
+\texttt{Xenopus laevis} and the corresponding \Robject(homoData)
+objects contain information about the homologous genes in
+\texttt{"Danio rerio"}. The following code chunk gets the HGIDs and
+percent similarity of these homologous genes:
 
 <<>>=
-geneMat <- matrix(ncol = 2, nrow = 0)
-ll2HGID <- as.list(homologyLL2HGID)
-ll2HGID <- ll2HGID[!is.na(ll2HGID)]
-for(i in names(goodGenes)){
-    # HGIDs may be mapped to none, one, or more than one LocusLink ids
-    llIds <- ll2HGID[ll2HGID == as.numeric(i)]
-    if(length(llIds) == 0){
-        geneMat <- rbind(geneMat, c(NA, as.vector(goodGenes[i])))
-    }else{
-        geneMat <- rbind(geneMat, cbind(names(ll2HGID
-                    [ll2HGID == as.numeric(i)]), as.vector(goodGenes[i])))
-    }
-}
-geneMat
+    # Get the HGIDs
+    hgids <- unlist(sapply(goodGenes, homoHGID))
+    # Get the percent similarities
+    ps <- unlist(sapply(goodGenes, homoPS))
 @
-
-In the above example, HGID 633415 is mapped to two LocusLink IDs, HGID
-633558 and 633837 are not mapped to any LocusLink IDs, and HGID 633826
-is mapped to one LocusLink ID for \texttt{Xenopus laevis}.
 
 \end{document}
 
