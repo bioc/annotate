@@ -7,7 +7,7 @@
     setClass("pubMedAbst",
              representation(authors="vector", abstText="character",
              articleTitle="character", journal="character",
-             pubDate="character", url="character"), where=where)
+             pubDate="character", abstUrl="character"), where=where)
 
     ## Define accessors
     if (is.null(getGeneric("authors")))
@@ -30,9 +30,9 @@
         setGeneric("pubDate", function(object)
                    standardGeneric("pubData"), where=where)
 
-    if (is.null(getGeneric("url")))
-        setGeneric("url",function(object)
-                   standardGeneric("url"),where=where)
+    if (is.null(getGeneric("abstUrl")))
+        setGeneric("abstUrl",function(object)
+                   standardGeneric("abstUrl"),where=where)
 
     ## Methods
     setMethod("authors", "pubMedAbst", function(object)
@@ -45,8 +45,8 @@
               object@journal, where=where)
     setMethod("pubDate", "pubMedAbst", function(object)
               object@pubData, where=where)
-    setMethod("url", "pubMedAbst", function(object)
-              object@url, where=where)
+    setMethod("abstUrl", "pubMedAbst", function(object)
+              object@abstUrl, where=where)
 }
 
 buildPubMedAbst <- function(xml) {
@@ -55,47 +55,100 @@ buildPubMedAbst <- function(xml) {
 
     xmlArticle <- xml["MedlineCitation"][[1]]["Article"]
 
+    ## Disable error messages, and wrap potential error causers
+    ## w/ trys
+    options(show.error.messages = FALSE)
+    on.exit(options(show.error.messages=TRUE))
+
+    ## Retrieve Article Title
     articleTitle <- xmlArticle[[1]]["ArticleTitle"]
-    articleTitle <- as.character(xmlChildren(articleTitle[[1]])$text)[5]
-
-    abstText <- xmlArticle[[1]]["Abstract"][[1]]["AbstractText"]
-    abstText <- as.character(xmlChildren(abstText[[1]])$text)[5]
-
-    xmlJournal <- xmlArticle[[1]]["Journal"]
-    pubDateBase <- xmlJournal[[1]]["JournalIssue"][[1]]["PubDate"]
-    pubDateMonth <- pubDateBase[[1]]["Month"]
-    pubDateMonth <- as.character(xmlChildren(pubDateMonth[[1]])$text)[5]
-
-    journal <-
-        xml["MedlineCitation"][[1]]["MedlineJournalInfo"][[1]]["MedlineTA"]
-
-    journal <- as.character(xmlChildren(journal[[1]])$text)[5]
-
-    pubDateYear <- pubDateBase[[1]]["Year"]
-    pubDateYear <- as.character(xmlChildren(pubDateYear[[1]])$text)[5]
-    pubDate <- paste(pubDateMonth,pubDateYear)
-
-    authorList <- xmlArticle[[1]]["AuthorList"]
-    authors <- vector()
-    for (i in 1:length(xmlChildren(authorList[[1]]))) {
-        curAuthor <- authorList[[1]][i]
-        last <-
-            as.character(xmlChildren(curAuthor[[1]]["LastName"][[1]])$text)[5]
-        first <-
-            as.character(xmlChildren(curAuthor[[1]]["ForeName"][[1]])$text)[5]
-        mid <-
-            as.character(xmlChildren(curAuthor[[1]]["Initials"][[1]])$text)[5]
-
-        authors[i] <- paste(first,mid,last)
+    articleTitle <-
+    try(as.character(xmlChildren(articleTitle[[1]])$text)[5])
+    if (inherits(articleTitle,"try-error") == TRUE) {
+        articleTitle <- "No Title Provided"
     }
 
-    url <-
-        as.character(xmlChildren(xml["PubmedData"][[1]]["URL"][[1]])$text)[5]
+    ## Retrieve the abstract
+    abstText <- xmlArticle[[1]]["Abstract"][[1]]["AbstractText"]
+    abstText <- try(as.character(xmlChildren(abstText[[1]])$text)[5])
+   if (inherits(abstText,"try-error") == TRUE) {
+       abstText <- "No Abstract Provided"
+   }
 
+    ## Retrieve the date - get the year/month separately and then
+    ## join them at the end.  If no month or year provided, subst
+    ## "MontH" and "Year" respectively
+    pubDateBase <-
+        xmlArticle[[1]]["Journal"][[1]]["JournalIssue"][[1]]["PubDate"]
+    pubDateMonth <- pubDateBase[[1]]["Month"]
+    pubDateMonth <-
+        try(as.character(xmlChildren(pubDateMonth[[1]])$text)[5])
+    if (inherits(pubDateMonth,"try-error") == TRUE) {
+        pubDateMonth <- "Month"
+    }
+    pubDateYear <- pubDateBase[[1]]["Year"]
+    pubDateYear <-
+        try(as.character(xmlChildren(pubDateYear[[1]])$text)[5])
+    if (inherits(pubDateYear, "try-error") == TRUE) {
+        pubDateYear <- "Year"
+    }
+    ## Join up the date information
+    pubDate <- paste(pubDateMonth,pubDateYear)
+
+    ## Get the journal this was published in
+    journal <-
+        xml["MedlineCitation"][[1]]["MedlineJournalInfo"][[1]]["MedlineTA"]
+    journal <- try(as.character(xmlChildren(journal[[1]])$text)[5])
+    if (inherits(journal,"try-error") == TRUE) {
+        journal <- "No Journal Provided"
+    }
+
+    ## Build up a vector of author names, created by assembling the
+    ## pieces of each author's name.
+    authorList <- xmlArticle[[1]]["AuthorList"]
+    authors <- vector()
+    numAuthors <- try(length(xmlChildren(authorList[[1]])))
+    if (inherits(numAuthors,"try-error") == TRUE) {
+        authors[1] <- "No Author Information Provided"
+    }
+    else {
+        for (i in 1:numAuthors) {
+            curAuthor <- authorList[[1]][i]
+            last <-
+                try(as.character(xmlChildren(curAuthor[[1]]["LastName"][[1]])$text)[5])
+            if (inherits(last,"try-error") == TRUE) {
+                last <- "LastName"
+            }
+
+            first <-
+                try(as.character(xmlChildren(curAuthor[[1]]["ForeName"][[1]])$text)[5])
+            if (inherits(first,"try-error") == TRUE) {
+                first <- "FirstName"
+            }
+
+            mid <-
+                try(as.character(xmlChildren(curAuthor[[1]]["Initials"][[1]])$text)[5])
+            if (inherits(mid,"try-error") == TRUE) {
+                mid <- "M"
+            }
+
+            authors[i] <- paste(first,mid,last)
+        }
+    }
+
+    abstUrl <-
+        try(as.character(xmlChildren(xml["PubmedData"][[1]]["URL"][[1]])$text)[5])
+    if (inherits(abstUrl,"try-error") == TRUE) {
+        abstUrl <- "No URL Provided"
+    }
+
+    ## Restore error messages
+    options(show.error.messages=TRUE)
 
     newPMA <- new("pubMedAbst", articleTitle=articleTitle,
                   abstText=abstText, pubDate=pubDate,authors=authors,
-                  journal=journal,url=url)
+                  journal=journal,abstUrl=abstUrl)
+
     return(newPMA)
 }
 
