@@ -43,6 +43,6 @@ getGO <- function(x, data="hgu95a") {
                where=where)
 
   setMethod("contents", "environment",
-     function(object) 
-         multiget(ls(env=env), env=env), where=where)
+     function(object)
+         multiget(ls(env=object), env=object), where=where)
 }
