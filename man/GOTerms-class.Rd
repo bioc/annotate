@@ -1,17 +1,17 @@
 \name{GOTerms-class}
 \docType{class}
 \alias{GOTerms}
-\alias{GOID}
+\alias{GOId}
 \alias{Category}
 \alias{Definition}
-\alias{Term}
+\alias{Ontology}
 \alias{Secondary}
 \alias{Synonym}
 \alias{GOTerms-class}
 \alias{Category,GOTerms-method}
 \alias{Definition,GOTerms-method}
-\alias{GOID,GOTerms-method}
-\alias{Term,GOTerms-method}
+\alias{GOId,GOTerms-method}
+\alias{Ontology,GOTerms-method}
 \alias{Secondary,GOTerms-method}
 \alias{Synonym,GOTerms-method}
 \alias{print,GOTerms-method}
@@ -25,9 +25,9 @@
 }
 \section{Slots}{
   \describe{
-    \item{\code{GOID}:}{Object of class \code{"character"} A character
+    \item{\code{GOId}:}{Object of class \code{"character"} A character
       stirng for the GO id of a primary node}
-    \item{\code{Term}:}{Object of class \code{"character"} A
+    \item{\code{Ontology}:}{Object of class \code{"character"} A
       character string that defines the role of gene product
       corresponding to the primary GO id}
     \item{\code{Synonym}:}{Object of class \code{"character"} other
@@ -47,9 +47,9 @@
       for slot Category}
     \item{Definition}{\code{signature(object = "GOTerms")}: The get
       method for slot Definition}
-    \item{GOID}{\code{signature(object = "GOTerms")}: The get method for
-      slot GOID}
-    \item{Term}{\code{signature(object = "GOTerms")}: The get method
+    \item{GOId}{\code{signature(object = "GOTerms")}: The get method for
+      slot GOId}
+    \item{Ontology}{\code{signature(object = "GOTerms")}: The get method
       for slot Ontology}
     \item{Secondary}{\code{signature(object = "GOTerms")}: The get
       method for slot Secondary}
@@ -68,11 +68,20 @@
   \code{\link{GOPkgBuilder}}
 }
 \examples{
-  goTerms <- new("GOTerms", GOID = "GO:1234567", Term = "Test",
+  goTerms <- new("GOTerms", GOId = "GO:1234567", Ontology = "Test",
                  Category = "MF")
-  GOID(goTerms)
-  Term(goTerms)
+  GOId(goTerms)
+  Ontology(goTerms)
   Category(goTerms)
 }
 \keyword{classes}
+
+
+
+
+
+
+
+
+
 
