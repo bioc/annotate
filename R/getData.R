@@ -53,6 +53,6 @@ installDataPackage <- function(pkg, lib=.libPaths()[1]) {
     z <- getReposEntry("http://www.bioconductor.org/data/dataRepos")
     x <- install.packages2(pkg, z, lib=lib)
     if (length(statusList(x)) == 0)
-        stop(paste("Could not install data package",pkg,"from\n",
-                   repURL(z)))
+        stop(paste("Data package",pkg,"does not seem to exist",
+                   "in the Bioconductor\ndata package repository."))
 }
