@@ -176,21 +176,13 @@ buildPubMedAbst <- function(xml) {
 }
 
 pm.getabst <- function(geneids, basename) {
-    pmenvN <- paste(basename, "PMID", sep="")
-    do.call("require", list(package=basename)) || stop(paste("Library",
-##FIXME: use this after 1.7.0 is released
-##    require(basename, character.only=TRUE) || stop(paste("Library",
-                      basename,"is unavailable"))
-    if( !exists(pmenvN, mode = "environment") )
-        stop("could not access PubMed ids for this data")
-    pmenv <- get(pmenvN)
-    pmids <- multiget(geneids, env=pmenv)
+    pmids <- getPMID(geneids, basename)
     numids <- length(geneids)
     rval <- vector("list", length=numids)
     names(rval) <- geneids
     for(i in 1:numids) {
         pm <- pmids[[i]]
-        if( is.na(pm) )
+        if( length(pm)==1 && is.na(pm) )
             rval[[i]] <- NA
         else {
             absts <- pubmed(pm)

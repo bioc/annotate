@@ -8,6 +8,7 @@
 \alias{journal}
 \alias{pubDate}
 \alias{abstUrl}
+\alias{pmid}
 \title{Class pubMedAbst, a class to handle PubMed abstracts, and methods
 for processing them.}
 \description{  This is a class representation for PubMed abstracts. }
