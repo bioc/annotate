@@ -108,17 +108,17 @@ buildChromLocation <- function(dataPkg) {
         ## First handle the single mapped genes
         singleNames <- names(multis$"1")
         singleLocs <- chrLocs[singleNames]
-        chromNames <- unlist(sapply(singleLocs, function(y) {
-            if (is.na(y))
-                y
+        chromNames <- unlist(sapply(singleLocs, function(z) {
+            if (is.na(z))
+                z
             else
-                names(y)
+                names(z)
         }))
         chromNames <- factor(chromNames)
         a <- split(singleLocs, chromNames)
-        chrLocList <- lapply(a, function(x) {g <- unlist(lapply(x, function(y)
-                                                            {names(y) <- NULL;
-                                                             y})); g})
+        chrLocList <- lapply(a, function(x) {g <- unlist(lapply(x, function(z)
+                                                            {names(z) <- NULL;
+                                                             z})); g})
 
         ## Now handle the multi mapped genes
         ## !!! FIXME:
