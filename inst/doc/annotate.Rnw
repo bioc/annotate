@@ -96,11 +96,10 @@ identifiers.
 Annotation in the Bioconductor Project is handled by two systems. One,
 \Rpackage{AnnBuilder} is a system for assembling and relating the data from
 various sources. It is much more {\em industrial} and takes advantage
-of many different non-R tools. These include Perl and a relational
-database. The second package is {\em annotate}. This package is
-designed to provide experiment level annotation resources and to help
-users associate the outputs of \Rpackage{AnnBuilder} with their
-particular data.
+of many different non-R tools such as Perl and XML. The second package
+is {\em annotate}. This package is designed to provide experiment
+level annotation resources and to help users associate the outputs of
+\Rpackage{AnnBuilder} with their particular data.
 
 There will be some need for the structure of the meta-data packages to
 evolve over time and by making use of the functions provided in
