@@ -16,12 +16,16 @@ getSEQ(gi)
 \arguments{
   \item{accNum}{\code{accNum} a character string for a GenBank Accession
     number (i.e. M22490)}
-  \item{gi}{\code{gi} a character string or numberic numbers for a
-    GenBank accession number or gi number}
+  \item{gi}{\code{gi} a character string or numeric numbers for a
+    GenBank accession number or gi number. A gi number is a series of
+    digits that are assigned consecutively to each sequence record
+    processed by NCBI}
 }
 \details{
-  The NCBI database is quired for the given GenBank Accession number to
-  obtain the FASTA file for the nucleotide sequence.
+  The NCBI database is queried for the given GenBank Accession number to
+  obtain the nucleotide sequence in FASTA format. The leading
+  identification line of the sequence data is then dropped to return only
+  the nucleotide sequence.  
 
   getGI returns the gi number corresponding to a given GenBank accession
   number.
