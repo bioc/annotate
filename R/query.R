@@ -41,7 +41,7 @@ locuslinkQuery <- function(query,...,lladdress="LocusLink/", browse=TRUE) {
     params <- list(...)
     params <- unlist(params,use.names=FALSE)
 
-    if (is.na(query))
+    if (is.na(query) || length(query) == 0 )
         stop("No query, cannot proceed!")
 
     if (length(c(params)) == 0) {
@@ -61,8 +61,7 @@ locuslinkQuery <- function(query,...,lladdress="LocusLink/", browse=TRUE) {
 
     if (browse)
         browseURL(query)
-    else
-        return(query)
+    return(query)
 }
 
 locuslinkByID <- function(..., lladdress="LocusLink/", browse=TRUE) {
@@ -86,8 +85,7 @@ locuslinkByID <- function(..., lladdress="LocusLink/", browse=TRUE) {
 
     if (browse)
         browseURL(query)
-    else
-        return(query)
+   return(query)
 }
 
 genbank <- function(..., disp=c("data","browser"),
