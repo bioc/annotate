@@ -25,7 +25,7 @@
 \description{  This class provides chromosomal information provided by a
   Bioconductor metadata package.  By creating the object once for a
   particular package, it can be used in a variety of locations without
-  the need to recomputed values repeatedly 
+  the need to recomputed values repeatedly. 
 }
 \section{Creating Objects}{
 \code{  new('chromLocation',}\cr
