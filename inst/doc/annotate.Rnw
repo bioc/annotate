@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \usepackage{hyperref}
-
+% \VignetteIndexEntry{Annotation Overview}
 \begin{document}
 \title{Bioconductor: Annotation Package Overview}
 \maketitle{}
