@@ -13,11 +13,11 @@
          cat("An object of class pubMedAbs \n")
          slots <- slotNames(object)
          for (what in slots) {
-            if (identical(what, ".Data")) 
+            if (identical(what, ".Data"))
                 next
            cat("Slot \"", what, "\":\n", sep = "")
-           if( what == "articleTitle" || what == "abstText") 
-	       cat(paste("\t", substr(slot(object, what), 1, 70), 
+           if( what == "articleTitle" || what == "abstText")
+	       cat(paste("\t", substr(slot(object, what), 1, 70),
                    "...\n", sep=""))
 	   else
                print(slot(object, what))
@@ -169,8 +169,9 @@ buildPubMedAbst <- function(xml) {
 
 pm.getabst <- function(geneids, basename) {
     pmenvN <- paste(basename, "PMID", sep="")
-    library(basename, character.only=TRUE)
-    if( !exists(pmenvN, mode = "environment") ) 
+    require(basename, character.only=TRUE) || stop(paste("Library",
+                      basename,"is unavailable"))
+    if( !exists(pmenvN, mode = "environment") )
         stop("could not access PubMed ids for this data")
     pmenv <- get(pmenvN)
     pmids <- multiget(geneids, env=pmenv)
@@ -179,7 +180,7 @@ pm.getabst <- function(geneids, basename) {
     names(rval) <- geneids
     for(i in 1:numids) {
         pm <- pmids[[i]]
-        if( is.na(pm) ) 
+        if( is.na(pm) )
             rval[[i]] <- NA
         else {
             absts <- pubmed(pm)
