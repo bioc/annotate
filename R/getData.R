@@ -62,13 +62,6 @@ getGO <- function(x, data) {
       unlist(lookUp(x, data, "LOCUSID"))
   }
 
-  if( !isGeneric("contents") && !exists("contents", mode="function") )
-       setGeneric("contents", function(object)
-                  standardGeneric("contents"))
-
-  setMethod("contents", "environment",
-     function(object)
-         mget(ls(env=object), env=object, ifnotfound=NA))
 
 installDataPackage <- function(pkga, liba=.libPaths()[1]) {
     require("reposTools")||
