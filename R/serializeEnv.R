@@ -2,7 +2,15 @@ serializeEnv <- function(env, fname) {
  if (!is.character(fname))
      stop("conn should be a character name of file for storage")
 
- envList <- as.list(env)
+ if (is.character(env)) {
+     cmd <- paste("envList <- as.list(", env, ")")
+     eval(parse(text=cmd))
+ }
+ else if (is.environment(env))
+     envList <- as.list(env)
+ else
+     stop("invalid 'env' argument")
+
  keys <- names(envList)
 
  out <- "<?xml version=\"1.0\"?>\n"
@@ -23,3 +31,30 @@ serializeEnv <- function(env, fname) {
  close(outFile)
 }
 
+serializeDataPkgEnvs <- function(pkgDir) {
+    pkg <- basename(pkgDir)
+    require(pkg, character.only=TRUE) || stop("data package ",
+                 pkg, " not installed")
+
+    cDir <- getwd()
+    on.exit(setwd(cDir), add=TRUE)
+    setwd(pkgDir)
+
+    if (! file.exists("inst"))
+        if (!dir.create("inst"))
+            stop("Failed to create inst for ", pkgDir)
+    if (! file.exists(file.path("inst", "gdbm")))
+        if (!dir.create(file.path("inst", "gdbm")))
+            stop("Failed to create inst/gdbm for ", pkgDir)
+    setwd("inst/gdbm")
+
+    dataSets <- ls(paste("package", pkg, sep=":"))
+    if (length(dataSets) == 0)
+        return(0)
+    dataSets <- dataSets[dataSets != pkg]
+
+    for (i in seq(along=dataSets))
+        serializeEnv(dataSets[i], paste(dataSets[i], ".xml.gz", sep=""))
+
+    i
+}
