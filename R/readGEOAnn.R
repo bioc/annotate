@@ -8,6 +8,29 @@ readIDNAcc <- function(GEOAccNum, url =
     return(temp[,c("ID", "GB_ACC")])
 }
 
+getSAGEGPL <- function(organism = "Homo sapiens",
+                       enzyme = c("NlaIII", "Sau3A")){
+
+    enzyme <- match.arg(enzyme)
+
+    SAGEFiles <- getSAGEFileInfo()
+    return(SAGEFiles[SAGEFiles[,2] == organism & SAGEFiles[,3] ==
+                       enzyme, 1])
+}
+
+getSAGEFileInfo <- function(url =
+                       "http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?view=platforms&prtype=SAGE&dtype=SAGE"){
+    temp <- readUrl(url)
+    # Get the GPL number, organism, and enzyme type
+    temp <- matrix(temp[grep("<TD", temp)], ncol = 8,
+                   byrow = TRUE)[,c(1, 5, 6)]
+    temp[,1] <- gsub(".*>(GPL.*)</a>", "\\1", temp[,1])
+    temp[,2] <- gsub(".*>(.*)</a>", "\\1", temp[,2])
+    temp[,3] <- gsub(".*>(.*):.*</TD>", "\\1", temp[,3])
+
+    return(temp)
+}
+
 
 # Query the GEO database. url is the common CGI scrip at GEO
 # and GEOAccNum is the GEO accession number representing a file in the
@@ -15,10 +38,8 @@ readIDNAcc <- function(GEOAccNum, url =
 readGEOAnn <- function(GEOAccNum, url =
                        "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?"){
 
-    conn <- url(paste(url, "acc=", GEOAccNum,
-                   "&view=data&form=text&targ=self", sep = ""), open = "r")
-    temp <- readLines(conn)
-    close(conn)
+    temp <- readUrl(paste(url, "acc=", GEOAccNum,
+                   "&view=data&form=text&targ=self", sep = ""))
     # Remove the header lines that come with the file
     temp <- temp[grep("\t", temp)]
     # Add NAs to lines with no value for the last column
@@ -33,20 +54,27 @@ readGEOAnn <- function(GEOAccNum, url =
 # Read from GEO and map GEO accession numbers to array names.
 getGPLNames <- function(url =
                         "http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?"){
-    conn <- url(paste(url,
+    temp <- readUrl(paste(url,
                       "view=platforms&prtype=nucleotide&dtype=commercial",
                       sep = ""))
-    temp <- readLines(conn)
-    close(conn)
 
     temp <- temp[grep("<TD", temp)]
     temp <- matrix(temp, ncol = 8, byrow = TRUE)
-    #temp <- temp[, c(1, 6)]
-    #temp[,1] <- gsub(".*>(.*)</a>$", "\\1", temp[,1])
-    #temp[,2] <- gsub(".*>(.*)</TD>$", "\\1", temp[,2])
 
     chipNames <- gsub(".*>(.*)</TD>$", "\\1", temp[,6])
     names(chipNames) <- gsub(".*>(.*)</a>$", "\\1", temp[,1])
 
     return(chipNames)
+}
+
+readUrl <- function(url){
+    options(show.error.messages = FALSE)
+    con <- try(url(url, open = "r"))
+    options(show.error.messages = TRUE)
+    if(inherits(con, "try-error")){
+        stop(paste("Can't connent to url", url))
+    }
+    temp <- readLines(con)
+    close(con)
+    return(temp)
 }
