@@ -7,6 +7,7 @@
 \alias{getQuery4GB}
 \alias{getQuery4Affy}
 \alias{getQuery4FB}
+\alias{getQuery4EN
 \alias{getCells}
 \alias{getTDRows}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -29,6 +30,7 @@ getQuery4GB(ids)
 getQuery4OMIM(ids)
 getQuery4Affy(ids)
 getQuery4FB{ids}
+getQuery4EN(ids)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -38,7 +40,7 @@ getQuery4FB{ids}
     multiple ids per gene.}
   \item{repository}{ A character string for the name of a public
     repository. Valid values include "ll", "ug", "gb", "sp", "omim",
-    "affy", and "fb". }
+    "affy", "en", and "fb". }
 }
 \details{
  \code{\link{getQuery4LL}} constructs hypertext links to LocusLink using the
@@ -61,6 +63,10 @@ getQuery4FB{ids}
 
  \code{\link{getQuery4FB}} constructs hypertext links to FlyBase using
  the provided ids.
+
+ \code{\link{getQuery4EN}} constructs hypertext links to EntrezGene
+ using the provided ids. This supercedes \code{getQuery4LL}, as
+ LocusLink has been deprecated by NCBI.
  
  \code{\link{getQueryLink}} directs calls to construct hypertext links using
  the provided ids.

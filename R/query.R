@@ -526,7 +526,7 @@ getQueryLink <-function (ids, repository = "ug"){
          ll = return(getQuery4LL(ids)), affy = return(getQuery4Affy(ids)),
          gb = return(getQuery4GB(ids)), sp = return(getQuery4SP(ids)),
          omim = return(getQuery4OMIM(ids)), fb = return(getQuery4FB(ids)),
-         stop("Unknown repository name"))
+         en = return(getQuery4EN(ids)), stop("Unknown repository name"))
 }
 
 
@@ -570,6 +570,29 @@ getQuery4UG <- function (ids){
 }
 
 getQuery4LL <- function (ids){
+  ## Here we rely on Locus Link ids being all numeric to filter out garbage
+  ## that will result in busted links.
+  if(is.factor(ids)){
+    options(warn = -1)
+    ids <- as.numeric(as.character(ids))
+    options(warn = 0)
+    blanks <- is.na(ids)
+  }
+  if(is.character(ids)){
+    options(warn = -1)
+    ids <- as.numeric(ids)
+    options(warn = 0)
+    blanks <- is.na(ids)
+  }
+  if(is.numeric(ids))
+    blanks <- is.na(ids)
+  out <- paste("http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=",
+               ids, sep = "")
+  out[blanks] <- "&nbsp;"
+  return(out)
+}
+
+getQuery4EN <- function (ids){
   ## Here we rely on Locus Link ids being all numeric to filter out garbage
   ## that will result in busted links.
   if(is.factor(ids)){
