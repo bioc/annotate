@@ -18,7 +18,7 @@ getQueryLink(ids, repository = "ug")
 getQuery4UG(ids)
 getQuery4LL(ids)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{ids}{\code{ids} a vector of character string for ids that will
     used to construct hypotext links}
@@ -35,7 +35,7 @@ getQuery4LL(ids)
   \code{\link{getQueryLink}} directs calls to construct hypertext links
   using the provided ids.
 
-  \code{\link{getDTRows}} directs calls to construct hypertext links
+  \code{getTDRows}} directs calls to construct hypertext links
   using the provided ids and then places the links in table cells.
 }
 \value{

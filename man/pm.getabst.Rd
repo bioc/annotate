@@ -38,8 +38,8 @@ when there are many different queries to be performed.
 
 \examples{
 hoxa9 <- "U82759_at"
-
-absts <- pm.getabst(hoxa9, "hu6800")
+if( require(hu6800) )
+    absts <- pm.getabst(hoxa9, "hu6800")
 
 }
 \keyword{ manip }
