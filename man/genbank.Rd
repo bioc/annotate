@@ -35,7 +35,8 @@ genbank(...,disp=c("data","browser")[1], pmaddress=.pmfetch())
 
 \author{R. Gentleman }
 
-\seealso{\code{\link{pubmed}}, \code{\link{locuslink}}, \code{\link{xmlTreeParse}}}
+\seealso{\code{\link{pubmed}}, \code{\link{locuslinkByID}},
+  \code{\link{locuslinkQuery}}, \code{\link{xmlTreeParse}}}
 
 \examples{
    for (dp in c("data","browser"))

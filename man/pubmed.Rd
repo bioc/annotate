@@ -33,7 +33,8 @@ pubmed(...,disp=c("data","browser")[1], pmaddress=.pmfetch())
 
 \author{R. Gentleman }
 
-\seealso{\code{\link{genbank}}, \code{\link{locuslink}}, \code{\link{xmlTreeParse}}}
+\seealso{\code{\link{genbank}}, \code{\link{locuslinkByID}},
+  \code{\link{loucslinkQuery}, \code{\link{xmlTreeParse}}}
 
 \examples{
    for (dp in c("data","browser"))
