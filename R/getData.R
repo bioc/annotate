@@ -29,7 +29,7 @@ getGO <- function(x, data) {
     lookUp(x, data, "GO")
  }
 
- getGOdesc <- function(x, which=c("MF","BP","CC") ) {
+ getGOdesc <- function(x) {
      #require("GO") || stop("need the GO library")
      #d <- match.arg(which)
      #de <- switch(d, MF=GOMFID2TERM, BP=GOBPID2TERM, CC=GOCCID2TERM,
@@ -37,7 +37,7 @@ getGO <- function(x, data) {
      #ans <- multiget(x, env=de)
      #ans[is.na(ans)] <- NULL
      #ans
-     ans <- lookUp(x, "GO", paste(which, "ID2TERM", sep = ""))
+     ans <- lookUp(x, "GO", "TERM")
      ans[is.na(ans)] <- NULL
      ans
  }
