@@ -24,10 +24,6 @@
   chromosome mappings.}
 \description{  This class provides a mechanism for mapping a set of
   genes to their respective locations in chromosomes.
-  Details on how to construct an object of this class from Bioconductor
-  data packags are given in the \code{byChroms} vignette in the
-  \code{geneplotter} package.
-
 }
 \section{Creating Objects}{
 \code{  new('chromLocation',}\cr
@@ -72,5 +68,26 @@
     \item{geneSymbols}{Gets the 'geneSymbols' attribute. }
   }
 }
+\seealso{\code{\link{buildChromLocation}}}
+\examples{
+   curWarn <- getOption("warn")
+   options(warn=0)
+   on.exit(options(warn=curWarn), add=TRUE)
+   if (require(hgu95av2)) {
+     z <- buildChromLocation("hgu95av2")
 
+     ## find the number of chromosomes
+     nChrom(z)
+
+     ## Find the names of the chromosomes
+     chromNames(z)
+
+     ## get the organism this object refers to
+     organism(z)
+
+     ## get the lengths of the chromosomes in this object
+     chromLengths(z)
+
+   } else print("This example requires the hgu95av2 data package")
+}
 \keyword{classes}

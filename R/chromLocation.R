@@ -91,55 +91,58 @@
         }
         cat("\n")
     })
-##takes an environment/hash table with the chrom locations and
-##named list, one element for each distinct chromosome name and
-##each element of that list is a named vector, the names are the
-##probeids and the values are the locations
-CHRLOC2chromLoc <- function(chrEnv) {
-    chrLocs <- contents(chrEnv)
 
-    ## Need to extract out the ones w/ multiple mappings
-    chrLens <- sapply(chrLocs, length)
-    multis <- split(chrLens, factor(chrLens))
-
-    ## First handle the single mapped genes
-    singleNames <- names(multis$"1")
-    singleLocs <- chrLocs[singleNames]
-    chromNames <- unlist(sapply(singleLocs, function(y) {
-        if (is.na(y))
-            y
-        else
-            names(y)
-    }))
-    chromNames <- factor(chromNames)
-    a <- split(singleLocs, chromNames)
-    chrLocList <- lapply(a, function(x) {g <- unlist(lapply(x, function(y)
-                                                        {names(y) <- NULL; y})); g})
-
-    ## Now handle the multi mapped genes
-    ## !!! FIXME:
-    ## !!! This is *very* inefficient.  Make this better
-    ## !!!
-    if (length(multis) > 1) {
-        for (i in 2:length(multis)) {
-            curNames <- names(multis[[i]])
-            curLocs <- chrLocs[curNames]
-            for (j in 1:length(curLocs)) {
-                curGene <- curLocs[[j]]
-                curGeneChroms <- names(curGene)
-                names(curGene) <- rep(curNames[j],length(curGene))
-                for (k in 1:length(curGene))
-                    chrLocList[[curGeneChroms[k]]] <-
-                        c(chrLocList[[curGeneChroms[k]]], curGene[k])
-            }
-        }
-    }
-
-
-    chrLocList
-}
 
 buildChromLocation <- function(dataPkg) {
+    ##takes an environment/hash table with the chrom locations and
+    ##named list, one element for each distinct chromosome name and
+    ##each element of that list is a named vector, the names are the
+    ##probeids and the values are the locations
+    CHRLOC2chromLoc <- function(chrEnv) {
+        chrLocs <- contents(chrEnv)
+
+        ## Need to extract out the ones w/ multiple mappings
+        chrLens <- sapply(chrLocs, length)
+        multis <- split(chrLens, factor(chrLens))
+
+        ## First handle the single mapped genes
+        singleNames <- names(multis$"1")
+        singleLocs <- chrLocs[singleNames]
+        chromNames <- unlist(sapply(singleLocs, function(y) {
+            if (is.na(y))
+                y
+            else
+                names(y)
+        }))
+        chromNames <- factor(chromNames)
+        a <- split(singleLocs, chromNames)
+        chrLocList <- lapply(a, function(x) {g <- unlist(lapply(x, function(y)
+                                                            {names(y) <- NULL;
+                                                             y})); g})
+
+        ## Now handle the multi mapped genes
+        ## !!! FIXME:
+        ## !!! This is *very* inefficient.  Make this better
+        ## !!!
+        if (length(multis) > 1) {
+            for (i in 2:length(multis)) {
+                curNames <- names(multis[[i]])
+                curLocs <- chrLocs[curNames]
+                for (j in 1:length(curLocs)) {
+                    curGene <- curLocs[[j]]
+                    curGeneChroms <- names(curGene)
+                    names(curGene) <- rep(curNames[j],length(curGene))
+                    for (k in 1:length(curGene))
+                        chrLocList[[curGeneChroms[k]]] <-
+                            c(chrLocList[[curGeneChroms[k]]], curGene[k])
+                }
+            }
+        }
+
+
+        chrLocList
+    }
+
     if (!require(dataPkg, character.only=TRUE))
         stop(paste("Package:",dataPkg,"is not available"))
 
@@ -180,30 +183,3 @@ usedChromGenes <- function(eSet, chrom, specChrom) {
 }
 
 
-.fillGenEnv <- function(chromLocList, chromLocEnv) {
-# Given a chromLocs list, will fill the chromLocEnv with the appropriate
-# data
-
-    for (i in 1:length(chromLocList)) {
-        # Convert the numeric name to the character name
-        newName <- labels(chromLocList[i]);
-
-        # Get the gene names and location data
-        chromData <- chromLocList[[i]]
-        geneNames <- labels(chromData)
-        newStrand <- vector(mode="character", length=length(geneNames))
-        newPos <- as.numeric(chromData[geneNames])
-        newStrand <- ifelse(newPos>0, "+", "-")
-        newPos <- abs(newPos)
-
-        newLoc <- list()
-
-        for (j in 1:length(geneNames)) {
-            ## Instantiate a new location object for this gene
-            newLoc[[j]] <- new("chromLoc",
-                               chrom=newName,position=newPos[j],
-                               strand=newStrand[j])
-        }
-        multiassign(geneNames, newLoc, env=chromLocEnv)
-    }
-}

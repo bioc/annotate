@@ -1,6 +1,5 @@
 \name{buildChromLocation}
 \alias{buildChromLocation}
-\alias{CHRLOC2chromLoc}
 \title{A function to generate an instantiation of a chromLocation class }
 \description{
   This function will take the name of a data package and build a
