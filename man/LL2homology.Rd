@@ -1,6 +1,7 @@
 \name{LL2homology}
 \alias{LL2homology}
 \alias{HGID2homology}
+\alias{ACC2homology}
 \title{Functions that find the homology data for a given set of
   LocusLink ids or HomoloGeneIDs}
 \description{
@@ -13,6 +14,7 @@
 \usage{
 LL2homology(llids)
 HGID2homology(hgid)
+ACC2homology(accs)
 }
 \arguments{
   \item{llids}{\code{llids} a vector of character strings or numberic
@@ -22,6 +24,8 @@ HGID2homology(hgid)
     numbers for a set of HomoloGeneIDs whose homologous genes in other
     organisms are to be found. Names of the vector give the code used by
     NCBI for organisms}
+  \item{accs}{\code{accs} a vector of character strings for a set of
+    GenBank Accession numbers}
 }
 \details{
   The homology data package has to be installed before executing any of
