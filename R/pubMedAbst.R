@@ -152,4 +152,41 @@ buildPubMedAbst <- function(xml) {
     return(newPMA)
 }
 
+pm.getabst <- function(affyids, basename) {
+    pmenvN <- paste(basename, "pmed", sep="")
+    pmed <- read.annotation(pmenvN)
+    pmids <- multiget(affyids, env=pmed)
+    numids <- length(affyids)
+    rval <- vector("list", length=numids)
+    for(i in 1:numids) {
+        pm <- pmids[[i]]
+        if( is.na(pm) ) {
+            rval[[i]] <- NA
+            next
+        }
+        absts <- pubmed(pm)
+        a <- xmlRoot(absts)
+        numAbst <- length(xmlChildren(a))
+        absts <- vector("list", length=numAbst)
+        for (j in 1:numAbst)
+            absts[[j]] <- buildPubMedAbst(a[[j]])
+        rval[[i]] <- absts
+    }
+    rval
+}
+
+pm.abstGrep <- function(pattern, absts, ...)
+{
+    nabsts <- length(absts)
+    rval <- rep(FALSE, nabsts)
+    for(i in 1:nabsts) {
+        atxt <- abstText(absts[[i]])
+        ans <- grep(pattern, atxt, ...)
+        if( length(ans) && ans==1 )
+            rval[i] <- TRUE
+    }
+    rval
+}
+
+pm.titles <- sapply(absts[[1]], function(x) articleTitle(x))
 
