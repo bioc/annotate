@@ -22,14 +22,17 @@ openBrowser <- function(query) {
 }
 
 locuslinkQuery <- function(query,...,lladdress="LocusLink/") {
+    params <- list(...)
+    params <- unlist(params,use.names=FALSE)
+
     if (is.na(query))
         stop("No query, cannot proceed!")
 
-    if (length(c(...)) == 0) {
+    if (length(c(params)) == 0) {
         species = "Hs"
     }
     else {
-        species <- paste(...,sep="&ORG=")
+        species <- paste(params,collapse="&ORG=")
     }
 
 
@@ -44,14 +47,16 @@ locuslinkQuery <- function(query,...,lladdress="LocusLink/") {
 }
 
 locuslinkByID <- function(..., lladdress="LocusLink/") {
+    params <- list(...)
+    params <- unlist(params)
 
-    if (length(c(...)) == 0)
+    if (length(params) == 0)
         stop("No Locuslink ID, cannot proceed")
 
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
-    args <- paste(...,sep=",")
+    args <- paste(params,collapse=",")
 
     query <- paste(ncbiURL, lladdress, "LocRpt.cgi?l=", args, sep="")
 
@@ -59,24 +64,26 @@ locuslinkByID <- function(..., lladdress="LocusLink/") {
 }
 
 genbank <- function(..., disp=c("data","browser")[1],
-                    pmaddress=.pmfetch("Nucleotide",disp)) {
-    if (length(c(...)) == 0)
+                    type=c("uid","accession")[2],
+                    pmaddress=.pmfetch("Nucleotide",disp,type)) {
+    params <- list(...)
+    params <- unlist(params)
+    if (length(params) == 0)
         stop("No Gene ID, cannot proceed")
 
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
-    args <- paste(...,sep=",")
+    args <- paste(params,collapse=",")
 
-    id <- .getIdTag(disp)
+    id <- .getIdTag(disp,type)
 
     query <- paste(ncbiURL, pmaddress, id, args, sep="")
 
     ## Determine if we are displaying this data in a browser or
     ## returning an XMLDocument object
     if (disp == "data") {
-        require(XML) || stop("XML package is unavailable!")
-        return(xmlTreeParse(query,isURL=TRUE))
+        return(.handleXML(query))
     }
     else {
         openBrowser(query)
@@ -84,17 +91,20 @@ genbank <- function(..., disp=c("data","browser")[1],
 }
 
 pubmed  <- function(..., disp=c("data","browser")[1],
-                    pmaddress=.pmfetch("PubMed",disp)) {
+                    type=c("uid","accession")[1],
+                    pmaddress=.pmfetch("PubMed",disp,type)) {
+    params <- list(...)
+    params <- unlist(params)
 
-    if (length(c(...)) == 0)
+    if (length(params) == 0)
         stop("No PMID, cannot proceed")
 
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
-    args <- paste(...,sep=",")
+    args <- paste(params,collapse=",")
 
-    id <- .getIdTag(disp)
+    id <- .getIdTag(disp,type)
 
     query <- paste(ncbiURL, pmaddress, id, args, sep="")
 
@@ -102,13 +112,27 @@ pubmed  <- function(..., disp=c("data","browser")[1],
     ## Determine if we are displaying this data in a browser or
     ## returning an XMLDocument object
     if (disp == "data") {
-        require(XML) || stop("XML package is unavailable!")
-        return(xmlTreeParse(query,isURL=TRUE))
+        return(.handleXML(query))
     }
     else {
         openBrowser(query)
     }
+}
 
+.handleXML <- function(query) {
+    require(XML) || stop("XML package is unavailable!")
+    options(show.error.messages = FALSE)
+    on.exit(options(show.error.messages = TRUE))
+    xml <- try(xmlTreeParse(query,isURL=TRUE))
+    options(show.error.messages = TRUE)
+    if (inherits(xml,"try-error") == TRUE) {
+        print("Could not retrieve XML data, please check your settings.")
+        print("Returning an object of class try-error")
+        return(xml)
+    }
+    else {
+        return(xml)
+    }
 }
 
 .getNcbiURL <- function() {
@@ -127,30 +151,41 @@ pubmed  <- function(..., disp=c("data","browser")[1],
     return(ncbiURL)
 }
 
-.getIdTag <- function(disp=c("data","browser")[1]) {
+.getIdTag <- function(disp=c("data","browser")[1],
+                      type=c("uid","accession")[1]) {
     if (disp == "data") {
         return("&id=")
     }
     else {
-        return("&list_uids=")
+        if (type == "uid") {
+            return("&list_uids=")
+        }
+        else {
+            return("&term=")
+        }
     }
 }
 
-.pmfetch <- function(db="PubMed", disp=c("data","browser")[1]) {
+.pmfetch <- function(db="PubMed", disp=c("data","browser")[1],
+                     type=c("uid","accession")[1]) {
     ## Returns the base query string for the pmfetch engine @ pubmed
-
-
 
     if (disp == "data") {
         base <-
     "entrez/utils/pmfetch.fcgi?report=xml&mode=text&tool=bioconductor&db="
     }
     else {
-        base <- "entrez/query.fcgi?cmd=Retrieve&tool=bioconductor&db="
+        base1 <- "entrez/query.fcgi?tool=bioconductor&cmd="
+        if (type == "uid") {
+            base2 <- "Retrieve&db="
+        }
+        else {
+            base2 <- "Search&db="
+        }
+        base <- paste(base1,base2,sep="")
     }
     return(paste(base,db,sep=""))
 }
-
 
 genelocator <- function(x) {
   done<-FALSE
