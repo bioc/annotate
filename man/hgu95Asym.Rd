@@ -11,7 +11,7 @@
   This data set provides an environment with mappings from the Affymetrix
   identifiers to gene symbol.
   The environment functions like a hashtables and can be accessed using
-  \code{mget}.
+  \code{multiget}.
   If the returned value is \code{NA} then the current 
   mapping was unable to identify this. Mappings and data sources are
   constantly evolving so updating often is recommended.
@@ -24,6 +24,6 @@
 \examples{
  data(hgu95Asym)
  data(eset)
- mget(geneNames(eset)[330:340], env=hgu95Asym, ifnotfound=NA)
+ multiget(geneNames(eset)[330:340], env=hgu95Asym)
 }
 \keyword{datasets}

@@ -13,7 +13,7 @@
   with mappings from the Affymetrix
   identifiers to chromosome number/name.
   The environment functions like a hashtable and can be accessed using
-  \code{mget}.
+  \code{multiget}.
   If the returned value is \code{NA} then the current 
   mapping was unable to identify this. Mappings and data sources are
   constantly evolving so updating often is recommended.
@@ -26,6 +26,6 @@
 \examples{
  data(hgu95Achrom)
  data(eset)
- mget(geneNames(eset)[330:340], env=hgu95Achrom, ifnotfound=NA)
+ multiget(geneNames(eset)[330:340], env=hgu95Achrom)
 }
 \keyword{datasets}

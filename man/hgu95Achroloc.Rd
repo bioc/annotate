@@ -9,7 +9,7 @@
   These data sets provide environments with mappings from the Affymetrix
   identifiers to chromosomal location, in bases.
   The environments function like hashtables and can be accessed using
-  \code{mget}.
+  \code{multiget}.
   If the returned value is \code{NA} then the current 
   mapping was unable to identify this. Mappings and data sources are
   constantly evolving so updating often is recommended.
@@ -23,7 +23,7 @@
 \examples{
  data(hgu95Achroloc)
  data(eset)
- mget(geneNames(eset)[330:340], env=hgu95Achroloc, ifnotfound=NA)
+ multiget(geneNames(eset)[330:340], env=hgu95Achroloc)
 
 }
 \keyword{datasets}

@@ -1,7 +1,5 @@
 #Copyright 2001 R.Gentleman, all rights reserved
 #functions to look up particular genes at different sites
-# Modifications to htmlpage and getQuery4XX functions added
-# 7-12-04 by J. MacDonald
 
 UniGeneQuery <- function(query, UGaddress="UniGene/",
                          type="CID") {
@@ -430,266 +428,10 @@ pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
     invisible(NULL)
 }
 
-htmlpage <- function (genelist, filename, title, othernames, table.head,
-                         table.center = TRUE, repository = "ll"){
-  outfile <- file(filename, "w")
-  type <- "text/css"
-  cat("<html>", "<head>", "<TITLE>Differentially Expressed Genes</TITLE>",
-      "</head>", "<body bgcolor=#FFFFFF >", "<H1 ALIGN=CENTER > Differentially Expressed Genes </H1>",
-      # CSS to allow reasonable spacing for multiple links per cell
-      paste("<style type=", type,">",sep = ""), "p{ margin-top: 1px; margin-bottom: 1px; padding-left: 10px; text-indent: -10px }",
-      "</style>", file = outfile, sep = "\n")
-  if (!missing(title))
-    cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
-        file = outfile, sep = "\n")
-  if (table.center)
-    cat("<CENTER> \n", file = outfile)
-  cat("<TABLE BORDER=4>", file = outfile, sep = "\n")
-  if (!missing(table.head)) {
-    headout <- paste("<TH>", table.head, "</TH>")
-    cat("<TR>", headout, "</TR>", file = outfile, sep = "\n")
-  }
-  if(is.list(genelist)){
-    if(all.equal(rep(length(genelist[[1]]), length(genelist)),
-                 unlist(lapply(genelist, length), use.names=FALSE))){
-      nrows <- length(genelist[[1]])
-    }else stop("The lists of genes to annotate must all be of equal length.")
-  }else nrows <- length(genelist)
-
-  if (is.list(repository)){
-    rows <- ""
-    for(i in seq(along=repository)){
-      rows <- paste(rows, getTDRows(genelist[[i]], repository[[i]]))
-    }
-  }
-  else rows <- getTDRows(genelist, repository)
-  if (!missing(othernames)) {
-    if (is.list(othernames)) {
-      others <- ""
-      for (nm in othernames)
-        if(is.matrix(nm)){
-          for(i in 1:dim(nm)[2]){
-            others <- paste(others, "<TD>", nm[,i], "</TD>", sep = "")
-          }
-        }else others <- paste(others, "<TD>", nm, "</TD>", sep = "")
-    }
-      else others <- paste("<TD>", othernames, "</TD>", sep = "")
-    rows <- paste(rows, others)
-    }
-  for (i in 1:nrows) cat("<TR>", rows[i], "</TR>", file = outfile,
-                           sep = "\n")
-  cat("</TABLE>", file = outfile)
-  if (table.center)
-    cat("</CENTER> \n", file = outfile)
-  cat("</body>", "</html>", sep = "\n", file = outfile)
-  close(outfile)
-}
-
-getCells <-  function(ids, repository = "ug"){
-  # This function allows us to insert multiple links in each cell by
-  # building up the HTML more incrementally. Passing a list of character
-  # vectors will result in multiple links per cell. Otherwise we get one link per cell.
-  if(is.list(ids)){
-    out <- vector()
-    for(i in seq(along = ids)){
-      temp <- getQueryLink(ids[[i]], repository)
-      if(length(temp) == 1)
-        if(temp != "&nbsp;"){
-          out[i] <- paste("<A HREF=\"", temp,"\">",
-                          ids[[i]], "</A>", sep = "")
-        }else{
-          out[i] <- temp
-          }
-      if(length(temp) > 1){
-        out[i] <- paste("<P><A HREF=\"", temp[1],"\">",
-                        ids[[i]][1], "<A/></P>",sep = "")
-        for(j in  2:length(temp)){
-            out[i] <- paste(out[i], paste("<P><A HREF=\"", temp[j],
-                                          "\">", ids[[i]][j], "<A/></P>",
-                                          sep = ""), sep="")
-          }
-      }
-      if(length(temp) == 0)
-        out[i] <- "&nbsp;"
-    }
-  }else{
-    temp <- getQueryLink(ids, repository)
-    blanks <- temp == "&nbsp;"
-    out <- vector()
-    for(i in seq(along = ids)){
-      if(!blanks[i])
-        out[i] <- paste(" <A HREF=\"", temp[i], "\">",
-                        ids[i], "</A>", sep = "")
-      else
-        out[i] <-  temp[i]
-      }
-  }
-  return(out)
-}
-
-getQueryLink <-function (ids, repository = "ug"){
-  switch(tolower(repository), ug = return(getQuery4UG(ids)),
-         ll = return(getQuery4LL(ids)), affy = return(getQuery4Affy(ids)),
-         gb = return(getQuery4GB(ids)), sp = return(getQuery4SP(ids)),
-         omim = return(getQuery4OMIM(ids)), stop("Unknown repository name"))
-}
-
-
-getTDRows <- function (ids, repository = "ug"){
-  # Modification of Jianhua's original code to allow for multiple links per cell.
-  out <- paste("<TD>", getCells(ids, repository), "</TD>", sep="")
-  return(out)
-}
-
-getQuery4Affy <- function (ids){
-  # Affy IDs are all over the map, so there is no good way to catch any garbage input.
-  # Here we have to rely on the end user to filter out garbage by passing an empty cell.
-  if(any(ids == "&nbsp;")){
-    blanks <- ids == "&nbsp;"
-    out <- vector()
-    for(i in seq(along = ids)){
-      if(!blanks[i])
-        out[i] <- paste("https://www.affymetrix.com/LinkServlet?&probeset=",
-                        ids[i], sep="")
-      else
-        out[i] <- "&nbsp;"
-    }
-  }else{
-   out <- paste("https://www.affymetrix.com/LinkServlet?&probeset=",
-          ids, sep = "")
-  }
-  return(out)
-}
-
-getQuery4UG <- function (ids){
-  # Slight modification of Jianhua's original code, replacing error message with
-  # empty cells in the table.
-  if(is.factor(ids))
-    ugs <- strsplit(as.character(ids), "\\.")
-  else
-    ugs <- strsplit(ids, "\\.")
-  badUG <- function(x) if (length(x) != 2 || nchar(x[1]) !=
-                           2)
-    return(TRUE)
-  else return(FALSE)
-  bIDs <- sapply(ugs, badUG)
-
-  temp <- vector()
-  for(i in seq(along = ids)){
-    if(!bIDs[i])
-      temp[i] <- paste("http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=",
-                       ugs[[i]][1], "&CID=", ugs[[i]][2], sep = "")
-    else
-      temp[i] <- "&nbsp;"
-  }
-  return(temp)
-}
-
-getQuery4LL <- function (ids){
-  # Here we rely on Locus Link ids being all numeric to filter out garbage
-  # that will result in busted links.
-  if(is.factor(ids)){
-    options(warn = -1)
-    ids <- as.numeric(as.character(ids))
-    options(warn = 0)
-    blanks <- is.na(ids)
-  }
-  if(is.character(ids)){
-    options(warn = -1)
-    ids <- as.numeric(ids)
-    options(warn = 0)
-    blanks <- is.na(ids)
-  }
-  if(is.numeric(ids))
-    blanks <- is.na(ids)
-  out <- vector()
-  for( i in seq(along = ids)){
-    if(!blanks[i])
-      out [i] <- paste("http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=",
-                       ids[i], sep = "")
-    else
-      out[i] <- "&nbsp;"
-  }
-  return(out)
-}
-
-
-getQuery4GB <- function (ids){
-  # GenBank ids can be either GB or RefSeq, so there is no good way to filter garbage.
-  # Again we rely on end user to pass blanks.
-  if(any(ids == "&nbsp;")){
-    blanks <- ids == "&nbsp;"
-    out <- vector()
-    for(i in seq(along = ids)){
-      if(!blanks[i])
-        out[i] <- paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=Nucleotide&cmd=search&term=",
-                        ids[i], sep="")
-      else
-        out[i] <- "&nbsp;"
-    }
-  }
-  else
-    out <-  paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=Nucleotide&cmd=search&term=",
-                  ids, sep="")
-
-  return(out)
-}
-
-
-
-getQuery4SP <- function(ids){
-  # SwissProt ids are not consistent enough to do any sort of garbage checking
-  # so here we rely on a blank being passed by the end user.
-  if(any(ids == "&nbsp;")){
-    blanks <- ids == "&nbsp;"
-    out <- vector()
-    for(i in seq(along = ids)){
-      if(!blanks[i])
-        out[i] <- paste("http://us.expasy.org/cgi-bin/get-entries?disp=1&AC=",ids[i], sep="")
-      else
-        out[i] <- "&nbsp;"
-    }
-  }
-  else
-    out <- paste("http://us.expasy.org/cgi-bin/get-entries?disp=1&AC=", ids, sep="")
-
-  return(out)
-}
-
-getQuery4OMIM <- function(ids){
-  # Conversion here relies on the assumption that OMIM ids are all numeric
-  # so any non-numeric entry must be some sort of garbage that will result in
-  # a broken link.
-  if(is.factor(ids)){
-    options(warn = -1)
-    ids <- as.numeric(as.character(ids))
-    options(warn = 0)
-    blanks <- is.na(ids)
-  }
-  if(is.character(ids)){
-    options(warn = -1)
-    ids <- as.numeric(ids)
-    options(warn = 0)
-    blanks <- is.na(ids)
-  }
-  if(is.numeric(ids))
-    blanks <- is.na(ids)
-  out <- vector()
-  for( i in seq(along = ids)){
-    if(!blanks[i])
-      out [i] <- paste("http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=",
-                       ids[i], sep = "")
-    else
-      out[i] <- "&nbsp;"
-  }
-  return(out)
-}
-
 ll.htmlpage <- function (genelist, filename, title, othernames,
                          table.head, table.center=TRUE,
                          repository = "ll")
 {
-    .Deprecated("htmlpage", package="annotate")
     outfile <- file(filename, "w")
     cat("<html>", "<head>", "<TITLE>BioConductor Linkage List</TITLE>",
         "</head>", "<body bgcolor=#708090 >",
@@ -731,3 +473,36 @@ ll.htmlpage <- function (genelist, filename, title, othernames,
 
     close(outfile)
 }
+
+getTDRows <- function(ids, repository = "ug"){
+    paste("<TD> <A HREF=\"", getQueryLink(ids, repository),
+          "\">", ids, "</A> </TD>", sep = "")
+}
+
+getQueryLink <- function(ids, repository = "ug"){
+    switch(tolower(repository),
+           "ug" = return(getQuery4UG(ids)),
+           "ll" = return(getQuery4LL(ids)),
+           stop("Unknown repository name"))
+}
+
+getQuery4UG <- function(ids){
+    # UG ids = XX.yyyy. Split by "."
+    ugs <- strsplit(ids, "\\.")
+    badUG <- function(x) if(length(x) != 2 || nchar(x[1]) != 2)
+        return(TRUE) else return(FALSE)
+    bIDs <- sapply(ugs, badUG)
+    if( any(bIDs) )
+        stop(paste("id(s):", paste(ids[bIDs], collapse=", "),
+                   "are not correct"))
+    temp <- matrix(unlist(ugs, use.names = FALSE),
+                   ncol = 2, byrow = TRUE)
+    paste("http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=",
+              temp[,1], "&CID=", temp[,2], sep = "")
+}
+
+getQuery4LL <- function(ids){
+    paste("http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=",
+          ids, sep = "")
+}
+
