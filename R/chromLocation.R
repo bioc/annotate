@@ -88,7 +88,7 @@
         cLens <- chromLengths(object)
         for (i in 1:nChrom(object)) {
             cat("\n\t\t",cNames[i],":",cLens[i])
-y        }
+        }
         cat("\n")
     })
 
