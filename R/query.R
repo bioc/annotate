@@ -43,20 +43,23 @@ genelocator <- function(x) {
   }
 }
 
-
-ll.htmlpage <- function(genelist, filename) {
+function (genelist, filename, othernames)
+{
     outfile <- file(filename, "w")
-    cat("<html>","<head>","<TITLE>BioConductor Gene Listing</TITLE>",
-        "</head>", "<body>",
-        "<H1 ALIGN=CENTER > BioConductor Gene Listing </H1>",
-        "<TABLE BORDER=4>","<CAPTION> Locus Link Genes </CAPTION>",
-        file=outfile, sep="\n")
-    rh <-"<TD> <A HREF=\"http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
-    nrows<- length(genelist)
-    rows<-paste(rh, genelist, "\">", genelist, "</A> </TD>", sep="")
-    for(i in 1:nrows)
-        cat("<TR>", rows[i], "</TR>", file=outfile, sep="\n")
-
-    cat("</TABLE>","</body>", "</html>", sep="\n", file=outfile)
+    cat("<html>", "<head>", "<TITLE>BioConductor Gene Listing</TITLE>",
+        "</head>", "<body>", "<H1 ALIGN=CENTER > BioConductor Gene Listing </H1>",
+        "<TABLE BORDER=4>", "<CAPTION> Locus Link Genes </CAPTION>",
+        file = outfile, sep = "\n")
+    rh <- "<TD> <A HREF=\"http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
+    nrows <- length(genelist)
+    rows <- paste(rh, genelist, "\">", genelist, "</A> </TD>",
+        sep = "")
+    if( !missing(othernames) ) {
+       others <- paste("<TD>", othernames, "</TD>", sep="")
+       rows <- paste(rows, others)
+    }
+    for (i in 1:nrows)
+        cat("<TR>", rows[i], "</TR>", file = outfile, sep = "\n")
+    cat("</TABLE>", "</body>", "</html>", sep = "\n", file = outfile)
     close(outfile)
 }
