@@ -1,26 +1,26 @@
 ### goterms objects are used by homoPkgBuilder to represent homology data
 
-setClass("GOTerms", representation(GOId = "character",
-                                   Ontology = "character",
+setClass("GOTerms", representation(GOID= "character",
+                                   Term = "character",
                                    Synonym = "character",
                                    Secondary = "character",
                                    Definition = "character",
                                    Category = "character"))
 
 # Set the get methods
-if(!isGeneric("GOId")){
-    setGeneric("GOId",
-               function(object) standardGeneric("GOId"))
+if(!isGeneric("GOID")){
+    setGeneric("GOID",
+               function(object) standardGeneric("GOID"))
 }
-setMethod("GOId", "GOTerms",
-          function(object) object@GOId)
+setMethod("GOID", "GOTerms",
+          function(object) object@GOID)
 
-if(!isGeneric("Ontology")){
-    setGeneric("Ontology",
-               function(object) standardGeneric("Ontology"))
+if(!isGeneric("Term")){
+    setGeneric("Term",
+               function(object) standardGeneric("Term"))
 }
-setMethod("Ontology", "GOTerms",
-          function(object) object@Ontology)
+setMethod("Term", "GOTerms",
+          function(object) object@Term)
 
 if(!isGeneric("Synonym")){
     setGeneric("Synonym",
@@ -53,8 +53,8 @@ setMethod("Category", "GOTerms",
 setMethod("print", "GOTerms",
           function(x, ...) {
                print("An object of class GOTerms")
-               print(paste("GOId =", GOId(x)))
-               print(paste("GO ontology term =", Ontology(x)))
+               print(paste("GOID =", GOID(x)))
+               print(paste("Gene Ontology term =", Term(x)))
                print(paste("Synonymous terms =", Synonym(x)))
                print(paste("Secondary GO ids =", Secondary(x)))
                print(paste("Definition for GO term =", Definition(x)))
@@ -62,9 +62,9 @@ setMethod("print", "GOTerms",
            })
 
 
-GOTerms <- function(GOId, ontology, category, synonym = "", secondary = "",
+GOTerms <- function(GOId, term, category, synonym = "", secondary = "",
                     definition = ""){
-    return(new("GOTerms", GOId = GOId, Ontology = ontology,
+    return(new("GOTerms", GOID = GOId, Term = term,
                Synonym = synonym, Secondary = secondary,
                Definition = definition, Category = category))
 }

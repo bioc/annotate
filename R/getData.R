@@ -31,7 +31,7 @@ getGO <- function(x, data) {
      require("GO") || stop("need the GO library")
      which <- match.arg(which)
      options(show.error.messages = FALSE)
-     ans <- try(lookUp(x, "GO", "TERMS"))
+     ans <- try(lookUp(x, "GO", "TERM"))
      options(show.error.messages = TRUE)
      if(inherits(ans, "try-error")){
          warning(paste("Invalid GO term", x))
