@@ -11,41 +11,38 @@ makeAnchor <- function(link, title, toMain=FALSE) {
 }
 
 
-.initHTMLClasses <- function(where) {
     ## A simple class to represent a basic "HTML Page", currently
     ## being naively stored as a block of text.
     setClass("HTMLPage", representation(fileName="character",
                                         pageText="character",
-                                        pageTitle="character"),
-             where=where)
+                                        pageTitle="character"))
     if (is.null(getGeneric("fileName")))
         setGeneric("fileName", function(object, ...)
-                   standardGeneric("fileName"), where=where)
+                   standardGeneric("fileName"))
     setMethod("fileName", "HTMLPage", function(object, ...)
-              object@fileName, where=where)
+              object@fileName)
 
     if (is.null(getGeneric("pageText")))
         setGeneric("pageText", function(object, ...)
-                   standardGeneric("pageText"), where=where)
+                   standardGeneric("pageText"))
 
     setMethod("pageText", "HTMLPage", function(object, ...)
-              object@pageText, where=where)
+              object@pageText)
 
     if (is.null(getGeneric("pageTitle")))
         setGeneric("pageTitle", function(object, ...)
-                   standardGeneric("pageTitle"), where=where)
+                   standardGeneric("pageTitle"))
     setMethod("pageTitle", "HTMLPage", function(object, ...)
-              object@pageTitle, where=where)
+              object@pageTitle)
 
-    setMethod("show","HTMLPage", function(object) print(pageText(object)),
-              where=where)
+    setMethod("show","HTMLPage", function(object) print(pageText(object)))
 
     if (is.null(getGeneric("toFile")))
         setGeneric("toFile", function(object, ...)
-                   standardGeneric("toFile"), where=where)
+                   standardGeneric("toFile"))
     setMethod("toFile", "HTMLPage", function(object, ...) {
         cat(pageText(object), file=fileName(object))
-    }, where=where)
+    })
 
     ## Defines a basic framed page.  We're using 3 frames, a top
     ## banner, a side navigation bar and a main page, much like the
@@ -54,26 +51,25 @@ makeAnchor <- function(link, title, toMain=FALSE) {
     setClass("FramedHTMLPage", representation(topPage="HTMLPage",
                                               sidePage="HTMLPage",
                                               mainPage="HTMLPage"),
-             contains="HTMLPage",
-             where=where)
+             contains="HTMLPage")
 
     if (is.null(getGeneric("topPage")))
         setGeneric("topPage", function(object, ...)
-                   standardGeneric("topPage"), where=where)
+                   standardGeneric("topPage"))
     setMethod("topPage", "FramedHTMLPage", function(object, ...)
-              object@topPage, where=where)
+              object@topPage)
 
     if (is.null(getGeneric("sidePage")))
         setGeneric("sidePage", function(object, ...)
-                   standardGeneric("sidePage"), where=where)
+                   standardGeneric("sidePage"))
     setMethod("sidePage", "FramedHTMLPage", function(object, ...)
-              object@sidePage, where=where)
+              object@sidePage)
 
     if (is.null(getGeneric("mainPage")))
         setGeneric("mainPage", function(object, ...)
-                   standardGeneric("mainPage"), where=where)
+                   standardGeneric("mainPage"))
     setMethod("mainPage", "FramedHTMLPage", function(object, ...)
-              object@mainPage, where=where)
+              object@mainPage)
 
     setMethod("toFile", "FramedHTMLPage", function(object, ...) {
         toFile(topPage(object))
@@ -82,7 +78,7 @@ makeAnchor <- function(link, title, toMain=FALSE) {
 
         ## Is there a way to force a call to HTMLPage's 'toFile' here?
         cat(pageText(object), file=fileName(object))
-    }, where=where)
+    })
 
     setMethod("initialize", "FramedHTMLPage",
               function(.Object, topPage=new("HTMLPage"),
@@ -114,5 +110,4 @@ makeAnchor <- function(link, title, toMain=FALSE) {
                                sep="\n")
                   .Object@pageText <- out
                   .Object
-              }, where=where)
-}
+              })

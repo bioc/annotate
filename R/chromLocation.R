@@ -1,4 +1,3 @@
-.initChromLocation <- function(where) {
     # Defines the chromLocation class
 
     # Define the class structure of the chromLocation object
@@ -8,47 +7,47 @@
                                              probesToChrom="environment",
                                              chromInfo="numeric",
                                              geneSymbols="environment"
-                                             ),where=where)
+                                             ))
 
     # Define the accessors
     if (is.null(getGeneric("organism")))
         setGeneric("organism", function(object)
-                   standardGeneric("organism"), where=where)
+                   standardGeneric("organism"))
 
     setMethod("organism", "chromLocation", function(object)
-              object@organism, where=where)
+              object@organism)
 
     if (is.null(getGeneric("dataSource")))
         setGeneric("dataSource", function(object)
-                   standardGeneric("dataSource"), where=where)
+                   standardGeneric("dataSource"))
 
     setMethod("dataSource", "chromLocation", function(object)
-              object@dataSource, where=where)
+              object@dataSource)
 
     if (is.null(getGeneric("nChrom")))
         setGeneric("nChrom", function(object)
-                   standardGeneric("nChrom"), where=where)
+                   standardGeneric("nChrom"))
 
     setMethod("nChrom", "chromLocation", function(object)
-              length(object@chromInfo), where=where)
+              length(object@chromInfo))
 
     if (is.null(getGeneric("chromNames")))
         setGeneric("chromNames", function(object)
-                   standardGeneric("chromNames"), where=where)
+                   standardGeneric("chromNames"))
 
     setMethod("chromNames", "chromLocation", function(object)
-              names(object@chromInfo), where=where)
+              names(object@chromInfo))
 
     if (is.null(getGeneric("chromLocs")))
         setGeneric("chromLocs", function(object)
-                   standardGeneric("chromLocs"), where=where)
+                   standardGeneric("chromLocs"))
 
     setMethod("chromLocs", "chromLocation", function(object)
-              object@chromLocs, where=where)
+              object@chromLocs)
 
     if (is.null(getGeneric("chromLengths")))
         setGeneric("chromLengths", function(object)
-                   standardGeneric("chromLengths"), where=where)
+                   standardGeneric("chromLengths"))
 
     setMethod("chromLengths", "chromLocation", function(object) {
         z <- as.numeric(object@chromInfo)
@@ -56,26 +55,26 @@
         ## data package, put this as 0 as we want a numeric vector
         z[is.na(z)] <- 0
         z
-    }, where=where)
+    })
 
     if (is.null(getGeneric("probesToChrom")))
         setGeneric("probesToChrom", function(object)
-                   standardGeneric("probesToChrom"), where=where)
+                   standardGeneric("probesToChrom"))
 
     setMethod("probesToChrom", "chromLocation", function(object)
-              object@probesToChrom, where=where)
+              object@probesToChrom)
 
     if (is.null(getGeneric("chromInfo")))
         setGeneric("chromInfo", function(object)
-                   standardGeneric("chromInfo"), where=where)
+                   standardGeneric("chromInfo"))
     setMethod("chromInfo", "chromLocation", function(object)
-              object@chromInfo, where=where)
+              object@chromInfo)
 
     if (is.null(getGeneric("geneSymbols")))
         setGeneric("geneSymbols", function(object)
-                   standardGeneric("geneSymbols"), where=where)
+                   standardGeneric("geneSymbols"))
     setMethod("geneSymbols", "chromLocation", function(object)
-              object@geneSymbols, where=where)
+              object@geneSymbols)
 
     setMethod("show", "chromLocation", function(object) {
         cat("Instance of a chromLocation class with the following fields:\n")
@@ -92,7 +91,6 @@
         }
         cat("\n")
     })
-}
 
 CHRLOC2chromLoc <- function(chrEnv) {
     chrLocs <- contents(chrEnv)

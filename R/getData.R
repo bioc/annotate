@@ -36,16 +36,13 @@ getGO <- function(x, data) {
       unlist(multiget(x, env=LLenv))
   }
 
-.initCont <- function(where) {
   if( !isGeneric("contents") && !exists("contents", mode="function") )
        setGeneric("contents", function(object)
-                  standardGeneric("contents"),
-               where=where)
+                  standardGeneric("contents"))
 
   setMethod("contents", "environment",
      function(object)
-         multiget(ls(env=object), env=object), where=where)
-}
+         multiget(ls(env=object), env=object))
 
 installDataPackage <- function(pkg, lib=.libPaths()[1]) {
     require(reposTools)||stop("installDataPackage requires package reposTools")
