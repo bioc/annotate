@@ -27,7 +27,6 @@ getUniqAnnItem()
 \arguments{
   \item{x}{The identifiers to be mapped (usually manufacturer)}
   \item{data}{A character string identifying the data source }
-  \item{which}{For \code{getGOdesc} indicates which GO hierarchy to use.}
   \item{object}{The environment (data table) that you want to get all
     contents from}
   \item{what}{\code{what} a character string for the name of an
