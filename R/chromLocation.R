@@ -2,105 +2,139 @@
     # Defines the chromLocation class
 
     # Define the class structure of the chromLocation object
-    setGeneric("chromLocation", function(object)
-               standardGeneric("chromLocation"), where=where)
-
-    setClass("chromLocation", representation(species="character",
-             datSource="character", nChrom="numeric",
-             chromNames="vector", chromLocs="list",
-             chromLengths="vector", geneToChrom="environment"),where=where)
-
+    setClass("chromLocation", representation(organism="character",
+                                             dataSource="character",
+                                             chromLocs="list",
+                                             probesToChrom="environment",
+                                             chromInfo="numeric",
+                                             geneSymbols="environment"
+                                             ),where=where)
 
     # Define the accessors
-    if (is.null(getGeneric("species")))
-        setGeneric("species", function(object)
-                   standardGeneric("species"), where=where)
+    if (is.null(getGeneric("organism")))
+        setGeneric("organism", function(object)
+                   standardGeneric("organism"), where=where)
 
-    if (is.null(getGeneric("source")))
-        setGeneric("datSource", function(object)
-                   standardGeneric("datSource"), where=where)
+    setMethod("organism", "chromLocation", function(object)
+              object@organism, where=where)
+
+    if (is.null(getGeneric("dataSource")))
+        setGeneric("dataSource", function(object)
+                   standardGeneric("dataSource"), where=where)
+
+    setMethod("dataSource", "chromLocation", function(object)
+              object@dataSource, where=where)
 
     if (is.null(getGeneric("nChrom")))
         setGeneric("nChrom", function(object)
                    standardGeneric("nChrom"), where=where)
 
+    setMethod("nChrom", "chromLocation", function(object)
+              length(object@chromInfo), where=where)
+
     if (is.null(getGeneric("chromNames")))
         setGeneric("chromNames", function(object)
                    standardGeneric("chromNames"), where=where)
+
+    setMethod("chromNames", "chromLocation", function(object)
+              names(object@chromInfo), where=where)
 
     if (is.null(getGeneric("chromLocs")))
         setGeneric("chromLocs", function(object)
                    standardGeneric("chromLocs"), where=where)
 
+    setMethod("chromLocs", "chromLocation", function(object)
+              object@chromLocs, where=where)
+
     if (is.null(getGeneric("chromLengths")))
         setGeneric("chromLengths", function(object)
                    standardGeneric("chromLengths"), where=where)
 
-    if (is.null(getGeneric("geneToChrom")))
-        setGeneric("geneToChrom", function(object)
-                   standardGeneric("geneToChrom"), where=where)
+    setMethod("chromLengths", "chromLocation", function(object) {
+        z <- as.numeric(object@chromInfo)
+        ## Unknown chromosome lengths come out as NA from the
+        ## data package, put this as 0 as we want a numeric vector
+        z[is.na(z)] <- 0
+        z
+    }, where=where)
 
-    setMethod("species", "chromLocation", function(object)
-              object@species, where=where)
+    if (is.null(getGeneric("probesToChrom")))
+        setGeneric("probesToChrom", function(object)
+                   standardGeneric("probesToChrom"), where=where)
 
-    setMethod("datSource", "chromLocation", function(object)
-              object@datSource, where=where)
+    setMethod("probesToChrom", "chromLocation", function(object)
+              object@probesToChrom, where=where)
 
-    setMethod("nChrom", "chromLocation", function(object)
-              object@nChrom, where=where)
+    if (is.null(getGeneric("chromInfo")))
+        setGeneric("chromInfo", function(object)
+                   standardGeneric("chromInfo"), where=where)
+    setMethod("chromInfo", "chromLocation", function(object)
+              object@chromInfo, where=where)
 
-    setMethod("chromNames", "chromLocation", function(object)
-              object@chromNames, where=where)
-
-    setMethod("chromLocs", "chromLocation", function(object)
-              object@chromLocs, where=where)
-
-    setMethod("chromLengths", "chromLocation", function(object)
-              object@chromLengths, where=where)
-
-    setMethod("geneToChrom", "chromLocation", function(object)
-              object@geneToChrom, where=where)
+    if (is.null(getGeneric("geneSymbols")))
+        setGeneric("geneSymbols", function(object)
+                   standardGeneric("geneSymbols"), where=where)
+    setMethod("geneSymbols", "chromLocation", function(object)
+              object@geneSymbols, where=where)
 
     setMethod("show", "chromLocation", function(object) {
         cat("Instance of a chromLocation class with the following fields:\n")
-        cat("\tSpecies: ", object@species, "\n\t")
-        cat("Data source: ", object@datSource, "\n\t")
-        cat("Number of chromosomes for this species: ", object@nChrom, "\n\t")
+        cat("\tOrganism: ", organism(object), "\n\t")
+        cat("Data source: ", dataSource(object), "\n\t")
+        cat("Number of chromosomes for this organism: ", nChrom(object), "\n\t")
 
         ## Build up a matrix of chromosome names & their locations
-        cat("Chromosomes of this species and their lengths in base pairs:")
-        for (i in 1:object@nChrom) {
-            cat("\n\t\t",object@chromNames[i],":",object@chromLengths[i])
+        cat("Chromosomes of this organism and their lengths in base pairs:")
+        cNames <- chromNames(object)
+        cLens <- chromLengths(object)
+        for (i in 1:nChrom(object)) {
+            cat("\n\t\t",cNames[i],":",cLens[i])
         }
         cat("\n")
     })
 }
 
-buildChromClass <- function(species, datSource, chromList,
-                             chromLengths) {
-# Passed a species name, the source of the data, a list which contains
-# all the genes/location sorted by chromosome.  Will return a new
-#instance of a chromLocation class, based on this information.
+CHRLOC2chromLoc <- function(chrEnv) {
+    chrLocs <- contents(chrEnv)
 
-    # Derive the other necessary information for this instantiation
-    nChrom <- length(chromList)
-    chromNames <- labels(chromList)
-    chromEnv <- new.env(hash=TRUE)
-    .fillGenEnv(chromList, chromEnv)
-
-    # INstantiate the new class and return it.
-    newChroms <- new("chromLocation", species=species,
-                      datSource=datSource, nChrom=nChrom,
-                      chromNames=chromNames, chromLocs=chromList,
-                      chromLengths=chromLengths,
-                      geneToChrom=chromEnv)
-
-    return(newChroms)
+    chromNames <- unlist(sapply(chrLocs, function(y) {
+        if (is.na(y))
+            y
+        else
+            names(y)
+    }))
+    chromNames <- factor(chromNames)
+    a <- split(chrLocs, chromNames)
+    chrLocList <- lapply(a, function(x) {g <- unlist(lapply(x, function(y)
+                                                        {names(y) <- NULL; y})); g})
+    chrLocList
 }
+
+buildChromLocation <- function(dataPkg) {
+    if (!require(dataPkg, character.only=TRUE))
+        stop(paste("Package:",dataPkg,"is not available"))
+
+    pEnv <- paste("package",dataPkg,sep=":")
+
+    chrLocList <- CHRLOC2chromLoc(get(paste(dataPkg,"CHRLOC",sep=""), pos=pEnv))
+
+    ## !!! Need to get the version info for dataSource
+    newCC <- new("chromLocation",
+                 organism=get(paste(dataPkg,"ORGANISM",sep=""),pos=pEnv),
+                 dataSource=dataPkg,
+                 chromLocs=chrLocList,
+                 chromInfo=get(paste(dataPkg,"CHRLENGTHS",sep=""),pos=pEnv),
+                 probesToChrom=get(paste(dataPkg,"CHR",sep=""),pos=pEnv),
+                 geneSymbols=get(paste(dataPkg,"SYMBOL",sep=""),pos=pEnv))
+
+    return(newCC)
+}
+
 usedChromGenes <- function(eSet, chrom, specChrom) {
     ## Passed an instance of an exprSet, a chromosome name, and
     ## an instance of a chromLocation object - will return the
-    ## set of genes in the eset that exist on the named chromosome.
+    ## set of genes in the eset that exist on the named chromosome,
+    ## ordered by location
 
     ## Extract the gene names of the chromosome of interest
     cLocs <- chromLocs(specChrom)
