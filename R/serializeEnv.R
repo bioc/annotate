@@ -17,11 +17,11 @@ serializeEnv <- function(env, fname) {
  out <- paste(out,
               "<values xmlns:bt=\"http://www.bioconductor.org/RGDBM\">")
  for (i in seq(along=envList)) {
-     out <- paste(out, "\n\t<entry>\n\t\t<key>\n\t\t\t", keys[i],
-                  "\n\t\t</key>\n\t\t<value>\n\t\t\t",
+     out <- paste(out, "\n\t<entry>\n\t\t<key>\n\t\t<![CDATA[",
+                  "\n\t\t\t", keys[i], "\n\t\t]]>",
+                  "\n\t\t</key>\n\t\t<value>\n\t\t<![CDATA[\n\t\t\t",
                   serialize(envList[[i]], NULL, ascii=TRUE),
-                  "\n\t\t</value>\n\t</entry>", sep="")
-
+                  "\n\t\t]]>\n\t\t</value>\n\t</entry>", sep="")
  }
  out <- paste(out, "\n</values>", sep="")
 
@@ -52,6 +52,8 @@ serializeDataPkgEnvs <- function(pkgDir) {
     if (length(dataSets) == 0)
         return(0)
     dataSets <- dataSets[dataSets != pkg]
+    dataSets <- dataSets[dataSets != paste(pkg, "ORGANISM", sep="")]
+    dataSets <- dataSets[dataSets != paste(pkg, "QC", sep="")]
 
     for (i in seq(along=dataSets))
         serializeEnv(dataSets[i], paste(dataSets[i], ".xml.gz", sep=""))
