@@ -160,7 +160,7 @@ We can retrieve values from this environment in many different ways
 (and the reader is referred to the R help pages for more details on
 using some of the functions described briefly here).
 Suppose that we are interested in finding the LocusLink ID for the
-Affymetrix probe, \texttt{1000_at}. Then we can do it in any one of
+Affymetrix probe, \texttt{1000\_at}. Then we can do it in any one of
 the following ways:
 <<getting>>=
 

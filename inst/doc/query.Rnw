@@ -39,6 +39,9 @@ appropriate web interfaces. The tools described here allow you to
 either retrieve the data (usually in XML) or have it rendered in a
 browser on the local machine. To do this you will need the
 \Rpackage{Biobase}, \Rpackage{XML}, and \Rpackage{annotate} packages.
+The functionality in this article was first described in
+\citep{Gentleman&GentryRnews02}, although some enhancements have been
+made since the writing of that article.
 
 Assembling and using meta-data annotation is a non-trivial task. In
 the Bioconductor Project we have developed tools to support two
@@ -146,7 +149,7 @@ information. Again, for a complete listing and description the reader
 is referred to the NLM website.
 
 We next generate the query and store the results in a variable named
-\Robject{x}. This object is of class \code{XMLDocument} and to
+\Robject{x}. This object is of class \Robject{XMLDocument} and to
 manipulate it we will use functions provided by the XML package.
 
 <<getabsts>>=
@@ -185,65 +188,42 @@ number of different slots. They are:
 \item[articleTitle] The title of the article.
 \item[journal] The journal it is published in.
 \item[pubDate] The publication date.
-\item[abstUrl] A URL, if available, for the article.
 \end{description}
 These can all be individually extracted utilizing the provided methods,
 such as \Robject{abstText} in the above example.
 As you can see, the \Robject{pubMedAbst} class provides several key
 pieces of information: authors, abstract text, article title, journal,
-publication date of the journal and any related URL. If no URL is
-provided by the authors then this last value will have the value
-\textt{"No URL Provided"}.
+and the publication date of the journal.
 
 Once the abstracts have been assembled you can search them using any
 of the standard search techniques. Suppose for example we wanted to
 know which abstracts have the term \texttt{cDNA} in them, then the
 following code chunk shows how to identify these abstracts.
 
-%%FIXME: I think the print method for pubMedAbst class has a type: it
-%%says pubMedAbs - no t
-%%could we fix it up so it has something more like
-%% Title: title
-%% PMID: pmid
-%%and so on
 <<>>=
 found <- grep("cDNA",absts)
 goodAbsts <- arts[found]
 length(goodAbsts)
 @
 
-So \Sexpr{length(goodAbsts} of the articles relating to our genes of
+So \Sexpr{length(goodAbsts)} of the articles relating to our genes of
 interest mention the term \texttt{cDNA} in their abstracts.
-
-%%FIXME: jeff - is this working - it seems odd to me that there was
-%%one and now it is gone...
-Suppose at this point you identify one particular abstract that you
-want to look further at the 2nd abstract obtained.  A brief scan of
-its contents (from above) shows that it contains a URL for its
-journal:
-
-<<>>=
-hasURL = sapply(arts, function(x) abstUrl(x) != "No URL Provided")
-
-abstUrl(goodAbsts[[2]])
-@
-
-This URL can then be used (either using the \verb+browseURL+
-function from \Rpackage{annotate} or directly from your favorite browser)
-to view the full article as well as any related information provided
-by the authors.
 
 Lastly, as a demonstration for how one can use the \verb+query+
 toolset to cross reference several databases, we can use the same set
-of PubMed IDs with another function:
+of PubMed IDs with another function.  In this example, the
+\Rfunction{genbank} function is used with the argument
+\Robject{type="uid"}.  By default, the \Rfunction{genbank} function
+assumes that the id values passed in are Genbank accession numbers,
+but we currently have PubMed ID values that we want to use.  The
+\Robject{type="uid"} argument specifies that we are using PubMed IDs
+(aka NCBI UID numbers).
 
-%%FIXME: please explain what uid means here, no one will have any idea
 <<>>=
-## Must use parameter "uid" here as genbank defaults to using
-## Genbank accession numbers
-y <- genbank(ids, type="uid")
-b <- xmlRoot(x)
+##y <- genbank(ids, type="uid")
+##b <- xmlRoot(x)
 @
+
 At this point the object {\tt b} can be manipulated in a manner similar
 to {\tt a} from the PubMed example.
 
@@ -251,11 +231,40 @@ Also, note that both \verb+pubmed+ and \verb+genbank+ have an option
 to display the data directly in the browser instead of XML, by
 specifying {\tt disp="browser"} in the parameter listing.
 
+\section{Generating HTML output for your abstracts}
 
-%%FIXME: please put in the abst2html example once you have fixed it.
+Many users find it useful to have a web page created with links for
+all of their abstracts, leading to the actual PubMed page online.
+These pages can then be distributed to other people who have an
+interest in the abstracts that you have found.  There are two formats
+for this, the first provides for a simple HTML page which has a link
+for every abstract, and the other provides for a framed HTML page with
+the links on the left and the resulting PubMed page in the main
+frame.  For these examples, we will be using temporary files:
+
+<<abst2HTML>>=
+fname <- tempfile()
+pmAbst2HTML(goodAbsts, filename=fname)
+
+fnameBase <- tempfile()
+pmAbst2HTML(goodAbsts, filename=fnameBase, frames=TRUE)
+@
+
+\begin{figure}[htb]
+	\begin{center}
+	  \includegraphics{noframes}
+	  \caption{pmAbst2HTML without frames}
+
+	  \includegraphics{frames}
+	  \caption{pmAbst2HTML with frames}
+        \end{center}
+\end{figure}
+
 %%FIXME: please look over the R News article and at least reference it
 %%- and make sure that we have discussed all the functionality that we
 %%  have.
+
+\bibliography{query}
 
 \end{document}
 
