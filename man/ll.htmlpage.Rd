@@ -7,11 +7,14 @@
   that gene.
 }
 \usage{
-ll.htmlpage(genelist, filename)
+ll.htmlpage(genelist, filename, title, othernames)
+)
 }
 \arguments{
   \item{genelist}{A character vector of gene names for LocusLink. }
   \item{filename}{The name of the file to store the HTML in. }
+  \item{title}{A title for the web page}
+  \item{othernames}{Other values to be included in the table}
 }
 \details{
   A simple markup is used to provide clickable entries.
@@ -31,5 +34,5 @@ ll.htmlpage(genelist, filename)
  #to remove the file
  system("rm fff.html")
 }
-\keyword{ Files }
+\keyword{ file }
 
