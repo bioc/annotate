@@ -59,8 +59,8 @@ locuslinkQuery <- function(query,...,lladdress="LocusLink/", browse=TRUE) {
 
     if (browse)
         browseURL(query)
-
-    return(query)
+    else
+        return(query)
 }
 
 locuslinkByID <- function(..., lladdress="LocusLink/", browse=TRUE) {
@@ -79,8 +79,8 @@ locuslinkByID <- function(..., lladdress="LocusLink/", browse=TRUE) {
 
     if (browse)
         browseURL(query)
-
-    return(query)
+    else
+        return(query)
 }
 
 genbank <- function(..., disp=c("data","browser"),
