@@ -44,14 +44,13 @@ getUniqAnnItem()
   dropped. \code{lookUp} is a general function that can be used to look
   up matches. All other translation functions use \code{lookUp}
 
-  \code{getUniqAnnItem} keeps track of the annotation elements that have
-  one to one mappings. \code{lookUp} returns a named vector for these
-  elements but a list of named vectors for others.
-
   A BioC annotation data package contains annotation data environments
   whose names are pkckage name (e. g. hgu95av2) + element name
   (e. g. PMID). \code{what} must be one of the element names for the
-  given data package.  
+  given data package. 
+
+  \code{getUniqAnnItem} keeps track of the annotation elements that have
+  one to one mappings.   
 }
 \value{
   Either a vector or a list depending on whether multiple values per
@@ -70,7 +69,7 @@ getUniqAnnItem()
   if( require("hgu95av2", character.only=TRUE)
        && require("GO", character.only=TRUE) ) {
       lookUp(gN, "hgu95av2", "SYMBOL")
-      # Same as lookUp for SYMBOL
+      # Same as lookUp for SYMBOL except the return is a vector
       getSYMBOL(gN,"hgu95av2" )
       gg<- getGO(gN, "hgu95av2")
       lookUp(gg[[2]], "GO", "MFID2TERM")

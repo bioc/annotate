@@ -8,18 +8,18 @@ lookUp <- function(x, data, what){
     if(length(x) < 1){
         stop("No key(s) provided")
     }
-    require(data, character.only = TRUE) ||
+    require(data, quietly = TRUE, character.only = TRUE) ||
         stop(paste("Data package", data, "not available"))
+    if(!any(ls(match(paste("package:", data, sep = ""),
+                     search())) == paste(data, what, sep = ""))){
+        stop(paste(what, "is an invalid element name"))
+    }
     if(length(x) == 1){
         mapping <- get(x, env = get(paste(data, what, sep = "")))
     }else{
         mapping <- multiget(x, env = get(paste(data, what, sep = "")))
     }
-    if(length(x) > 1 && any(getUniqAnnItem() == what)){
-        return(unlist(mapping))
-    }else{
-        return(mapping)
-    }
+    return(mapping)
 }
 
 getGO <- function(x, data) {
@@ -37,14 +37,16 @@ getGO <- function(x, data) {
      #ans <- multiget(x, env=de)
      #ans[is.na(ans)] <- NULL
      #ans
-     lookUp(x, "GO", paste(which, "ID2TERM", sep = ""))
+     ans <- lookUp(x, "GO", paste(which, "ID2TERM", sep = ""))
+     ans[is.na(ans)] <- NULL
+     ans
  }
 
   getSYMBOL <- function(x, data) {
      #library(data, character.only=TRUE)
      #GOenv <- get(paste(data, "SYMBOL",sep=""))
      #unlist(multiget(x, env=GOenv))
-      lookUp(x, data, "SYMBOL")
+      unlist(lookUp(x, data, "SYMBOL"))
  }
 
   getPMID <- function(x, data) {
@@ -58,7 +60,7 @@ getGO <- function(x, data) {
       #library(data, character.only=TRUE)
       #LLenv <- get(paste(data, "LOCUSID", sep=""))
       #unlist(multiget(x, env=LLenv))
-      lookUp(x, data, "LOCUSID")
+      unlist(lookUp(x, data, "LOCUSID"))
   }
 
   if( !isGeneric("contents") && !exists("contents", mode="function") )
