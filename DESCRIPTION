@@ -3,7 +3,7 @@ Title: Annotation for microarrays
 Version: 1.5.10
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
-Maintainer: R. Gentleman <rgentlem@hsph.harvard.edu>
+Maintainer: R. Gentleman <rgentlem@fhcrc.org>
 Depends: R (>= 1.9.0), Biobase
 Suggests: hgu95av2, genefilter, Biostrings, rae230a, rae230aprobe, tkWidgets, XML (>= 0.92-2), reposTools, hsahomology, xlahomology, GO
 License: LGPL
