@@ -95,7 +95,7 @@ to then associate the annotation with the $t$--test results.
 We first obtain gene symbol and the LocusLink identifier data by
 loading the appropriate environments using \verb+data+.
 We extract the data from the
-environment using either \verb+get+ or \verb+multiget+.
+environment using either \Rfunction{get} or \Rfunction{mget}.
 
 <<>>=
 igenes.ll <- getLL(igenes, "hgu95av2")

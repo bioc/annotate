@@ -225,7 +225,7 @@ package named \Rpackage{GO}. AS package \Rpackage{hgu95av2} and
 two packages using \Rpackage{GO} id as shown below:
 
 <<>>=
-mget(names(get("699_s_at", hgu95av2GO)), GOTERMS)
+mget(names(get("699_s_at", hgu95av2GO)), GOTERM)
 @
 
 It turns out that probe id \textit{GO:0005085} (corresponding to
