@@ -30,7 +30,6 @@ ll.htmlpage(genelist, filename, title, othernames, table.head,
 }
 
 \author{R. Gentleman }
-\seealso{ \code{\link{read.annotation}}}
 
 \examples{
  gnames <- as.character(6810:6820)

@@ -39,7 +39,7 @@ when there are many different queries to be performed.
 \examples{
 hoxa9 <- "U82759_at"
 
-absts <- pm.getabst(hoxa9, "hgu68")
+absts <- pm.getabst(hoxa9, "hu6800")
 
 }
 \keyword{ manip }

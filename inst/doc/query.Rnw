@@ -33,7 +33,7 @@ load the {\em Biobase} package, as well as the {\em XML} package if it
 is needed).  For this example, we are utilizing the example data in
 \verb+eset+ to show how this could work with a real world analysis.
 
-<<>>=
+<<data>>=
 library(annotate)
 data(eset)
 affys <- geneNames(eset)[490:500]
@@ -46,9 +46,9 @@ Affymetrix identifiers, and for the \verb+pubmed+ function, we need to
 use PubMed ID values.  To obtain these, we can use the annotation
 tools within package {\em annotate}.
 
-<<>>=
-hgu95pm <- read.annotation("hgu95Apmed")
-ids <- multiget(affys,envir=hgu95pm)
+<<annotation>>=
+library(hgu95a)
+ids <- multiget(affys,envir=hgu95aPMID)
 ids <- unlist(ids,use.names=FALSE)
 ids <- ids[!is.na(as.numeric(ids))]
 ids
@@ -60,14 +60,12 @@ material is stored there for these genes, we can retrieve it in the
 following manner (Note: This is the point where the {\em XML} package
 gets loaded):
 
-%%<<>>=
-\begin{verbatim}
+<<getabsts>>=
 x <- pubmed(ids)
 a <- xmlRoot(x)
 numAbst <- length(xmlChildren(a))
 numAbst
-\end{verbatim}
-%%@
+@
 
 Our search of the 30 PubMed IDs (from the 10 Affymetrix IDs) has
 resulted  in the same number of abstracts from PubMed (stored
