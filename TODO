@@ -3,7 +3,7 @@ Please feel free to add to it or to start implementing stuff:
 
  1) The file, data/mgu74v2id
    contains an environment that has the affy number linked to (the 
-  genbank number??)
+  genbank accession number)
 
    It would be nice to be able to select a set of genes and
    get a webpage set up with the Affy #, and links to various
@@ -20,10 +20,20 @@ Please feel free to add to it or to start implementing stuff:
 
  4) Do we want to explore a Tcl/Tk interface to selection?
 
-
  5) Need to store the data files compressed (.gz) and then use the appropriate
     readers. What would be even better would be to have stored binary forms
     of environments (or memory-mapped environments).
+
+ 6) Now have the ability to load up locus link webpages, but we
+    would like to be able to do keyword searchs and to interpret the
+    results directly in R.
+
+ 7) We need some form of class structure that will allow us to
+   manipulate the objects in a more uniform fashion.
+
+ 8) We need to design the interface so it can be handled either by
+   environments/hash tables or by a database -- either Access or
+   Postgres
 
 ---
 some comments after 26 oct meetings
