@@ -5,4 +5,5 @@ Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: R. Gentleman <rgentlem@hsph.harvard.edu>
 Depends: Biobase, XML (>= 0.92-2), reposTools
+Suggests: hgu95av2, genefilter
 License: LGPL

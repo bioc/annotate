@@ -5,7 +5,7 @@
 
 
 % \VignetteIndexEntry{HOWTO: Use the automated query tools}
-% \VignetteDepends{Biobase, annotate, XML, edd, class, genClass, mva, hgu95av2}
+% \VignetteDepends{annotate, hgu95av2}
 % \VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}
 \documentclass{article}
