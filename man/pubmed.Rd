@@ -8,8 +8,8 @@
   those identifiers, or a XMLdoc object with the same data.
 }
 \usage{
-pubmed(...,disp=c("data","browser")[1], type=c("uid","accession")[1],
-       pmaddress=.pmfetch())
+pubmed(...,disp=c("data","browser"), type=c("uid","accession"),
+       pmaddress=.pmfetch("PubMed", disp, type))
 }
 \arguments{
   \item{...}{Vectorized set of Pubmed ID's}

@@ -7,8 +7,8 @@
   identifiers, or a XMLdoc object with the same data.  
 }
 \usage{
-genbank(...,disp=c("data","browser")[1], type=c("uid","accession")[2],
-        pmaddress=.pmfetch())
+genbank(...,disp=c("data","browser"), type=c("accession","uid"),
+        pmaddress=.pmfetch("Nucleotide", disp, type))
 }
 \arguments{
   \item{...}{Vectorized set of Genbank accession numbers or NCBI UIDs}

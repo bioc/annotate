@@ -6,7 +6,7 @@
   convert them into NCBI UID values.
 }
 \usage{
-accessionToUID(...,db=c("genbank","pubmed")[1])
+accessionToUID(...,db=c("genbank","pubmed"))
 }
 \arguments{
   \item{...}{Accession numbers to be transformed.}
