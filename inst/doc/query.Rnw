@@ -59,12 +59,14 @@ material is stored there for these genes, we can retrieve it in the
 following manner (Note: This is the point where the {\em XML} package
 gets loaded):
 
-<<>>=
+%%<<>>=
+\begin{verbatim}
 x <- pubmed(ids)
 a <- xmlRoot(x)
 numAbst <- length(xmlChildren(a))
 numAbst
-@
+\end{verbatim}
+%%@
 
 Our search of the 30 PubMed IDs (from the 10 Affymetrix IDs) has
 resulted  in the same number of abstracts from PubMed (stored
@@ -121,6 +123,7 @@ by the authors.
 Lastly, as a demonstration for how one can use the /verb+query+
 toolset to cross reference several databases, we can use the same set
 of PubMed IDs with another function:
+
 <<>>=
 ## Must use parameter "uid" here as genbank defaults to using
 ## Genbank accession numbers
