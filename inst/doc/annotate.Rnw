@@ -63,7 +63,7 @@ evolving. To address the second of these we develop and distribute
 software that can take advantage of the web services that are
 provided. Perhaps the richest source of these is provided by the
 National Library of Medicine. Further details on accessing these
-resources are provided in \cite{PubMedRnews; PubMedVignette}.
+resources are provided in \cite{PubMedRnews} and \cite{PubMedVignette}.
 
 While the chromosomal location is not always of interest, in certain
 situations, especially the study of genetic diseases it is important
