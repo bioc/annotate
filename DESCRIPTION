@@ -1,10 +1,10 @@
 Package: annotate
 Title: Annotation for microarrays
-Version: 1.4.21
+Version: 1.4.22
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: R. Gentleman <rgentlem@hsph.harvard.edu>
-Depends: R (>= 1.9.0), Biobase, XML (>= 0.92-2), reposTools, tkWidgets
-Suggests: hgu95av2, genefilter, Biostrings, rae230a, rae230aprobe
+Depends: R (>= 1.9.0), Biobase, XML (>= 0.92-2), reposTools
+Suggests: hgu95av2, genefilter, Biostrings, rae230a, rae230aprobe, tkWidgets
 License: LGPL
 
