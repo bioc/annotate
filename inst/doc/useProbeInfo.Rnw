@@ -84,7 +84,7 @@ reported. One can check that using other tools available in the
 %%FIXME: need to check for connectivity
 <<getACC>>=
 
-myseq = getSeq4Acc(myA)
+myseq = getSEQ(myA)
 nchar(myseq)
 
 library(Biostrings)
@@ -112,7 +112,7 @@ wp = rae230aprobe$Probe.Set.Name == myp
 
 myPr = rae230aprobe[wp,]
 
-myseq = getSeq4Acc(myA)
+myseq = getSEQ(myA)
 
 mybs = NucleotideString(myseq, "DNA")
 
