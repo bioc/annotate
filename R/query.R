@@ -79,7 +79,7 @@ genbank <- function(..., disp=c("data","browser")[1],
     args <- paste(params,collapse=",")
     ## See if we need to transform accession based arguments
     err <- args
-    args <- .transformAccession(args, disp, type)
+    args <- .transformAccession(args, disp, type,db="genbank")
 
    if (is.null(args)) {
         print(paste("No XML records available for accession number",err))
@@ -109,9 +109,6 @@ pubmed  <- function(..., disp=c("data","browser")[1],
     if (length(params) == 0) {
         stop("No PMID, cannot proceed")
     }
-    else if (disp == "data") {
-        params <- accessionToUID(params,"pubmed")
-    }
 
     ncbiURL <- .getNcbiURL()
 
@@ -119,13 +116,12 @@ pubmed  <- function(..., disp=c("data","browser")[1],
     args <- paste(params,collapse=",")
     ## See if we need to transform accession based arguments
     err <- args
-    args <- .transformAccession(args, disp, type)
+    args <- .transformAccession(args, disp, type,"pubmed")
 
     if (is.null(args)) {
         print(paste("No XML records available for accession number",err))
         return(NULL)
     }
-
 
     id <- .getIdTag(disp,type)
 
@@ -142,8 +138,16 @@ pubmed  <- function(..., disp=c("data","browser")[1],
     }
 }
 
-accessionToUID <- function(accNum,db=c("genbank","pubmed")[1]) {
+accessionToUID <- function(...,db=c("genbank","pubmed")[1]) {
     ## Passed an accession #, returns a pubmed UID
+
+    accNum <- list(...)
+    accNum <- unlist(accNum)
+    accNum <- paste(accNum,collapse="+OR+")
+
+    ## Certain functions will be passing in a single string of comma
+    ## deliminated Accession #s.  Change the commas to "+OR+"
+    accNum <- gsub("\\,","+OR+",accNum)
 
     if (db == "genbank") {
         db <- "nucleotide"
@@ -163,8 +167,7 @@ accessionToUID <- function(accNum,db=c("genbank","pubmed")[1]) {
     options(show.error.messages = FALSE)
     on.exit(options(show.error.messages = TRUE))
     retVal <- NULL
-    result <- try(xmlTreeParse(query,isURL=TRUE,handlers=
-                               list(Id=function(x,attrs) {retVal <<- xmlValue(x[[1]])})))
+    result <- try(xmlTreeParse(query,isURL=TRUE, handlers=list(Id=function(x,attrs) {retVal <<- xmlValue(x[[1]])})))
     options(show.error.messages = TRUE)
 
     if (!is.null(retVal)) {
@@ -245,12 +248,11 @@ accessionToUID <- function(accNum,db=c("genbank","pubmed")[1]) {
     return(paste(base,db,sep=""))
 }
 
-.transformAccession <- function(args, disp, type) {
+.transformAccession <- function(args, disp, type, db) {
     ## Used to change accession ID arguments to query functions
     ## into UIDs if necessary.  Returns NULL if there aren't any left.
     if ((disp == "data")&&(type=="accession")) {
-        err <- args
-        args <- accessionToUID(args)
+        args <- accessionToUID(args,db=db)
     }
 
     return(args)
