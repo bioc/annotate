@@ -7,7 +7,7 @@ PWAmat = function(data) {
     dataE = get(paste(data, "PATH2PROBE", sep=""))
 
     pathLL = eapply(dataE, function(x) {
-        LLs = getLL(x, "hgu133plus2")
+        LLs = getLL(x, data)
         LLs = LLs[!is.na(LLs)]
         unique(LLs) })
     uniqLL = unique(unlist(pathLL,use.names=FALSE))
