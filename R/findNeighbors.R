@@ -123,6 +123,8 @@ findChr4LL <- function(llID, chrEnv, organism){
 getValidChr <- function(organism){
     switch(toupper(organism),
            HUMAN = return(c(1:22, "X", "Y")),
+           MOUSE = return(c(1:19, "X", "Y")),
+           RAT = return(c(1:20, "X", "Y")),
            stop(paste("Unknow organism", organism)))
 }
 
