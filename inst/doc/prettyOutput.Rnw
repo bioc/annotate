@@ -39,14 +39,6 @@ igenes
 
 Now, given this set of genes (or Affymetrix identifiers) we would like
 to provide some meaningful output.
-\begin{verbatim}
-
- [1] "31484_at"   "31485_at"   "31486_s_at" "31487_at"   "31488_s_at"
- [6] "31489_at"   "31490_at"   "31491_s_at" "31492_at"   "31493_s_at"
-[11] "31494_at"   "31495_at"   "31496_g_at" "31497_at"   "31498_f_at"
-[16] "31499_s_at"
-
-\end{verbatim}
 
 The example data in \verb+eset+ has three (made--up) covariates.
 
@@ -60,6 +52,9 @@ exprSet} and applies a function to it. So, suppose we are interested
 in differences in the mean expression for these genes, between the two
 groups defined by \verb+cov2+.
 We can obtain the $t$--tests by using \verb+esApply+
+First, we make up an function that can be used by \verb+esApply+ to do
+what we want\footnote{See the {\tt esApply} man pages and HOWTO's for
+more details on this function}.
 
 <<>>=
 mytt <- function(y) {
@@ -71,11 +66,12 @@ ttout <- esApply(eset[245:260,], 1, mytt)
 length(ttout)
 ttout[1]
 igenes.pvals <- sapply(ttout, function(x) x$p.value)
+igenes.pvals
 igenes.gp1mean <- sapply(ttout, function(x) x$estimate[1])
 igenes.gp2mean <- sapply(ttout, function(x) x$estimate[2])
 @
 And we see that \verb+ttout+ contains the output for the $t$--tests
-for the 16 genes. Notice that none of the p--values or test statistics
+for the 16 genes. Notice that none of the $p$--values or test statistics
 are unusual -- that is because we simply choose genes at random. You
 should see small $p$--values and large test statistics (we hope).
 
