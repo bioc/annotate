@@ -95,7 +95,14 @@
 CHRLOC2chromLoc <- function(chrEnv) {
     chrLocs <- contents(chrEnv)
 
-    chromNames <- unlist(sapply(chrLocs, function(y) {
+    ## Need to extract out the ones w/ multiple mappings
+    chrLens <- sapply(chrLocs, length)
+    multis <- split(chrLens, factor(chrLens))
+
+    ## First handle the single mapped genes
+    singleNames <- names(multis$"1")
+    singleLocs <- chrLocs[singleNames]
+    chromNames <- unlist(sapply(singleLocs, function(y) {
         if (is.na(y))
             y
         else
@@ -105,6 +112,27 @@ CHRLOC2chromLoc <- function(chrEnv) {
     a <- split(chrLocs, chromNames)
     chrLocList <- lapply(a, function(x) {g <- unlist(lapply(x, function(y)
                                                         {names(y) <- NULL; y})); g})
+
+    ## Now handle the multi mapped genes
+    ## !!! FIXME:
+    ## !!! This is *very* inefficient.  Make this better
+    ## !!!
+    if (length(multis) > 1) {
+        for (i in 2:length(multis)) {
+            curNames <- names(multis[[i]])
+            curLocs <- chrLocs[curNames]
+            for (j in 1:length(curLocs)) {
+                curGene <- curLocs[[j]]
+                curGeneChroms <- names(curGene)
+                names(curGene) <- rep(curNames[j],length(curGene))
+                for (k in 1:length(curGene))
+                    chrLocList[[curGeneChroms[k]]] <-
+                        c(chrLocList[[curGeneChroms[k]]], curGene[k])
+            }
+        }
+    }
+
+
     chrLocList
 }
 
