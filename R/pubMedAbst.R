@@ -8,13 +8,13 @@
              pubDate="character"))
 
     setMethod("show", "pubMedAbst", function(object) {
-        cat("An object of class 'pubMedAbst':\n")
-        cat("Title:  ", articleTitle(object), "\n", fill=TRUE)
-        cat("PMID:   ", pmid(object), "\n")
-        cat("Authors:", paste(authors(object), collapse=", "),
-            "\n", fill=TRUE)
-        cat("Journal:", journal(object), "\n", fill=TRUE)
-        cat("Date:   ", pubDate(object), "\n", fill=TRUE)
+      s <- c("An object of class 'pubMedAbst':",
+          paste("Title:  ", articleTitle(object)),
+          paste("PMID:   ", pmid(object)),
+          paste("Authors:", paste(authors(object), collapse=", ")),
+          paste("Journal:", journal(object)), 
+          paste("Date:   ", pubDate(object)))
+      cat(strwrap(s, exdent=5), sep="\n")
     })
 
     ## Define generics
