@@ -60,8 +60,14 @@ ll.htmlpage <- function (genelist, filename, title, othernames)
     rows <- paste(rh, genelist, "\">", genelist, "</A> </TD>",
         sep = "")
     if( !missing(othernames) ) {
-       others <- paste("<TD>", othernames, "</TD>", sep="")
-       rows <- paste(rows, others)
+        if( is.list(othernames) ) {
+            others <- ""
+            for(nm in othernames)
+                others <- paste(others,"<TD>", nm, "</TD>", sep="")
+        }
+        else
+            others <- paste("<TD>", othernames, "</TD>", sep="")
+        rows <- paste(rows, others)
     }
     for (i in 1:nrows)
         cat("<TR>", rows[i], "</TR>", file = outfile, sep = "\n")
