@@ -7,7 +7,8 @@
   that gene.
 }
 \usage{
-ll.htmlpage(genelist, filename, title, othernames)
+ll.htmlpage(genelist, filename, title, othernames, table.head,
+     table.center = TRUE )
 )
 }
 \arguments{
@@ -15,6 +16,9 @@ ll.htmlpage(genelist, filename, title, othernames)
   \item{filename}{The name of the file to store the HTML in. }
   \item{title}{A title for the web page}
   \item{othernames}{Other values to be included in the table}
+  \item{table.head}{A character vector of column labels for the table}
+  \item{table.center}{A logical indicating whether the table should be
+    centered} 
 }
 \details{
   A simple markup is used to provide clickable entries.
