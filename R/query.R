@@ -35,7 +35,7 @@ pmidQuery <- function(query) {
     return(query)
 }
 
-locuslinkQuery <- function(query,...,lladdress="LocusLink/") {
+locuslinkQuery <- function(query,...,lladdress="LocusLink/", browse=TRUE) {
     params <- list(...)
     params <- unlist(params,use.names=FALSE)
 
@@ -57,10 +57,13 @@ locuslinkQuery <- function(query,...,lladdress="LocusLink/") {
     query <- paste(ncbiURL, lladdress,
     "list.cgi?Q=",query,"&ORG=",species,"&V=0",sep="")
 
-    browseURL(query)
+    if (browse)
+        browseURL(query)
+
+    return(query)
 }
 
-locuslinkByID <- function(..., lladdress="LocusLink/") {
+locuslinkByID <- function(..., lladdress="LocusLink/", browse=TRUE) {
     params <- list(...)
     params <- unlist(params)
 
@@ -74,7 +77,10 @@ locuslinkByID <- function(..., lladdress="LocusLink/") {
 
     query <- paste(ncbiURL, lladdress, "LocRpt.cgi?l=", args, sep="")
 
-    browseURL(query)
+    if (browse)
+        browseURL(query)
+
+    return(query)
 }
 
 genbank <- function(..., disp=c("data","browser"),

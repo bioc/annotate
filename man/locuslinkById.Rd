@@ -7,11 +7,12 @@
   URL to query for that \em{gene}. 
 }
 \usage{
-locuslinkByID(..., lladdress="LocusLink/")
+locuslinkByID(..., lladdress="LocusLink/", browse=TRUE)
 }
 \arguments{
   \item{...}{The Locuslink accession numbers. }
   \item{lladdress}{The subdirectory off of the NCBI site for LocusLink. }
+  \item{browse}{If TRUE, will open the URL in a web browser}
 }
 \details{
   A simple function to open the appropriate web page in the users
@@ -20,8 +21,8 @@ locuslinkByID(..., lladdress="LocusLink/")
   "View" pulldown menu on the page.
 }
 \value{
-No value is returned. The users web browser is directed to the
-appropriate link.
+  The URL found is returned.  If \code{browse} is TRUE, the user's web
+  browser is directed to that URL.
 }
 
 \author{Jeff Gentry }

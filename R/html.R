@@ -37,6 +37,13 @@ makeAnchor <- function(link, title) {
     setMethod("show","HTMLPage", function(object) print(pageText(object)),
               where=where)
 
+    if (is.null(getGeneric("toFile")))
+        setGeneric("toFile", function(object, ...)
+                   standardGeneric("toFile"), where=where)
+    setMethod("toFile", "HTMLPage", function(object, ...) {
+        cat(pageText(object), file=fileName(object))
+    }, where=where)
+
     ## Defines a basic framed page.  We're using 3 frames, a top
     ## banner, a side navigation bar and a main page, much like the
     ## bioconductor website.  The object also has it's own HTML page
@@ -64,6 +71,15 @@ makeAnchor <- function(link, title) {
                    standardGeneric("mainPage"), where=where)
     setMethod("mainPage", "FramedHTMLPage", function(object, ...)
               object@mainPage, where=where)
+
+    setMethod("toFile", "FramedHTMLPage", function(object, ...) {
+        toFile(topPage(object))
+        toFile(sidePage(object))
+        toFile(mainPage(object))
+
+        ## Is there a way to force a call to HTMLPage's 'toFile' here?
+        cat(pageText(object), file=fileName(object))
+    }, where=where)
 
     setMethod("initialize", "FramedHTMLPage",
               function(.Object) {
