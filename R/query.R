@@ -63,7 +63,7 @@ pubmed  <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
     args <- paste(...,sep=",")
     dbname <-"PubMed"
 
-    query <- paste(pmURL, pmaddress, dbname, "&id=", args, sep="")
+    query <- paste(ncbiURL, pmaddress, dbname, "&id=", args, sep="")
 
 
     ## Determine if we are displaying this data in a browser or
@@ -84,12 +84,14 @@ pubmed  <- function(..., disp=c("data","browser")[1], pmaddress=.pmfetch()) {
     BioCOpt <- getOption("BioC")
 
     if (!is.null(BioCOpt)) {
-        pmURL <- BioCOpt$Annotate$urls$ncbi
+        ncbiURL <- BioCOpt$Annotate$urls$ncbi
     }
 
-    if (!exists("pmURL")) {
-        pmURL <- "http://www.ncbi.nih.gov/"
+    if (!exists("ncbiURL")) {
+        ncbiURL <- "http://www.ncbi.nih.gov/"
     }
+
+    return(ncbiURL)
 }
 
 .pmfetch <- function() {
