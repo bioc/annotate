@@ -50,7 +50,7 @@ getGO <- function(x, data="hgu95a") {
 installDataPackage <- function(pkg, lib=.libPaths()[1]) {
     require(reposTools)||stop("installDataPackage requires package reposTools")
 
-    z <- getReposEntry("http://www.bioconductor.org/data/dataRepos")
+    z <- getReposEntry("BIOCData")
     x <- install.packages2(pkg, z, lib=lib)
     if (length(statusList(x)) == 0)
         stop(paste("Data package",pkg,"does not seem to exist",
