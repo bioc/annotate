@@ -57,6 +57,7 @@ used to extract the data.  For this vignette, we will be using the
 <<buildCL>>=
 library("annotate")
 z <- buildChromLocation("hgu95av2")
+z
 @
 
 Once we have an object of the \Rclass{chromLocation} class, we can now
@@ -85,7 +86,9 @@ the same name as the respective slot.  In the following example, we
 will demonstrate these basic methods.  For the
 \Rfunction{probesToChrom} and \Rfunction{geneSymbols} methods, the
 return value is an environment which maps a probe ID to other values,
-we will be using the probe ID '32972_at' (which was randomly selected):
+we will be using the probe ID '32972\_at', which was selected at
+random for these examples.  We are showing only part of the
+\Rfunction{chromLocs} method's output as it is quite long in its entirety.
 
 <<showBasicMethods>>=
 organism(z)
