@@ -103,12 +103,12 @@ igenes.sym <- getSYMBOL(igenes, "hgu95av2")
 @
 
 And now we are ready to wrap this all up using
-\verb+ll.htmlpage+. This function takes the LocusLink identifiers and
+\verb+htmlpage+. This function takes the LocusLink identifiers and
 wraps them in an HTML anchor that is linked to the appropriate
 LocusLink web page.
 
 <<>>=
-ll.htmlpage(igenes.ll, "HOWTO.igenes",
+htmlpage(igenes.ll, "HOWTO.html",
             "Genes seleced in an arbitrary way",
             list(igenes.sym, igenes, round(igenes.gp1mean, 3),
                  round(igenes.gp2mean, 3),round(igenes.pvals, 3)))
