@@ -1,10 +1,10 @@
-serializeEnv <- function(env, fname) {
+serializeEnv <- function(env, fname, asList=TRUE) {
  if (!is.character(fname))
      stop("conn should be a character name of file for storage")
 
- envLst <- as.list(env)
- .saveRDS(envLst, fname)
+ if (asList)
+     env <- as.list(env)
 
- length(envLst)
+ .saveRDS(env, fname)
 }
 
