@@ -137,18 +137,18 @@ getValidChr <- function(organism){
 }
 
 getBoundary <- function(loc, base, lower = TRUE){
-    if(as.numeric(loc) == 0){
+    if(as.numeric(loc[1]) == 0){
         return(base)
     }else{
         if(lower){
-            boundary <- as.numeric(loc) - base
+            boundary <- as.numeric(loc[1]) - base
             if(boundary < 0){
                 return(0)
             }else{
                 return(boundary)
             }
         }else{
-            return(as.numeric(loc) + base)
+            return(as.numeric(loc[1]) + base)
         }
     }
 }
