@@ -1,0 +1,113 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+% \VignetteIndexEntry{HOWTO Get HTML Output}
+
+
+
+% \VignetteIndexEntry{Chromosomal Locations}
+\documentclass{article}
+
+\usepackage{hyperref}
+
+\begin{document}
+\title{Howto get pretty html output for my gene list}
+\maketitle{}
+
+\section{Overview}
+
+This document demonstrates how you can get a nice--ish annotated html
+(web--page) output for the genes or probes that you have selected.
+To do this you will need both the {\em biobase} and {\em annotate}
+packages. You will also need to obtain annotation data for the
+experiment itself. In the example here the data come from Affymetrix
+U95A chips and that annotation is supplied by the Bioconductor
+project\footnote{If you have other needs please contact us.}.
+
+First we load the {\em annotate} package (this will automatically load
+{\em biobase}  as well) and then obtain our test data.
+We have arbitrarily selected 15 genes of {\em interest}, you will have
+obtained your list in some meaningful way!
+
+<<>>=
+library(annotate)
+data(eset)
+igenes <- geneNames(eset)[245:260]
+igenes
+@
+
+Now, given this set of genes (or Affymetrix identifiers) we would like
+to provide some meaningful output.
+\begin{verbatim}
+
+ [1] "31484_at"   "31485_at"   "31486_s_at" "31487_at"   "31488_s_at"
+ [6] "31489_at"   "31490_at"   "31491_s_at" "31492_at"   "31493_s_at"
+[11] "31494_at"   "31495_at"   "31496_g_at" "31497_at"   "31498_f_at"
+[16] "31499_s_at"
+
+\end{verbatim}
+
+The example data in \verb+eset+ has three (made--up) covariates.
+
+<<>>=
+
+eset
+
+@
+We will use \verb+cov2+. The function \verb+esApply+ takes an {\em
+exprSet} and applies a function to it. So, suppose we are interested
+in differences in the mean expression for these genes, between the two
+groups defined by \verb+cov2+.
+We can obtain the $t$--tests by using \verb+esApply+
+
+<<>>=
+mytt <- function(y) {
+      ys <- split( y, cov2 )
+      t.test( ys[[1]], ys[[2]] )
+      }
+
+ttout <- esApply(eset[245:260,], 1, mytt)
+length(ttout)
+ttout[1]
+igenes.pvals <- sapply(ttout, function(x) x$p.value)
+igenes.gp1mean <- sapply(ttout, function(x) x$estimate[1])
+igenes.gp2mean <- sapply(ttout, function(x) x$estimate[2])
+@
+And we see that \verb+ttout+ contains the output for the $t$--tests
+for the 16 genes. Notice that none of the p--values or test statistics
+are unusual -- that is because we simply choose genes at random. You
+should see small $p$--values and large test statistics (we hope).
+
+Now, to assemble our web page we need to get the annotation data and
+to then associate the annotation with the $t$--test results.
+We will read in the gene symbol and the LocusLink identifier using the 
+\verb+read.annotation+ function. This function reads data from a file
+and stores it in an {\em environment}. We extract the data from the
+environment using either \verb+get+ or \verb+multiget+.
+
+<<>>=
+hgu95ll <- read.annotation("hgu95All")
+hgu95sym <- read.annotation("hgu95Asym")
+igenes.ll <- multiget(igenes, env=hgu95ll)
+igenes.sym <- multiget(igenes, env=hgu95sym)
+@
+
+And now we are ready to wrap this all up using
+\verb+ll.htmlpage+. This function takes the LocusLink identifiers and 
+wraps them in an HTML anchor that is linked to the appropriate
+LocusLink web page.
+
+<<>>=
+ll.htmlpage(igenes.ll, "HOWTO.igenes",
+            "Genes seleced in an arbitrary way",
+            list(igenes.sym, igenes, round(igenes.gp1mean, 3),
+                 round(igenes.gp2mean, 3),round(igenes.pvals, 3)))
+@
+And you can load this page up in your favorite browser. The genes are
+clickable. 
+An \verb+NA+ in the output for LocusLink represents a gene or EST that
+we have not yet successfully mapped to a LocusLink identifier.
+
+
+\end{document}
