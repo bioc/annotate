@@ -10,6 +10,9 @@ ACCNUMStats <- function(pkgName){
 }
 
 whatACC <- function(accs){
+    if(is.na(accs[1])){
+        return(NA)
+    }
     accs <- strsplit(accs, ";")
     if(regexpr("^[a-zA-Z]{2}\\.[0-9]+$", accs[1]) > 0){
         return("UniGene")
