@@ -3,7 +3,7 @@
 % likely to be overwritten.
 %
 % \VignetteIndexEntry{HOWTO Get HTML Output}
-% \VignetteDepends{annotate}
+% \VignetteDepends{annotate, ctest}
 % \VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}
 \documentclass{article}
@@ -56,6 +56,7 @@ what we want\footnote{See the {\tt esApply} man pages and HOWTO's for
 more details on this function}.
 
 <<>>=
+library(ctest)
 mytt <- function(y) {
       ys <- split( y, cov2 )
       t.test( ys[[1]], ys[[2]] )

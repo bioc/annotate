@@ -1,8 +1,8 @@
 Package: annotate
 Title: Annotation for microarrays
-Version: 1.0.33
+Version: 1.0.34
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: R. Gentleman <rgentlem@hsph.harvard.edu>
-Depends: Biobase, XML (>= 0.92-2), reposTools
+Depends: Biobase, XML (>= 0.92-2), reposTools, ctest
 License: LGPL
