@@ -72,8 +72,8 @@ getUniqAnnItem()
       # Same as lookUp for SYMBOL except the return is a vector
       getSYMBOL(gN,"hgu95av2" )
       gg<- getGO(gN, "hgu95av2")
-      lookUp(gg[[2]], "GO", "MFID2TERM")
-      # Same as lookUp for MFID2TERM
+      lookUp(gg[[2]], "GO", "TERM")
+      # Same as lookUp for TERM
       getGOdesc(gg[[2]], "MF")
       getLL(gN, "hgu95av2")
       getPMID(gN, "hgu95av2")
