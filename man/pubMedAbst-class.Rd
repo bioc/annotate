@@ -14,6 +14,7 @@ for processing them.}
 \section{Creating Objects}{
   \code{ new('pubMedAbst',}\cr
   \code{  authors      = ...., # Object of class vector}\cr
+  \code{  pmid         = ...., # Object of class character}\cr
   \code{  abstText     = ...., # Object of class character}\cr
   \code{  articleTitle = ...., # object of class character}\cr
   \code{  journal      = ...., # Object of class character}\cr
@@ -22,6 +23,8 @@ for processing them.}
   \code{  )}}
 \section{Slots}{
   \describe{
+    \item{\code{pmid}:}{Object of class \code{"character"} The PubMed ID
+      for this paper. }
     \item{\code{authors}:}{Object of class \code{"vector"} The authors
       of the paper. }
     \item{\code{abstText}:}{Object of class \code{"character"} The
@@ -39,6 +42,8 @@ for processing them.}
 
 \section{Methods}{
   \describe{
+    \item{pmid}{\code{signature(object = "pmid")}: An accessor function
+      for \code{pmid}}
     \item{abstText}{\code{signature(object = "pubMedAbst")}: An accessor
     function for \code{abstText}}
     \item{abstUrl}{\code{signature(object = "pubMedAbst")}: An accessor
