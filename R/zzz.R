@@ -17,6 +17,15 @@
 
 .First.lib <- function(libname, pkgname) {
     require(Biobase) || stop("cannot load annotate without Biobase")
-
+    where <- match(paste("package:", pkgname, sep=""), search())
+    .initChromLoc(where)
+    where <- match(paste("package:", pkgname, sep=""), search())
+    .initChromLocation(where)
+    where <- match(paste("package:", pkgname, sep=""), search())
+    .initPubMedAbst(where)
+    where <- match(paste("package:", pkgname, sep=""), search())
+    .initCont(where)
+    where <- match(paste("package:", pkgname, sep=""), search())
+    .initHTMLClasses(where)
     .buildAnnotateOpts()
 }
