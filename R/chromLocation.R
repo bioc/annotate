@@ -91,7 +91,10 @@
         }
         cat("\n")
     })
-
+##takes an environment/hash table with the chrom locations and
+##named list, one element for each distinct chromosome name and
+##each element of that list is a named vector, the names are the
+##probeids and the values are the locations
 CHRLOC2chromLoc <- function(chrEnv) {
     chrLocs <- contents(chrEnv)
 
