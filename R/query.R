@@ -21,6 +21,28 @@ openBrowser <- function(query) {
     return(NULL)
 }
 
+locuslinkQuery <- function(query,...,lladdress="LocusLink/") {
+    if (is.na(query))
+        stop("No query, cannot proceed!")
+
+    if (length(c(...)) == 0) {
+        species = "Hs"
+    }
+    else {
+        species <- paste(...,sep="&ORG=")
+    }
+
+
+    ncbiURL <- .getNcbiURL()
+
+    ## Build up the query URL
+
+    query <- paste(ncbiURL, lladdress,
+    "list.cgi?Q=",query,"&ORG=",species,"&V=0",sep="")
+
+    openBrowser(query)
+}
+
 locuslinkByID <- function(..., lladdress="LocusLink/") {
 
     if (length(c(...)) == 0)
@@ -29,7 +51,11 @@ locuslinkByID <- function(..., lladdress="LocusLink/") {
     ncbiURL <- .getNcbiURL()
 
     ## Build up the query URL
+    args <- paste(...,sep=",")
 
+    query <- paste(ncbiURL, lladdress, "LocRpt.cgi?l=", args, sep="")
+
+    openBrowser(query)
 }
 
 genbank <- function(..., disp=c("data","browser")[1],
