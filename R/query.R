@@ -440,7 +440,7 @@ pmAbst2HTML <- function(absts, filename, title, simple=TRUE,
 
 ll.htmlpage <- function (genelist, filename, title, othernames,
                          table.head, table.center=TRUE,
-                         repository = "ug")
+                         repository = "ll")
 {
     outfile <- file(filename, "w")
     cat("<html>", "<head>", "<TITLE>BioConductor Linkage List</TITLE>",
