@@ -1,17 +1,17 @@
 \name{GOTerms-class}
 \docType{class}
 \alias{GOTerms}
-\alias{GOId}
+\alias{GOID}
 \alias{Category}
 \alias{Definition}
-\alias{Ontology}
+\alias{Term}
 \alias{Secondary}
 \alias{Synonym}
 \alias{GOTerms-class}
 \alias{Category,GOTerms-method}
 \alias{Definition,GOTerms-method}
-\alias{GOId,GOTerms-method}
-\alias{Ontology,GOTerms-method}
+\alias{GOID,GOTerms-method}
+\alias{Term,GOTerms-method}
 \alias{Secondary,GOTerms-method}
 \alias{Synonym,GOTerms-method}
 \alias{print,GOTerms-method}
@@ -20,14 +20,14 @@
 \description{A class to represent Gene Ontology terms for a given node}
 \section{Objects from the Class}{
   Objects can be created by calls of the form \code{new("GOTerms",
-    GOId, Ontology, Category, Synonym, Secondary, Definition)}.
-  GOId, Ontology, and Category are required.
+    GOId, Term, Category, Synonym, Secondary, Definition)}.
+  GOId, Term, and Category are required.
 }
 \section{Slots}{
   \describe{
-    \item{\code{GOId}:}{Object of class \code{"character"} A character
+    \item{\code{GOID}:}{Object of class \code{"character"} A character
       stirng for the GO id of a primary node}
-    \item{\code{Ontology}:}{Object of class \code{"character"} A
+    \item{\code{Term}:}{Object of class \code{"character"} A
       character string that defines the role of gene product
       corresponding to the primary GO id}
     \item{\code{Synonym}:}{Object of class \code{"character"} other
@@ -47,9 +47,9 @@
       for slot Category}
     \item{Definition}{\code{signature(object = "GOTerms")}: The get
       method for slot Definition}
-    \item{GOId}{\code{signature(object = "GOTerms")}: The get method for
-      slot GOId}
-    \item{Ontology}{\code{signature(object = "GOTerms")}: The get method
+    \item{GOID}{\code{signature(object = "GOTerms")}: The get method for
+      slot GOID}
+    \item{Term}{\code{signature(object = "GOTerms")}: The get method
       for slot Ontology}
     \item{Secondary}{\code{signature(object = "GOTerms")}: The get
       method for slot Secondary}
@@ -68,10 +68,10 @@
   \code{\link{GOPkgBuilder}}
 }
 \examples{
-  goTerms <- new("GOTerms", GOId = "GO:1234567", Ontology = "Test",
+  goTerms <- new("GOTerms", GOID = "GO:1234567", Term = "Test",
                  Category = "MF")
-  GOId(goTerms)
-  Ontology(goTerms)
+  GOID(goTerms)
+  Term(goTerms)
   Category(goTerms)
 }
 \keyword{classes}
