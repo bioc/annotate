@@ -45,7 +45,7 @@ getUniqAnnItem()
   up matches. All other translation functions use \code{lookUp}
 
   A BioC annotation data package contains annotation data environments
-  whose names are pkckage name (e. g. hgu95av2) + element name
+  whose names are package name (e. g. hgu95av2) + element name
   (e. g. PMID). \code{what} must be one of the element names for the
   given data package. 
 
