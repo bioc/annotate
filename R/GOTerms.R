@@ -53,24 +53,22 @@ setMethod("Ontology", "GOTerms",
 setMethod("show", "GOTerms",
           function(object) {
               if(!is.na(GOID(object))){
-                  cat(paste("GOID =", GOID(object)), fill = TRUE)
+                  cat(paste("GOID =", GOID(object)))
               }
               if(!is.na(Term(object))){
-                  cat(paste("\nTerm =", Term(object)), fill = TRUE)
+                  cat(paste("\nTerm =", Term(object)))
               }
               if(!is.na(Synonym(object)[1])){
-                  cat(paste("\nSynonym =", Synonym(object)), fill = TRUE)
+                  cat(paste("\nSynonym =", Synonym(object)))
               }
               if(!is.na(Secondary(object)[1])){
-                  cat(paste("\nSecondary =", Secondary(object)),
-                      fill = TRUE)
+                  cat(paste("\nSecondary =", Secondary(object)))
               }
               if(!is.na(Definition(object))){
-                  cat(paste("\nDefinition =", Definition(object)),
-                      fill = TRUE)
+                  cat(paste("\nDefinition =", Definition(object)))
               }
               if(!is.na(Ontology(object))){
-                  cat(paste("\nOntology =", Ontology(object)), fill = TRUE)
+                  cat(paste("\nOntology =", Ontology(object)))
               }
               cat("\n")
 })
