@@ -75,7 +75,7 @@ getUniqAnnItem()
       # Same as lookUp for SYMBOL except the return is a vector
       getSYMBOL(gN,"hgu95av2" )
       gg<- getGO(gN, "hgu95av2")
-      lookUp(gg[[2]][[1]][["GOID"]], "GO", "TERM")
+      lookUp(gg[[2]][[1]][["GOID"]], "GO", "TERMS")
       # Same as lookUp for TERM
       getGOdesc(gg[[2]][[1]][["GOID"]], "ANY")
       # For BP only
