@@ -14,7 +14,7 @@
 \author{Jeff Gentry}
 
 \begin{document}
-\title{Overview: Automated Querying of PubMed Data}
+\title{HowTo: Automated Querying of PubMed Data}
 \maketitle{}
 
 \section{Overview}
