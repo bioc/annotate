@@ -4,5 +4,5 @@ Version: 1.0
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: R. Gentleman <rgentlem@hsph.harvard.edu>
-Depends: Biobase
+Depends: Biobase, XML (>= 0.92-2)
 License: LGPL
