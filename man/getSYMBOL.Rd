@@ -19,7 +19,7 @@ getSYMBOL(x, data)
 getLL(x, data)
 getGO(x, data)
 getPMID(x, data)
-getGOdesc(x)
+getGOdesc(x, which)
 contents(object)
 lookUp(x, data, what)
 getUniqAnnItem()
@@ -31,6 +31,8 @@ getUniqAnnItem()
     contents from}
   \item{what}{\code{what} a character string for the name of an
     annotation element of an annotation data package}
+  \item{which}{\code{which} a character string in the form of MF, BP,
+    CC, or ANY to indicated the GO category of interests}
 }
 \details{
   Appropriate translations are done. In some cases such as \code{getLL}
@@ -71,9 +73,11 @@ getUniqAnnItem()
       # Same as lookUp for SYMBOL except the return is a vector
       getSYMBOL(gN,"hgu95av2" )
       gg<- getGO(gN, "hgu95av2")
-      lookUp(gg[[2]], "GO", "TERM")
+      lookUp(gg[[2]][[1]][["GOID"]], "GO", "TERM")
       # Same as lookUp for TERM
-      getGOdesc(gg[[2]])
+      getGOdesc(gg[[2]][[1]][["GOID"]], "ANY")
+      # For BP only
+      getGOdesc(gg[[2]][[1]][["GOID"]], "BP")
       getLL(gN, "hgu95av2")
       getPMID(gN, "hgu95av2")
   } else
