@@ -1,37 +1,77 @@
 \documentclass{article}
 
+\usepackage{hyperref}
+
 \begin{document}
 \title{Bioconductor: Annotation Package Overview}
 \maketitle{}
 
-
 \section{Overview}
 
-The annotation library will provide an interface to relevant
+The annotation library provides an interface to relevant
 biological data.
-This comes in many different flavors and will undoubtedly be based on
-being able to access the web and various non--R resources.
+Assembling annotation data and associating it with the relevant
+experimental data is not a simple task.
+This package is likely to be in a constant state of flux for at least
+two reasons. First the available data itself will be in a state of
+flux for the forseable future. Our understanding of it and how it
+relates to the experimental data will also mature over time.
 
-One of the current capabilities of annotate is to provide translation
-facilities. Ideally we will have small libraries of translators for
-the different genomes.
-Translators are implemented using environments in R. We may try to
-devise a mechansim suitable for SPlus at some point.
+The annotation for Bioconductor is handled by two systems. One, {\em
+AnnBuilder} is a system for assembling and relating the data from
+various sources. It is much more {\em industrial} and takes advantage
+of many different non-R tools. These include Perl and a relational
+database. The second package is {\em annotate}. This package is
+designed to provide experiment level annotation data suitable for the
+analysis of individual experiments (or combinations of experiments).
 
-Currently annotate also provides the facilities for querying a
-database backend and other sources. These may move into a separate
-developer's version of annotate. Having a large database backend
-provides much more flexibility than can be achieved through
-environments. However, environments have the advantage of being
-entirely contained in R.
+Any given experiment typically involves a set of known identifiers
+(probes in the case of a microarray experiment). These identifiers are
+typically unique (for any manufacturer). This holds true for any of
+the standard databases such as LocusLink.
+However, when the identifiers from one source are linked to the
+identifiers from another there does not need to be a one--to--one
+relationship. For example, several different Affymetrix accession
+numbers correspond to a single LocusLink identifier. Thus, when going
+one direction (Affymetrix to LocusLink) we have no problem, but when
+going the other we need some mechanism for dealing with the
+multiplicity of matches.
 
-\section{Description}
+Databases have a long history and there are some solutions available
+for the issues of one--to--many and many--to--many relationships.
+However, in {\em annotate} our approach is to use hash tables to
+provide translation.
+Thus we must either break the one--to--many relationships or have the
+stored value in a hash table be a vector of values.
 
-\section{Improvements}
+While it would be reasonably straightforward to provide an
+implementation of {\em annotate} that used a relational database
+rather than hash tables we currently feel that this would be little
+used and hence not worth the effort. However, we would be happy to
+provide advice and support if an effort to build such an interface is
+attempted. 
 
-We need to get a better mechanism for translating from one identifier
-to another.
+\section*{Experimental Data}
 
+We currently can access a great deal of data. Examples include
+chromosome number, chromosomal location (cytoband or bp).
+The Gene Ontology (GO) categorizations. 
+Other information such as syntenic regions or orthologous grouping can
+also be obtained.
+
+Since these data are likely to be constantly changing (and we will be
+constantly updating the data) we will provide some data with the
+annotate package but will also provide data for downloading
+(automatically) from the Bioconductor website
+(\url{www.bioconductor.org}).
+The data will be provided in two different forms. One is in files
+marked up in XML. The other will be as saved R data objects. The
+latter will be preferable for most users since they are relatively
+fast to load and provide the data in an internal format ready for use.
+
+Researchers with special needs should feel free to contact us
+regarding the production of annotation data specialized to their
+needs.
 
 \section{Some examples}
 
