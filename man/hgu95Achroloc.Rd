@@ -1,7 +1,6 @@
 \name{hgu95Achroloc}
-\non_function{}
 \alias{hgu95Achroloc}
-
+\non_function{}
 
 \title{Annotation data for the Affymetrix HGU95A GeneChip}
 \usage{data(hgu95Achroloc)}
@@ -27,4 +26,4 @@
  multiget(geneNames(eset)[330:340], env=hgu95Achroloc)
 
 }
-\keywords{datasets}
+\keyword{datasets}

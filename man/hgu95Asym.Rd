@@ -26,4 +26,4 @@
  data(eset)
  multiget(geneNames(eset)[330:340], env=hgu95Asym)
 }
-\keywords{datasets}
+\keyword{datasets}
