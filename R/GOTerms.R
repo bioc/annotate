@@ -52,27 +52,26 @@ setMethod("Ontology", "GOTerms",
 
 setMethod("show", "GOTerms",
           function(object) {
-              if(!is.na(GOID(object))){
-                  cat(paste("GOID =", GOID(object)), fill = TRUE)
-              }
-              if(!is.na(Term(object))){
-                  cat(paste("\nTerm =", Term(object)), fill = TRUE)
-              }
-              if(!is.na(Synonym(object)[1])){
-                  cat(paste("\nSynonym =", Synonym(object)), fill = TRUE)
-              }
-              if(!is.na(Secondary(object)[1])){
-                  cat(paste("\nSecondary =", Secondary(object)),
-                      fill = TRUE)
-              }
-              if(!is.na(Definition(object))){
-                  cat(paste("\nDefinition =", Definition(object)),
-                      fill = TRUE)
-              }
-              if(!is.na(Ontology(object))){
-                  cat(paste("\nOntology =", Ontology(object)), fill = TRUE)
-              }
-              cat("\n")
+            s <- character(0)
+            if(!is.na(GOID(object)))
+              s <- c(s, paste("GOID =", GOID(object)), "")
+              
+            if(!is.na(Term(object)))
+              s <- c(s, paste("Term =", Term(object)), "")
+              
+            if(!is.na(Synonym(object)[1]))
+              s <- c(s, paste("\nSynonym =", Synonym(object)), "")
+              
+            if(!is.na(Secondary(object)[1]))
+              s <- c(s, paste("\nSecondary =", Secondary(object)), "")
+
+            if(!is.na(Definition(object)))
+              s <- c(s, paste("\nDefinition =", Definition(object)), "")
+
+            if(!is.na(Ontology(object)))
+              s <- c(s, paste("\nOntology =", Ontology(object)), "")
+
+            cat(strwrap(s, exdent=5), sep="\n")
 })
 
 
