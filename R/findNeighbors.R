@@ -44,9 +44,9 @@ findNeighbors <- function(chrLoc, llID, chromosome, upBase, downBase,
         if(!missing(llID)){
             # greb the ones in the range
             foundUp <- weightByConfi(start[start > upperB &
-                                           start < location])
+                                           start < min(location)])
             foundDown <- weightByConfi(end[end < downB &
-                                           end > location])
+                                           end > max(location)])
             if(length(foundUp) != 0 || length(foundDown) != 0){
                 if(mergeOrNot){
                     neighbors[[as.character(i)]] <- unique(c(foundUp,
@@ -115,7 +115,7 @@ findChr4LL <- function(llID, chrEnv, organism){
     }else{
         if(length(chr) == 1){
             if(!is.element(chr, getValidChr(organism))){
-                stop(paste("LocusLink id", llID, "is currently",
+                warning(paste("LocusLink id", llID, "is currently",
                            "not known to be associated with any",
                            "chromosome"))
             }
