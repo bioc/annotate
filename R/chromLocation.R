@@ -1,65 +1,65 @@
-.initChromLocation <- function() {
+.initChromLocation <- function(where) {
     # Defines the chromLocation class
 
     # Define the class structure of the chromLocation object
     setGeneric("chromLocation", function(object)
-               standardGeneric("chromLocation"))
+               standardGeneric("chromLocation"), where=where)
 
     setClass("chromLocation", representation(species="character",
              datSource="character", nChrom="numeric",
              chromNames="vector", chromLocs="list",
-             chromLengths="vector", geneToChrom="environment"))
+             chromLengths="vector", geneToChrom="environment"),where=where)
 
 
     # Define the accessors
     if (is.null(getGeneric("species")))
         setGeneric("species", function(object)
-                   standardGeneric("species"))
+                   standardGeneric("species"), where=where)
 
     if (is.null(getGeneric("source")))
         setGeneric("datSource", function(object)
-                   standardGeneric("source"))
+                   standardGeneric("source"), where=where)
 
     if (is.null(getGeneric("nChrom")))
         setGeneric("nChrom", function(object)
-                   standardGeneric("nChrom"))
+                   standardGeneric("nChrom"), where=where)
 
     if (is.null(getGeneric("chromNames")))
         setGeneric("chromNames", function(object)
-                   standardGeneric("chromNames"))
+                   standardGeneric("chromNames"), where=where)
 
     if (is.null(getGeneric("chromLocs")))
         setGeneric("chromLocs", function(object)
-                   standardGeneric("chromLocs"))
+                   standardGeneric("chromLocs"), where=where)
 
     if (is.null(getGeneric("chromLengths")))
         setGeneric("chromLengths", function(object)
-                   standardGeneric("chromLengths"))
+                   standardGeneric("chromLengths"), where=where)
 
     if (is.null(getGeneric("geneToChrom")))
         setGeneric("geneToChrom", function(object)
-                   standardGeneric("geneToChrom"))
+                   standardGeneric("geneToChrom"), where=where)
 
     setMethod("species", "chromLocation", function(object)
-              object@species)
+              object@species, where=where)
 
     setMethod("datSource", "chromLocation", function(object)
-              object@datSource)
+              object@datSource, where=where)
 
     setMethod("nChrom", "chromLocation", function(object)
-              object@nChrom)
+              object@nChrom, where=where)
 
     setMethod("chromNames", "chromLocation", function(object)
-              object@chromNames)
+              object@chromNames, where=where)
 
     setMethod("chromLocs", "chromLocation", function(object)
-              object@chromLocs)
+              object@chromLocs, where=where)
 
     setMethod("chromLengths", "chromLocation", function(object)
-              object@chromLengths)
+              object@chromLengths, where=where)
 
     setMethod("geneToChrom", "chromLocation", function(object)
-              object@geneToChrom)
+              object@geneToChrom, where=where)
 }
 
 buildChromClass <- function(species, datSource, chromList,
