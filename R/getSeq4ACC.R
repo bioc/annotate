@@ -1,6 +1,6 @@
 getSeq4Acc <- function(accNum){
     #options(show.error.messages = FALSE)
-    return(getSEQ(getGI(accNum)))
+    return(getSEQ(accNum))
     #options(show.error.messages = TRUE)
 }
 
