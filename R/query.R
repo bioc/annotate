@@ -305,12 +305,13 @@ genelocator <- function(x) {
 }
 
 ll.htmlpage <- function (genelist, filename, title, othernames,
-                         table.head, table.center=TRUE)
+                         table.head, table.center=TRUE,
+                         repository = "ug")
 {
     outfile <- file(filename, "w")
-    cat("<html>", "<head>", "<TITLE>BioConductor Gene Listing</TITLE>",
+    cat("<html>", "<head>", "<TITLE>BioConductor Linkage List</TITLE>",
         "</head>", "<body bgcolor=#708090 >",
-        "<H1 ALIGN=CENTER > BioConductor Gene Listing </H1>",
+        "<H1 ALIGN=CENTER > BioConductor Linkage List </H1>",
         file = outfile, sep = "\n")
     if( !missing(title) )
         cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
@@ -319,16 +320,16 @@ ll.htmlpage <- function (genelist, filename, title, othernames,
     if( table.center )
         cat("<CENTER> \n", file=outfile)
 
-    cat("<TABLE BORDER=4>", "<CAPTION> Locus Link Genes </CAPTION>",
-        file = outfile, sep = "\n")
+    cat("<TABLE BORDER=4>", file = outfile, sep = "\n")
     if( !missing(table.head) ) {
         headout <- paste("<TH>", table.head, "</TH>")
         cat("<TR>", headout, "</TR>", file=outfile, sep="\n")
     }
-    rh <- "<TD> <A HREF=\"http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
+#    rh <- "<TD> <A HREF=\"http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
     nrows <- length(genelist)
-    rows <- paste(rh, genelist, "\">", genelist, "</A> </TD>",
-        sep = "")
+    rows <- getTDRows(genelist, repository)
+#    rows <- paste(rh, genelist, "\">", genelist, "</A> </TD>",
+#        sep = "")
     if( !missing(othernames) ) {
         if( is.list(othernames) ) {
             others <- ""
@@ -349,4 +350,27 @@ ll.htmlpage <- function (genelist, filename, title, othernames,
     close(outfile)
 }
 
+getTDRows <- function(ids, repository = "ug"){
+    paste("<TD> <A HREF=\"", getQueryLink(ids, repository),
+          "\">", ids, "</A> </TD>", sep = "")
+}
 
+getQueryLink <- function(ids, repository = "ug"){
+    switch(tolower(repository),
+           "ug" = return(getQuery4UG(ids)),
+           "ll" = return(getQuery4LL(ids)),
+           stop("Unknown repository name"))
+}
+
+getQuery4UG <- function(ids){
+    # UG ids = XX.yyyy. Split by "."
+    temp <- matrix(unlist(strsplit(ids, "\\."), use.names = FALSE),
+                   ncol = 2, byrow = TRUE)
+    paste("http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=",
+              temp[,1], "&CID=", temp[,2], sep = "")
+}
+
+getQuery4LL <- function(ids){
+    paste("http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l=",
+          ids, sep = "")
+}

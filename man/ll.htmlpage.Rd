@@ -8,7 +8,7 @@
 }
 \usage{
 ll.htmlpage(genelist, filename, title, othernames, table.head,
-     table.center = TRUE )
+     table.center = TRUE, repository = "ug" )
 )
 }
 \arguments{
@@ -18,7 +18,9 @@ ll.htmlpage(genelist, filename, title, othernames, table.head,
   \item{othernames}{Other values to be included in the table}
   \item{table.head}{A character vector of column labels for the table}
   \item{table.center}{A logical indicating whether the table should be
-    centered} 
+    centered}
+  \item{repository}{A character string for the name of a public
+    repositories. Valid values include "ll", "ug"} 
 }
 \details{
   A simple markup is used to provide clickable entries.
