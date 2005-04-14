@@ -50,6 +50,9 @@ if(!isGeneric("Ontology")){
 setMethod("Ontology", "GOTerms",
           function(object) object@Ontology)
 
+setMethod("Ontology", signature="ANY", 
+   function(object) if(  is.na(object) ) NA else callNextMethod())
+
 setMethod("show", "GOTerms",
           function(object) {
             s <- character(0)
