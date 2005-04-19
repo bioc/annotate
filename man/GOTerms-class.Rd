@@ -10,6 +10,7 @@
 %\alias{show}
 \alias{GOTerms-class}
 \alias{Ontology,GOTerms-method}
+\alias{Ontology,ANY-method}
 \alias{Definition,GOTerms-method}
 \alias{GOID,GOTerms-method}
 \alias{Term,GOTerms-method}
@@ -54,6 +55,8 @@
   \describe{
     \item{Ontology}{\code{signature(object = "GOTerms")}: The get method
       for slot Ontology}
+    \item{Ontology}{\code{signature(object = "ANY")}: The get method
+      for slot Ontology handles missing values.}
     \item{Definition}{\code{signature(object = "GOTerms")}: The get
       method for slot Definition}
     \item{GOID}{\code{signature(object = "GOTerms")}: The get method for
