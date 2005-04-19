@@ -34,8 +34,10 @@ The matrix of per group means, for each probe.
 
 \seealso{ \code{\link{KEGG2heatmap}}}
 \examples{
-  data(eset)
-  KEGGmnplot("04810", eset, eset$cov1, data="hgu95av2")
+  if(require("hgu95av2") ) {
+      data(eset)
+      KEGGmnplot("04810", eset, eset$cov1, data="hgu95av2")
+  }
 
 }
 \keyword{manip}

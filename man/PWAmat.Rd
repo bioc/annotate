@@ -16,6 +16,10 @@ PWAmat(data)
   Not much to say, just find which probes are in which pathways and
   return the incidence matrix, with pathways as rows and probes as
   columns. 
+
+  It would be nice to be able to specify a set of probes to use, so that 
+ one does not do perform the calculations using all probes if they are
+ not of interest.
 }
 \value{
  A matrix containing zero or one, depending on whether the probe
