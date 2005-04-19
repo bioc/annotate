@@ -1,16 +1,16 @@
 \name{PWAmat}
 \alias{PWAmat}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~ }
+\title{A function to compute the probe to KEGG pathway incidence matrix.}
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+  For a given chip we compute the mapping from probes to KEGG pathways.
 }
 \usage{
 PWAmat(data)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
-  \item{data}{ ~~Describe \code{data} here~~ }
+  \item{data}{The name of the chip for which the incidence matrix should
+  be computed.}
 }
 \details{
   ~~ If necessary, more details than the __description__  above ~~
