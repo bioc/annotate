@@ -58,11 +58,11 @@ readUrl(url)
 
 \examples{
 # Get array names and GEO accession numbers
-geoAccNums <- getGPLNames()
+#geoAccNums <- getGPLNames()
 # Read the annotation data file for HG-U133A which is GPL96 based on
 # examining geoAccNums 
-temp <- readGEOAnn(GEOAccNum = "GPL96")
-temp2 <- readIDNAcc(GEOAccNum = "GPL96")
+#temp <- readGEOAnn(GEOAccNum = "GPL96")
+#temp2 <- readIDNAcc(GEOAccNum = "GPL96")
 }
 \keyword{manip}
 
