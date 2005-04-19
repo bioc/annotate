@@ -13,48 +13,22 @@ PWAmat(data)
   be computed.}
 }
 \details{
-  ~~ If necessary, more details than the __description__  above ~~
+  Not much to say, just find which probes are in which pathways and
+  return the incidence matrix, with pathways as rows and probes as
+  columns. 
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
+ A matrix containing zero or one, depending on whether the probe
+  (column) is in a pathway (row).
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+\author{ R. Gentleman }
 
-\seealso{ ~~objects to See Also as \code{\link{~~fun~~}}, ~~~ }
+\seealso{ \code{\link{KEGG2heatmap}}, \code{\link{GOmnplot}} }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (data) 
-{
-    if (!is.character(data) || length(data) != 1) 
-        stop("wrong argument")
-    dataE = get(paste(data, "PATH2PROBE", sep = ""))
-    pathLL = eapply(dataE, function(x) {
-        LLs = getLL(x, data)
-        LLs = LLs[!is.na(LLs)]
-        unique(LLs)
-    })
-    uniqLL = unique(unlist(pathLL, use.names = FALSE))
-    Amat = sapply(pathLL, function(x) {
-        mtch = match(x, uniqLL)
-        zeros = rep(0, length(uniqLL))
-        zeros[mtch] = 1
-        zeros
-    })
-    dimnames(Amat) = list(uniqLL, names(pathLL))
-    return(Amat)
-  }
+  if(require("hgu95av2") ) {
+    Am1 = PWAmat("hgu95av2")
+ }
 }
-\keyword{ ~kwd1 }% at least one, from doc/KEYWORDS
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{manip}
+

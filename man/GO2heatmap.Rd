@@ -32,8 +32,10 @@ KEGG2heatmap(x, eset, data = "hgu133plus2", ...)
 
 \seealso{\code{\link{heatmap}} }
 \examples{
+ if( require("hgu95av2") ) {
   data(eset)
   KEGG2heatmap("04810", eset, "hgu95av2")
+ }
 }
 \keyword{ manip }
 
