@@ -70,7 +70,7 @@ identified in only one or more other organisms.
 Each sub-list has an element for the name of the organism
 (homoOrg), LocusLink ID (homoLL), HomologGeneID (homoHGID), GenBank
 accession number (homoACC) of the best matching sequence, type of
-similarity (homoType. B - reciprocal best best between three or more
+similarity (homoType. B - reciprocal best match between three or more
 organisms, b - reciprocal best match between two organisms, and c - curated
 homology relationship between two organisms), percent of identity
 (homoPS) measured as the percentage of base pair alignment between the
@@ -83,7 +83,7 @@ The \Robject{XXXhomologyLL2HGID} environment contains mappings between
 LocusLink identifiers and HGIDs (HomoloGene IDs used by HomoloGene to
 represent sequences represented by the LocusLink ids). This
 environment allows users to map LocusLink ids to HGIDs and then use
-the obtained HGIDs to locat homologous genes in other organisms using
+the obtained HGIDs to locate homologous genes in other organisms using
 the environment that contains data for homologous genes found in other
 organisms using \Robject(XXXhomologyDATA).
 
@@ -94,7 +94,7 @@ organisms using \Robject(XXXhomologyDATA).
 \subsubsection{Task 1}
 
 Given LocusLink id 25 in human (Homo sapiens), how to find all other species
-containing homologous genes of best best matches with percent
+containing homologous genes of best matches with percent
 similarity values above 80.00?
 
 First we call a function \Rfunction{LL2homology} in
@@ -141,7 +141,7 @@ than 90.00.
 %@
 
 The object containing homology data for \texttt{Xenopus laevis}
-is \Robject{xlahomologyHGID} in \Rpackage{zlahomology}, which is a
+is \Robject{xlahomologyHGID} in \Rpackage{xlahomology}, which is a
 vector of HGIDs. Genes in \texttt{Xenopus laevis} that satisfy the
 conditions can be obtained using the following code chunk.
 
