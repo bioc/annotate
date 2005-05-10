@@ -1,5 +1,5 @@
 % \VignetteIndexEntry{Using the homology package}
-% \VignetteDepends{annotate(>= 1.4.2), hsahomology, xlahomology, zebrafish, xenopuslaevis}
+% \VignetteDepends{hsahomology, xlahomology}
 % \VignetteKeywords{Annotation}
 %\VignettePackage{annotate}
 
