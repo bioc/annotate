@@ -20,7 +20,7 @@ installDataPackage(pkga, liba = .libPaths()[1])
   and attempts to get the requested package.
 }
 \author{Jeff Gentry}
-\seealso{\code{\link{install.packages2}}}
+\seealso{\code{\link[reposTools]{install.packages2}}}
 \examples{
   z <- tempfile()
   dir.create(z)
