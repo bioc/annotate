@@ -63,21 +63,22 @@ hsahomology()
 \Robject{XXXhomologyDATA} has HomoloGeneIDs as keys and lists of
 sub-lists containing data for other organisms that have been
 identified to have homology relationships as the corresponding
-values. The list for a given HomologGene ID may have one or more
+values. The list for a given HomoloGene ID may have one or more
 sub-lists depending on whether homology relationships have been
 identified in only one or more other organisms.
 
-Each sub-list has an element for the name of the organism
-(homoOrg), LocusLink ID (homoLL), HomologGeneID (homoHGID), GenBank
-accession number (homoACC) of the best matching sequence, type of
-similarity (homoType. B - reciprocal best match between three or more
-organisms, b - reciprocal best match between two organisms, and c - curated
-homology relationship between two organisms), percent of identity
-(homoPS) measured as the percentage of base pair alignment between the
-matching sequences, and a url (homoURL) to the source if the
-relationship is a curated orthology. A sub-list with
-homoType = B or b will not have any value for homoURL and sublist with
-homoType = c will not have any value for homoPS.
+Each sub-list has an element for the name of the organism (homoOrg),
+HomologGeneID (homoHGID), type of similarity (homoType. B - reciprocal
+best match between three or more organisms, b - reciprocal best match
+between two organisms, and c - curated homology relationship between
+two organisms), percent of identity (homoPS) measured as the
+percentage of base pair alignment between the matching sequences, and
+a url (homoURL) to the source if the relationship is a curated
+orthology. A sub-list with homoType = B or b will not have any value
+for homoURL and a sublist with homoType = c will not have any value
+for homoPS.
+
+
 
 The \Robject{XXXhomologyLL2HGID} environment contains mappings between
 LocusLink identifiers and HGIDs (HomoloGene IDs used by HomoloGene to
@@ -93,9 +94,10 @@ organisms using \Robject(XXXhomologyDATA).
 
 \subsubsection{Task 1}
 
-Given LocusLink id 25 in human (Homo sapiens), how to find all other species
-containing homologous genes of best matches with percent
+Given LocusLink id 25 in human (Homo sapiens), how would one find all
+other species containing homologous genes of best matches with percent
 similarity values above 80.00?
+
 
 First we call a function \Rfunction{LL2homology} in
 \Rpackage{annotate} to obtain data for all the homologous genes of
@@ -114,17 +116,16 @@ names(homoGenes[[1]][[1]])
 We are only interested in genes that are best best matches (homoType =
 B) to LocusLink id 25 with percent identity values greater than
 80.00. The following code finds and prints the names of the organisms
-and LocusLink IDs and HGIDs for genes that satisfy the conditions:
+and LocusLink IDs and HGIDs for genes that satisfy these conditions:
 
 <<>>=
-# A given LocusLink id may be mapped to more than one HGID. Use the
-# data for the first one here
+## A given LocusLink id may be mapped to more than one HGID. Use the
+## data for the first one here
 goodG <- sapply(homoGenes[[1]], function(x){
     (x[["homoType"]] == "B" && x[["homoPS"]] > 80.00)})
 
 geneList <- homoGenes[[1]][goodG]
 sapply(geneList, function(x) x[["homoOrg"]])
-sapply(geneList, function(x) x[["homoLL"]])
 sapply(geneList, function(x) x[["homoHGID"]])
 @
 
@@ -134,11 +135,12 @@ Find all the genes in \texttt{Xenopus laevis} that are homologous to
 genes of \texttt{Danio rerio} with percent identity values greater
 than 90.00.
 
-%The organism code for \texttt{Xenopus laevis} is:
+The organism code for \texttt{Danio rerio} is:
 
-%<<>>=
-%homologyORGCODE["Xenopus laevis"]
-%@
+<<>>= 
+library("xlahomology")
+subset(xlahomologyORGCODE, species_name == "Danio rerio")
+@ 
 
 The object containing homology data for \texttt{Xenopus laevis}
 is \Robject{xlahomologyHGID} in \Rpackage{xlahomology}, which is a
@@ -146,12 +148,11 @@ vector of HGIDs. Genes in \texttt{Xenopus laevis} that satisfy the
 conditions can be obtained using the following code chunk.
 
 <<>>=
-require("xlahomology")
 temp <- mget(xlahomologyHGID, xlahomologyDATA)
 tempFun <- function(x){
    for(i in x){
-       if(!is.na(i[["homoOrg"]]) && i[["homoOrg"]] == "Danio rerio"
-                                           && i[["homoPS"]] > 90.00){
+       if(!is.na(i[["homoOrg"]]) && i[["homoOrg"]] == "dre"
+          && i[["homoPS"]] > 90.00){
            return(i)
        }
    }
@@ -164,14 +165,15 @@ goodGenes <- goodGenes[!is.na(goodGenes)]
 \Robject{goodGenes} obtained above is a list of sub-lists. The names
 of the list are the HGIDs for genes in \texttt{Xenopus laevis} and the
 corresponding \Robject(homoData) objects contain information about the
-homologous genes in \texttt{"Danio rerio"}. The following code chunk
-gets the HGIDs and percent similarity of these homologous genes:
+homologous genes in \texttt{"Danio rerio"}. The following code gets
+the HGIDs and percent similarity of these homologous genes:
+
 
 <<>>=
-    # Get the HGIDs
-    hgids <- unlist(sapply(goodGenes, function(x) x[["homoHGID"]]))
-    # Get the percent similarities
-    ps <- unlist(sapply(goodGenes, function(x) x[["homoPS"]]))
+## Get the HGIDs
+hgids <- unlist(sapply(goodGenes, function(x) x[["homoHGID"]]))
+## Get the percent similarities
+ps <- unlist(sapply(goodGenes, function(x) x[["homoPS"]]))
 @
 
 %\subsubsection{Task 3}
@@ -286,8 +288,8 @@ gets the HGIDs and percent similarity of these homologous genes:
 
 The version number of R and packages loaded for generating the vignette were:
 
-<<echo=FALSE>>=
-sessionInfo()
+<<echo=FALSE, results=tex>>=
+toLatex(sessionInfo())
 @
 
 \end{document}
