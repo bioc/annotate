@@ -90,7 +90,8 @@ gb <- c("M57423", "Z70218", "L17328", "S81916", "U63332", "M77235", "X98175", "A
 sp <- c("P21108", "Q10571", "Q9UHY8", "Q16444", "---", "Q14524 /// Q8IZC9 /// Q8WTQ6 /// Q8WWN5 /// Q96J69", "Q14790", "Q9UBQ5",
         "---", "---", "P47992", "---", "Q13065 /// Q8IYC5", "Q13070", "O75015")
 
-@ For this vignette I have supplied the annotation data. In a normal
+@ 
+For this vignette I have supplied the annotation data. In a normal
 situation, these data would be subset from the manufacturer's
 annotation data, using the manufacturer's gene identifiers (which is
 how I got these IDs).

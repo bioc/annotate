@@ -480,11 +480,15 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
           out <- paste("<TD>", out, "</TD>", sep="")
           others <- paste(others, out, sep="")
         }
-        if(is.vector(nm) && !is.list(nm))
+        if((is.vector(nm) || is.factor(nm)) && !is.list(nm))
           others <- paste(others, "<TD>", nm, "</TD>", sep = "")
       }
     }
     else others <- paste("<TD>", othernames, "</TD>", sep = "")
+    if(length(rows) != length(others))
+      stop(paste("There are", length(rows), "rows in your genelist, but",
+                 length(others), "rows in othernames.\n This will not give",
+                 "good results!\n"))
     rows <- paste(rows, others)
   }
   for (i in 1:nrows) cat("<TR>", rows[i], "</TR>", file = outfile,
@@ -662,7 +666,7 @@ getQuery4OMIM <- function(ids){
   if(is.numeric(ids))
     blanks <- is.na(ids)
   
-  out <- paste("http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=", ids, sep="")
+  out <- paste("http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=", ids)
   if(!is.null(blanks))
     out[blanks] <- "&nbsp;"
 
