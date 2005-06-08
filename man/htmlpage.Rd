@@ -11,13 +11,14 @@ htmlpage(genelist, filename, title, othernames, table.head, table.center = TRUE,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{genelist}{ A list of character vectors
+  \item{genelist}{ A list or \code{data.frame} of character vectors
     containing ids to be made into hypertext links. See details for more
     information.}
   \item{filename}{ A filename for the resultant HTML table. }
   \item{title}{ A title for the table. }
-  \item{othernames}{ A list of other things to add to
-    table. These will not be hyperlinks. }
+  \item{othernames}{ A list or \code{data.frame} of other things to add
+    to the table. These will not be hyperlinks. The list of othernames
+    can contain vectors, matrices, \code{data.frames} or lists. }
   \item{table.head}{ A character vector of column
     headers for the table.}
   \item{table.center}{ Center the table? Defaults to \code{TRUE}. }
@@ -28,12 +29,14 @@ htmlpage(genelist, filename, title, othernames, table.head, table.center = TRUE,
  This is a modification of \code{ll.htmlpage}, which is
  limited to a single column of hyperlinked ids and lists of vectors for
  othernames.
- This function will accept a list of character vectors, each
- containing different ids that are to be turned into hyperlinks (e.g., a
- list containing affy ids, genbank accession numbers, and locus link
- ids). For instances where there are more than one id per gene, use a
- list of character vectors.
- Othernames should be a list, and can contain both vectors and matrices.
+ This function will accept a list or \code{data.frame} of character
+ vectors, each containing different ids that are to be turned into
+ hyperlinks (e.g., a list containing affy ids, genbank accession
+ numbers, and locus link ids). For instances where there are more than
+ one id per gene, use a sub-list of character vectors. See the vignette
+ 'prettyOutput' for more information. Othernames should be a list or
+ \code{data.frame}. Again, if there are multiple entries for a given
+ gene, use a sub-list.
 }
 \value{
   This function is used only for the side effect of creating an HTML table.
