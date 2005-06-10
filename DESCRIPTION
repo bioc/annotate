@@ -4,7 +4,7 @@ Version: 1.5.16
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: R. Gentleman <rgentlem@fhcrc.org>
-Depends: R (>= 1.9.0), Biobase
+Depends: R (>= 1.9.0), methods, Biobase
 Suggests: hgu95av2, genefilter, Biostrings, rae230a, rae230aprobe, tkWidgets, XML (>= 0.92-2), reposTools, hsahomology, xlahomology, GO
 License: LGPL
 
