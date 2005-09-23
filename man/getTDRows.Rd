@@ -29,7 +29,7 @@ getQuery4SP(ids)
 getQuery4GB(ids)
 getQuery4OMIM(ids)
 getQuery4Affy(ids)
-getQuery4FB{ids}
+getQuery4FB(ids)
 getQuery4EN(ids)
 }
 %- maybe also 'usage' for other objects documented here.
