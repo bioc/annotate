@@ -64,14 +64,9 @@ getGO <- function(x, data) {
 
 
 installDataPackage <- function(pkga, liba=.libPaths()[1]) {
-    require("reposTools")||
-              stop("installDataPackage requires package reposTools")
-
-    z <- getReposEntry("BIOCData")
-    x <- install.packages2(pkga, z, lib=liba)
-    if (length(statusList(x)) == 0)
-        stop(paste("Data package",pkga,"does not seem to exist",
-                   "in the Bioconductor\ndata package repository."))
+    .Deprecated("install.packages")
+    reposList <- Biobase:::biocReposList()
+    install.packages(pkga, repos=reposList, dependencies=TRUE, lib=liba)
 }
 
 # This function needs to be updated when new annotation items are

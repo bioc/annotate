@@ -1,13 +1,12 @@
 Package: annotate
 Title: Annotation for microarrays
-Version: 1.6.4
+Version: 1.6.5
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: R. Gentleman <rgentlem@fhcrc.org>
 Depends: R (>= 2.0.0), methods, Biobase
 Suggests: hgu95av2, genefilter, Biostrings, rae230a, rae230aprobe,
-        tkWidgets, XML (>= 0.92-2), reposTools, hsahomology,
-        xlahomology, GO
+          tkWidgets, XML (>= 0.92-2), hsahomology, xlahomology, GO
 License: LGPL
 SaveImage: yes
-biocViews: Annotation, Pathways, GO, Affymetrix, 
+biocViews: Annotation, Pathways, GO, Affymetrix

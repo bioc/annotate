@@ -2,6 +2,9 @@
 \alias{installDataPackage}
 \title{A function to install data packages from the Internet}
 \description{
+  This function is deprecated.  Use R's build-in \code{install.packages}
+  function instead.
+  
   This function can be used to easily download and install a data
   package from the Bioconductor website.
 }
@@ -22,8 +25,10 @@ installDataPackage(pkga, liba = .libPaths()[1])
 \author{Jeff Gentry}
 \seealso{\code{\link[reposTools]{install.packages2}}}
 \examples{
+  \dontrun{
   z <- tempfile()
   dir.create(z)
   installDataPackage("GO", liba=z)
+  }
 }
 \keyword{utilities}
