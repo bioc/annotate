@@ -176,18 +176,18 @@ temp[1:5]
 To obtain annotation for a given set of keys, one may use the
 \Rfunction{mget} function. Suppose we have run an experiment using the
 HG\_U95Av2 chip and found three genes represented by Affymetrix probe ids
-\textit{41561\_s\_at, 40840\_at}, and \textit{41668\_r\_at} interesting. To
+\textit{738\_at, 40840\_at}, and \textit{41668\_r\_at} interesting. To
 get the names of genes the three probe ids corresponding to, we do:
 
 <<>>=
-mget(c("699_s_at", "40840_at", "41668_r_at"), hgu95av2GENENAME)
+mget(c("738_at", "40840_at", "41668_r_at"), hgu95av2GENENAME)
 @
 
 Similarly, identifiers of Gene Ontology terms corrsponding to the
 three probes can be obtained as shown below:
 
 <<>>=
-temp <- mget(c("699_s_at", "40840_at", "41668_r_at"), hgu95av2GO)
+temp <- mget(c("41561_s_at", "40840_at", "41668_r_at"), hgu95av2GO)
 @
 
 In this case, the function \Rfunction{mget} returns a list of
@@ -195,18 +195,18 @@ pre-defined S4 objects containing data for the ids, ontology, and
 evidence code of Gene Ontology terms corresponding to the three
 keys. The following code shows how to access the GO id, evidence code
 and ontology of the Gene Ontology term corresponding to probe id
-\textit{699\_s\_at}:
+\textit{40840\_at}:
 
 <<<>>=
-temp <- get("699_s_at", hgu95av2GO)
+temp <- get("738_at", hgu95av2GO)
 names(temp)
-temp[["GO:0005085"]][["Evidence"]]
-temp[["GO:0005085"]][["Ontology"]]
+temp[["GO:0008253"]][["Evidence"]]
+temp[["GO:0008253"]][["Ontology"]]
 @
 
-As shown above, probe \textit{699\_s\_at} can be annotated by two Gene
-Ontology terms identified by \textit{GO:0005085} and
-\textit{GO:0006887}. The evidence code for \textit{GO:0005085} is
+As shown above, probe \textit{40840\_at} can be annotated by three Gene
+Ontology terms identified by \textit{GO:0005829}, \textit{GO:0008253}, and
+\textit{GO:0016787}. The evidence code for \textit{GO:0008253} is
 \textit{TAS} (traceable author statement) and it belongs to ontology
 \textit{MF} (molecular function).
 
@@ -216,22 +216,20 @@ Often, data available in a given data package alone may not
 be sufficient and need to be sought across packages. Bioconductor's
 annotation data packages are linked by common public data identifiers
 to allow traverse between packages (Fig. 1). Using the example above,
-we know that probe id \textit{699\_s\_at} are annotated by two Gene Ontology
-ids \textit{GO:0005085} and \textit{GO:0006887}. The Gene Ontology
+we know that probe id \textit{738\_at} are annotated by three Gene Ontology
+ids \textit{GO:0005829}, \textit{GO:0008253}, and \textit{GO:0016787}. The Gene Ontology
 terms for various Gene Ontology ids, however, are stored in another
 package named \Rpackage{GO}. AS package \Rpackage{hgu95av2} and
 \Rpackage{GO} are linked by \Rpackage{GO} ids, one can annotate probe id
-\textit{699\_s\_at} with Gene Ontology terms by linking data in the
+\textit{738\_at} with Gene Ontology terms by linking data in the
 two packages using \Rpackage{GO} id as shown below:
 
 <<>>=
-mget(names(get("699_s_at", hgu95av2GO)), GOTERM)
+mget(names(get("738_at", hgu95av2GO)), GOTERM)
 @
 
-It turns out that probe id \textit{GO:0005085} (corresponding to
-GO:0005085 and GO:0006887) has molecular function (MF)
-\textit{guanyl-nucleotide exchange factor activity} and biological
-process (BP)\textit{exocytosis}.
+It turns out that probe id \textit{738\_at} (corresponding to \textit{GO:0008253}, and \textit{GO:0016787}) has molecular function (MF)
+\textit{5'-nucleotidase activity} and \textit{hydrolase activity}.
 
 \section{Session Information}
 
