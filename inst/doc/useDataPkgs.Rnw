@@ -170,7 +170,7 @@ variable \textit{temp} and displays the first five keys on the screen:
 
 <<>>=
 temp <- as.list(hgu95av2GO)
-temp[1:5]
+temp[5]
 @
 
 To obtain annotation for a given set of keys, one may use the
