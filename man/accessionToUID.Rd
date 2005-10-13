@@ -30,12 +30,14 @@ accessionToUID(...,db=c("genbank","pubmed"))
   \code{\link{locuslinkQuery}}, \code{\link[XML]{xmlTreeParse}}}
 \examples{
 
-     ## The two returns from genbank should be the same
-     genbank("U03397",type="accession",disp="data")
-     x <- accessionToUID("U03397",db="genbank")
-     genbank(x, type="uid",disp="data")
-
-     ## Can handle multiple inputs
-     accessionToUID("M16653","U892893",db="pubmed")
+     ## 2005-10-13: NCBI URLs responding with encoding issue,
+     ## commenting out example:
+     ## ## The two returns from genbank should be the same
+     ## genbank("U03397",type="accession",disp="data")
+     ## x <- accessionToUID("U03397",db="genbank")
+     ## genbank(x, type="uid",disp="data")
+     ## 
+     ## ## Can handle multiple inputs
+     ## accessionToUID("M16653","U892893",db="pubmed")
 }
 \keyword{interface}
