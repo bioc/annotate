@@ -64,9 +64,7 @@ getGO <- function(x, data) {
 
 
 installDataPackage <- function(pkga, liba=.libPaths()[1]) {
-    .Deprecated("install.packages")
-    reposList <- Biobase:::biocReposList()
-    install.packages(pkga, repos=reposList, dependencies=TRUE, lib=liba)
+    .Defunct("install.packages")
 }
 
 # This function needs to be updated when new annotation items are
