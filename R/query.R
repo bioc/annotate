@@ -191,6 +191,10 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 
     query <- paste(.getNcbiURL(), "entrez/utils/pmqty.fcgi?db=", db,
                    "&tool=bioconductor&mode=xml&term=",accNum,sep="")
+    ## get the XML file contents from URL, and remove extra
+    ## text strings before <xml...
+    query <- paste(scan(query, what="", sep="\n"), "\n", collapse="\n")
+    query <- sub("^[^<]*<(.*)", "<\\1",query) 
 
     ## Currently doubling up on code from .handleXML as I can't yet find a
     ## way to retrieve values back through the extra layer of
@@ -208,14 +212,12 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 
     options(show.error.messages = FALSE)
     on.exit(options(show.error.messages = TRUE))
-    retVal <- NULL
-    result <- try(xmlTreeParse(query,isURL=TRUE, handlers=list(Id=function(x,attrs) {retVal <<- xmlValue(x[[1]])})))
+    retVal <- character(0) 
+    result <- try(xmlTreeParse(query,asText=TRUE, handlers=list(Id=function(x) {retVal <<- c(retVal, xmlValue(x[[1]]))})))
     options(show.error.messages = TRUE)
 
-    if (!is.null(retVal)) {
-        ## In the event of multiple IDs, it returns as a monolithic
-        ## which is space delimited.  Change this to comma deliminated
-        retVal <- gsub(" *", "\\,", retVal)
+    if (length(retVal)>0) {
+        retVal <- paste(retVal, sep="", collapse=",") 
     }
 
     return(retVal)
@@ -237,8 +239,14 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 
     options(show.error.messages = FALSE)
     on.exit(options(show.error.messages = TRUE))
+
+    ## get the XML file contents from URL, and remove extra
+    ## text strings before <xml...
+    query <- paste(scan(query, what="", sep="\n"), "\n", collapse="\n")
+    query <- sub("^[^<]*<(.*)", "<\\1",query) 
+
     retVal <- NULL
-    xml <- try(xmlTreeParse(query,isURL=TRUE,handlers=NULL,asTree=TRUE))
+    xml <- try(xmlTreeParse(query,asText=TRUE,handlers=NULL,asTree=TRUE))
     options(show.error.messages = TRUE)
 
     if (inherits(xml,"try-error") == TRUE) {
