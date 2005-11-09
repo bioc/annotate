@@ -9,52 +9,45 @@ setClass("homoData", representation(homoOrg = "character",
                                     homoHGID = "numeric"))
 
 # Set the get methods
-if(!isGeneric("homoOrg")){
-    setGeneric("homoOrg",
+setGeneric("homoOrg",
                function(object) standardGeneric("homoOrg"))
-}
+
 setMethod("homoOrg", "homoData",
           function(object) object@homoOrg)
 
-if(!isGeneric("homoLL")){
-    setGeneric("homoLL",
+setGeneric("homoLL",
                function(object) standardGeneric("homoLL"))
-}
+
 setMethod("homoLL", "homoData",
           function(object) object@homoLL)
 
-if(!isGeneric("homoType")){
-    setGeneric("homoType",
+setGeneric("homoType",
                function(object) standardGeneric("homoType"))
-}
+
 setMethod("homoType", "homoData",
           function(object) object@homoType)
 
-if(!isGeneric("homoPS")){
-    setGeneric("homoPS",
+setGeneric("homoPS",
                function(object) standardGeneric("homoPS"))
-}
+
 setMethod("homoPS", "homoData",
           function(object) object@homoPS)
 
-if(!isGeneric("homoURL")){
-    setGeneric("homoURL",
+setGeneric("homoURL",
                function(object) standardGeneric("homoURL"))
-}
+
 setMethod("homoURL", "homoData",
           function(object) object@homoURL)
 
-if(!isGeneric("homoACC")){
-    setGeneric("homoACC",
+setGeneric("homoACC",
                function(object) standardGeneric("homoACC"))
-}
+
 setMethod("homoACC", "homoData",
           function(object) object@homoACC)
 
-if(!isGeneric("homoHGID")){
-    setGeneric("homoHGID",
+setGeneric("homoHGID",
                function(object) standardGeneric("homoHGID"))
-}
+
 setMethod("homoHGID", "homoData",
           function(object) object@homoHGID)
 

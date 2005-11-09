@@ -8,45 +8,39 @@ setClass("GOTerms", representation(GOID= "character",
                                    Ontology = "character"))
 
 # Set the get methods
-if(!isGeneric("GOID")){
-    setGeneric("GOID",
+setGeneric("GOID",
                function(object) standardGeneric("GOID"))
-}
+
 setMethod("GOID", "GOTerms",
           function(object) object@GOID)
 
-if(!isGeneric("Term")){
-    setGeneric("Term",
+setGeneric("Term",
                function(object) standardGeneric("Term"))
-}
+
 setMethod("Term", "GOTerms",
           function(object) object@Term)
 
-if(!isGeneric("Synonym")){
-    setGeneric("Synonym",
+setGeneric("Synonym",
                function(object) standardGeneric("Synonym"))
-}
+ 
 setMethod("Synonym", "GOTerms",
           function(object) object@Synonym)
 
-if(!isGeneric("Secondary")){
-    setGeneric("Secondary",
+setGeneric("Secondary",
                function(object) standardGeneric("Secondary"))
-}
+
 setMethod("Secondary", "GOTerms",
           function(object) object@Secondary)
 
-if(!isGeneric("Definition")){
-    setGeneric("Definition",
+setGeneric("Definition",
                function(object) standardGeneric("Definition"))
-}
+
 setMethod("Definition", "GOTerms",
           function(object) object@Definition)
 
-if(!isGeneric("Ontology")){
-    setGeneric("Ontology",
+setGeneric("Ontology",
                function(object) standardGeneric("Ontology"))
-}
+
 setMethod("Ontology", "GOTerms",
           function(object) object@Ontology)
 

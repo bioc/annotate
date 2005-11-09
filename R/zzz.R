@@ -15,7 +15,7 @@
     options("BioC"=BioC)
 }
 
-.First.lib <- function(libname, pkgname) {
+.onLoad <- function(libname, pkgname) {
     .buildAnnotateOpts()
     if(.Platform$OS.type == "windows" && require(Biobase) && interactive()
         && .Platform$GUI ==  "Rgui"){
