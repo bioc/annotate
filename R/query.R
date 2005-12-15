@@ -674,7 +674,7 @@ getQuery4OMIM <- function(ids){
   if(is.numeric(ids))
     blanks <- is.na(ids)
   
-  out <- paste("http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=", ids)
+  out <- paste("http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=", ids, sep="")
   if(!is.null(blanks))
     out[blanks] <- "&nbsp;"
 

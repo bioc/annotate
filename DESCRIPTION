@@ -1,6 +1,7 @@
 Package: annotate
 Title: Annotation for microarrays
-Version: 1.9.1
+Version: 1.9.2
+Date: 2005-12-14
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: R. Gentleman <rgentlem@fhcrc.org>

@@ -20,6 +20,33 @@ PWAmat = function(data) {
     return(Amat)
 }
 
+##given the name of chip compute the PubMed adjacency matrix for probe set ids
+PMIDAmat = function(pkg, gene=NULL) {
+    if(!is.character(pkg) || length(pkg) != 1 )
+        stop("wrong argument")
+
+    probe2pmid <- get(paste(pkg, "PMID", sep=""))
+    if(is.null(gene)){
+        gene2pmid <- as.list(probe2pmid)
+    }else{
+        if(any(duplicated(gene))) warning("Gene is not unique.")
+        gene2pmid <- mget(unique(gene), probe2pmid)
+    }
+    pmid <- unique(unlist(gene2pmid))
+
+    Amat <- sapply(gene2pmid,
+                   function(x){
+                       mtch <- match(x, pmid)
+                       zeros <- rep(0, length(pmid))
+                       zeros[mtch] <- 1
+                       return(zeros)
+                   }
+                   )
+    dimnames(Amat) = list(pmid, names(gene2pmid))
+    return(Amat)
+}
+
+
 ##given a GO term, and an exprset, produce a heatmap of all probes
 ##mapped to that GOterm;
 GO2heatmap = function(x, eset, data="hgu133plus2", ...) {
