@@ -20,8 +20,8 @@ usedChromGenes(eSet, chrom, specChrom)
 }
 \author{ Jeff Gentry}
 \examples{
-    data(eset)
+    data(sample.exprSet.1)
     data(hgu95AProbLocs)
-    usedChromGenes(eset,"1",hgu95AProbLocs)
+    usedChromGenes(sample.exprSet.1,"1",hgu95AProbLocs)
 }
 \keyword{interface}

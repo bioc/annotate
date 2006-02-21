@@ -24,8 +24,8 @@
 
 \examples{
  data(hgu95All)
- data(eset)
- mget(geneNames(eset)[330:340], env=hgu95All, ifnotfound=NA)
+ data(sample.exprSet.1)
+ mget(geneNames(sample.exprSet.1)[330:340], env=hgu95All, ifnotfound=NA)
 
 }
 \keyword{datasets}

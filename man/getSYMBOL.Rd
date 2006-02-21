@@ -62,8 +62,8 @@ getUniqAnnItem()
 \author{R. Gentleman}
 \seealso{\code{\link{mget}}}
 \examples{
-  data(eset)
-  gN <- geneNames(eset)[100:105]
+  data(sample.exprSet.1)
+  gN <- geneNames(sample.exprSet.1)[100:105]
    ## A bit of a hack to not have a package dependency on hgu95av2
    ## but need to fiddle w/ the warn level to not fail the example anyways.
    curWarn <- getOption("warn")
