@@ -75,8 +75,8 @@ options(width=70)
 
 <<>>=
 library("annotate")
-data(eset)
-igenes <- geneNames(eset)[246:260]
+data(sample.exprSet.1)
+igenes <- geneNames(sample.exprSet.1)[246:260]
 @
 
 \section{Annotation Data}
@@ -150,10 +150,10 @@ $p$-value. As an example, we will make a comparison using the first
 ten samples.
 
 <<expDat>>=
-dat <- exprs(eset)[igenes,1:10]
+dat <- exprs(sample.exprSet.1)[igenes,1:10]
 FC <- rowMeans(dat[igenes,1:5]) - rowMeans(dat[igenes,6:10])
-pval <- esApply(eset[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$p.value)
-tstat <- esApply(eset[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$statistic)
+pval <- esApply(sample.exprSet.1[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$p.value)
+tstat <- esApply(sample.exprSet.1[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$statistic)
 @
 
 It is also usually a good idea to include gene names in the

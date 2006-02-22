@@ -114,13 +114,13 @@ these data with their own.
 
 <<data>>=
 library("annotate")
-data(eset)
-affys <- geneNames(eset)[490:500]
+data(sample.exprSet.1)
+affys <- geneNames(sample.exprSet.1)[490:500]
 affys
 @
 
 Here we have selected an arbitrary set of 10 genes to be interested in
-from our sample data.  However, \verb+eset+ provided us with
+from our sample data.  However, \verb+sample.exprSet.1+ provided us with
 Affymetrix identifiers, and for the \verb+pubmed+ function, we need to
 use PubMed ID values.  To obtain these, we can use the annotation
 tools within \Rpackage{annotate}.
