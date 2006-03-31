@@ -88,9 +88,9 @@ myseq = getSEQ(myA)
 nchar(myseq)
 
 library(Biostrings)
-mybs = NucleotideString(myseq, "DNA")
+mybs = DNAString(myseq)
 
-match1 = matchDNAPattern(as.character(myPr[1,1]), mybs)
+match1 = matchPattern(as.character(myPr[1,1]), mybs)
 as.matrix(match1)
 myPr[1,5]
 @
@@ -114,13 +114,13 @@ myPr = rae230aprobe[wp,]
 
 myseq = getSEQ(myA)
 
-mybs = NucleotideString(myseq, "DNA")
+mybs = DNAString(myseq)
 
-match2 = matchDNAPattern(as.character(myPr[1,1]), mybs)
+match2 = matchPattern(as.character(myPr[1,1]), mybs)
 
 nchar(match2)
 
-match2 = matchDNAPattern(revString(as.character(myPr[1,1])), mybs)
+match2 = matchPattern(revString(as.character(myPr[1,1])), mybs)
 
 nchar(match2)
 
