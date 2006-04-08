@@ -1,7 +1,7 @@
 Package: annotate
 Title: Annotation for microarrays
-Version: 1.9.4
-Date: 2005-12-14
+Version: 1.9.5
+Date: 2005-4-7
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: Biocore Team <biocpkgs@lists.fhcrc.org>
