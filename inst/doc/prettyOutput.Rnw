@@ -3,7 +3,7 @@
 % likely to be overwritten.
 %
 % \VignetteIndexEntry{HOWTO Get HTML Output}
-% \VignetteDepends{annotate, hgu95av2, biomaRt}
+% \VignetteDepends{annotate, hgu95av2}
 % \VignetteKeywords{Expression Analysis, Annotation}
 % \VignettePackage{annotate}
 \documentclass[11pt]{article}
@@ -53,10 +53,11 @@ that can be read into \Rpackage{R} using the \Rmethod{read.csv()}
 function
 \url{http://www.affymetrix.com/support/technical/byproduct.affx?cat=arrays}.
 
-Another alternative is to annotate using functionality in the \Rpackage{biomaRt}
-package. This allows one to get the most current annotations interactively.
-In addition, the output can be used directly with functions in \Rpackage{annotate}
-to make HTML tables. We will use these functions in this vignette.
+\section{Alternate methods}
+Please note that one can also make these HTML tables by parsing data from
+e.g., an online (or local) Biomart database, using functions in the biomaRt
+package. This may be easier, and may result in more current annotation data.
+Please see the prettyOutput vignette in the biomaRt package for more information. 
 
 \section{Data Analysis}
 I will assume that the reader is familiar with the analysis of
@@ -80,195 +81,125 @@ options(width=70)
 
 <<>>=
 library("annotate")
-data(sample.exprSet)
-igenes <- geneNames(sample.exprSet)[246:260]
+data(sample.exprSet.1)
+igenes <- geneNames(sample.exprSet.1)[246:260]
 @
-
-We also have to load the \Rpackage{biomaRt} package and connect to 
-a Biomart database, using the \Rfunction{useMart} function. Note that
-there are two interfaces that \Rpackage{biomaRt} can use to connect to a 
-Biomart database, using either the \Rpackage{RCurl} package to connect
-via http protocols, or the \Rpackage{RMySQL} package to connect via 
-database protocols. The default is to use \Rpackage{RCurl} because it can
-be difficult to get \Rpackage{RMySQL} set up on Windows computers. However,
-I find the database connectivity to be much faster, so for those who want
-to annotate a large number of genes, I would recommend using the \Rpackage{RMySQL}
-interface. See the help file for \Rfunction{useMart} for more information.
-
-<<>>=
-library("biomaRt")
-mart <- useMart("ensembl", "hsapiens_gene_ensembl")
-@ 
-
 
 \section{Annotation Data}
+<<echo=FALSE>>=
+ug <- c("Hs.169284 // ---", "Hs.268515 // full length", "Hs.103419 // full length", "Hs.380429 // ---" ,"--- // ---",
+        "Hs.169331 // full length", "Hs.381231 // full length", "Hs.283781 // full length", "--- // ---", "--- // ---",
+        "Hs.3195 // full length", "--- // ---", "Hs.176660 // full length", "Hs.272484 // full length", "Hs.372679 // full length")
+ll <- c("221823", "4330", "9637", "---", "---", "6331", "841", "27335", "---", "---", "6375", "---", "2543", "2578", "2215")
+gb <- c("M57423", "Z70218", "L17328", "S81916", "U63332", "M77235", "X98175", "AB019392", "J03071", "D25272", "D63789",
+        "D63789", "U19142", "U19147", "X16863")
+sp <- c("P21108", "Q10571", "Q9UHY8", "Q16444", "---", "Q14524 /// Q8IZC9 /// Q8WTQ6 /// Q8WWN5 /// Q96J69", "Q14790", "Q9UBQ5",
+        "---", "---", "P47992", "---", "Q13065 /// Q8IYC5", "Q13070", "O75015")
 
-The \Rfunction{htmlpage} function is designed to take two sets of input;
-data that will be converted to clickable links to various online databases,
-and data that will simply be put into the HTML table as is. For the clickable
-links we need an \Robject{list} of character vectors for each database. For
-the data, we need a \Robject{list} of either \Robject{vectors}, \Robject{data.frames}
-or a mixture of the two. We will explore this topic more later. First, we
-will see how to get data using \Rpackage{biomaRt} functionality.
+@ 
+For this vignette I have supplied the annotation data. In a normal
+situation, these data would be subset from the manufacturer's
+annotation data, using the manufacturer's gene identifiers (which is
+how I got these IDs).
 
-We first need to see exactly what sort of data we can get from Ensembl's
-Biomart. Note that some of the information can be a bit cryptic, so we can
-parse out a more reasonable description. We also need to see what things we
-can use as identifiers in our query of the Biomart server.
-
-First, a bit of terminology. An 'attribute' is a data type that can be returned
-from a query of a Biomart server. A 'filter' is the identifier that we use to 
-query the server. For instance, we can get GO terms and Entrez Gene IDs (the 
-attributes) by querying on the Affy Probe ID (the filter).
-
-There are too many attributes to list here, so we can parse out things that may
-be interesting to us. Let's say we want to get Entrez Gene and SwissProt IDs for
-our set of genes.
-
+First, we will look at the GenBank and LocusLink IDs. We will be able
+to use these IDs without further modification. Note that the LocusLink
+IDs contain some missing data (``---''). This will not pose a problem
+because LocusLink IDs are all numeric, so we have incorporated code in
+\Rmethod{htmlpage()} to automatically convert any non-numeric ID to an
+HTML empty cell character (``\&nbsp;''). GenBank IDs (which often
+correspond to either RefSeq or GenBank IDs) are not as consistent, so
+any missing data would have to be manually converted to the HTML empty
+cell character. Missing data for LocusLink, UniGene and OMIM IDs are
+automatically converted, whereas Affymetrix, SwissProt and GenBank IDs
+have to be done manually. I will give examples of how to do this
+below.
 <<>>=
-attrbuts <- listAttributes(mart)
-attrbuts[grep("swiss", attrbuts)]
-attrbuts[grep("entrez", attrbuts)]
-@ 
-
-Something like adf\_entrezgene
-is a database table name, and it isn't all that 
-informative, so we can try to get more information by extracting the description
-for these database table names. We can also get the location of the attribute in
-the attributes list so we don't have to write them all out.
-
-<<>>=
-cbind(sapply(mget(attrbuts[grep("swiss",attrbuts)], mart@attributes), 
-             function(x) x$description), grep("swiss",attrbuts))
-cbind(sapply(mget(attrbuts[grep("entrez",attrbuts)], mart@attributes), 
-             function(x) x$description), grep("entrez",attrbuts))
-@ 
-
-
-So the attributes we want are uniprot\_swissprot\_accession and entrezgene.
-
-The same basic idea can be used to figure out which filter to use. Since we are using
-the HG-U95av2 chip, we need to figure out what that filter is called.
-
-<<>>=
-fltr <- listFilters(mart)
-fltr[grep("affy", fltr)]
-@ 
-
-This one is pretty obvious - we want the affy\_hg\_u95av2 filter.
- 
-Now to get back to the task at hand; we have 15 Affy Probeset IDs that we want to 
-use to create our HTML table. Let's say we want to create an HTML table in which we
-map the Affy IDs to Entrez Gene, SwissProt, UniGene, and RefSeq IDs (all clickable links)
-and in addition we want to include the gene description and symbol, the
-Gene Ontology terms, and  chromosome location,
-as well as the $t$-statistic, $p$-value, fold change and expression values. That would
-be a nice compact format for presenting the data to someone.
-
-We need to collect all this information in two lists; one that will be used to make the
-hyperlinks, and one that will just be static information. First, we do the hyperlinks.
-By using the ideas presented above, I figured out which attributes correspond to 
-Entrez Gene, SwissProt, UniGene, and RefSeq IDs, so I will use them here. Instead of
-writing them all out, I will simply select the correct terms using the 
-\Rfunction{listAttributes} function.
-
-<<>>=
-genelist <- getBM(attributes = listAttributes(mart)[c(16,165,392,390,348)],
-                  filter = "affy_hg_u95av2", values = igenes, mart = mart,
-                  output = "list", na.value = "&nbsp;")
-genelist[[1]] <- igenes
-
-## let's look at genelist values
-lapply(genelist, function(x) x[5:10])
-@ 
-
-Here we can see that genelist is a \Robject{list} of \Robject{lists}, with each
-sub-list being made up of a character vector. I substituted the 'igenes' vector back into the 
-first position of the list because the Biomart server we are using doesn't have
-data for all Affy IDs (including the Affy ID itself). Since we want links for 
-all of the Affy IDs, I simply substituted the original vector into the 
-genelist.
-
-Two important things to note about the call to \Rfunction{getBM}. First, we have
-to use the argument output = ``list''. Second, we have to use na.value = ``\&nbsp;'',
-which will create an empty table entry for any missing data. This is much nicer
-than leaving the NAs, which will tend to clutter up the table without adding any
-information.
-
-Making the second \Robject{list} is a bit more complicated. We need to get some annotation from
-the Biomart database, and append that to some data we have from our experiment. 
-The first step is to get the annotation data. As noted above, we want the gene name and
-symbol, as well as the GO terms and chromosome location for these probesets.
-We can figure out which attribute terms to use, following the ideas presented above.
-
-
-<<>>=
-attrbuts[grep("description", attrbuts)]
-attrbuts[grep("symbol", attrbuts)]
-attrbuts[grep("go", attrbuts)]
-attrbuts[grep("^chrom", attrbuts)]
-@ 
-
-
-We want "description", "hgnc\_symbol", "go\_description" and "chrom\_name"
-
-<<>>=
-annotlist <- getBM(attributes = listAttributes(mart)[c(116, 199, 196, 81)],
-                   filter = "affy_hg_u95av2", values = igenes, mart = mart,
-                  output = "list",na.value = "&nbsp;")
-@ 
-
-<<eval=false>>=
-lapply(annotlist, function(x) x[5:10])
-@ 
-
-<<echo=false>>=
-lapply(lapply(annotlist, function(x) x[5:10]), function(y) lapply(y, strwrap))
-@ 
-
-Now we have the annotation data, it is time to add in the experimental data.
-As an example, we will only use the first ten samples. We also use the \Rfunction{round}
-function to truncate the data to a reasonable number of decimal points.
-
-<<expDat>>=
-dat <- round(exprs(sample.exprSet)[igenes,1:10], 3)
-FC <- round(rowMeans(dat[igenes,1:5]) - rowMeans(dat[igenes,6:10]), 2)
-pval <- round(esApply(sample.exprSet[igenes,1:10], 1, 
-                      function(x) t.test(x[1:5], x[6:10])$p.value), 3)
-tstat <- round(esApply(sample.exprSet[igenes,1:10], 1, 
-                       function(x) t.test(x[1:5], x[6:10])$statistic), 2)
+gb
+ll
 @
 
-We now need to put all this into one list. 
+The UniGene and SwissProt IDs present different challenges, so we will
+modify them separately. For the UniGene IDs we need to strip off the
+extra information appended to each ID. If we didn't do this, our
+hyperlink would not work correctly.
 
 <<>>=
-othernames <- vector("list", length = 8)
-othernames[1:4] <- annotlist
-othernames[5:8] <- list( tstat, pval, FC, dat)
-@ 
+ug
+ug <- sub(" //.*$", "", ug)
+ug
+@
 
+The SwissProt IDs present a different challenge. Here there isn't any
+extra information. Instead, we have multiple IDs for some of the
+genes, and missing IDs for some of the others. Because the code for
+SwissProt IDs will not automatically handle missing data, we have to
+convert the missing data to an HTML empty cell identifier
+(``\&nbsp;''). For \Rmethod{htmlpage()} to correctly handle multiple
+IDs, we have to convert the character vector into a \emph{list} of
+character vectors.
+<<>>=
+sp
+sp <- strsplit(sub("---","&nbsp;",as.character(sp)), "///")
+sp
+@
+
+We have converted the data to a list of character vectors, and also
+converted the ``---'' missing data identifier to the HTML character
+for an empty cell.
 
 \section{Build the Table}
 
-Once we have all our data in \Robject{lists}, it is simple to build the HTML table.
+Usually we would like to include the expression values for our genes
+along with some statistics, say a $t$-statistic, fold change, and
+$p$-value. As an example, we will make a comparison using the first
+ten samples.
 
+<<expDat>>=
+dat <- exprs(sample.exprSet.1)[igenes,1:10]
+FC <- rowMeans(dat[igenes,1:5]) - rowMeans(dat[igenes,6:10])
+pval <- esApply(sample.exprSet.1[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$p.value)
+tstat <- esApply(sample.exprSet.1[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$statistic)
+@
+
+It is also usually a good idea to include gene names in the
+table. Normally the names would be subsetted from the annotation data,
+but here we have to supply them. Again, we have to manually convert
+any missing names to the HTML empty cell character.
+
+<<echo=False>>=
+name <- c("hypothetical protein LOC221823",
+          "meningioma (disrupted in balanced translocation) 1",
+          "fasciculation and elongation protein zeta 2 (zygin II)",
+          "Phosphoglycerate kinase {alternatively spliced}",
+          "---","sodium channel, voltage-gated, type V, alpha polypeptide",
+          "caspase 8, apoptosis-related cysteine protease","muscle specific gene","---","---","chemokine (C motif) ligand 1",
+          "---","G antigen 1","G antigen 6","Fc fragment of IgG, low affinity IIIb, receptor for (CD16)")
+@
 <<>>=
-table.head <- c("Affy ID", "Entrez Gene", "SwissProt", "UniGene", "RefSeq",
-                "Name","Symbol","GO Term", "Chromosome",
-                "t-statistic","p-value","Fold change", 
-                sampleNames(sample.exprSet)[1:10])
-repository  <- list("affy","en","sp","ug","gb")
-htmlpage(genelist, "Annotated genes.html", "Annotated genes", othernames, table.head,
-         repository = repository)
-@ 
+name
+name <- gsub("---", "&nbsp;", name)
+name
+@
 
-The resulting HTML table should be in R\_HOME/library/annotate/doc. If not, you can
-reproduce it using the \Rfunction{vExplorer} function in the \Rpackage{tkWidgets} package,
-which will allow you to step through the code in this vignette and examine all the 
-objects that are made. Alternatively, one could use \Rfunction{getwd} to change the 
-working directory to R\_HOME/library/annotate/doc, then use \Rfunction{Stangle} 
-on the vignette and then source the resulting R code (e.g., Stangle("prettyOutput.Rnw")
-followed by source("prettyOutput.R").
+
+We can now build our HTML table. To make the process more transparent,
+this will be done in steps. In practice however, this can be done in
+one line. Note here that the genelist consists of annotation data that
+will be hyperlinked to online databases, whereas othernames consists
+of other data that will not be hyperlinked.
+
+<<buildTable>>=
+genelist <- list(igenes, ug, ll, gb, sp)
+filename <- "Interesting_genes.html"
+title <- "An Artificial Set of Interesting Genes"
+othernames <- list(name, round(tstat, 2), round(pval, 3), round(FC, 1), round(dat, 2))
+head <- c("Probe ID", "UniGene", "LocusLink", "GenBank", "SwissProt", "Gene Name", "t-statistic", "p-value",
+          "Fold Change", "Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5", "Sample 6",
+          "Sample 7", "Sample 8", "Sample 9", "Sample 10")
+repository <- list("affy", "ug", "ll", "gb", "sp")
+htmlpage(genelist, filename, title, othernames, head, repository = repository)
+@
 
 \section{Session Information}
 
