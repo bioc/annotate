@@ -14,7 +14,7 @@ uses XML library to decode parts of the query response and
 load a MIAME object
 }
 \value{
-instance of class \code{\link[Biobase]{MIAME-class}}
+An instance of class \code{\link[Biobase:class.MIAME]{MIAME}}
 }
 \author{Vince Carey <stvjc@channing.harvard.edu>}
 
