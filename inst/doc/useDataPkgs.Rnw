@@ -127,7 +127,7 @@ Unix and Windows.
 Typing library(library name) in an R session will load the library
 into R. For example,
 
-<<>>=
+<<loadLibs>>=
 library(annotate)
 library(hgu95av2)
 library(GO)
@@ -168,7 +168,7 @@ be accessed easily using Bioconductor's existing functions. For example, the fol
 stores all the keys contained by the \Robject{hgu95av2GO} environment object to
 variable \textit{temp} and displays the first five keys on the screen:
 
-<<>>=
+<<getGO>>=
 temp <- as.list(hgu95av2GO)
 temp[5]
 @
@@ -179,14 +179,14 @@ HG\_U95Av2 chip and found three genes represented by Affymetrix probe ids
 \textit{738\_at, 40840\_at}, and \textit{41668\_r\_at} interesting. To
 get the names of genes the three probe ids corresponding to, we do:
 
-<<>>=
+<<showmget>>=
 mget(c("738_at", "40840_at", "41668_r_at"), hgu95av2GENENAME)
 @
 
 Similarly, identifiers of Gene Ontology terms corrsponding to the
 three probes can be obtained as shown below:
 
-<<>>=
+<<moremget>>=
 temp <- mget(c("41561_s_at", "40840_at", "41668_r_at"), hgu95av2GO)
 @
 
@@ -197,7 +197,7 @@ keys. The following code shows how to access the GO id, evidence code
 and ontology of the Gene Ontology term corresponding to probe id
 \textit{40840\_at}:
 
-<<<>>=
+<<gettingGO>>=
 temp <- get("738_at", hgu95av2GO)
 names(temp)
 temp[["GO:0008253"]][["Evidence"]]

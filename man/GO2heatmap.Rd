@@ -8,8 +8,8 @@
   data are mapped to the pathway and a heatmap is produced.
 }
 \usage{
-GO2heatmap(x, eset, data = "hgu133plus2", ...)
-KEGG2heatmap(x, eset, data = "hgu133plus2", ...)
+GO2heatmap(x, eset, data, ...)
+KEGG2heatmap(x, eset, data, ...)
 }
 
 \arguments{
@@ -22,7 +22,9 @@ KEGG2heatmap(x, eset, data = "hgu133plus2", ...)
  For the given pathway or GO category all matching probes are
   determined, these are used to subset the data and \code{heatmap} is
   invoked on that set of data. Extra parameters can be passed through to
-  \code{heatmap} using the \code{\dots}.
+  \code{heatmap} using the \code{\dots} parameter.
+ The \code{annotation} slot of the \code{eset} argument is used to
+ determine the appropriate annotation data to use.
 }
 \value{
   The value returned by \code{heatmap} is passed back to the user.

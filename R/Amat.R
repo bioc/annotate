@@ -49,7 +49,9 @@ PMIDAmat = function(pkg, gene=NULL) {
 
 ##given a GO term, and an exprset, produce a heatmap of all probes
 ##mapped to that GOterm;
-GO2heatmap = function(x, eset, data="hgu133plus2", ...) {
+GO2heatmap = function(x, eset, data, ...) {
+    if( missing(data) )
+        data = eset@annotation
     mapE = get(paste(data, "GO2ALLPROBES", sep=""))
 
     whG = mapE[[x]]
@@ -59,7 +61,6 @@ GO2heatmap = function(x, eset, data="hgu133plus2", ...) {
 
     dataM = exprs(eset)[whGs,]
     heatmap(dataM, ...)
-    return(dataM)
 }
 
 GOmnplot = function (x, eset, data = "hgu133plus2", group, ...)
@@ -86,15 +87,16 @@ p2LL = function(data) {
     split(g2, g1)
 }
 
-KEGG2heatmap = function (x, eset, data = "hgu133plus2", ...)
+KEGG2heatmap = function (x, eset, data, ...)
 {   
+    if( missing(data) )
+       data = eset@annotation
     mapE = get(paste(data, "PATH2PROBE", sep = ""))
     whG = mapE[[x]]
     whG = unique(whG)
     whGs = whG[whG %in% geneNames(eset)]
     dataM = exprs(eset)[whGs, ] 
     heatmap(dataM, ...)
-    return(dataM)
 }
 
 
