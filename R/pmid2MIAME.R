@@ -21,7 +21,7 @@ pmid2MIAME = function (pmid)
 	caa = xmlChildren(cart[["Abstract"]])
         abst = xmlValue(caa[["AbstractText"]])
     }
-    else abst = ""
+    if (is.null(abst)) abst = ""
     aff = xmlValue(cart[["Affiliation"]])
     an = cart[["AuthorList"]]
     last = xmlValue(xmlChildren(an[[1]])[["LastName"]])
