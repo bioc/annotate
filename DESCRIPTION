@@ -1,12 +1,12 @@
 Package: annotate
 Title: Annotation for microarrays
-Version: 1.11.1
-Date: 2005-5-15
+Version: 1.11.2
+Date: 6.6.2006
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: Biocore Team <biocpkgs@lists.fhcrc.org>
-Depends: R (>= 2.0.0), methods, Biobase
-Suggests: hgu95av2, genefilter, Biostrings, rae230a, rae230aprobe,
+Depends: R (>= 2.3.0), methods, Biobase
+Suggests: hgu95av2, genefilter, Biostrings (>= 2.1.2), rae230a, rae230aprobe,
           tkWidgets, XML (>= 0.92-2), hsahomology, xlahomology, GO
 License: LGPL
 SaveImage: yes

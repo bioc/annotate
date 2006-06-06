@@ -29,18 +29,20 @@ getSEQ <- function(gi){
     }
 }
 
-revBase <- function(x){
-  tot <- which(x == "A")
-  tog <- which(x == "C")
-  toa <- which(x == "T")
-  toc <- which(x == "G")
-  x[tot] <- "T"
-  x[toa] <- "A"
-  x[toc] <- "C"
-  x[tog] <- "G"
-  x
-}
-  
-revString <- function(x)
-  sapply(lapply(lapply(strsplit(x, NULL), rev), revBase), paste, collapse="")
+## better use reverseComplement from Biostrings
+
+#revBase <- function(x){
+#  tot <- which(x == "A")
+#  tog <- which(x == "C")
+#  toa <- which(x == "T")
+#  toc <- which(x == "G")
+#  x[tot] <- "T"
+#  x[toa] <- "A"
+#  x[toc] <- "C"
+#  x[tog] <- "G"
+#  x
+# }
+
+#revString <- function(x)
+#   sapply(lapply(lapply(strsplit(x, NULL), rev), revBase), paste, collapse="")
 

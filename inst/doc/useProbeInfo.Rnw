@@ -87,7 +87,7 @@ reported. One can check that using other tools available in the
 myseq = getSEQ(myA)
 nchar(myseq)
 
-library(Biostrings)
+library("Biostrings")
 mybs = DNAString(myseq)
 
 match1 = matchPattern(as.character(myPr[1,1]), mybs)
@@ -120,7 +120,9 @@ match2 = matchPattern(as.character(myPr[1,1]), mybs)
 
 nchar(match2)
 
-match2 = matchPattern(revString(as.character(myPr[1,1])), mybs)
+## "revString" removed by WH 6.6.06
+## match2 = matchPattern(revString(as.character(myPr[1,1])), mybs)
+match2 = matchPattern(reverseComplement(DNAString(myPr[1,1])), mybs)
 
 nchar(match2)
 
