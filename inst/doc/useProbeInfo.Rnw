@@ -39,7 +39,7 @@ To demonstrate the use of probe level data we will use the
 \texttt{rae230a} chip (for rats). So we first need to load these
 libraries.
 
-<<loadlibs>>=
+<<loadlibs, results=hide>>=
 library(rae230a)
 library(rae230aprobe)
 @
