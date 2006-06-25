@@ -4,7 +4,7 @@
 %
 
 
-% \VignetteIndexEntry{HOWTO: chromLocation}
+% \VignetteIndexEntry{HowTo: use chromosomal information}
 % \VignetteDepends{annotate, hgu95av2}
 % \VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}

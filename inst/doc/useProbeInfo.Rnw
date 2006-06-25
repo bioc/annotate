@@ -1,4 +1,4 @@
-% \VignetteIndexEntry{Using Data Packages}
+% \VignetteIndexEntry{Using Affymetrix Probe Level Data}
 % \VignetteDepends{hgu95av2, rae230a, rae230aprobe, Biostrings}
 % \VignetteKeywords{Annotation}
 %\VignettePackage{annotate}
