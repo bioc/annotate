@@ -565,8 +565,7 @@ getQuery4UG <- function (ids){
     ugs <- strsplit(as.character(ids), "\\.")
   else
     ugs <- strsplit(ids, "\\.")
-  badUG <- function(x) if (length(x) != 2 || nchar(x[1]) !=
-                           2)
+  badUG <- function(x) if (length(x) != 2 || nchar(x[1]) < 2)
     return(TRUE)
   else return(FALSE)
   bIDs <- sapply(ugs, badUG)
