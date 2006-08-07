@@ -57,7 +57,7 @@ GO2heatmap = function(x, eset, data, ...) {
     whG = mapE[[x]]
     ##need this because there could be multiple criteria
     whG = unique(whG)
-    whGs = whG[whG %in% geneNames(eset)]
+    whGs = whG[whG %in% featureNames(eset)]
 
     dataM = exprs(eset)[whGs,]
     heatmap(dataM, ...)
@@ -68,7 +68,7 @@ GOmnplot = function (x, eset, data = "hgu133plus2", group, ...)
     mapE = get(paste(data, "GO2ALLPROBES", sep = ""))
     whG = mapE[[x]]
     whG = unique(whG)
-    whGs = whG[whG %in% geneNames(eset)]
+    whGs = whG[whG %in% featureNames(eset)]
     dataM = exprs(eset)[whGs, ]
     tts = apply(dataM, 1, function(x) sapply(split(x, group), mean))
     rn = row.names(tts)
@@ -94,7 +94,7 @@ KEGG2heatmap = function (x, eset, data, ...)
     mapE = get(paste(data, "PATH2PROBE", sep = ""))
     whG = mapE[[x]]
     whG = unique(whG)
-    whGs = whG[whG %in% geneNames(eset)]
+    whGs = whG[whG %in% featureNames(eset)]
     dataM = exprs(eset)[whGs, ] 
     heatmap(dataM, ...)
 }
@@ -105,7 +105,7 @@ KEGGmnplot = function (x, eset, data = "hgu133plus2", group, ...)
     mapE = get(paste(data, "PATH2PROBE", sep = ""))
     whG = mapE[[x]]
     whG = unique(whG)
-    whGs = whG[whG %in% geneNames(eset)]
+    whGs = whG[whG %in% featureNames(eset)]
     dataM = exprs(eset)[whGs, ]
     tts = apply(dataM, 1, function(x) sapply(split(x, group), mean))
     rn = row.names(tts)
