@@ -35,8 +35,8 @@ KEGG2heatmap(x, eset, data, ...)
 \seealso{\code{\link{heatmap}} }
 \examples{
  if( require("hgu95av2") ) {
-  data(sample.exprSet.1)
-  KEGG2heatmap("04810", sample.exprSet.1, "hgu95av2")
+  data(sample.ExpressionSet)
+  KEGG2heatmap("04810", sample.ExpressionSet, "hgu95av2")
  }
 }
 \keyword{ manip }

@@ -35,8 +35,9 @@ The matrix of per group means, for each probe.
 \seealso{ \code{\link{KEGG2heatmap}}}
 \examples{
   if(require("hgu95av2") ) {
-      data(sample.exprSet.1)
-      KEGGmnplot("04810", sample.exprSet.1, sample.exprSet.1$cov1, data="hgu95av2")
+      data(sample.ExpressionSet)
+      KEGGmnplot("04810", sample.ExpressionSet, sample.ExpressionSet$sex, 
+          data="hgu95av2")
   }
 
 }

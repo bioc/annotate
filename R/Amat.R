@@ -87,8 +87,11 @@ p2LL = function(data) {
     split(g2, g1)
 }
 
-KEGG2heatmap = function (x, eset, data, ...)
-{   
+setGeneric("KEGG2heatmap", function(x, eset, data, ...) 
+                             standardGeneric("KEGG2heatmap"))
+
+setMethod("KEGG2heatmap", c("character", "eSet", "character"),
+   function(x, eset, data, ...) {   
     if( missing(data) )
        data = eset@annotation
     mapE = get(paste(data, "PATH2PROBE", sep = ""))
@@ -97,22 +100,52 @@ KEGG2heatmap = function (x, eset, data, ...)
     whGs = whG[whG %in% featureNames(eset)]
     dataM = exprs(eset)[whGs, ] 
     heatmap(dataM, ...)
-}
+})
 
-
-KEGGmnplot = function (x, eset, data = "hgu133plus2", group, ...)
-{
+setMethod("KEGG2heatmap", c("character", "matrix", "character"),
+   function(x, eset, data, ...) {
     mapE = get(paste(data, "PATH2PROBE", sep = ""))
-    whG = mapE[[x]]
+    whG = mapE[[x]] 
     whG = unique(whG)
-    whGs = whG[whG %in% featureNames(eset)]
-    dataM = exprs(eset)[whGs, ]
-    tts = apply(dataM, 1, function(x) sapply(split(x, group), mean))
-    rn = row.names(tts)
-    if( length(levels(factor(group))) != 2 )
-        stop("only works for factors with two levels")
-    plot(tts[1,], tts[2,], xlab=rn[1], ylab=rn[2], ...)
-    abline(a=0, b=1)
-    return(tts)
-}
+    whGs = whG[whG %in% row.names(eset)]
+    dataM = eset[whGs, ]
+    heatmap(dataM, ...)
+})
+
+
+setGeneric("KEGGmnplot", function(x, eset, data= "hgu133plus2", group,
+                               ...) standardGeneric("KEGGmnplot"))
+
+setMethod("KEGGmnplot",  c("character", "eSet", "character"),
+    function (x, eset, data = "hgu133plus2", group, ...)  {
+      mapE = get(paste(data, "PATH2PROBE", sep = ""))
+      whG = mapE[[x]]
+      whG = unique(whG)
+      whGs = whG[whG %in% featureNames(eset)]
+      dataM = exprs(eset)[whGs, ]
+      tts = apply(dataM, 1, function(x) sapply(split(x, group), mean))
+      rn = row.names(tts)
+      if( length(levels(factor(group))) != 2 )
+          stop("only works for factors with two levels")
+      plot(tts[1,], tts[2,], xlab=rn[1], ylab=rn[2], ...)
+      abline(a=0, b=1)
+      return(tts)
+  })
+
+setMethod("KEGGmnplot",  c("character", "matrix", "character"),
+    function (x, eset, data = "hgu133plus2", group, ...)  {
+      mapE = get(paste(data, "PATH2PROBE", sep = ""))
+      whG = mapE[[x]]
+      whG = unique(whG)
+      whGs = whG[whG %in% row.names(eset)]
+      dataM = eset[whGs, ]
+      tts = apply(dataM, 1, function(x) sapply(split(x, group), mean))
+      rn = row.names(tts)
+      if( length(levels(factor(group))) != 2 )
+          stop("only works for factors with two levels")
+      plot(tts[1,], tts[2,], xlab=rn[1], ylab=rn[2], ...)
+      abline(a=0, b=1)
+      return(tts)
+  })
+
 
