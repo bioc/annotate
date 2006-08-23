@@ -456,7 +456,7 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
     cat("<TR>", headout, "</TR>", file = outfile, sep = "\n")
   }
   if(is.list(genelist)){
-    if(all.equal(rep(length(genelist[[1]]), length(genelist)),
+    if(all(rep(length(genelist[[1]]), length(genelist)) ==
                  unlist(lapply(genelist, length), use.names=FALSE))){
       nrows <- length(genelist[[1]])
     }else stop("The lists of genes to annotate must all be of equal length.")
