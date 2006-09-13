@@ -27,7 +27,7 @@ getUniqAnnItem()
   \item{what}{\code{what} a character string for the name of an
     annotation element of an annotation data package}
   \item{which}{\code{which} a character string in the form of MF, BP,
-    CC, or ANY to indicated the GO category of interests}
+    CC, or ANY to indicated the GO categories of interest}
 }
 \details{
   Users must supply the basename of the meta-data package that they
@@ -39,10 +39,10 @@ getUniqAnnItem()
   returned. In other cases such as \code{getPMID} and \code{getGO} there
   may be multiple matches and a list is returned.
 
-  For \code{getGOdesc} the input vector is GO identifiers (not
-  manufacturer identifiers) and in the output any identifier that does
-  not have a description in the selected GO hierarchy (MF, BP or CC) is
-  dropped.
+  For \code{getGOdesc} \code{x} contains GO identifiers (not
+  manufacturer identifiers) and the output is a list of GOTerms objects,
+  if \code{which} specifies some subset of the ontologies (MF, BP or CC) 
+  then only terms for that ontology are retained.
 
   \code{lookUp} is a general function that can be used to look
   up matches. All other translation functions use \code{lookUp}
