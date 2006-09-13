@@ -59,7 +59,7 @@ getGO <- function(x, data) {
   }
 
   getLL <- function(x, data) {
-      unlist(lookUp(x, data, "LOCUSID"))
+      unlist(lookUp(x, data, "ENTREZID"))
   }
 
 
@@ -70,6 +70,6 @@ installDataPackage <- function(pkga, liba=.libPaths()[1]) {
 # This function needs to be updated when new annotation items are
 # added to the data packages
 getUniqAnnItem <- function(){
-    return(c("ACCNUM", "LOCUSID", "GENENAME", "SYMBOL", "MAP",
+    return(c("ACCNUM", "ENTREZID", "GENENAME", "SYMBOL", "MAP",
              "GRIF", "SUMFUNC", "NM", "NP"))
 }

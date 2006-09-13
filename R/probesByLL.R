@@ -8,12 +8,12 @@
 # baseName - a character string for the name of a platform specific
 # annotation data package (e. g. for an Affymetrix chip).
 # what - a character string for the name of an environment for which a
-# reverse mapping is sought (e. g. "LOCUSID").
+# reverse mapping is sought (e. g. "ENTREZID").
 #
 # Copyright 2004, Jianhua Zhang. All rights reserved.
 #
 
-probesByLL <- function(baseName, what = "LOCUSID"){
+probesByLL <- function(baseName, what = "ENTREZID"){
 
     require(baseName, character.only = TRUE) ||
     stop(paste("The annotation package for", baseName, "is not available!"))
