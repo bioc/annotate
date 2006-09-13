@@ -14,12 +14,14 @@ lookUp <- function(x, data, what){
                      search())) == paste(data, what, sep = ""))){
         stop(paste(what, "is an invalid element name"))
     }
-    if(length(x) == 1){
-        mapping <- get(paste(data, what, sep = ""))[[x]]
-    }else{
+    ##FIXME: we need to do the same think in all cases
+    ##  so we should drop the special case here
+    ## if(length(x) == 1){
+    ##    mapping <- get(paste(data, what, sep = ""))[[x]]
+    ## }else{
         mapping <- mget(x, env=get(paste(data, what, sep="")),
                         ifnotfound=NA)
-    }
+    ##}
     return(mapping)
 }
 
@@ -32,8 +34,8 @@ getGO <- function(x, data) {
      which <- match.arg(which)
      options(show.error.messages = FALSE)
      ans <- try(lookUp(x, "GO", "TERM"))
-     onts <- sapply(ans, Ontology)
      options(show.error.messages = TRUE)
+     onts <- sapply(ans, Ontology)
      if(inherits(ans, "try-error")){
          warning(paste("Invalid GO term", x))
          return(NULL)
