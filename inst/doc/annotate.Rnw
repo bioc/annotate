@@ -146,9 +146,9 @@ hgu95av2()
 @
 
 Now let's consider a specific object, say the
-\Robject{hgu95av2LOCUSID} object.
+\Robject{hgu95av2ENTREZID} object.
 <<locusid>>=
-hgu95av2LOCUSID
+hgu95av2ENTREZID
 @
 If we type its name we see that it is an R \texttt{environment}; all
 this means is that it is a special data type that is efficient at
@@ -163,13 +163,13 @@ Affymetrix probe, \texttt{1000\_at}. Then we can do it in any one of
 the following ways:
 <<getting>>=
 
-get("1000_at", env=hgu95av2LOCUSID)
-hgu95av2LOCUSID[["1000_at"]]
-hgu95av2LOCUSID$"1000_at"
+get("1000_at", env=hgu95av2ENTREZID)
+hgu95av2ENTREZID[["1000_at"]]
+hgu95av2ENTREZID$"1000_at"
 
 @
 And in all cases we see that the LocusLink identifier is
-\Sexpr{hgu95av2LOCUSID[["1000_at"]]}.
+\Sexpr{hgu95av2ENTREZID[["1000_at"]]}.
 
 If you want to get more than one
 object from an environment you also have a number of choices. You can
@@ -182,7 +182,7 @@ this can be done using the function \Rfunction{contents} or
 \Rfunction{as.list}.
 
 <<tolist>>=
-LLs = as.list(hgu95av2LOCUSID)
+LLs = as.list(hgu95av2ENTREZID)
 length(LLs)
 names(LLs)[1:10]
 
