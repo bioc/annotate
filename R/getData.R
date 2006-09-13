@@ -32,6 +32,7 @@ getGO <- function(x, data) {
      which <- match.arg(which)
      options(show.error.messages = FALSE)
      ans <- try(lookUp(x, "GO", "TERM"))
+     onts <- sapply(ans, Ontology)
      options(show.error.messages = TRUE)
      if(inherits(ans, "try-error")){
          warning(paste("Invalid GO term", x))
@@ -40,7 +41,7 @@ getGO <- function(x, data) {
          if(which == "ANY"){
              return(ans)
          }else{
-             ans <- ans[names(ans) == which]
+             ans <- ans[onts %in% which]
              if(length(ans) == 0){
                  return(NULL)
              }else{
