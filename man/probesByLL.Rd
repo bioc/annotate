@@ -12,7 +12,7 @@
   as values. 
 }
 \usage{
-probesByLL(baseName, what = "LOCUSID")
+probesByLL(baseName, what = "ENTREZID")
 }
 
 \arguments{
@@ -41,7 +41,7 @@ probesByLL(baseName, what = "LOCUSID")
 
 \examples{
     if(require("hgu95av2")){
-        tt <- probesByLL("hgu95av2", "LOCUSID")
+        tt <- probesByLL("hgu95av2", "ENTREZID")
         tt[1:4]
     }
 }

@@ -14,7 +14,7 @@ p2LL(data)
 }
 \details{
   This is essentially the computation of the reverse map, we store probe
-  to Entrez gene information in the \code{LOCUSID} environment. This is
+  to Entrez gene information in the \code{ENTREZID} environment. This is
   used to compute the inverse mapping.
 }
 \value{
