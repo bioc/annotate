@@ -2,9 +2,9 @@
 % NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
 % likely to be overwritten.
 %
-% \VignetteIndexEntry{Annotation Overview}
-% \VignetteDepends{Biobase, genefilter, annotate, hgu95av2}
-% \VignetteKeywords{Expression Analysis, Annotation}
+%\VignetteIndexEntry{Annotation Overview}
+%\VignetteDepends{Biobase, genefilter, annotate, hgu95av2}
+%\VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}
 
 \documentclass{article}

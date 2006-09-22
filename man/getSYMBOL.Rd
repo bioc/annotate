@@ -65,16 +65,15 @@ getUniqAnnItem()
   data(sample.exprSet.1)
   gN <- geneNames(sample.exprSet.1)[100:105]
    ## A bit of a hack to not have a package dependency on hgu95av2
-   ## but need to fiddle w/ the warn level to not fail the example anyways.
-   curWarn <- getOption("warn")
-   options(warn=0)
-   on.exit(options(warn=curWarn), add=TRUE)
-  if( require("hgu95av2", character.only=TRUE)
-       && require("GO", character.only=TRUE) ) {
+   ## but need to fiddle w/ the warn level to not fail the example
+   ## anyways.
+   have_hgu95av2 <- suppressWarnings(require("hgu95av2"))
+   have_GO <- suppressWarnings(require("GO"))
+   if (have_hgu95av2 && have_GO) {
       lookUp(gN, "hgu95av2", "SYMBOL")
       # Same as lookUp for SYMBOL except the return is a vector
       getSYMBOL(gN,"hgu95av2" )
-      gg<- getGO(gN, "hgu95av2")
+      gg <- getGO(gN, "hgu95av2")
       lookUp(gg[[2]][[1]][["GOID"]], "GO", "TERM")
       # Same as lookUp for TERM
       getGOdesc(gg[[2]][[1]][["GOID"]], "ANY")
@@ -82,7 +81,8 @@ getUniqAnnItem()
       getGOdesc(gg[[2]][[1]][["GOID"]], "BP")
       getLL(gN, "hgu95av2")
       getPMID(gN, "hgu95av2")
-  } else
-   cat("could not run all examples\n")
+   } else {
+     cat("could not run all examples\n")
+   }
 }
 \keyword{manip}
