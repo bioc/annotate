@@ -48,7 +48,8 @@ library("Biobase")
 library("annotate")
 library("xtable")
 require("Rgraphviz", quietly=TRUE)
-library(hgu95av2)
+library("hgu95av2")
+library("GO")
 @
 
 In this vignette we describe some of the basic characteristics of the
