@@ -22,6 +22,32 @@ dropECode = function(inlist, code = "IEA") {
 }
 
 
+## helper function, determines if there is a GO annotation for the
+## desired mode
+hasGOannote <- function(x, which="MF") {
+    if (is(x, "GOTerms")) {
+        cat <- Ontology(x)
+        if (!is.na(cat) && cat == which)
+          return(TRUE) else return(FALSE)
+    }
+    if (is.list(x)) {
+        gT <- sapply(x, function(y) is(y, "GOTerms"))
+        if (any(gT)) {
+            if (all(gT)) {
+                cats <- sapply(x, Ontology)
+                return(cats == which)
+            }
+            else
+              stop("mixed arguments not allowed")
+        }
+    }
+    if (!is.character(x))
+      stop("wrong argument")
+    tm <- getGOOntology(x)
+    return(tm == which)
+}
+
+
 ##three functions to get all the GO information for a set of GO terms
 ##FIXME: these need to be renovated - probably removed even..
  getGOOntology <- function(x) {

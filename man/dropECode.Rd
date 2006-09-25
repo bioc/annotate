@@ -32,6 +32,7 @@ dropECode(inlist, code="IEA")
 \seealso{\code{\link{getEvidence}}, \code{\link{getOntology}} }
 
 \examples{
+library("GO")
  bb=GOENTREZID2GO$"4121"
  getEvidence(bb[1:3])
  cc = dropECode(bb[1:3])
