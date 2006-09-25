@@ -46,7 +46,6 @@
 <<Setup, echo=FALSE, results=hide>>=
 library("Biobase")
 library("annotate")
-library("GOstats")
 library("xtable")
 require("Rgraphviz", quietly=TRUE)
 library(hgu95av2)
