@@ -29,6 +29,7 @@ getOntology(inlist, ontology=c("MF", "BP", "CC"))
 \seealso{\code{\link{getEvidence}}, \code{\link{dropECode}} }
 
 \examples{
+ library("GO")
  bb=GOENTREZID2GO$"4121"
  getOntology(bb)
  sapply(bb, function(x) x$Ontology)

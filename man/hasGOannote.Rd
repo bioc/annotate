@@ -27,6 +27,7 @@ hasGOannote(x, which="MF")
 \seealso{\code{\link{get}}}
 
 \examples{
+ library("GO")
  t1 <- "GO:0003680"
  hasGOannote(t1)
  hasGOannote(t1, "BP")
