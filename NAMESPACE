@@ -7,3 +7,6 @@ export(ACC2homology, accessionToUID, ACCNUMStats, .buildAnnotateOpts, buildChrom
 
 export(getEvidence, getOntology, dropECode, hasGOannote,
        getGOOntology, getGOParents, getGOChildren, getGOTerm)
+
+export(chrCats, createMAPIncMat, createLLChrCats,
+       usedChromGenes)
