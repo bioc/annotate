@@ -1,6 +1,9 @@
 \name{GOmnplot}
 \alias{GOmnplot}
 \alias{KEGGmnplot}
+\alias{KEGGmnplot,character,eSet,character-method}
+\alias{KEGGmnplot,character,matrix,character-method}
+
 \title{A function to plot by group means against each other. }
 \description{
   For a two sample comparison, as determined by \code{group}, and a

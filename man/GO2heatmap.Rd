@@ -1,6 +1,9 @@
 \name{GO2heatmap}
 \alias{GO2heatmap}
 \alias{KEGG2heatmap}
+\alias{KEGG2heatmap,character,eSet,character-method}
+\alias{KEGG2heatmap,character,matrix,character-method}
+
 \title{Compute a heatmap for the specified data, for either a GO
   category or a KEGG pathway.}
 \description{

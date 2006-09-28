@@ -1,5 +1,9 @@
 \name{chrCats}
 \alias{chrCats}
+
+\alias{createLLChrCats}
+\alias{createMAPIncMat}
+
 \title{ Returns a list of chromosome locations from a MAP environment }
 \description{
   The chrCats function takes a data package that contains a MAP environment
@@ -13,6 +17,8 @@
 }
 \usage{
 chrCats(data)
+createMAPIncMat(data)
+createLLChrCats(data)
 }
 \arguments{
   \item{data}{ the data package (a character string) }
@@ -89,6 +95,13 @@ chrCats(data)
   be useful to make it more efficient.  Also, it would be nice at some point
   for someone with more knowledge on chromosome location figure out how to
   improve some of my string manipulation errors.
+
+  \code{createLLChrCats} is a wrapper that converts probe IDs to Entrez
+  Gene IDs.
+
+  \code{createMAPIncMat} is a wrapper that calls \code{createLLChrCats}
+  and then returns an incidence matrix with rows being the categories
+  and cols the Entrez Gene IDs.
 }
 \value{
   A named list with an element for each Affy id.  The name will be the Affy id
