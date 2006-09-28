@@ -595,14 +595,15 @@ createLLChrCats<-function(data)
   LLids<-getLL(names(affyMapValues), data)
   LLMapValues<-list()
   testsum<-0
-  for (i in 1:length(unique(LLids)))
+  uLLids <- unique(LLids)
+  for (i in 1:length(uLLids))
   {
-    curLL<-unique(LLids)[i]
+    curLL <- uLLids[i]
     matchingAffys<-names(LLids)[LLids==curLL]
     affyMapIndex<-match(matchingAffys, names(affyMapValues))
     LLMapValues[[i]]<-unique(unlist(affyMapValues[affyMapIndex]))
   }
-  names(LLMapValues)<-unique(LLids)
+  names(LLMapValues) <- uLLids
   return(LLMapValues)  
 }
 
