@@ -564,8 +564,8 @@ chrCats<-function(data)
       yy[[i]]<-unique(yy[[i]])
       # need to remove any elements that end in ., t, e, or c
       # this removes any elements that end in '.'
-      if (length(grep("[\.]$", yy[[i]])) > 0)
-        yy[[i]]<-yy[[i]][-(grep("[\.]$", yy[[i]]))]
+      if (length(grep("[.]$", yy[[i]])) > 0)
+        yy[[i]]<-yy[[i]][-(grep("[.]$", yy[[i]]))]
       # this removes any elements that end in t
       if (length(grep("t$", yy[[i]])) > 0)
         yy[[i]]<-yy[[i]][-(grep("t$", yy[[i]]))]
