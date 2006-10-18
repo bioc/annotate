@@ -124,3 +124,15 @@ hasGOannote <- function(x, which="MF") {
      terms = sapply(terms, Term)
      return(split(terms, ontology))
  }
+
+
+filterGOByOntology <- function(goids, ontology=c("BP", "CC", "MF")) {
+    ontology <- match.arg(ontology)
+    eName <- switch(ontology,
+                    BP="GOBPPARENTS",
+                    CC="GOCCPARENTS",
+                    MF="GOMFPARENTS",
+                    stop("invalid ontology ", ontology))
+    e <- get(eName)
+    goids %in% ls(e)
+}
