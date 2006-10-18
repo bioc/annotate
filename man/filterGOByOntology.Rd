@@ -22,9 +22,13 @@ of the ontology specified by \code{ontology}.
 }
 \author{Seth Falcon}
 \examples{
-ids <- c("GO:0001838", "GO:0001839")
-stopifnot(all(filterGOByOntology(ids, "BP")))
-stopifnot(!any(filterGOByOntology(ids, "MF")))
+haveGO <- suppressWarnings(require("GO"))
+if (haveGO) {
+    ids <- c("GO:0001838", "GO:0001839")
+    stopifnot(all(filterGOByOntology(ids, "BP")))
+    stopifnot(!any(filterGOByOntology(ids, "MF")))
+} else cat("Sorry, this example requires the GO package\n")
+
 }
 
 \keyword{manip}
