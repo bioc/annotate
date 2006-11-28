@@ -266,9 +266,9 @@ chrCats<-function(data)
     {
       strToManip<-xx[[i]]
 
-      if (length(grep("[\|]", strToManip)) > 0)
+      if (length(grep("|", strToManip, fixed=T)) > 0)
       {
-        strToManip<-unlist(strsplit(strToManip, "[\|]"))
+        strToManip<-unlist(strsplit(strToManip, "|", fixed=T))
       }
 
       if (length(grep("-", strToManip)) > 0)
