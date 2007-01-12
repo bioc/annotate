@@ -23,7 +23,7 @@ PWAmat(data)
 }
 \value{
  A matrix containing zero or one, depending on whether the probe
-  (column) is in a pathway (row).
+  (row) is in a pathway (column).
 }
 
 \author{ R. Gentleman }
