@@ -4,25 +4,12 @@
 
 ## JZ added lookUp and modified the other functions so that they all
 ## use lookUp. Nov. 6, 2003.
-lookUp <- function(x, data, what){
+lookUp <- function(x, data, what) {
     if(length(x) < 1){
-        stop("No key(s) provided")
+        stop("No keys provided")
     }
-    require(data, quietly = TRUE, character.only = TRUE) ||
-        stop(paste("Data package", data, "not available"))
-    if(!any(ls(match(paste("package:", data, sep = ""),
-                     search())) == paste(data, what, sep = ""))){
-        stop(paste(what, "is an invalid element name"))
-    }
-    ##FIXME: we need to do the same think in all cases
-    ##  so we should drop the special case here
-    ## if(length(x) == 1){
-    ##    mapping <- get(paste(data, what, sep = ""))[[x]]
-    ## }else{
-        mapping <- mget(x, env=get(paste(data, what, sep="")),
-                        ifnotfound=NA)
-    ##}
-    return(mapping)
+    mget(x, envir=get(paste(data, what, sep="")),
+         ifnotfound=NA)
 }
 
 getGO <- function(x, data) {
