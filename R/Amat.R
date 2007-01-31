@@ -6,10 +6,14 @@ PWAmat = function(data) {
         stop("wrong argument")
     dataE = get(paste(data, "PATH2PROBE", sep=""))
 
-    pathLL = eapply(dataE, function(x) {
-        LLs = getLL(x, data)
-        LLs = LLs[!is.na(LLs)]
-        unique(LLs) })
+    if( data == "YEAST" ) 
+        pathLL = as.list(dataE)
+    else {
+        pathLL = eapply(dataE, function(x) {
+            LLs = getLL(x, data)
+            LLs = LLs[!is.na(LLs)]
+            unique(LLs) })
+    }
     uniqLL = unique(unlist(pathLL,use.names=FALSE))
     Amat = sapply(pathLL, function(x) {
         mtch = match(x, uniqLL)
