@@ -136,3 +136,25 @@ filterGOByOntology <- function(goids, ontology=c("BP", "CC", "MF")) {
     e <- get(eName)
     goids %in% ls(e)
 }
+
+aqListGOIDs <- function(ont) {
+    ## Return all GO IDs in the specified ontologies
+    knownOnts <- c("BP", "CC", "MF")
+    badOnt <- ont[!(ont %in% knownOnts)]
+    if (length(badOnt))
+      stop("Unknown ontology codes: ", paste(badOnt, collapse=", "),
+           "\nvalid codes are: ", paste(knownOnts, collapse=", "))
+    ## determine size
+    lens <- integer(length(ont))
+    for (i in seq(along=ont))
+      lens[i] <- length(getAnnMap(paste(ont[i], "PARENTS", sep=""),
+                                  chip="GO"))
+    ## retrieve IDs
+    ans <- character(sum(lens))
+    lens <- c(0L, lens)
+    for (i in seq(along=ont)) {
+        ans[lens[i]+1:lens[i+1]] <- ls(getAnnMap(paste(ont[i], "PARENTS", sep=""),
+                                               chip="GO"))
+    }
+    ans
+}

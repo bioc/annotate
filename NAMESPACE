@@ -61,6 +61,7 @@ export(
        accessionToUID,
        ACCNUMStats,
        annPkgName,
+       aqListGOIDs,
        buildChromLocation,
        buildPubMedAbst,
        checkArgs,
