@@ -11,13 +11,26 @@ annPkgName <- function(name, type=c("db", "env")) {
       name
 }
 
-getAnnMap <- function(map, chip, load=FALSE, type=c("db", "env")) {
-    badTypes <- type[!(type %in% c("db", "env"))]
-    if (length(badTypes))
-      stop("unknown types in 'type' argument: ",
-           paste(badTypes, collapse=", "))
+getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
+    typeMissed <- FALSE
+    searchName <- NULL
+    if (missing(type)) {
+        typeMissed <- TRUE
+        searchNames <- paste("package:", chip, c("", "db"), sep="")
+        searchPth <- search()
+        whLoaded <- match(searchNames, searchPth)
+        whLoaded <- whLoaded[!is.na(whLoaded)]
+        if (length(whLoaded))
+          searchName <- searchPth[sort(whLoaded)][1]
+    } else {
+        badTypes <- type[!(type %in% c("db", "env"))]
+        if (length(badTypes))
+          stop("unknown types in 'type' argument: ",
+               paste(badTypes, collapse=", "))
+    }
     pkg <- annPkgName(name=chip, type=type[1])
-    searchName <- paste("package", pkg, sep=":")
+    if (is.null(searchName))
+      searchName <- paste("package", pkg, sep=":")
     pkgEnv <- tryCatch(as.environment(searchName), error=function(e) {
         if (load) {
             ok <-
@@ -30,9 +43,10 @@ getAnnMap <- function(map, chip, load=FALSE, type=c("db", "env")) {
                     searchName <- paste("package", pkg, sep=":")
                     if (suppressWarnings(require(pkg, character.only=TRUE,
                                                  quietly=TRUE))) {
-                        warning("getAnnMap: ", "package ", origPkg,
-                                " not available, ", "using ", pkg, " instead",
-                                call.=FALSE)
+                        if (!typeMissed)
+                          warning("getAnnMap: ", "package ", origPkg,
+                                  " not available, ", "using ", pkg, " instead",
+                                  call.=FALSE)
                         ok <- TRUE
                         break
                     }

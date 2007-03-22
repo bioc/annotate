@@ -9,7 +9,7 @@
   annotation data packages.
 }
 \usage{
-getAnnMap(map, chip, load = FALSE, type = c("db", "env"))
+getAnnMap(map, chip, load = TRUE, type = c("db", "env"))
 }
 
 \arguments{
@@ -24,7 +24,9 @@ getAnnMap(map, chip, load = FALSE, type = c("db", "env"))
       and \code{"env"}.  If \code{load} is \code{TRUE}, you can specify both \code{"db"}
       and \code{"env"} and the order will determine which type is
       tried first.  This provides a fall-back mechanism when the
-      preferred annotation data package type is not available.}
+      preferred annotation data package type is not available.  If
+      \code{type} is missing, then the first matching annotation
+      package found in the search path will be used.}
 }
 \details{
   \code{getAnnMap} expects the annotation data package to be loaded
