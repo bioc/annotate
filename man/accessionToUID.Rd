@@ -31,11 +31,11 @@ accessionToUID(...,db=c("genbank","pubmed"))
 \examples{
 
      ## The two returns from genbank should be the same
-     genbank("U03397",type="accession",disp="data")
+     xdoc <- genbank("U03397",type="accession",disp="data")
      x <- accessionToUID("U03397",db="genbank")
-     genbank(x, type="uid",disp="data")
+     xdoc <- genbank(x, type="uid",disp="data")
 
      ## Can handle multiple inputs
-     accessionToUID("M16653","U892893",db="pubmed")
+     y <- accessionToUID("M16653","U892893",db="pubmed")
 }
 \keyword{interface}
