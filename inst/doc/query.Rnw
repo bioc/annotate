@@ -114,8 +114,8 @@ these data with their own.
 
 <<data>>=
 library("annotate")
-data(sample.exprSet.1)
-affys <- geneNames(sample.exprSet.1)[490:500]
+data(sample.ExpressionSet)
+affys <- featureNames(sample.ExpressionSet)[490:500]
 affys
 @
 
@@ -130,7 +130,8 @@ library("hgu95av2")
 ids <- getPMID(affys,"hgu95av2")
 ids <- unlist(ids,use.names=FALSE)
 ids <- unique(ids[!is.na(as.numeric(ids))])
-ids
+length(ids)
+ids[1:10]
 @
 
 We use \Rfunction{getPMID} to obtain the PubMed identifiers that are
