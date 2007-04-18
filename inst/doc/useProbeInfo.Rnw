@@ -91,6 +91,7 @@ library("Biostrings")
 mybs = DNAString(myseq)
 
 match1 = matchPattern(as.character(myPr[1,1]), mybs)
+match1
 as.matrix(match1)
 myPr[1,5]
 @
