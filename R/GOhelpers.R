@@ -139,6 +139,7 @@ filterGOByOntology <- function(goids, ontology=c("BP", "CC", "MF")) {
 
 aqListGOIDs <- function(ont) {
     ## Return all GO IDs in the specified ontologies
+    ont <- unique(ont)
     knownOnts <- c("BP", "CC", "MF")
     badOnt <- ont[!(ont %in% knownOnts)]
     if (length(badOnt))
