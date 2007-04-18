@@ -1,22 +1,43 @@
 ##Copyright R. Gentleman, 2004
 ##simple functions to get Evidence codes
 
+.isMissingGOEntry <- function(x) (length(x) == 1L && is.na(x))
+
 ##get then GO term names for a particular (sub)ontology
 getOntology = function(inlist, ontology=c("MF", "BP", "CC")) {
    which = match.arg(ontology)
-   onts = sapply(inlist, function(z) z$Ontology)
+   onts = sapply(inlist, function(z) {
+       if (!.isMissingGOEntry(z))
+         z$Ontology
+       else
+         z
+       })
    onts = onts[!is.na(onts)]
    unique(names(inlist[onts %in% which]))
 }
 
 
 ##get GO evidence codes
-getEvidence = function(inlist) 
-     sapply(inlist, function(z) z$Evidence)
+getEvidence = function(inlist) {
+    ans <- sapply(inlist, function(z) {
+         if (!.isMissingGOEntry(z))
+           z$Evidence
+         else
+           z
+     })
+    ans[!is.na(ans)]
+}
+
 
 ##drop a specified set of evidence codes
 dropECode = function(inlist, code = "IEA") {
-    hasCode = sapply(inlist, function(z) z$Evidence)
+    hasCode = sapply(inlist, function(z) {
+        if (!.isMissingGOEntry(z))
+          z$Evidence
+        else
+          z
+        })
+    hasCode <- hasCode[!is.na(hasCode)]
     badVals = hasCode %in% code
     inlist[!badVals]
 }
