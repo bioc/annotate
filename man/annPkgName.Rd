@@ -9,7 +9,7 @@
   particular backing store.
 }
 \usage{
-annPkgName(name, type = c("db", "env"))
+annPkgName(name, type = c("env", "db"))
 }
 
 \arguments{
@@ -29,8 +29,14 @@ annPkgName(name, type = c("db", "env"))
   \code{\link{getAnnMap}}
 }
 \examples{
-annPkgName("hgu133plus2", type="db")
 annPkgName("hgu133plus2", type="env")
+
+\dontrun{
+## This is for the future, when SQLite-based annotation
+## data packages are commonly available
+annPkgName("hgu133plus2", type="db")
+}
+
 }
 
 \keyword{manip}

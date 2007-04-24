@@ -1,4 +1,4 @@
-annPkgName <- function(name, type=c("db", "env")) {
+annPkgName <- function(name, type=c("env", "db")) {
     type <- match.arg(type)
     if (length(grep("db$", name)))
       if (type == "db")
@@ -11,7 +11,7 @@ annPkgName <- function(name, type=c("db", "env")) {
       name
 }
 
-getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
+getAnnMap <- function(map, chip, load=TRUE, type=c("env", "db")) {
     typeMissed <- FALSE
     searchName <- NULL
     if (missing(type)) {

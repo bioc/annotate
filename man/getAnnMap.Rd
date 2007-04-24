@@ -9,7 +9,7 @@
   annotation data packages.
 }
 \usage{
-getAnnMap(map, chip, load = TRUE, type = c("db", "env"))
+getAnnMap(map, chip, load = TRUE, type = c("env", "db"))
 }
 
 \arguments{
@@ -38,10 +38,18 @@ getAnnMap(map, chip, load = TRUE, type = c("db", "env"))
   \code{environment} object representing the requested map.
 }
 
+\section{Warning}{
+  SQLite-based annotation data packages are planned for the BioC 2.1
+  release.  Use of \code{type="db"} may not work as desired in this
+  release.  In the next release, the order of \code{"env"} and
+  \code{"db"} will be reversed to give preference to the SQLite-based
+  packages.
+}
+
 \author{Seth Falcon}
 
 \examples{
-map <- getAnnMap("ENTREZID", "hgu95av2", load=TRUE, type=c("env", "db"))
+map <- getAnnMap("ENTREZID", "hgu95av2")
 class(map)
 }
 
