@@ -9,5 +9,5 @@ Imports: AnnotationDbi
 Suggests: hgu95av2, genefilter, Biostrings (>= 2.1.2), rae230a, rae230aprobe,
           tkWidgets, XML (>= 0.92-2), hsahomology, xlahomology, GO
 License: The Artistic License, Version 2.0
-SaveImage: yes
+LazyLoad: yes
 biocViews: Annotation, Pathways, GO, Affymetrix
