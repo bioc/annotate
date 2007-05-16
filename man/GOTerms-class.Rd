@@ -1,12 +1,6 @@
 \name{GOTerms-class}
 \docType{class}
 \alias{GOTerms}
-\alias{GOID}
-\alias{Ontology}
-\alias{Definition}
-\alias{Term}
-\alias{Secondary}
-\alias{Synonym}
 %\alias{show}
 \alias{GOTerms-class}
 \alias{Ontology,GOTerms-method}
@@ -74,7 +68,12 @@
 \references{\url{http://www.geneontology.org/}}
 \author{Jianhua Zhang}
 \note{GOTerms objects are used to represent GO terms for primary GO
-  nodes in the annotation data package GO}
+  nodes in the annotation data package GO.
+  Also note that there is a \link[AnnotationDbi]{GOTerm} class
+  with exactly the same slots and semantic as the GOTerms class.
+  It is defined in the AnnotationDbi package and may replace the GOTerms
+  class at some point in the future.
+}
 
 \examples{
   goTerms <- new("GOTerms", GOID = "GO:1234567", Term = "Test",

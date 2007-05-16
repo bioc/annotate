@@ -1,4 +1,5 @@
-import("AnnotationDbi")
+import(methods)
+import(AnnotationDbi)
 
 exportClasses(
               chromLocation,

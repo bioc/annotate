@@ -7,39 +7,24 @@ setClass("GOTerms", representation(GOID= "character",
                                    Definition = "character",
                                    Ontology = "character"))
 
-# Set the get methods
-setGeneric("GOID",
-               function(object) standardGeneric("GOID"))
+# Set the get methods: GOID, Term, Synonym, Secondary, Definition and Ontology.
+# The generics for these methods are now defined in AnnotationDbi >= 0.0.69
+# (H. Pages).
 
 setMethod("GOID", "GOTerms",
           function(object) object@GOID)
 
-setGeneric("Term",
-               function(object) standardGeneric("Term"))
-
 setMethod("Term", "GOTerms",
           function(object) object@Term)
 
-setGeneric("Synonym",
-               function(object) standardGeneric("Synonym"))
- 
 setMethod("Synonym", "GOTerms",
           function(object) object@Synonym)
-
-setGeneric("Secondary",
-               function(object) standardGeneric("Secondary"))
 
 setMethod("Secondary", "GOTerms",
           function(object) object@Secondary)
 
-setGeneric("Definition",
-               function(object) standardGeneric("Definition"))
-
 setMethod("Definition", "GOTerms",
           function(object) object@Definition)
-
-setGeneric("Ontology",
-               function(object) standardGeneric("Ontology"))
 
 setMethod("Ontology", "GOTerms",
           function(object) object@Ontology)
