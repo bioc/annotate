@@ -69,7 +69,7 @@
 \author{Jianhua Zhang}
 \note{GOTerms objects are used to represent GO terms for primary GO
   nodes in the annotation data package GO.
-  Also note that there is a \link[AnnotationDbi]{GOTerm} class
+  Also note that there is a \link[AnnotationDbi]{GONode} class
   with exactly the same slots and semantic as the GOTerms class.
   It is defined in the AnnotationDbi package and may replace the GOTerms
   class at some point in the future.
