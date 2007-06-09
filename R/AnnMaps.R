@@ -1,12 +1,12 @@
 annPkgName <- function(name, type=c("db", "env")) {
     type <- match.arg(type)
-    if (length(grep("db$", name)))
+    if (length(grep("\\.db$", name)))
       if (type == "db")
         name
       else
-        substr(name, 1, nchar(name)-2)
+        substr(name, 1, nchar(name) - 3L)
     else if (type == "db")
-      paste(name, "db", sep="")
+      paste(name, ".db", sep="")
     else
       name
 }
@@ -16,7 +16,7 @@ getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
     searchName <- NULL
     if (missing(type)) {
         typeMissed <- TRUE
-        searchNames <- paste("package:", chip, c("", "db"), sep="")
+        searchNames <- paste("package:", chip, c("", ".db"), sep="")
         searchPth <- search()
         whLoaded <- match(searchNames, searchPth)
         whLoaded <- whLoaded[!is.na(whLoaded)]
