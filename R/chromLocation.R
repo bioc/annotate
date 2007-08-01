@@ -173,7 +173,7 @@ usedChromGenes <- function(eSet, chrom, specChrom) {
     genes <- cLocs[[chrom]]
 
     ## Extract out of the expr set the genes that belong on this chrom
-    usedGenes <- genes[names(genes) %in% geneNames(eSet)]
+    usedGenes <- genes[names(genes) %in% featureNames(eSet)]
 
     ## Order the genes by location
     ord <- order(abs(usedGenes))
