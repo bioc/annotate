@@ -87,8 +87,6 @@ weightByConfi(foundLLs)
 }
 \references{\url{http://www.genome.ucsc.edu/goldenPath/}}
 \author{Jianhua Zhang}
-\note{This function is part of the Bioconductor project at Dana-Farber
-  Cancer Institute to provide bioinformatics functionalities through R}
 
 \examples{
 if(require("humanCHRLOC")){

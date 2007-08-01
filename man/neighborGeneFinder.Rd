@@ -31,8 +31,6 @@ organism = c("human", "mouse", "rat"))
   is a list with an "upstream" and "downstream" elements.
 }
 \author{Jianhua Zhang}
-\note{This function is part of the Bioconductor project at Dana-Farber
-  Cancer Institute to provide Bioinformatics functionalities through R}
 
 \examples{
   if(interactive()){

@@ -53,8 +53,6 @@ readUrl(url)
 }
 \references{\url{www.ncbi.nlm.nih.gov/geo}}
 \author{Jianhua Zhang}
-\note{This function is part of the Bioconductor project at Dana-Farber
-  Cancer Institute to provide Bioinformatics functionalities through R}
 
 \examples{
 # Get array names and GEO accession numbers

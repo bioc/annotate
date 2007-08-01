@@ -65,8 +65,6 @@ Objects can be created by calls of the form \code{new("homoData", ...)}.
 }
 \references{\url{ftp://ftp.ncbi.nih.gov/pub/HomoloGene/README}}
 \author{Jianhua Zhang}
-\note{This function is part of the Bioconductor project at Dana-Farber
-  Cancer Institute to provide Bioinfomatics functionalities throug R}
 
 \examples{
     new("homoData", homoPS = 82.3, homoLL = 2324853, homoOrg = "Homo sapins",

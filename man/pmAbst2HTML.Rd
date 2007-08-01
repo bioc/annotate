@@ -40,8 +40,6 @@ pmAbst2HTML(absts, filename, title, frames = FALSE, table.center = TRUE)
   string provided by \code{filename}.
 }
 \author{Jeff Gentry}
-\note{ This function is part of the Bioconductor project at the Dana-Farber
-  Cancer Institute to provide Bioinformatics functionalities through R}
 
 \seealso{\code{pubMedAbst}}
 \examples{

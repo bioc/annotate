@@ -88,10 +88,6 @@ getQuery4EN(ids)
 
 \author{ Jianhua Zhang <jzhang@jimmy.harvard.edu> with further
   modifications by James W. MacDonald <jmacdon@med.umich.edu> }
-\note{  The functions are part of Bioconductor project at Dana-Farber
-  Cancer Institute to provide Bioinformatics functionalities through
-  R
-}
 
 
 \keyword{ manip }% __ONLY ONE__ keyword per line
