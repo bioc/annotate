@@ -40,8 +40,9 @@ To demonstrate the use of probe level data we will use the
 libraries.
 
 <<loadlibs, results=hide>>=
-library(rae230a)
-library(rae230aprobe)
+library("annotate")
+library("rae230a")
+library("rae230aprobe")
 @
 
 Now, we do not have any data so all we are going to do is to examine
@@ -119,10 +120,9 @@ mybs = DNAString(myseq)
 
 match2 = matchPattern(as.character(myPr[1,1]), mybs)
 
-nchar(match2)
+## expecting 0 (no match)
+length(match2)
 
-## "revString" removed by WH 6.6.06
-## match2 = matchPattern(revString(as.character(myPr[1,1])), mybs)
 match2 = matchPattern(reverseComplement(DNAString(myPr[1,1])), mybs)
 
 nchar(match2)
