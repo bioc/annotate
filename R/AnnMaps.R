@@ -1,3 +1,10 @@
+annObjPrefix <- function(name) {
+    if (length(grep("\\.db$", name)))
+      substr(name, 1, nchar(name) - 3L)
+    else
+      name
+}
+
 annPkgName <- function(name, type=c("db", "env")) {
     type <- match.arg(type)
     if (length(grep("\\.db$", name)))
@@ -61,6 +68,6 @@ getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
                  call.=FALSE)
         }
     })
-    mapName <- paste(chip, map, sep="")
+    mapName <- paste(annObjPrefix(chip), map, sep="")
     get(mapName, envir=pkgEnv)
 }
