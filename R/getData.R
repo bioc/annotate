@@ -53,10 +53,6 @@ getGO <- function(x, data) {
   }
 
 
-installDataPackage <- function(pkga, liba=.libPaths()[1]) {
-    .Defunct("install.packages")
-}
-
 # This function needs to be updated when new annotation items are
 # added to the data packages
 getUniqAnnItem <- function(){
