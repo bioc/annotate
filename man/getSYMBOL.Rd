@@ -18,7 +18,7 @@ getLL(x, data)
 getGO(x, data)
 getPMID(x, data)
 getGOdesc(x, which)
-lookUp(x, data, what)
+lookUp(x, data, what, load = FALSE)
 getUniqAnnItem()
 }
 \arguments{
@@ -28,6 +28,8 @@ getUniqAnnItem()
     annotation element of an annotation data package}
   \item{which}{\code{which} a character string in the form of MF, BP,
     CC, or ANY to indicated the GO categories of interest}
+  \item{load}{A logical value indicating whether to attempt to load the
+  required annotation data package if it isn't already loaded.}
 }
 \details{
   Users must supply the basename of the meta-data package that they
