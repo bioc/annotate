@@ -4,11 +4,11 @@
 
 ## JZ added lookUp and modified the other functions so that they all
 ## use lookUp. Nov. 6, 2003.
-lookUp <- function(x, data, what) {
+lookUp <- function(x, data, what, load=FALSE) {
     if(length(x) < 1){
         stop("No keys provided")
     }
-    mget(x, envir=get(paste(data, what, sep="")),
+    mget(x, envir=getAnnMap(what, chip=data, load=load),
          ifnotfound=NA)
 }
 
@@ -17,10 +17,9 @@ getGO <- function(x, data) {
  }
 
  getGOdesc <- function(x, which = c("BP", "CC", "MF", "ANY")) {
-     require("GO") || stop("need the GO library")
      which <- match.arg(which)
      options(show.error.messages = FALSE)
-     ans <- try(lookUp(x, "GO", "TERM"))
+     ans <- try(lookUp(x, "GO", "TERM", load=TRUE))
      options(show.error.messages = TRUE)
      onts <- sapply(ans, Ontology)
      if(inherits(ans, "try-error")){
