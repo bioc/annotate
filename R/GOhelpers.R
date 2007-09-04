@@ -136,8 +136,7 @@ hasGOannote <- function(x, which="MF") {
      if(length(x) == 0 )
          return(list())
      terms <- mget(x, env=GOTERM, ifnotfound=NA)
-     ##cannot use is.na, because GOTerms objects are 0 length lists
-     isNA = sapply(terms, function(x) !(is(x, "GOTerms")))
+     isNA = sapply(terms,function(x) !(isS4(x) && is(x, "GOTerms")))
      if( any(isNA) )
          terms = terms[!isNA]
 

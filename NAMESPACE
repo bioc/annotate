@@ -4,7 +4,6 @@ import(AnnotationDbi)
 exportClasses(
               chromLocation,
               FramedHTMLPage,
-              GOTerms,
               homoData,
               HTMLPage,
               pubMedAbst
@@ -110,7 +109,6 @@ export(
        getValidChr,
        GO2heatmap,
        GOmnplot,
-       GOTerms,
        hasGOannote,
        HGID2homology,
        homoData,
