@@ -99,7 +99,7 @@ buildChromLocation <- function(dataPkg) {
     ##each element of that list is a named vector, the names are the
     ##probeids and the values are the locations
     CHRLOC2chromLoc <- function(chrEnv) {
-        chrLocs <- contents(chrEnv)
+        chrLocs <- as.list(chrEnv)
 
         ## Need to extract out the ones w/ multiple mappings
         chrLens <- sapply(chrLocs, length)
@@ -143,21 +143,18 @@ buildChromLocation <- function(dataPkg) {
         chrLocList
     }
 
-    if (!require(dataPkg, character.only=TRUE))
-        stop(paste("Package:",dataPkg,"is not available"))
 
-    pEnv <- paste("package",dataPkg,sep=":")
-
-    chrLocList <- CHRLOC2chromLoc(get(paste(dataPkg,"CHRLOC",sep=""), pos=pEnv))
+    chrlocEnv <- getAnnMap("CHRLOC", dataPkg)
+    chrLocList <- CHRLOC2chromLoc(chrlocEnv)
 
     ## !!! Need to get the version info for dataSource
     newCC <- new("chromLocation",
-                 organism=get(paste(dataPkg,"ORGANISM",sep=""),pos=pEnv),
+                 organism=getAnnMap("ORGANISM", dataPkg),
                  dataSource=dataPkg,
                  chromLocs=chrLocList,
-                 chromInfo=get(paste(dataPkg,"CHRLENGTHS",sep=""),pos=pEnv),
-                 probesToChrom=get(paste(dataPkg,"CHR",sep=""),pos=pEnv),
-                 geneSymbols=get(paste(dataPkg,"SYMBOL",sep=""),pos=pEnv))
+                 chromInfo=getAnnMap("CHRLENGTHS", dataPkg),
+                 probesToChrom=getAnnMap("CHR", dataPkg),
+                 geneSymbols=getAnnMap("SYMBOL", dataPkg))
 
     return(newCC)
 }

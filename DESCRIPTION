@@ -1,11 +1,11 @@
 Package: annotate
 Title: Annotation for microarrays
-Version: 1.15.7
+Version: 1.15.8
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: Biocore Team c/o BioC user list <bioconductor@stat.math.ethz.ch>
-Depends: R (>= 2.4.0), methods, Biobase, AnnotationDbi (>= 0.0.78)
-Imports: methods, AnnotationDbi
+Depends: R (>= 2.4.0), methods, Biobase, AnnotationDbi (>= 0.1.15)
+Imports: methods, AnnotationDbi (>= 0.1.15)
 Suggests: hgu95av2, genefilter, Biostrings (>= 2.4.4), rae230a, rae230aprobe,
           tkWidgets, XML (>= 0.92-2), hsahomology, xlahomology, GO
 License: The Artistic License, Version 2.0
