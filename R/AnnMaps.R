@@ -69,5 +69,5 @@ getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
         }
     })
     mapName <- paste(annObjPrefix(chip), map, sep="")
-    get(mapName, envir=pkgEnv)
+    get(mapName, envir=pkgEnv, inherits=FALSE)
 }
