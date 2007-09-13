@@ -14,10 +14,6 @@
 #
 
 probesByLL <- function(baseName, what = "ENTREZID"){
-
-    require(baseName, character.only = TRUE) ||
-    stop(paste("The annotation package for", baseName, "is not available!"))
-
     tempList <- list()
 
     mergeRowByKey <- function (mergeMe, keyCol = 1, sep = ";"){
@@ -61,7 +57,7 @@ probesByLL <- function(baseName, what = "ENTREZID"){
     }
 
     options(show.error.messages = FALSE)
-    temp <- try(as.list(get(paste(baseName, what, sep = ""))))
+    temp <- try(as.list(getAnnMap(what, baseName)))
     options(show.error.messages = TRUE)
     if(inherits(temp, "try-error")){
         stop(paste(what, "may not be a valid environment of", baseName))
