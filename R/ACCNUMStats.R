@@ -1,11 +1,6 @@
 ACCNUMStats <- function(pkgName){
-    if(!require(pkgName, character.only = TRUE)){
-        stop(paste("Data package", pkgName, "is not available"))
-    }
-    accs <- as.list(get(paste(pkgName, "ACCNUM", sep = "")),
-                    pos = match(paste("package:", pkgName, sep = ""),
-                    search()) )
-
+    accMap <- getAnnMap("ACCNUM", pkgName)
+    accs <- as.list(accMap)
     return(table(unlist(sapply(accs, whatACC))))
 }
 
