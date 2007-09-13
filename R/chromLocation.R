@@ -1,12 +1,17 @@
     # Defines the chromLocation class
 
+
     # Define the class structure of the chromLocation object
+## FIXME: we make the slots probesToChrom and geneSymbols ANY because
+## they should be able to hold either an environment or an object from
+## AnnotationDbi.  We could use a class union here, but they could have
+## other consequences for dispatch.
     setClass("chromLocation", representation(organism="character",
                                              dataSource="character",
                                              chromLocs="list",
-                                             probesToChrom="environment",
+                                             probesToChrom="ANY",
                                              chromInfo="numeric",
-                                             geneSymbols="environment"
+                                             geneSymbols="ANY"
                                              ))
 
     # Define the accessors

@@ -27,13 +27,13 @@
 \author{ Jeff Gentry }
 
 \examples{
-   ## A bit of a hack to not have a package dependency on hgu95av2
-   ## but need to fiddle w/ the warn level to not fail the example anyways.
-   curWarn <- getOption("warn")
-   options(warn=0)
-   on.exit(options(warn=curWarn), add=TRUE)
-   if (require(hgu95av2)) {
+have_ann_pkg <- suppressWarnings(require("hgu95av2.db", quietly=TRUE))
+if (!have_ann_pkg)
+  have_ann_pkg <- suppressWarnings(require("hgu95av2", quietly=TRUE))
+if (have_ann_pkg) {
      z <- buildChromLocation("hgu95av2")
-   } else print("This example requires the hgu95av2 data package")
-}
+} else print("This example requires the hgu95av2.db or hgu95av2 package")
+
+} % end examples
+
 \keyword{ utilities }

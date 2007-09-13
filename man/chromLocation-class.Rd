@@ -28,13 +28,13 @@
   the need to recomputed values repeatedly. 
 }
 \section{Creating Objects}{
-\code{  new('chromLocation',}\cr
+\code{  new('chromLocation',}
 \code{    organism     = ...., # Object of class character}\cr
 \code{    dataSource    = ...., # Object of class character}\cr
 \code{    chromLocs    = ...., # Object of class list}\cr
-\code{    probesToChrom  = ...., # Object of class environment}\cr
+\code{    probesToChrom  = ...., # Object of class ANY}\cr
 \code{    chromInfo    = ...., # Object of class numeric}\cr
-\code{    geneSymbols  = ...., # Object of class environment}\cr
+\code{    geneSymbols  = ...., # Object of class ANY}\cr
 \code{  )}}
 \section{Slots}{
   \describe{
@@ -44,12 +44,14 @@
     the gene data. }
     \item{\code{chromLocs}:}{Object of class "list".  A list which
       provides specific location information for every gene. }
-    \item{\code{probesToChrom}:}{Object of class "genEnv".  A hash table
-      which will translate a probe identifier to chromosome it belongs to. }
+    \item{\code{probesToChrom}:}{An object with an environment-like API
+      which will translate a probe identifier to chromosome it belongs
+      to. }
     \item{\code{chromInfo}:}{A numerical vector representing each
       chromosome, where the names are the names of the chromosomes and
       the values are their lengths}
-    \item{\code{geneSymbols}:}{An environment that maps a probe ID to
+    \item{\code{geneSymbols}:}{An environment or an object with
+      environment-like API that maps a probe ID to
       the appropriate gene symbol}
   }
 }
@@ -71,10 +73,10 @@
 }
 \seealso{\code{\link{buildChromLocation}}}
 \examples{
-   curWarn <- getOption("warn")
-   options(warn=0)
-   on.exit(options(warn=curWarn), add=TRUE)
-   if (require("hgu95av2")) {
+have_ann_pkg <- suppressWarnings(require("hgu95av2.db", quietly=TRUE))
+if (!have_ann_pkg)
+  have_ann_pkg <- suppressWarnings(require("hgu95av2", quietly=TRUE))
+if (have_ann_pkg) {
      z <- buildChromLocation("hgu95av2")
 
      ## find the number of chromosomes
@@ -89,6 +91,7 @@
      ## get the lengths of the chromosomes in this object
      chromLengths(z)
 
-   } else print("This example requires the hgu95av2 data package")
-}
+} else print("This example requires the hgu95av2.db or hgu95av2 package")
+
+} %% end examples
 \keyword{classes}
