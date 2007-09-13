@@ -55,7 +55,7 @@ PMIDAmat = function(pkg, gene=NULL) {
 ##mapped to that GOterm;
 GO2heatmap = function(x, eset, data, ...) {
     if( missing(data) )
-        data = eset@annotation
+        data = annotation(eset)
     mapE = get(paste(data, "GO2ALLPROBES", sep=""))
 
     whG = mapE[[x]]
@@ -97,7 +97,7 @@ setGeneric("KEGG2heatmap", function(x, eset, data, ...)
 setMethod("KEGG2heatmap", c("character", "eSet", "character"),
    function(x, eset, data, ...) {   
     if( missing(data) )
-       data = eset@annotation
+       data = annotation(eset)
     mapE = get(paste(data, "PATH2PROBE", sep = ""))
     whG = mapE[[x]]
     whG = unique(whG)
