@@ -203,32 +203,6 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 	retVal <- paste(retVal, collapse=",")
     }
 
-#   query <- sub("^[^<]*<(.*)", "<\\1",query) 
-
-    ## Currently doubling up on code from .handleXML as I can't yet find a
-    ## way to retrieve values back through the extra layer of
-    ## indirection.
-
-#   require(XML) || stop("XML package is unavailable!")
-    ## Make sure that XML version is what we require
-    ## !!! Need to make this automatic, hardcode version in for now
-#   xmlVers <- packageDescription("XML",fields="Version")
-#   reqXmlVers <- "0.92-2"
-#    if (compareVersion(xmlVers,reqXmlVers) < 0)
-#        stop(paste("Installed XML version is ",xmlVers,
-#                   " while this functionality requires ", reqXmlVers,
-#                   ":  Please update your XML package.",sep=""))
-#
-#    options(show.error.messages = FALSE)
-#    on.exit(options(show.error.messages = TRUE))
-#    retVal <- character(0) 
-#    result <- try(xmlTreeParse(query,asText=TRUE, handlers=list(Id=function(x) {retVal <<- c(retVal, xmlValue(x[[1]]))})))
-#    options(show.error.messages = TRUE)
-
-#    if (length(retVal)>0) {
-#        retVal <- paste(retVal, sep="", collapse=",") 
-#    }
-
     return(retVal)
 }
 
