@@ -20,17 +20,24 @@ getAnnMap(map, chip, load = TRUE, type = c("db", "env"))
       will try to load the annotation data package if it is not
       already attached.}
   \item{type}{a character vector of one or more annotation data
-      package types.  The currently supported types are \code{"db"}
-      and \code{"env"}.  If \code{load} is \code{TRUE}, you can specify both \code{"db"}
-      and \code{"env"} and the order will determine which type is
-      tried first.  This provides a fall-back mechanism when the
+      package types.  The currently supported types are \code{"db"} and
+      \code{"env"}.  If \code{load} is \code{TRUE}, you can specify both
+      \code{"db"} and \code{"env"} and the order will determine which
+      type is tried first.  This provides a fall-back mechanism when the
       preferred annotation data package type is not available.  If
-      \code{type} is missing, then the first matching annotation
-      package found in the search path will be used.}
+      \code{type} is missing, then the first matching annotation package
+      found in the search path will be used, and then the default value
+      of \code{type} takes over.}
 }
 \details{
-  \code{getAnnMap} expects the annotation data package to be loaded
-  and attached.  If \code{load} is TRUE, the package will be attached.
+  \code{getAnnMap} uses the search path (see \code{search}) to find an
+  appropriate annotation data package; when called with
+  \code{chip="hgu95av2"}, the function will use the first hgu95av2
+  package on the search path whether it be db or environment-based.  If
+  \code{load=TRUE} and no suitable package is found on the search path,
+  then the function will attempt to load an appropriate package.  The
+  \code{type} argument is used to determine which type of package (db or
+  env) is loaded first.
 }
 \value{
   If \code{type} is \code{"db"}, an S4 object representing the
