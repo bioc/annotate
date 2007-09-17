@@ -17,7 +17,7 @@
   Given a vector of ids, the functions will create a vector of
   hypertext links to a defined public repositories such as
   LocusLink, UniGene .... The linkages can be placed in a html file
-  constructed by \code{\link{htmlpage}}
+  constructed by \code{\link{htmlpage}.}
 }
 \usage{
 getQueryLink(ids, repository = "ug")
@@ -40,7 +40,7 @@ getQuery4EN(ids)
     multiple ids per gene.}
   \item{repository}{ A character string for the name of a public
     repository. Valid values include "ll", "ug", "gb", "sp", "omim",
-    "affy", "en", and "fb". }
+    "affy", "en", and "fb". See the details section for more information. }
 }
 \details{
  \code{\link{getQuery4LL}} constructs hypertext links to LocusLink using the
@@ -79,7 +79,11 @@ getQuery4EN(ids)
  \code{getQuery4UG}, \code{getQuery4LL}), \code{getQuery4FB} attempt to
  return empty cells for ids that don't make sense, rather than broken
  links. For the other getQuery4XX functions, the end user must replace
- all nonsense ids with "&nbsp;" in order to have an empty cell. 
+ all nonsense ids with "&nbsp;" in order to have an empty cell.
+
+ Also note that creating additional links is quite simple. First, define
+ a new 'getQuery4XX()' function modeled on the existing functions, then
+ add this function to the \code{getQueryLink} function.
  
 }
 \value{

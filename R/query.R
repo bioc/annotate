@@ -420,76 +420,54 @@ pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
 }
 
 htmlpage <- function (genelist, filename, title, othernames, table.head,
-                         table.center = TRUE, repository = "ll"){
-  outfile <- file(filename, "w")
-  type <- "text/css"
-  cat("<html>", "<head>", "<TITLE>Differentially Expressed Genes</TITLE>",
-      "</head>", "<body bgcolor=#FFFFFF >", "<H1 ALIGN=CENTER > Differentially Expressed Genes </H1>",
-      # CSS to allow reasonable spacing for multiple links per cell
-      paste("<style type=", type,">",sep = ""), "p{ margin-top: 1px; margin-bottom: 1px; padding-left: 10px; text-indent: -10px }",
-      "</style>", file = outfile, sep = "\n")
-  if (!missing(title))
-    cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
-        file = outfile, sep = "\n")
-  if (table.center)
-    cat("<CENTER> \n", file = outfile)
-  cat("<TABLE BORDER=4>", file = outfile, sep = "\n")
-  if (!missing(table.head)) {
-    headout <- paste("<TH>", table.head, "</TH>")
-    cat("<TR>", headout, "</TR>", file = outfile, sep = "\n")
+                          table.center=TRUE, repository = "ll", ...){
+  chklen <- function(x){
+      if(is.vector(x) || is.list(x)) length(x)
+      else dim(x)[1]
   }
-  if(is.list(genelist)){
-    if(all(rep(length(genelist[[1]]), length(genelist)) ==
-                 unlist(lapply(genelist, length), use.names=FALSE))){
-      nrows <- length(genelist[[1]])
-    }else stop("The lists of genes to annotate must all be of equal length.")
-  }else nrows <- length(genelist)
-
+  if(is.list(genelist))
+      len.vec <- sapply(genelist, chklen)
+  if(!missing(othernames) && is.list(othernames))
+      len.vec <- c(len.vec, sapply(othernames, chklen))
+  if(any(len.vec != len.vec[1]))
+      stop(paste("Some items in either", genelist, "or", othernames,
+                 "have mis-matched lengths.\nPlease check this",
+                 "discrepancy and re-run.\n"), .call=FALSE)
+ 
   if (is.list(repository)){
-    rows <- ""
+    out <- NULL
     for(i in seq(along=repository)){
-      rows <- paste(rows, getTDRows(genelist[[i]], repository[[i]]))
+      out <- cbind(out, getCells(genelist[[i]], repository[[i]]))
     }
   }
-  else rows <- getTDRows(genelist, repository)
+  else out <- getCells(genelist, repository)
   if (!missing(othernames)) {
-    if (is.list(othernames)) {
-      others <- ""
-      for (nm in othernames){
-        if(is.matrix(nm)){
-          for(i in 1:dim(nm)[2]){
-            others <- paste(others, "<TD>", nm[,i], "</TD>", sep = "")
-          }
-        }
-        if(is.list(nm)){
-          ## The assumption here is that if nm is a list, for some cells there will be
-          ## multiple lines. This code just makes those cells multi-line.
-          out <- vector()
-          for(j in seq(along = nm)){
-            out[j] <- paste("<P>", nm[[j]], "</P>", sep="", collapse="")
-          }
-          out <- paste("<TD>", out, "</TD>", sep="")
-          others <- paste(others, out, sep="")
-        }
-        if((is.vector(nm) || is.factor(nm)) && !is.list(nm))
-          others <- paste(others, "<TD>", nm, "</TD>", sep = "")
+      if (is.list(othernames)) {
+          others <- NULL
+          for(i in seq(along=othernames))
+              if(is.list(othernames[[i]])){
+                  ## if othernames[[i]] is a list, the assumption
+                  ## here is that we want a multi-line table entry
+                  ## in the HTML page
+                  others <- cbind(others,
+                                  sapply(othernames[[i]], function(x)
+                                         paste("<P>", x, "</P>",
+                                               collapse="", sep="")))
+              }else{
+                  others <- cbind(others, othernames[[i]])
+              }
+          out <- data.frame(out, others)
+      }else{
+          out <- data.frame(out, othernames)
       }
-    }
-    else others <- paste("<TD>", othernames, "</TD>", sep = "")
-    if(length(rows) != length(others))
-      stop(paste("There are", length(rows), "rows in your genelist, but",
-                 length(others), "rows in othernames.\n This will not give",
-                 "good results!\n"))
-    rows <- paste(rows, others)
   }
-  for (i in 1:nrows) cat("<TR>", rows[i], "</TR>", file = outfile,
-                         sep = "\n")
-  cat("</TABLE>", file = outfile)
-  if (table.center)
-    cat("</CENTER> \n", file = outfile)
-  cat("</body>", "</html>", sep = "\n", file = outfile)
-  close(outfile)
+  colnames(out) <- table.head
+  out <- xtable(out, caption=if(!missing(title)) title, ...)
+  print(out, type="html", file=filename, caption.placement="top",
+        include.rownames=FALSE, sanitize.text.function=function(x) x,
+        ...)
 }
+  
 
 getCells <-  function(ids, repository = "ug"){
   # This function allows us to insert multiple links in each cell by

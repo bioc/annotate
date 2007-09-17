@@ -2,7 +2,7 @@
 % NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
 % likely to be overwritten.
 %
-% \VignetteIndexEntry{HOWTO Get HTML Output}
+% \VignetteIndexEntry{HowTo: Get HTML Output}
 % \VignetteDepends{annotate, hgu95av2}
 % \VignetteKeywords{Expression Analysis, Annotation}
 % \VignettePackage{annotate}
