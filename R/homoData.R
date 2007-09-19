@@ -77,6 +77,65 @@ setMethod("show", "homoData",
               cat("\n")
 })
 
+mapOrgs <- function(toMap, what = c("code", "name")){
+    fun <- function(x){
+        if(what == "code"){
+            return(orgs[[x]])
+        }else{
+            return(names(orgs[orgs == x]))
+        }
+    }
+    what <- match.arg(what)
+    orgs <- getOrgNameNCode()
+    if(is.null(toMap) || is.na(toMap)){
+         return(NA)
+    }
+    if(length(toMap) == 1){
+        return(fun(toMap))
+    }else{
+        return(sapply(toMap, fun))
+    }
+}
+
+getOrgNameNCode <- function(){
+    return(list("3055" = "Chlamydomonas reinhardtii",
+             "3702" = "Arabidopsis thaliana",
+             "3847" = "Glycine max",
+             "3880" = "Medicago truncatula",
+             "4081" = "Lycopersicon esculentum",
+             "4513" = "Hordeum vulgare",
+             "4530" = "Oryza sativa",
+             "4565" = "Triticum aestivum",
+             "4577" = "Zea mays",
+             "4896" = "Schizosaccharomyces pombe",
+             "4932" = "Saccharomyces cerevisiae",
+             "5141" = "Neurospora crassa",
+             "5833" = "Plasmodium falciparum",
+             "6239" = "Caenorhabditis elegans",
+             "7165" = "Anopheles gambiae",
+             "7227" = "Drosophila melanogaster",
+             "7719" = "Ciona intestinalis",
+             "7955" = "Danio rerio",
+             "8022" = "Oncorhynchus mykiss",
+             "8090" = "Oryzias latipes",
+             "8355" = "Xenopus laevis",
+             "8364" = "Xenopus tropicalis",
+             "9031" = "Gallus gallus",
+             "9606" = "Homo sapiens",
+             "9615" = "Canis familiaris",
+             "9598" = "Pan troglodytes",
+             "9823" = "Sus scrofa",
+             "9913" = "Bos taurus",
+             "10090" = "Mus musculus",
+             "10116" = "Rattus norvegicus",
+             "28985" = "Kluyveromyces, lactis",
+             "29760" = "Vitis vinifera",
+             "33169" = "Eremothecium gossypii",
+             "44689" = "Dictyostelium discoideum",
+             "148305" = "Magnaporthe grisea"
+            ))
+}
+
 
 homoData <- function(organism, LL, type, PS, ACC, HGID, URL){
     return(new("homoData", homoOrg = mapOrgs(organism),

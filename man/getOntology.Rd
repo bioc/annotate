@@ -34,6 +34,4 @@ getOntology(inlist, ontology=c("MF", "BP", "CC"))
  getOntology(bb)
  sapply(bb, function(x) x$Ontology)
 }
-
-}
 \keyword{ manip }

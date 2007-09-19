@@ -39,7 +39,4 @@ library("GO")
  if (length(cc))
    getEvidence(cc)
 }
-
-
-}
 \keyword{manip }

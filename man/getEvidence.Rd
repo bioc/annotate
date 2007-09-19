@@ -28,6 +28,4 @@ getEvidence(inlist)
  bb=GOENTREZID2GO$"4121"
  getEvidence(bb)
 }
-
-}
 \keyword{manip }
