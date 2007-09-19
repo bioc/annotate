@@ -420,54 +420,79 @@ pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
 }
 
 htmlpage <- function (genelist, filename, title, othernames, table.head,
-                          table.center=TRUE, repository = "ll", ...){
-  chklen <- function(x){
-      if(is.vector(x) || is.list(x)) length(x)
-      else dim(x)[1]
-  }
-  if(is.list(genelist))
-      len.vec <- sapply(genelist, chklen)
-  if(!missing(othernames) && is.list(othernames))
-      len.vec <- c(len.vec, sapply(othernames, chklen))
-  if(any(len.vec != len.vec[1]))
-      stop(paste("Some items in either", genelist, "or", othernames,
-                 "have mis-matched lengths.\nPlease check this",
-                 "discrepancy and re-run.\n"), .call=FALSE)
- 
-  if (is.list(repository)){
-    out <- NULL
-    for(i in seq(along=repository)){
-      out <- cbind(out, getCells(genelist[[i]], repository[[i]]))
+                      table.center=TRUE, repository = "ll", ...){
+    chklen <- function(x){
+        if(is.data.frame(x) || is.matrix(x)) dim(x)[1]
+        else length(x)
     }
-  }
-  else out <- getCells(genelist, repository)
-  if (!missing(othernames)) {
-      if (is.list(othernames)) {
-          others <- NULL
-          for(i in seq(along=othernames))
-              if(is.list(othernames[[i]])){
-                  ## if othernames[[i]] is a list, the assumption
-                  ## here is that we want a multi-line table entry
-                  ## in the HTML page
-                  others <- cbind(others,
-                                  sapply(othernames[[i]], function(x)
-                                         paste("<P>", x, "</P>",
-                                               collapse="", sep="")))
-              }else{
-                  others <- cbind(others, othernames[[i]])
-              }
-          out <- data.frame(out, others)
-      }else{
-          out <- data.frame(out, othernames)
-      }
-  }
-  colnames(out) <- table.head
-  out <- xtable(out, caption=if(!missing(title)) title, ...)
-  print(out, type="html", file=filename, caption.placement="top",
-        include.rownames=FALSE, sanitize.text.function=function(x) x,
-        ...)
+    getRows <- function(x){
+        paste("<P>", x, "</P>", collapse="", sep="")
+    }
+
+    if(is.data.frame(genelist))
+        len.vec <- chklen(genelist)
+    else
+        if(is.list(genelist))
+            len.vec <- sapply(genelist, chklen)
+        else
+            stop("The 'genelist' should be either a data.frame or a list",
+                 call.=FALSE)
+    if(!missing(othernames) && is.data.frame(othernames))
+        len.vec <- c(len.vec, chklen(othernames))
+    else
+        if(!missing(othernames) && is.list(othernames))
+            len.vec <- c(len.vec, sapply(othernames, chklen))
+        else
+            stop("The 'othernames' should be either a data.frame or a list",
+                 call.=FALSE)
+    if(any(len.vec != len.vec[1]))
+        stop(paste("Some items in either", genelist, "or", othernames,
+                   "have mis-matched lengths.\nPlease check this",
+                   "discrepancy and re-run.\n"), .call=FALSE)
+    
+    if (is.list(repository)){
+        out <- NULL
+        for(i in seq(along=repository)){
+            out <- cbind(out, getCells(genelist[[i]], repository[[i]]))
+        }
+    }
+    else out <- getCells(genelist, repository)
+    if (!missing(othernames)) {
+        if(is.data.frame(othernames))
+            out <- data.frame(out, othernames)
+        else
+            if (is.list(othernames)) {
+                ## if othernames is a list, we have to ensure we handle
+                ## the contents of the list correctly
+                ## e.g., cbind()ing a factor will coerce things incorrectly
+                ## here we just put everything in another list that we can
+                ## then coerce to a data.frame
+                others <- vector("list", length(othernames))
+                for(i in seq(along=othernames)){
+                    if(is.data.frame(othernames[[i]]))
+                        others[[i]] <-  othernames[[i]]
+                    else
+                        if(is.list(othernames[[i]])){
+                            ## if othernames[[i]] is a list, the assumption
+                            ## here is that we want a multi-line table entry
+                            ## in the HTML page
+                            others[[i]] <- sapply(othernames[[i]],
+                                                  getRows)
+                        }else{
+                            others[[i]] <- othernames[[i]]
+                        }
+                }
+                out <- data.frame(out, as.data.frame(others))
+            }
+    }
+
+    colnames(out) <- table.head
+    out <- xtable(out, caption=if(!missing(title)) title, ...)
+    print(out, type="html", file=filename, caption.placement="top",
+          include.rownames=FALSE, sanitize.text.function=function(x) x,
+          ...)
+    
 }
-  
 
 getCells <-  function(ids, repository = "ug"){
   # This function allows us to insert multiple links in each cell by
