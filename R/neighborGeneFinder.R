@@ -67,7 +67,8 @@ neighborGeneFinder <- function(geneData, keyName = c("unigene", "locuslink"),
                               (tkcurselection(geneList[[keyName]]))))
         if(keyName == "unigene"){
             options(show.error.messages = FALSE)
-            tempKey <- try(humanLLMappingsUG2LL[[key]])
+            datafile = get(paste(organism, "LLMappingsUG2LL", sep = ""))
+            tempKey <- try(datafile[[key]])
             options(show.error.messages = TRUE)
             if(inherits(tempKey, "try-error")){
                 tkmessageBox(title = "No map  error",
