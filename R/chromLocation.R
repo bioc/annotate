@@ -165,9 +165,9 @@ buildChromLocation <- function(dataPkg) {
 }
 
 usedChromGenes <- function(eSet, chrom, specChrom) {
-    ## Passed an instance of an exprSet, a chromosome name, and
-    ## an instance of a chromLocation object - will return the
-    ## set of genes in the eset that exist on the named chromosome,
+    ## Passed an instance of an eSet, a chromosome name, and
+    ## an instance of a chromLocation object, this function will return the
+    ## set of genes in eSet that exist on the named chromosome,
     ## ordered by location
 
     ## Extract the gene names of the chromosome of interest
