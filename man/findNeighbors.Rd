@@ -6,13 +6,13 @@
 \alias{getBoundary}
 \alias{weightByConfi}
 \title{A function to locate neighboring genes within a defined range
-  around a target gene represented by a LocusLink id }
+  around a target gene represented by a Entrez Gene ID }
 \description{
-  Give a data package with mappings between LocsuLink ids and their
+  Give a data package with mappings between Entrez Gene IDs and their
   locations on chromosomes, this function locates genes that are
-  within a defined range on a given chromosome. If a LocusLink id is
+  within a defined range on a given chromosome. If a Entrez Gene ID is
   passed as one of the arguments, genes located will be neighbors to the
-  gene represented by the LocusLink id within a defined range on the
+  gene represented by the Entrez Gene ID within a defined range on the
   chromosome the target gene resides
 }
 \usage{
@@ -25,26 +25,26 @@ weightByConfi(foundLLs)
 } 
 \arguments{
   \item{chrLoc}{\code{chrLoc} a character string for the name of the
-    data package that contains mappings between LocusLink ids and their
+    data package that contains mappings between Entrez Gene IDs and their
     locations on chromosomes. For each chromosome, there assumed to be
     mappings for the start and end locations of genes represented by
-    LocusLink ids. The data package needs to be built using
+    Entrez Gene IDs. The data package needs to be built using
     chrLocPkgBuilder of AnnBuilder}
-  \item{llID}{\code{llID} a character string for the LocusLink id
-    representing a gene whose nighbors are sought. llID can be missing}
+  \item{llID}{\code{llID} a character string for the Entrez Gene ID
+    representing a gene whose neighbors are sought. llID can be missing}
   \item{chromosome}{\code{chromosome} a character string for the number
     of the chromosome of interest. chromosome is only required for
     locating genes within a range on the chromosome}
   \item{upBase}{\code{upBase} a numeric or character string for the
     number of base pairs that defines the upper limit of the range to
-    locate genes. If neighbors of a given gene is sourght, the value
+    locate genes. If neighbors of a given gene is sought, the value
     will be the distance in number of base pairs from the target gene
     upstream, to which search for genes will be conducted. Otherwise, the
     value will be the upper limit in number of base pairs from the p arm,
     to which search for genes will be conducted}
   \item{downBase}{\code{downBase} a numeric or character string for the
     number of base pairs that defines the lower limit of the range to
-    locat gene. If neighbors of a given gene is sourght, the value
+    locate gene. If neighbors of a given gene is sought, the value
     will be the distance in number of base pairs from the target gene
     downstream, to which search for genes will be conducted. Otherwise, the
     value will be the lower limit in number of base pairs from the p arm,
@@ -52,7 +52,7 @@ weightByConfi(foundLLs)
   \item{organism}{\code{organism} a character string for the name of the
     organism of interest}
   \item{chrEnv}{\code{chrEnv} an environment object with keys for
-    LocusLink ids and values for the chromosomes where genes reside}
+    Entrez Gene IDs and values for the chromosomes where genes reside}
   \item{loc}{\code{loc} a numeric of character string for the
     chromosomal location of gene of interest}
   \item{base}{\code{base} either a \code{downBase} or \code{upBase}}
@@ -61,11 +61,11 @@ weightByConfi(foundLLs)
   \item{mergeOrNot}{\code{mergeOrNot} a boolean to indicate whether gene
     found up and down streams will be merged (TRUE)}
   \item{foundLLs}{\code{foundLLs} a vector of character strings for
-    LocusLink ids}
+    Entrez Gene IDs}
 }
 \details{
   A chrLoc data package can be created using function
-  chrLocPkgBuilder of AnnBuilder, in which locusLink ids
+  chrLocPkgBuilder of AnnBuilder, in which Entrez Gene IDs
   are mapped to location data on individual chromosomes.
 
   Genes are considered to be neighbors to a given target gene or within
@@ -78,9 +78,9 @@ weightByConfi(foundLLs)
 }
 \value{
   The function returns a list of named vectors. The length of the list
-  is one when genes in a given rwgion are sought but varies depending on
+  is one when genes in a given region are sought but varies depending on
   whether a given gene can be mapped to one or more chromosomes when
-  neighoring genes of a target gene are sought. Names of vector can be
+  neighboring genes of a target gene are sought. Names of vector can be
   "Confident" when a gene can be confidently placed on a chromosome or
   "Unconfident" when a gene can be placed on a chromosome but its exact
   location can not be determined with great confidence.
