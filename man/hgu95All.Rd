@@ -12,7 +12,7 @@
 
 \format{
   These data sets provide environments with mappings from the Affymetrix
-  identifiers to LocusLink identifiers.
+  identifiers to Entrez Gene identifiers.
   The environment functions like a hashtable and can be accessed using
   \code{mget}.
   If the returned value is \code{NA} then the current 
@@ -24,8 +24,8 @@
 
 \examples{
  data(hgu95All)
- data(sample.exprSet.1)
- mget(geneNames(sample.exprSet.1)[330:340], env=hgu95All, ifnotfound=NA)
+ data(sample.ExpressionSet)
+ mget(featureNames(sample.ExpressionSet)[330:340], env=hgu95All, ifnotfound=NA)
 
 }
 \keyword{datasets}

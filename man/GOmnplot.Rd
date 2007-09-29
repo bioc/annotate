@@ -17,7 +17,7 @@ KEGGmnplot(x, eset, data = "hgu133plus2", group, ...)
 
 \arguments{
   \item{x}{The name of the KEGG pathway or GO category. }
-  \item{eset}{An \code{exprSet} containing the data. }
+  \item{eset}{An \code{ExpressionSet} containing the data. }
   \item{data}{The name of the chip that was used to provide the data. }
   \item{group}{The variable indicating group membership, should have two
   different values.}

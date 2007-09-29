@@ -2,7 +2,7 @@
 \alias{neighborGeneFinder}
 \title{A widget for locating genes neighboring a target gene}
 \description{
-  Given a set of data (matrix) with entries for LocusLink or UniGene
+  Given a set of data (matrix) with entries for Entrez Gene or UniGene
   ids, the neighboring genes of a gene selected from a list on the
   interface can be located.
 }
@@ -26,7 +26,7 @@ organism = c("human", "mouse", "rat"))
 }
 \value{
   This function returns a list of lists. Elements of the top level list
-  are either LocusLink or UniGene ids. A sublist is inturn a list of
+  are either Entrez Gene or UniGene ids. A sublist is inturn a list of
   lists whose top level elements are chromosome numbers, each of which
   is a list with an "upstream" and "downstream" elements.
 }

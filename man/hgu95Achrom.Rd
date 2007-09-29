@@ -25,7 +25,7 @@
 
 \examples{
  data(hgu95Achrom)
- data(sample.exprSet.1)
- mget(geneNames(sample.exprSet.1)[330:340], env=hgu95Achrom, ifnotfound=NA)
+ data(sample.ExpressionSet)
+ mget(featureNames(sample.ExpressionSet)[330:340], env=hgu95Achrom, ifnotfound=NA)
 }
 \keyword{datasets}

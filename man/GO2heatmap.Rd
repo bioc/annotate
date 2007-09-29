@@ -17,7 +17,7 @@ KEGG2heatmap(x, eset, data, ...)
 
 \arguments{
   \item{x}{The name of the category or pathway. }
-  \item{eset}{An \code{exprSet} providing the data. }
+  \item{eset}{An \code{ExpressionSet} providing the data. }
   \item{data}{The name of the chip.}
   \item{\dots}{Additional parameters to pass to \code{heatmap}. }
 }
