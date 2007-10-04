@@ -42,7 +42,7 @@ is an independent unit that can be used alone or in conjunction with
 other annotation libraries. Figure 1 shows the relationship among
 libraries that are currently available. Platform specific libraries
 are a group annotation libraries assembled specifically for given
-platforms (e. g. Affymetrix HG\_U95Av2). CHRLOC and LLMappings are
+platforms (e. g. Affymetrix HG\_U95Av2). CHRLOC and \texttt{org.XX.eg.db} are
 groups of libraries containing data assembled at genome level for
 human, mouse, or rat. \Rpackage{KEGG} and \Rpackage{GO} are source specific libraries containing
 generic data for various genomes.
@@ -82,14 +82,14 @@ platform specific data package are not listed here to save space but
 are easily accessible as shown later in the section for usage.
 
 Genome level annotation libraries are named in the form of
-XXXCHARLOC and XXXLLMappings, where XXX represents an organism
-name. Each data package in the CHRLOC group has LocusLink ids mapped
+XXXCHARLOC and where XXX represents an organism
+name. Each data package in the CHRLOC group has Entrez Gene ids mapped
 to chromosomal location where transcription of genes corresponding to
-the LocusLink ids begins and ends. There is a START and END
-environment for LocusLink ids on each of the chromosomes
+the Entrez Gene ids begins and ends. There is a START and END
+environment for Entrez Gene ids on each of the chromosomes
 (e. g. \Robject{humanCHRLOC1START} and \Robject{humanCHRLOC1END} for human chromosome
 number 1). Each library in the LLMappings group provides
-mappings/reverse mappings between LocusLink ids and some other
+mappings/reverse mappings between Entrez Gene ids and some other
 commonly used public repository identifiers. Environment names are a
 cancatinations of the names of mapped ids with a 2 in between
 (e. g. \Robject{humanLLMappingsLL2GO}).
@@ -100,7 +100,7 @@ maintain the directed acyclic graph structure of the original
 data from Gene Ontology Consortium by providing mappings of GO ids to
 their direct parents or children for each of the three categories
 (molecular function, cellular component, and biological process). In
-addition, mappings between LocusLink and \Rpackage{GO} ids are provided with
+addition, mappings between Entrez Gene and \Rpackage{GO} ids are provided with
 evidence code that specifies the type of evidence that supports the
 annotation of a gene to a particular \Rpackage{GO} term.
 

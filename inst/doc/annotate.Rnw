@@ -193,7 +193,7 @@ names(LLs)[1:10]
 Software developers that are building other tools that might make use
 of the infrastructure produced here should make use of the
 \Rfunction{get*} family of functions. Examples include
-\Rfunction{getLL}, \Rfunction{getGO} and so on. There are two reasons
+\Rfunction{getEG}, \Rfunction{getGO} and so on. There are two reasons
 for using these functions.
 
 First, they allow you to implement functionality that is independent

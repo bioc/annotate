@@ -594,7 +594,7 @@ createLLChrCats<-function(data)
 {
   affyMapValues<-chrCats(data)
   # need to convert affy ids to LLids
-  LLids<-getLL(names(affyMapValues), data)
+  LLids<-getEG(names(affyMapValues), data)
   LLMapValues<-list()
   testsum<-0
   uLLids <- unique(LLids)

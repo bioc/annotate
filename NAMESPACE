@@ -78,6 +78,7 @@ export(
        getAnnMap,
        getBoundary,
        getCells,
+       getEG,
        getEvidence,
        getGI,
        getGO,

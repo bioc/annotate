@@ -48,9 +48,13 @@ getGO <- function(x, data) {
   }
 
   getLL <- function(x, data) {
+      .Deprecated("getLL", package="annotate", msg="please use getEG")
       unlist(lookUp(x, data, "ENTREZID"))
   }
 
+  getEG <- function(x, data) {
+      unlist(lookUp(x, data, "ENTREZID"))
+  }
 
 # This function needs to be updated when new annotation items are
 # added to the data packages

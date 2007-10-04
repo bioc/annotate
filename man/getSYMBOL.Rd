@@ -4,6 +4,7 @@
 \alias{getGOdesc}
 \alias{getPMID}
 \alias{getLL}
+\alias{getEG}
 \alias{lookUp}
 \alias{getUniqAnnItem}
 \title{Functions to deal with Data Packages}
@@ -15,6 +16,7 @@
 \usage{
 getSYMBOL(x, data)
 getLL(x, data)
+getEG(x, data)
 getGO(x, data)
 getPMID(x, data)
 getGOdesc(x, which)
@@ -36,7 +38,7 @@ getUniqAnnItem()
   want to use to provide the mappings. The name of the meta-data
   package is the same as the basename.
   
-  Appropriate translations are done. In some cases such as \code{getLL}
+  Appropriate translations are done. In some cases such as \code{getEG}
   and \code{getSYMBOL} there will only be one match and a vector is
   returned. In other cases such as \code{getPMID} and \code{getGO} there
   may be multiple matches and a list is returned.
@@ -81,7 +83,7 @@ getUniqAnnItem()
       getGOdesc(gg[[2]][[1]][["GOID"]], "ANY")
       # For BP only
       getGOdesc(gg[[2]][[1]][["GOID"]], "BP")
-      getLL(gN, "hgu95av2")
+      getEG(gN, "hgu95av2")
       getPMID(gN, "hgu95av2")
    } else {
      cat("could not run all examples\n")

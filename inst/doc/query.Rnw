@@ -68,12 +68,12 @@ can request them to be rendered in the browser or returned in XML.
 \item[pubmed] Users specify PubMed identifiers and can request them to
 be rendered in the browser or returned in XML. More details on parsing
 and manipulating the XML are given below.
-\item[locuslinkByID] Users specify LocusLink identifiers and the
-appropriate links are opened in the browser. LocusLink does not
+\item[locuslinkByID] Users specify Entrez Gene identifiers and the
+appropriate links are opened in the browser. Entrez Gene does not
 provide XML so there is no download option, currently. The user can
 request that the URL be rendered or returned.
 \item[locuslinkQuery] Users specify a string that will be used as the
-LocusLink query and the species of interest (there can be
+Entrez Gene query and the species of interest (there can be
 several). The user can request either that the URL be rendered or returned.
 \end{description}
 
@@ -84,7 +84,7 @@ processed using functionality provided by the \Rpackage{XML} package
 \citep{XML}. Specific details and examples for PubMed are given in
 Section~\ref{sec:pmq}.
 
-The function \Rfunction{locuslinkByID} takes a set of known LocusLink
+The function \Rfunction{locuslinkByID} takes a set of known Entrez Gene
 identifiers and constructs a URL that will have these rendered. The
 user can either save the URL (perhaps to send to someone else or to
 embed in an HTML page, see the vignette on creating HTML output for
@@ -96,7 +96,7 @@ used for querying PubMed. For example, this function call,
   locuslinkQuery("leukemia", "Hs")
 \end{verbatim}
 will find all Human genes that have the word leukemia associated with them
-in their LocusLink records. Note that the R code is merely an
+in their Entrez Gene records. Note that the R code is merely an
 interface to the services provided by NLM and NCBI and users are
 referred to those sites for complete descriptions of the algorithms
 they use for searching etc.
@@ -137,14 +137,14 @@ ids[1:10]
 We use \Rfunction{getPMID} to obtain the PubMed identifiers that are
 related to our probes of interest. Then we process these to leave out
 any that have no PMIDs and we remove duplicates as well. The mapping
-to PMIDs are actually based on LocusLink identifiers and since the
-mapping from Affymetrix IDs to LocusLink is many to one there is some
+to PMIDs are actually based on Entrez Gene identifiers and since the
+mapping from Affymetrix IDs to Entrz Gene is many to one there is some
 chance of duplication. From our initial \Sexpr{length(affys)}
 Affymetrix identifiers we see that there are \Sexpr{length(ids)}
 unique PubMed identifiers (ie papers).
 
 For each of these papers we can obtain information, such as the title,
-the authors, the abstract, the LocusLink identifiers for genes that
+the authors, the abstract, the Entrez Gene identifiers for genes that
 are referred to in the paper and many other pieces of
 information. Again, for a complete listing and description the reader
 is referred to the NLM website.

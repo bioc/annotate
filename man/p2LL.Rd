@@ -13,6 +13,8 @@ p2LL(data)
   \item{data}{ The character string naming the chip. }
 }
 \details{
+  This function is deprecated.
+
   This is essentially the computation of the reverse map, we store probe
   to Entrez gene information in the \code{ENTREZID} environment. This is
   used to compute the inverse mapping.
@@ -23,7 +25,7 @@ p2LL(data)
 }
 
 \author{R. Gentleman }
-\seealso{\code{\link{getLL}} }
+\seealso{\code{\link{getEG}} }
 \examples{
  if( require("hgu95av2") ) {
  x = p2LL("hgu95av2")
