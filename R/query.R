@@ -420,7 +420,7 @@ pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
 }
 
 htmlpage <- function (genelist, filename, title, othernames, table.head,
-                      table.center=TRUE, repository = "ll", ...){
+                      table.center=TRUE, repository = list("ll"), ...){
     chklen <- function(x){
         if(is.data.frame(x) || is.matrix(x)) dim(x)[1]
         else length(x)
