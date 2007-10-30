@@ -10,7 +10,7 @@
 
 \usage{
 htmlpage(genelist, filename, title, othernames, table.head,
-table.center = TRUE, repository = list("ll"), ...)
+table.center = TRUE, repository = list("en"), ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
