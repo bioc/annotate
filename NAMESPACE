@@ -101,6 +101,7 @@ export(
        getQuery4OMIM,
        getQuery4SP,
        getQuery4UG,
+       getQuery4TR,
        getQueryLink,
        getSAGEFileInfo,
        getSAGEGPL,

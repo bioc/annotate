@@ -10,6 +10,7 @@
 \alias{getQuery4EN}
 \alias{getCells}
 \alias{getTDRows}
+\alias{getQuery4TR}
 
 \title{Functions to create hypertext links that can be placed in a table
   cell of a HTML file }
@@ -31,6 +32,7 @@ getQuery4OMIM(ids)
 getQuery4Affy(ids)
 getQuery4FB(ids)
 getQuery4EN(ids)
+getQuery4TR(ids)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -67,6 +69,9 @@ getQuery4EN(ids)
  \code{\link{getQuery4EN}} constructs hypertext links to EntrezGene
  using the provided ids. This supercedes \code{getQuery4LL}, as
  LocusLink has been deprecated by NCBI.
+
+ \code{\link{getQuery4TR}} constructs hypertext links to TAIR using the
+ provided ids. 
  
  \code{\link{getQueryLink}} directs calls to construct hypertext links using
  the provided ids.

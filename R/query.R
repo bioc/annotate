@@ -524,7 +524,8 @@ getQueryLink <-function (ids, repository = "ug"){
          ll = return(getQuery4LL(ids)), affy = return(getQuery4Affy(ids)),
          gb = return(getQuery4GB(ids)), sp = return(getQuery4SP(ids)),
          omim = return(getQuery4OMIM(ids)), fb = return(getQuery4FB(ids)),
-         en = return(getQuery4EN(ids)), stop("Unknown repository name"))
+         en = return(getQuery4EN(ids)), tr = return(getQuery4TR(ids)),
+         stop("Unknown repository name"))
 }
 
 
@@ -616,6 +617,16 @@ getQuery4EN <- function (ids){
                ids, sep = "")
   out[blanks] <- "&nbsp;"
   return(out)
+}
+
+getQuery4TR <- function(ids){
+    ## No automatic garbage checking. The ath1121501 has accnum values of 'multiple'
+    ## that we can convert to blanks however.
+    blanks <- ids == "&nbsp;" || ids == "multiple"
+    out <- paste("http://www.arabidopsis.org/servlets/Search?type=general&search_action=detail&method=1&name=", ids, 
+                 "&sub_type=gene", sep="")
+    out[blanks] <- "&nbsp;"
+    return(out)
 }
 
 
