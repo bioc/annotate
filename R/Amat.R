@@ -4,9 +4,18 @@
 PWAmat = function(data) {
     if(!is.character(data) || length(data) != 1 )
         stop("wrong argument")
-    dataE = get(paste(data, "PATH2PROBE", sep=""))
 
-    if( data == "YEAST" ) 
+    if( length(grep("^org\\..+\\.sgd$", data))>=1 ){ 
+         dataE = getAnnMap("PATH2ORF", data, load=TRUE, type="db")
+    }
+    else if (  length(grep("^org\\..+\\.eg$", data))>=1 ){
+         dataE = getAnnMap("PATH2EG", data, load=TRUE, type="db")
+    }
+    else {
+         dataE = getAnnMap("PATH2PROBE", data, load=TRUE, type=c("env", "db"))
+    }
+
+    if( data == "YEAST" ||  length(grep("^org\\..+", data))>=1 )
         pathLL = as.list(dataE)
     else {
         pathLL = eapply(dataE, function(x) {
@@ -23,6 +32,7 @@ PWAmat = function(data) {
     dimnames(Amat) = list(uniqLL, names(pathLL))
     return(Amat)
 }
+
 
 ##given the name of chip compute the PubMed adjacency matrix for probe set ids
 PMIDAmat = function(pkg, gene=NULL) {
