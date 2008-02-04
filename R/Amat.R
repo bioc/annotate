@@ -12,7 +12,7 @@ PWAmat = function(data) {
          dataE = getAnnMap("PATH2EG", data, load=TRUE, type="db")
     }
     else {
-         dataE = getAnnMap("PATH2PROBE", data, load=TRUE, type=c("env", "db"))
+         dataE = getAnnMap("PATH2PROBE", data, load=TRUE, type=c("db"))
     }
 
     if( data == "YEAST" ||  length(grep("^org\\..+", data))>=1 )
