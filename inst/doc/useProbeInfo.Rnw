@@ -1,5 +1,5 @@
 % \VignetteIndexEntry{Using Affymetrix Probe Level Data}
-% \VignetteDepends{hgu95av2, rae230a, rae230aprobe, Biostrings}
+% \VignetteDepends{hgu95av2.db, rae230a.db, rae230aprobe, Biostrings}
 % \VignetteKeywords{Annotation}
 %\VignettePackage{annotate}
 
@@ -41,7 +41,7 @@ libraries.
 
 <<loadlibs, results=hide>>=
 library("annotate")
-library("rae230a")
+library("rae230a.db")
 library("rae230aprobe")
 @
 
@@ -53,7 +53,7 @@ information that has been given.
 We will select a probe set,
 <<selprobe>>=
 
-ps = ls(env=rae230aACCNUM)
+ps = names(as.list(rae230aACCNUM))
 
 myp = ps[1001]
 
@@ -160,10 +160,3 @@ sessionInfo()
 
 
 \end{document}
-
-
-
-
-
-
-

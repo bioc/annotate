@@ -3,8 +3,8 @@
 % likely to be overwritten.
 %
 %\VignetteIndexEntry{Basic GO Usage}
-%\VignetteDepends{GO, hgu95av2, Biobase}
-%\VignetteSuggests{Rgraphviz}
+%\VignetteDepends{GO.db, hgu95av2.db, Biobase}
+%\VignetteSuggests{Rgraphviz, org.Hs.eg.db}
 %\VignetteKeywords{GO, ontology}
 %\VignettePackage{annotate}
 \documentclass[12pt]{article}
@@ -31,7 +31,6 @@
 \newcommand{\Rpackage}[1]{{\textit{#1}}}
 \newcommand{\Rclass}[1]{{\textit{#1}}}
 
-
 \bibliographystyle{plainnat}
 
 \title{Basic GO Usage}
@@ -48,8 +47,8 @@ library("Biobase")
 library("annotate")
 library("xtable")
 require("Rgraphviz", quietly=TRUE)
-library("hgu95av2")
-library("GO")
+library("hgu95av2.db")
+library("GO.db")
 @
 
 In this vignette we describe some of the basic characteristics of the
@@ -78,7 +77,7 @@ terms is carried out by others, in particular the GOA project
 \citep{GOA}. It is this assignment that makes GO useful for data
 analysis and hence it is the combined relationship between the
 structure of the terms and the assignment of genes to terms that is
-the concern of the \Rpackage{GO} package.
+the concern of the \Rpackage{GO.db} package.
 
 The basis for child-parent relationships in GO can be either an
 \textit{is-a} relationship, where the child term is a more specific
@@ -97,12 +96,12 @@ to it (in each ontology). Then, all less specific terms are also
 applicable and they are easily obtained by traversing the set of
 parent relationships down to the root node. In practice many of these
 mappings are precomputed and easily obtained from the different hash
-tables provided by the \Rpackage{GO} package.
+tables provided by the \Rpackage{GO.db} package.
 
 Mapping of a gene to a term can be based on many different things. GO
 and GOA provide an extensive set of evidence codes, some of which are
 given in Table~\ref{tab:EC}, but readers are referred to the GO web
-site and the documentation for the \Rpackage{GO} package for a more
+site and the documentation for the \Rpackage{GO.db} package for a more
 comprehensive listing. Clearly for some investigations one will want
 to exclude genes that were mapped according to some of the evidence
 codes.
@@ -173,19 +172,19 @@ relationships are \texttt{is-a} and that it has one child. One can
 then follow this chains of relationships or use the \texttt{ANCESTOR}
 and \texttt{OFFSPRING} hash tables to get more information.
 
-The mappings of genes to GO terms is contained in the
-\Robject{GOENTREZID2GO} hash table. This contains mappings from a
-LocusLink ID to the most specific applicable GO terms.  Each entry in
-the \Robject{GOENTREZID2GO} hash table is a list of lists. The actual
-entries are named lists, with three names:
+The mappings of genes to GO terms is not contained in the \texttt{GO}
+package. Rather these mappings are held in each of the chip and
+organism specific data packages, such as \Robject{hgu95av2GO} and
+\Robject{org.Hs.egGO} are contained within packages \texttt{hgu95av2.db}
+and \texttt{org.Hs.eg.db} respectively. These mappings are from a
+Entrez Gene ID to the most specific applicable GO terms. Each such
+entry is a list of lists where the innermost list has these names:
 \begin{itemize}
 \item \texttt{GOID}: the GO identifier
 \item \texttt{Evidence}: the evidence code for the assignment
 \item \texttt{Ontology}: the ontology the GO identifier belongs to
       (one of \texttt{BP}, \texttt{MF}, or \texttt{CC}).
 \end{itemize}
-We note that this same structure is used for the GO mappings in all
-chip-based meta-data packages such as \Rpackage{hgu95av2}.
 
 Some genes are mapped to a GO identifier based on two or more evidence
 codes. Currently these appear as separate entries. So you may want to
@@ -194,15 +193,17 @@ codes. However, as more sophisticated use is made of these data it
 will be important to be able to separate out mappings according to
 specific evidence codes.
 
-In this next example we consider the gene with LocusLink ID
-\texttt{25310}. FIXME: what is its symbol etc.
+In this next example we consider the gene with Entrez Gene ID
+\texttt{4121}, this corresponds to Affymetrix ID \texttt{39613\_at}.
+
 <<locusid>>=
 
- ll1 = GOENTREZID2GO[["4121"]]
+ ll1 = hgu95av2GO[["39613_at"]]
  length(ll1)
  sapply(ll1, function(x) x$Ontology)
 
 @
+
 We see that there are \Sexpr{length(ll1)} different mappings.
 We can get only those mappings for the \texttt{BP} ontology by using
 \Rfunction{getOntology}.
@@ -217,7 +218,6 @@ zz = dropECode(ll1)
 getEvidence(zz)
 
 @
-
 
 
 \subsection*{A Basic Description of GO}
@@ -261,30 +261,19 @@ each of the three different ontologies.
 
 @
 
-Finally, we can look at the frequency with which the different
-evidence codes are used to map LocusLink Identifiers to GO terms.
-
-<<evC>>=
-
- LLec = eapply(GOENTREZID2GO, getEvidence)
- table(unlist(LLec))
-
-@
-
 
 \section*{Working with GO}
-
 
 Finding terms that have specific character strings in them is easily
 accomplished using \Rfunction{grep}. In the next example we first
 convert the data from \Robject{GOTERM} into a character vector to make
 it easier to do multiple searches.
 
-
 <<finding these>>=
  goterms = unlist(eapply(GOTERM, function(x) x@Term))
  whmf = grep("molecular_function", goterms)
 @
+
 So we see that there are \Sexpr{length(whmf)} terms with the string
 ``molecular\_function'' in them in the ontology. They can be accessed
 by subsetting the \Robject{goterms} object.
@@ -301,17 +290,11 @@ of terms etc that map to genes that were assayed in the experiments
 that they are working with. To do this you should first get the
 appropriate chip specific meta-data file. Here we demonstrate some of
 the examples on the Affymetrix HGu95av2 chips and so use the package
-\Rpackage{hgu95av2}. Each of these packages has a data environment
-whose name is the name of the package with a \texttt{GO} suffix, so in
-this case \Robject{hgu95av2GO}. And these data environments have
-exactly the same internal structure as the \Robject{GOENTREZID2GO}
-environment except that the keys are the manufacturers identifiers and
-not LocusLink identifiers. Note that if there are many manufacturer
-ids that map to the same LocusLink identifier then these will be
+\Rpackage{hgu95av2.db}. Each of these packages has a data environment
+whose name is the basename of the package with a \texttt{GO} suffix, so in
+this case \Robject{hgu95av2GO}. Note that if there are many manufacturer
+ids that map to the same Entrez Gene identifier then these will be
 duplicate entries (with different keys).
-
-The software tools for working with these packages is then exactly the
-same as we described above for working with \Robject{GOENTREZID2GO}.
 
 We can get all the \texttt{MF} terms for our Affymetrix data.
 
@@ -325,13 +308,10 @@ How many of these probes have multiple GO
 terms associated with them? What do we do if we want to compare two
 genes that have multiple GO terms associated with them?
 
-
 What about evidence codes? To find these we apply a similar function
 to the affyGO terms.
 
 <<getEvidence>>=
-
-
 affyEv = eapply(hgu95av2GO, getEvidence)
 
 table(unlist(affyEv, use.names=FALSE))
@@ -342,7 +322,7 @@ table(unlist(affyEv, use.names=FALSE))
 test1 = eapply(hgu95av2GO, dropECode, c("IEA", "NR"))
 
 table(unlist(sapply(test1, getEvidence),
-        use.names=FALSE))
+             use.names=FALSE))
 @
 
 These functions make is somewhat straightforward to select subsets of
@@ -350,6 +330,4 @@ the GO terms that are specific to different evidence codes.
 
 \bibliography{annotate}
 
-
 \end{document}
-

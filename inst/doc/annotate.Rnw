@@ -3,7 +3,7 @@
 % likely to be overwritten.
 %
 %\VignetteIndexEntry{Annotation Overview}
-%\VignetteDepends{Biobase, genefilter, annotate, hgu95av2}
+%\VignetteDepends{Biobase, genefilter, annotate, hgu95av2.db}
 %\VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}
 
@@ -122,12 +122,12 @@ multiplicity of matches.
 \subsection*{A Short Example}
 
 We will consider the Affymetrix human gene chip, \texttt{hgu95av2},
-for our example. We first load this package and \Rpackage{annotate}.
+for our example. We first load this chip's package and \Rpackage{annotate}.
 
 <<loadlibs>>=
 library("annotate")
-library("hgu95av2")
-ls("package:hgu95av2")
+library("hgu95av2.db")
+ls("package:hgu95av2.db")
 @
 We see the listing of twenty or thirty different R objects in this
 package. Most of them represent mappings from the identifiers on the
@@ -136,7 +136,7 @@ out more about them by using the R help system, since each has a
 manual page that describes the data together with other information
 such as where, when and what files were used to construct the
 mappings. Also, each meta-data package has one object that has the
-same name as the package, in this case it is \Robject{hgu95av2}. This
+same name as the package basename, in this case it is \Robject{hgu95av2}. This
 is function and it can be invoked to find out some of the different
 statistics regarding the mappings that were done. Its manual page
 lists all data resources that were used to create the meta-data package.
@@ -220,5 +220,3 @@ sessionInfo()
 \bibliography{annotate}
 
 \end{document}
-
-

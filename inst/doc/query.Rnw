@@ -5,7 +5,7 @@
 
 
 % \VignetteIndexEntry{HOWTO: Use the online query tools}
-% \VignetteDepends{annotate, hgu95av2}
+% \VignetteDepends{annotate, hgu95av2.db}
 % \VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}
 \documentclass{article}
@@ -126,7 +126,7 @@ use PubMed ID values.  To obtain these, we can use the annotation
 tools within \Rpackage{annotate}.
 
 <<annotation>>=
-library("hgu95av2")
+library("hgu95av2.db")
 ids <- getPMID(affys,"hgu95av2")
 ids <- unlist(ids,use.names=FALSE)
 ids <- unique(ids[!is.na(as.numeric(ids))])
@@ -272,4 +272,3 @@ sessionInfo()
 \bibliography{annotate}
 
 \end{document}
-

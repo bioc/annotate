@@ -1,5 +1,5 @@
 % \VignetteIndexEntry{Using Data Packages}
-% \VignetteDepends{hgu95av2, GO}
+% \VignetteDepends{hgu95av2.db, GO.db}
 % \VignetteKeywords{Annotation}
 %\VignettePackage{annotate}
 
@@ -44,8 +44,8 @@ libraries that are currently available. Platform specific libraries
 are a group annotation libraries assembled specifically for given
 platforms (e. g. Affymetrix HG\_U95Av2). CHRLOC and \texttt{org.XX.eg.db} are
 groups of libraries containing data assembled at genome level for
-human, mouse, or rat. \Rpackage{KEGG} and \Rpackage{GO} are source specific libraries containing
-generic data for various genomes.
+human, mouse, or rat. \Rpackage{KEGG.db} and \Rpackage{GO.db} are source
+specific libraries containing generic data for various genomes.
 
 \begin{figure*}[htbp!]
    \begin{center}
@@ -94,9 +94,9 @@ commonly used public repository identifiers. Environment names are a
 cancatinations of the names of mapped ids with a 2 in between
 (e. g. \Robject{humanLLMappingsLL2GO}).
 
-The KEGG library contains mappings between ids such as Locuslink
-and \Rpackage{GO} to \Rpackage{KEGG} pathway ids and thus pathway names. The \Rpackage{GO} library
-maintain the directed acyclic graph structure of the original
+The \Rpackage{KEGG.db} library contains mappings between ids such as Locuslink
+and \Rpackage{GO} to \Rpackage{KEGG} pathway ids and thus pathway names.
+The \Rpackage{GO.db} library maintain the directed acyclic graph structure of the original
 data from Gene Ontology Consortium by providing mappings of GO ids to
 their direct parents or children for each of the three categories
 (molecular function, cellular component, and biological process). In
@@ -108,16 +108,16 @@ annotation of a gene to a particular \Rpackage{GO} term.
 
 All the annotation libraries can be obtained from the Bioconductor web
 site (\url{http://www.bioconductor.org}). To illustrate their usages,
-we use the library for Affymetrix HG\_U95Av2 chip (\Rpackage{hgu95av2}) as
-an example for platform specific data packages and the \Rpackage{GO} library for
+we use the library for Affymetrix HG\_U95Av2 chip (\Rpackage{hgu95av2.db}) as
+an example for platform specific data packages and the \Rpackage{GO.db} library for
 non-platform specific data packages. We assume that R
 (\url{www.r-project.org}) and Bioconductor's Biobase and annotation
 libraries have already been installed.
 
 \subsection*{Package installation}
 
-After downloading libraries \Rpackage{hgu95av2} and
-\Rpackage{GO} from the link to MetaData of the Bioconductor web site,
+After downloading libraries \Rpackage{hgu95av2.db} and
+\Rpackage{GO.db} from the link to MetaData of the Bioconductor web site,
 install the libraries by typing R INSTALL library name in the
 directory where the library is stored under Unix or click the menu bar
 \textit{Packages} and then \textit{Install package(s) from local zip
@@ -130,9 +130,9 @@ Typing library(library name) in an R session will load the library
 into R. For example,
 
 <<loadLibs>>=
-library(annotate)
-library(hgu95av2)
-library(GO)
+library("annotate")
+library("hgu95av2.db")
+library("GO.db")
 @
 
 \subsection*{Documentations}
@@ -140,8 +140,8 @@ library(GO)
 Each library contains documentations for the library in general and
 each of the individual environment objects contained by the
 library. Two documents at the library level can be accessed by typing
-a library name proceeded by a question mark (e. g. ?hgu95av2) and
-the library name followed by a pair of brackets (e. g. hgu95av2()),
+a library basename proceeded by a question mark (e. g. ?hgu95av2) and
+the library basename followed by a pair of brackets (e. g. hgu95av2()),
 respectively. The former indicates how the data package was built from
 what version of public data sources and the latter lists all the
 environments contained by a library and provides information on the
@@ -163,7 +163,7 @@ for a particular subject reflected by the name of the object. For
 example, \Robject{hgu95av2GO} annotates probes on the HG\-U95Av2 chip
 with ids of the Gene Ontology terms the probes correspond to.
 
-The name of an environment object consists of package name (\Rpackage{hgu95av2}) and
+The name of an environment object consists of package basename (\Rpackage{hgu95av2.db}) and
 environment name (\Rpackage{GO}) to avoid confusion when multiple libraries are loaded
 to the system at the same time. Data contained by an environment can
 be accessed easily using Bioconductor's existing functions. For example, the following code
@@ -221,8 +221,8 @@ to allow traverse between packages (Fig. 1). Using the example above,
 we know that probe id \textit{738\_at} are annotated by three Gene Ontology
 ids \textit{GO:0005829}, \textit{GO:0008253}, and \textit{GO:0016787}. The Gene Ontology
 terms for various Gene Ontology ids, however, are stored in another
-package named \Rpackage{GO}. AS package \Rpackage{hgu95av2} and
-\Rpackage{GO} are linked by \Rpackage{GO} ids, one can annotate probe id
+package named \Rpackage{GO.db}. AS package \Rpackage{hgu95av2.db} and
+\Rpackage{GO.db} are linked by \Rpackage{GO} ids, one can annotate probe id
 \textit{738\_at} with Gene Ontology terms by linking data in the
 two packages using \Rpackage{GO} id as shown below:
 
@@ -242,10 +242,3 @@ sessionInfo()
 @
 
 \end{document}
-
-
-
-
-
-
-

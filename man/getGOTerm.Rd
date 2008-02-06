@@ -4,7 +4,7 @@
 \alias{getGOChildren}
 \alias{getGOOntology}
 
-\title{Functions to Access GO data.  }
+\title{Functions to Access GO data.}
 \description{
   These functions provide access to data in the GO package. The data are
   assembled from publically available data from the Gene Ontology
@@ -46,23 +46,19 @@ getGOOntology(x)
   hence they are not really term names).
 }
 \references{The Gene Ontology Consortium}
+
 \author{R. Gentleman}
 
-
 \examples{
- library(GO)
+ library("GO.db")
 
  sG <- c("GO:0005515", "GO:0000123", "GO:0000124", "GO:0000125",
-             "GO:0000126", "GO:0020033", "GO:0006830", 
-             "GO:0015916")
-
+         "GO:0000126", "GO:0020033", "GO:0006830", 
+         "GO:0015916")
 
  gT <- getGOTerm(sG)
-
  gP <- getGOParents(sG)
-
  gC <- getGOChildren(sG)
-
  gcat <- getGOOntology(sG)
 
 }

@@ -5,7 +5,7 @@
 
 
 % \VignetteIndexEntry{HowTo: use chromosomal information}
-% \VignetteDepends{annotate, hgu95av2}
+% \VignetteDepends{annotate, hgu95av2.db}
 % \VignetteKeywords{Expression Analysis, Annotation}
 %\VignettePackage{annotate}
 \documentclass{article}
@@ -52,7 +52,7 @@ with them.  Before this though, we will create an object of class
 function \Rfunction{buildChromLocation} is used, and it takes as an
 argument the name of a Bioconductor metadata package, which is itself
 used to extract the data.  For this vignette, we will be using the
-\Rpackage{hgu95av2} package.
+\Rpackage{hgu95av2.db} package.
 
 <<buildCL>>=
 library("annotate")

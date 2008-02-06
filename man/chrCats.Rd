@@ -4,7 +4,7 @@
 \alias{createLLChrCats}
 \alias{createMAPIncMat}
 
-\title{ Returns a list of chromosome locations from a MAP environment }
+\title{Returns a list of chromosome locations from a MAP environment}
 \description{
   The chrCats function takes a data package that contains a MAP environment
   and returns a list that contains the locations for each gene (from the
@@ -21,7 +21,7 @@ createMAPIncMat(data)
 createLLChrCats(data)
 }
 \arguments{
-  \item{data}{ the data package (a character string) }
+  \item{data}{the data package (a character string)}
 }
 \details{
   This function does a lot of string manipulation and there are a few known
@@ -109,10 +109,10 @@ createLLChrCats(data)
   location of NA in the MAP environment, then a list element is not returned
   for that Affy id. 
 }
-\author{ Elizabeth Whalen }
+\author{Elizabeth Whalen}
 \examples{
-  library(hgu95av2)
-  mapValues<-chrCats("hgu95av2")
+  library("hgu95av2.db")
+  mapValues <- chrCats("hgu95av2")
 }
-\keyword{ data }
+\keyword{data}
 

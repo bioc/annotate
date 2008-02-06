@@ -1,6 +1,6 @@
 \name{dropECode}
 \alias{dropECode}
-\title{ Drop GO labels for specified Evidence Codes }
+\title{Drop GO labels for specified Evidence Codes}
 \description{
   Genes are mapped to GO terms on the basis of evidence codes. In some
   analyses it will be appropriate to drop certain sets of annotations
@@ -27,16 +27,16 @@ dropECode(inlist, code="IEA")
   annotations whose evidence codes were not the ones in the exclusion
   set \code{code}.
 }
-\author{R. Gentleman }
+\author{R. Gentleman}
 
-\seealso{\code{\link{getEvidence}}, \code{\link{getOntology}} }
+\seealso{\code{\link{getEvidence}}, \code{\link{getOntology}}}
 
 \examples{
-library("GO")
- bb=GOENTREZID2GO$"4121"
+ library("hgu95av2.db")
+ bb <- hgu95av2GO[["39613_at"]]
  getEvidence(bb[1:3])
- cc = dropECode(bb[1:3])
+ cc <- dropECode(bb[1:3])
  if (length(cc))
    getEvidence(cc)
 }
-\keyword{manip }
+\keyword{manip}

@@ -1,18 +1,17 @@
 \name{hasGOannote}
 \alias{hasGOannote}
-\title{Check for GO annotation  }
+\title{Check for GO annotation}
 \description{
   Given a GO term, or a vector of GO terms and an ontology this function
   determines which of the terms have GO annotation in the specified
-  ontology. 
-
+  ontology.
 }
 \usage{
 hasGOannote(x, which="MF")
 }
 \arguments{
   \item{x}{A character vector, an instance of the \code{GOTerms} class
-  or a list of \code{GOTerms}. }
+  or a list of \code{GOTerms}.}
   \item{which}{One of "MF", "BP" or "CC"}
 }
 \details{
@@ -24,10 +23,11 @@ hasGOannote(x, which="MF")
   A logical vector of the same length as \code{x}.
 }
 \author{R. Gentleman}
+
 \seealso{\code{\link{get}}}
 
 \examples{
- library("GO")
+ library("GO.db")
  t1 <- "GO:0003680"
  hasGOannote(t1)
  hasGOannote(t1, "BP")
