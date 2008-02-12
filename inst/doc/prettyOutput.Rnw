@@ -197,7 +197,7 @@ othernames <- list(name, round(tstat, 2), round(pval, 3), round(FC, 1), round(da
 head <- c("Probe ID", "UniGene", "LocusLink", "GenBank", "SwissProt", "Gene Name", "t-statistic", "p-value",
           "Fold Change", "Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5", "Sample 6",
           "Sample 7", "Sample 8", "Sample 9", "Sample 10")
-repository <- list("affy", "ug", "ll", "gb", "sp")
+repository <- list("affy", "ug", "en", "gb", "sp")
 htmlpage(genelist, filename, title, othernames, head, repository = repository)
 @
 

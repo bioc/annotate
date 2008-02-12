@@ -421,6 +421,8 @@ pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
 
 htmlpage <- function (genelist, filename, title, othernames, table.head,
                       table.center=TRUE, repository = list("en"), ...){
+    if(!is.list(repository))
+        stop("The repository argument must be a list!", call. = FALSE)
     chklen <- function(x){
         if(is.data.frame(x) || is.matrix(x)) dim(x)[1]
         else length(x)
@@ -450,6 +452,8 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
         stop(paste("Some items in either", genelist, "or", othernames,
                    "have mis-matched lengths.\nPlease check this",
                    "discrepancy and re-run.\n"), .call=FALSE)
+
+    ## This if/else not really required anymore -- repository has to be a list.
     
     if (is.list(repository)){
         out <- NULL
@@ -457,6 +461,7 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
             out <- cbind(out, getCells(genelist[[i]], repository[[i]]))
         }
     }
+   
     else out <- getCells(genelist, repository)
     if (!missing(othernames)) {
         if(is.data.frame(othernames))
@@ -580,6 +585,7 @@ getQuery4UG <- function (ids){
 getQuery4LL <- function (ids) {
   ## Here we rely on Locus Link ids being all numeric to filter out garbage
   ## that will result in busted links.
+  .Deprecated(msg="The 'll' repository argument is deprecated. Please use 'en'\n.")
   if (is.factor(ids)) {
     options(warn = -1)
     ids <- as.numeric(as.character(ids))
