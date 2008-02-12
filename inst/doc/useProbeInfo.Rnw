@@ -118,12 +118,14 @@ myseq = getSEQ(myA)
 
 mybs = DNAString(myseq)
 
-match2 = matchPattern(as.character(myPr[1,1]), mybs)
+Prstr = as.character(myPr[1,1])
+
+match2 = matchPattern(Prstr, mybs)
 
 ## expecting 0 (no match)
 length(match2)
 
-match2 = matchPattern(reverseComplement(DNAString(myPr[1,1])), mybs)
+match2 = matchPattern(reverseComplement(DNAString(Prstr)), mybs)
 
 nchar(match2)
 

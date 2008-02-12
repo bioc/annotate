@@ -437,14 +437,15 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
         else
             stop("The 'genelist' should be either a data.frame or a list",
                  call.=FALSE)
-    if(!missing(othernames) && is.data.frame(othernames))
+    if(!missing(othernames)) {
+       if(is.data.frame(othernames))
         len.vec <- c(len.vec, chklen(othernames))
-    else
-        if(!missing(othernames) && is.list(othernames))
+       else if( is.list(othernames)) 
             len.vec <- c(len.vec, sapply(othernames, chklen))
         else
             stop("The 'othernames' should be either a data.frame or a list",
                  call.=FALSE)
+    }
     if(any(len.vec != len.vec[1]))
         stop(paste("Some items in either", genelist, "or", othernames,
                    "have mis-matched lengths.\nPlease check this",
@@ -525,13 +526,22 @@ getQueryLink <-function (ids, repository = "ug"){
          gb = return(getQuery4GB(ids)), sp = return(getQuery4SP(ids)),
          omim = return(getQuery4OMIM(ids)), fb = return(getQuery4FB(ids)),
          en = return(getQuery4EN(ids)), tr = return(getQuery4TR(ids)),
-         stop("Unknown repository name"))
+         go = return(getQuery4GO(ids)), stop("Unknown repository name"))
 }
 
 
 getTDRows <- function (ids, repository = "ug"){
   # Modification of Jianhua's original code to allow for multiple links per cell.
   out <- paste("<TD>", getCells(ids, repository), "</TD>", sep="")
+  return(out)
+}
+
+getQuery4GO <- function(ids) {
+##GO IDs
+  blanks <- ids == "&nbsp;"
+  AMIGO_URL <- "http://www.godatabase.org/cgi-bin/amigo/go.cgi?view=details&search_constraint=terms&depth=0&query=%s"
+  out <- sapply(ids, function(x) sprintf(AMIGO_URL, x))
+  out[blanks] = "&nbsp;"
   return(out)
 }
 
