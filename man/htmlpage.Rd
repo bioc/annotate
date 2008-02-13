@@ -29,7 +29,7 @@ table.center = TRUE, repository = list("en"), ...)
     for creating the hypertext links. Currently available repositories
     include 'gb' (GenBank), 'en' (EntrezGene), 'omim' (Online Mendelian
     Inheritance in Man), 'sp' (SwissProt), 'affy' (Affymetrix), 'ug'
-    (UniGene), 'fb' (FlyBase). Additional repositories can easily be
+    (UniGene), 'fb' (FlyBase), 'go' (Gene Ontology). Additional repositories can easily be
     added. See \code{getQueryLink} for more information.}
   \item{...}{Further arguments to be passed to \code{xtable} or
     \code{print.xtable}.}
@@ -46,6 +46,9 @@ table.center = TRUE, repository = list("en"), ...)
   example - please see the examples section below and the above
   mentioned vignette.
 
+  In even the simplest case the genelist, othernames and repository have
+  to be lists. A simple character vector will not suffice. 
+
   Note that this function now uses \code{xtable} to create the HTML
   table, and there is the ability to pass some arguments on to either
   \code{xtable} or \code{print.xtable}. One such argument would be
@@ -61,7 +64,18 @@ table.center = TRUE, repository = list("en"), ...)
 
 \examples{
 library(annotate)
-## fake up some data
+## A very simple example. Two columns, one with links, the other without.
+
+gos <- paste("GO:000000", 1:9, sep="")
+notlinks <- LETTERS[1:9]
+
+htmlpage(list(gos), "simple.html", "Two column data", list(notlinks),
+c("GO IDs", "Letters"), repository=list("go"))
+
+if(!interactive)
+file.remove("simple.html")
+
+## A more complex example with multiple links per cell
 ## first we create data to annotate
 unigene <- list("Hs.600536",c("Hs.596913","HS.655491"),"Hs.76704")
 refseq <- list(c("NM_001030050", "NM_001030047", "NM_001648",
@@ -88,8 +102,6 @@ table.head <- c("UniGene", "RefSeq", "EntrezGene", "Symbol",
 htmlpage(genelist, "test.html", "Some gene expression data", otherdata,
 table.head, repository=list("ug","gb","en"))
 
-if(interactive())
-browseURL("test.html")
 
 if(!interactive())
 file.remove("test.html")
