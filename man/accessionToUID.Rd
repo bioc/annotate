@@ -26,8 +26,7 @@ accessionToUID(...,db=c("genbank","pubmed"))
   available).
 }
 \author{Jeff Gentry}
-\seealso{\code{\link{pubmed}}, \code{\link{locuslinkByID}},
-  \code{\link{locuslinkQuery}}, \code{\link[XML]{xmlTreeParse}}}
+\seealso{\code{\link{pubmed}}, \code{\link[XML]{xmlTreeParse}}}
 \examples{
 
      ## The two returns from genbank should be the same

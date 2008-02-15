@@ -43,8 +43,7 @@ pubmed(...,disp=c("data","browser"), type=c("uid","accession"),
 
 \author{R. Gentleman }
 
-\seealso{\code{\link{genbank}}, \code{\link{locuslinkByID}},
-  \code{\link{locuslinkQuery}}, \code{\link[XML]{xmlTreeParse}}}
+\seealso{\code{\link{genbank}}, \code{\link[XML]{xmlTreeParse}}}
 
 \examples{
    if( interactive() )

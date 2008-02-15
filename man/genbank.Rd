@@ -43,8 +43,7 @@ genbank(...,disp=c("data","browser"), type=c("accession","uid"),
 
 \author{R. Gentleman }
 
-\seealso{\code{\link{pubmed}}, \code{\link{locuslinkByID}},
-  \code{\link{locuslinkQuery}}, \code{\link[XML]{xmlTreeParse}}}
+\seealso{\code{\link{pubmed}}, \code{\link[XML]{xmlTreeParse}}}
 
 \examples{
    ## Use UIDs to get data in both browser & data forms

@@ -21,7 +21,8 @@ pmidQuery(query)
 \references{NCBI, \url{http://www.ncbi.nih.gov/} }
 \author{Jeff Gentry}
 
-\seealso{\code{\link{UniGeneQuery}}, \code{\link{locuslinkQuery}}}
+\seealso{\code{\link{UniGeneQuery}}}
+
 \examples{
   a <- "9695952"
   pmidQuery(a)
