@@ -108,12 +108,12 @@ findChr4LL <- function(llID, chrEnv, organism){
     chr <- try(chrEnv[[llID]])
     options(show.error.message = TRUE)
     if(inherits(chr, "try-error")){
-        stop(paste("LocusLink id", llID, "could not be found in any",
+        stop(paste("Entrez Gene ID", llID, "could not be found in any",
                    "of the chromosomes in the data package"))
     }else{
         if(length(chr) == 1){
             if(!is.element(chr, getValidChr(organism))){
-                warning(paste("LocusLink id", llID, "is currently",
+                warning(paste("Entrez Gene ID", llID, "is currently",
                            "not known to be associated with any",
                            "chromosome"))
             }

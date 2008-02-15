@@ -37,57 +37,6 @@ pmidQuery <- function(query) {
     return(query)
 }
 
-locuslinkQuery <- function(query,...,lladdress="LocusLink/", browse=TRUE) {
-    params <- list(...)
-    params <- unlist(params,use.names=FALSE)
-
-    if (is.na(query) || length(query) == 0 )
-        stop("No query, cannot proceed!")
-
-    if (length(c(params)) == 0) {
-        species = "Hs"
-    }
-    else {
-        species <- paste(params,collapse="&ORG=")
-    }
-
-
-    ncbiURL <- .getNcbiURL()
-
-    ## Build up the query URL
-
-    query <- paste(ncbiURL, lladdress,
-    "list.cgi?Q=",query,"&ORG=",species,"&V=0",sep="")
-
-    if (browse)
-        browseURL(query)
-    return(query)
-}
-
-locuslinkByID <- function(..., lladdress="LocusLink/", browse=TRUE) {
-    params <- list(...)
-    params <- unlist(params)
-
-    if (length(params) == 0)
-        stop("No Locuslink ID, cannot proceed")
-
-    ncbiURL <- .getNcbiURL()
-
-    ## Build up the query URL
-    if (length(params) == 1) {
-        args <- paste(params,collapse="%2c")
-        query <- paste(ncbiURL, lladdress, "LocRpt.cgi?l=", args, sep="")
-    }
-    else {
-        args <- paste(params,collapse="&ID=")
-        query <- paste(ncbiURL, lladdress, "list.cgi?ID=", args, sep="")
-    }
-
-    if (browse)
-        browseURL(query)
-   return(query)
-}
-
 genbank <- function(..., disp=c("data","browser"),
                     type=c("accession", "uid"),
                     pmaddress=.pmfetch("Nucleotide",disp,type)) {
@@ -583,7 +532,7 @@ getQuery4UG <- function (ids){
 }
 
 getQuery4LL <- function (ids) {
-  ## Here we rely on Locus Link ids being all numeric to filter out garbage
+  ## Here we rely on Entrez Gene IDs being all numeric to filter out garbage
   ## that will result in busted links.
   .Deprecated(msg="The 'll' repository argument is deprecated. Please use 'en'\n.")
   if (is.factor(ids)) {
@@ -613,7 +562,7 @@ getQuery4LL <- function (ids) {
 }
 
 getQuery4EN <- function (ids){
-  ## Here we rely on Locus Link ids being all numeric to filter out garbage
+  ## Here we rely on Entrez Gene IDs being all numeric to filter out garbage
   ## that will result in busted links.
   if(is.factor(ids)){
     options(warn = -1)
@@ -711,50 +660,3 @@ getQuery4FB <- function (ids){
   return(out)
 }
 
-
-#ll.htmlpage <- function (genelist, filename, title, othernames,
-#                         table.head, table.center=TRUE,
-#                         repository = "ll")
-#{
-#    .Deprecated("htmlpage", package="annotate")
-#    outfile <- file(filename, "w")
-#    cat("<html>", "<head>", "<TITLE>BioConductor Linkage List</TITLE>",
-#        "</head>", "<body bgcolor=#708090 >",
-#        "<H1 ALIGN=CENTER > BioConductor Linkage List </H1>",
-#        file = outfile, sep = "\n")
-#    if( !missing(title) )
-#        cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
-#            file=outfile, sep = "\n")
-
-#    if( table.center )
-#        cat("<CENTER> \n", file=outfile)
-
-#    cat("<TABLE BORDER=4>", file = outfile, sep = "\n")
-#    if( !missing(table.head) ) {
-#        headout <- paste("<TH>", table.head, "</TH>")
-#        cat("<TR>", headout, "</TR>", file=outfile, sep="\n")
-#    }
-#    rh <- "<TD> <A HREF=\"http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?l="
-#    nrows <- length(genelist)
-#    rows <- getTDRows(genelist, repository)
-#    rows <- paste(rh, genelist, "\">", genelist, "</A> </TD>",
-#        sep = "")
-#    if( !missing(othernames) ) {
-#        if( is.list(othernames) ) {
-#            others <- ""
-#            for(nm in othernames)
-#                others <- paste(others,"<TD>", nm, "</TD>", sep="")
-#        }
-#        else
-#            others <- paste("<TD>", othernames, "</TD>", sep="")
-#        rows <- paste(rows, others)
-#    }
-#    for (i in 1:nrows)
-#        cat("<TR>", rows[i], "</TR>", file = outfile, sep = "\n")
-#    cat("</TABLE>",file=outfile)
-#    if( table.center )
-#        cat("</CENTER> \n", file=outfile)
-#    cat("</body>", "</html>", sep = "\n", file = outfile)
-
-#    close(outfile)
-#}

@@ -108,8 +108,6 @@ export(
        KEGG2heatmap,
        KEGGmnplot,
        LL2homology,
-       locuslinkByID,
-       locuslinkQuery,
        lookUp,
        makeAnchor,
        mapOrgs,
