@@ -1,6 +1,5 @@
 \name{htmlpage}
 \alias{htmlpage}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Functions to build HTML pages }
 
 \description{ This function is designed to create an HTML table
@@ -12,7 +11,6 @@
 htmlpage(genelist, filename, title, othernames, table.head,
 table.center = TRUE, repository = list("en"), ...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{genelist}{ A list or \code{data.frame} of character vectors
     containing ids to be made into hypertext links. See details for more
@@ -38,7 +36,7 @@ table.center = TRUE, repository = list("en"), ...)
 \details{ This function will accept a list or \code{data.frame} of
   character vectors, each containing different ids that are to be turned
   into hyperlinks (e.g., a list containing affy ids, genbank accession
-  numbers, and locus link ids). For instances where there are more than
+  numbers, and Entrez Gene ids). For instances where there are more than
   one id per gene, use a sub-list of character vectors. See the vignette
   'HowTo: Get HTML Output' for more information. Othernames should be a
   list or \code{data.frame}. Again, if there are multiple entries for a
@@ -72,8 +70,8 @@ notlinks <- LETTERS[1:9]
 htmlpage(list(gos), "simple.html", "Two column data", list(notlinks),
 c("GO IDs", "Letters"), repository=list("go"))
 
-if(!interactive)
-file.remove("simple.html")
+if(!interactive())
+  file.remove("simple.html")
 
 ## A more complex example with multiple links per cell
 ## first we create data to annotate
