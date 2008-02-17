@@ -14,7 +14,6 @@
 \usage{
 probesByLL(baseName, what = "ENTREZID")
 }
-
 \arguments{
   \item{baseName}{\code{baseName} a character string for the name of
     platform specific annotation data package}
@@ -36,13 +35,10 @@ probesByLL(baseName, what = "ENTREZID")
   unique values of an environment as the names and probe ids
   corresponding to the values as values.
 }
-
 \author{Jianhua Zhang}
-
 \examples{
-    if(require("hgu95av2")){
-        tt <- probesByLL("hgu95av2", "ENTREZID")
-        tt[1:4]
-    }
+  library("hgu95av2.db")
+  tt <- probesByLL("hgu95av2", "ENTREZID")
+  tt[1:4]
 }
-\keyword{ manip }
+\keyword{manip}

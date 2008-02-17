@@ -1,6 +1,6 @@
 \name{buildChromLocation}
 \alias{buildChromLocation}
-\title{A function to generate an instantiation of a chromLocation class }
+\title{A function to generate an instantiation of a chromLocation class}
 \description{
   This function will take the name of a data package and build a
   chromLocation object representing that data set.
@@ -23,17 +23,9 @@
 \value{
   A \code{chromLocation} object representing the specified data set.
 }
-
-\author{ Jeff Gentry }
-
+\author{Jeff Gentry}
 \examples{
-have_ann_pkg <- suppressWarnings(require("hgu95av2.db", quietly=TRUE))
-if (!have_ann_pkg)
-  have_ann_pkg <- suppressWarnings(require("hgu95av2", quietly=TRUE))
-if (have_ann_pkg) {
-     z <- buildChromLocation("hgu95av2")
-} else print("This example requires the hgu95av2.db or hgu95av2 package")
-
-} % end examples
-
-\keyword{ utilities }
+  library("hgu95av2.db")
+  z <- buildChromLocation("hgu95av2")
+}
+\keyword{utilities}

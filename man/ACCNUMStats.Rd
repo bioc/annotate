@@ -13,7 +13,6 @@
 ACCNUMStats(pkgName)
 whatACC(accs)
 }
-
 \arguments{
   \item{pkgName}{\code{pkgName} a character string for the name of a
     BioC data package}
@@ -37,11 +36,8 @@ whatACC(accs)
 }
 \references{The ACCNUM environment of a platform dependent BioC data package}
 \author{Jianhua Zhang}
-
 \examples{
-if(require("hgu95av2")){
-    ACCNUMStats("hgu95av2")    
-}
+  library("hgu95av2.db")
+  ACCNUMStats("hgu95av2")
 }
 \keyword{misc}
-

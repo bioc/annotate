@@ -8,7 +8,6 @@
 \usage{
 PMIDAmat(pkg, gene=NULL)
 }
-
 \arguments{
   \item{pkg}{The package name of the chip for which the incidence matrix should
     be computed.}
@@ -28,14 +27,10 @@ PMIDAmat(pkg, gene=NULL)
  A matrix containing zero or one, depending on whether the probe
   (column) is associated with a PubMed id (row).
 }
-
-\author{ R. Gentleman }
-
+\author{R. Gentleman}
 \examples{
-  if(require("hgu95av2") ) {
-    probe <- names(as.list(hgu95av2ACCNUM))
-    Amat = PMIDAmat("hgu95av2", gene=sample(probe, 10))
- }
+  library("hgu95av2.db")
+  probe <- names(as.list(hgu95av2ACCNUM))
+  Amat <- PMIDAmat("hgu95av2", gene=sample(probe, 10))
 }
 \keyword{manip}
-

@@ -25,7 +25,7 @@ getUniqAnnItem()
 }
 \arguments{
   \item{x}{The identifiers to be mapped (usually manufacturer)}
-  \item{data}{The basename of the meta-data package to be used. }
+  \item{data}{The basename of the meta-data package to be used.}
   \item{what}{\code{what} a character string for the name of an
     annotation element of an annotation data package}
   \item{which}{\code{which} a character string in the form of MF, BP,
@@ -66,27 +66,24 @@ getUniqAnnItem()
 \author{R. Gentleman}
 \seealso{\code{\link{mget}}}
 \examples{
+  library("hgu95av2.db")
+  library("GO.db")
+
   data(sample.ExpressionSet)
   gN <- featureNames(sample.ExpressionSet)[100:105]
-   ## A bit of a hack to not have a package dependency on hgu95av2
-   ## but need to fiddle w/ the warn level to not fail the example
-   ## anyways.
-   have_hgu95av2 <- suppressWarnings(require("hgu95av2"))
-   have_GO <- suppressWarnings(require("GO"))
-   if (have_hgu95av2 && have_GO) {
-      lookUp(gN, "hgu95av2", "SYMBOL")
-      # Same as lookUp for SYMBOL except the return is a vector
-      getSYMBOL(gN,"hgu95av2" )
-      gg <- getGO(gN, "hgu95av2")
-      lookUp(gg[[2]][[1]][["GOID"]], "GO", "TERM")
-      # Same as lookUp for TERM
-      getGOdesc(gg[[2]][[1]][["GOID"]], "ANY")
-      # For BP only
-      getGOdesc(gg[[2]][[1]][["GOID"]], "BP")
-      getEG(gN, "hgu95av2")
-      getPMID(gN, "hgu95av2")
-   } else {
-     cat("could not run all examples\n")
-   }
+  lookUp(gN, "hgu95av2", "SYMBOL")
+
+  # Same as lookUp for SYMBOL except the return is a vector
+  getSYMBOL(gN,"hgu95av2" )
+  gg <- getGO(gN, "hgu95av2")
+  lookUp(gg[[2]][[1]][["GOID"]], "GO", "TERM")
+
+  # Same as lookUp for TERM
+  getGOdesc(gg[[2]][[1]][["GOID"]], "ANY")
+
+  # For BP only
+  getGOdesc(gg[[2]][[1]][["GOID"]], "BP")
+  getEG(gN, "hgu95av2")
+  getPMID(gN, "hgu95av2")
 }
 \keyword{manip}

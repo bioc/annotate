@@ -10,7 +10,6 @@ passed have the same version number}
 \usage{
 compatibleVersions(...)
 }
-
 \arguments{
   \item{\dots}{\code{\dots} character strings for the names of R
     packages that have been installed}
@@ -23,13 +22,11 @@ compatibleVersions(...)
   This function returns TRUE or FALSE depending on whether the packages
   have the same version number
 }
-
 \author{Jianhua Zhang}
-
 \seealso{\code{\link{packageDescription}}}
 \examples{
-if(require("hgu95av2") && require("GO")){
-    compatibleVersions("hgu95av2", "GO")
-}
+  library("hgu95av2.db")
+  library("GO.db")
+  compatibleVersions("hgu95av2.db", "GO.db")
 }
 \keyword{misc}

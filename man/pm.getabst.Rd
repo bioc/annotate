@@ -1,8 +1,8 @@
 \name{pm.getabst}
 \alias{pm.getabst}
-\title{ Obtain the abstracts for a set PubMed list. }
+\title{Obtain the abstracts for a set PubMed list.}
 \description{
- The data provided by PubMed is reduced to a small set. This set is 
+The data provided by PubMed is reduced to a small set. This set is 
 then suitable for further rendering.
 }
 \usage{
@@ -32,20 +32,11 @@ when there are many different queries to be performed.
  class \code{pubMedAbst} for each PubMed identifier associated with
  the gene identifier.
 }
-\author{ Robert Gentleman }
-
-\seealso{ \code{\link{pm.abstGrep}}, \code{\link{pm.titles}} }
-
+\author{Robert Gentleman}
+\seealso{\code{\link{pm.abstGrep}}, \code{\link{pm.titles}}}
 \examples{
-hoxa9 <- "37809_at"
-   ## A bit of a hack to not have a package dependency on hgu95av2
-   ## but need to fiddle w/ the warn level to not fail the example anyways.
-   curWarn <- getOption("warn")
-   options(warn=0)
-   on.exit(options(warn=curWarn), add=TRUE)
-
-if( require(hgu95av2) )
-    absts <- pm.getabst(hoxa9, "hgu95av2")
-
+  library("hgu95av2.db")
+  hoxa9 <- "37809_at"
+  absts <- pm.getabst(hoxa9, "hgu95av2")
 }
-\keyword{ manip }
+\keyword{manip}

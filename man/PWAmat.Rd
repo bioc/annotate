@@ -7,7 +7,6 @@
 \usage{
 PWAmat(data)
 }
-
 \arguments{
   \item{data}{The name of the chip for which the incidence matrix should
   be computed.}
@@ -25,14 +24,10 @@ PWAmat(data)
  A matrix containing zero or one, depending on whether the probe
   (row) is in a pathway (column).
 }
-
-\author{ R. Gentleman }
-
-\seealso{ \code{\link{KEGG2heatmap}}, \code{\link{GOmnplot}} }
+\author{R. Gentleman}
+\seealso{\code{\link{KEGG2heatmap}}, \code{\link{GOmnplot}}}
 \examples{
-  if(require("hgu95av2") ) {
-    Am1 = PWAmat("hgu95av2")
- }
+  library("hgu95av2.db")
+  Am1 <- PWAmat("hgu95av2")
 }
 \keyword{manip}
-

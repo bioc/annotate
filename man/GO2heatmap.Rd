@@ -14,12 +14,11 @@
 GO2heatmap(x, eset, data, ...)
 KEGG2heatmap(x, eset, data, ...)
 }
-
 \arguments{
-  \item{x}{The name of the category or pathway. }
-  \item{eset}{An \code{ExpressionSet} providing the data. }
+  \item{x}{The name of the category or pathway.}
+  \item{eset}{An \code{ExpressionSet} providing the data.}
   \item{data}{The name of the chip.}
-  \item{\dots}{Additional parameters to pass to \code{heatmap}. }
+  \item{\dots}{Additional parameters to pass to \code{heatmap}.}
 }
 \details{
  For the given pathway or GO category all matching probes are
@@ -32,15 +31,11 @@ KEGG2heatmap(x, eset, data, ...)
 \value{
   The value returned by \code{heatmap} is passed back to the user.
 }
-
 \author{R. Gentleman }
-
-\seealso{\code{\link{heatmap}} }
+\seealso{\code{\link{heatmap}}}
 \examples{
- if( require("hgu95av2") ) {
+  library("hgu95av2.db")
   data(sample.ExpressionSet)
   KEGG2heatmap("04810", sample.ExpressionSet, "hgu95av2")
- }
 }
-\keyword{ manip }
-
+\keyword{manip}
