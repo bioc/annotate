@@ -106,11 +106,10 @@ they use for searching etc.
 
 In this section we demonstrate how to query PubMed and how to operate
 on the data that are returned. As noted above, these queries generate
-XML which must then be parsed to provide the specific data items of
-interest. Our example is based on the \Robject{eset} data from the
-package \Rpackage{Biobase}. Users should be able to easily replace
-these data with their own.
-
+XML, which must then be parsed to provide the specific data items of
+interest. Our example is based on the \Robject{sample.ExpressionSet}
+data from the package \Rpackage{Biobase}. Users should be able to
+easily replace these data with their own.
 
 <<data>>=
 library("annotate")
@@ -119,8 +118,8 @@ affys <- featureNames(sample.ExpressionSet)[490:500]
 affys
 @
 
-Here we have selected an arbitrary set of 10 genes to be interested in
-from our sample data.  However, \verb+sample.exprSet.1+ provided us with
+Here we have selected an arbitrary set of 11 genes to be interested in
+from our sample data.  However, \verb+sample.ExpressionSet+ provided us with
 Affymetrix identifiers, and for the \verb+pubmed+ function, we need to
 use PubMed ID values.  To obtain these, we can use the annotation
 tools within \Rpackage{annotate}.
@@ -141,7 +140,7 @@ to PMIDs are actually based on Entrez Gene identifiers and since the
 mapping from Affymetrix IDs to Entrz Gene is many to one there is some
 chance of duplication. From our initial \Sexpr{length(affys)}
 Affymetrix identifiers we see that there are \Sexpr{length(ids)}
-unique PubMed identifiers (ie papers).
+unique PubMed identifiers (i.e. papers).
 
 For each of these papers we can obtain information, such as the title,
 the authors, the abstract, the Entrez Gene identifiers for genes that
