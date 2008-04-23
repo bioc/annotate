@@ -25,8 +25,10 @@ p2LL(data)
 \author{R. Gentleman}
 \seealso{\code{\link{getEG}}}
 \examples{
+\dontrun{
   library("hgu95av2.db")
   x <- p2LL("hgu95av2")
   table(sapply(x, length))
+}
 }
 \keyword{manip}
