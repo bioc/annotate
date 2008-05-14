@@ -48,11 +48,15 @@ for these five supported species, we provide the mappings between that
 species and all 35 of the Inparanoid species.  The packages are named
 as follows:
 
-hom.Hs.inp.db for human mappings to the other 350 species
-hom.Mm.inp.db for mouse mappings to the other 350 species
-hom.Rn.inp.db for rat mappings to the other 350 species
-hom.Dm.inp.db for fly mappings to the other 350 species
-hom.Sc.inp.db for yeast mappings to the other 350 species
+hom.Hs.inp.db for human mappings to the other 35 species
+
+hom.Mm.inp.db for mouse mappings to the other 35 species
+
+hom.Rn.inp.db for rat mappings to the other 35 species
+
+hom.Dm.inp.db for fly mappings to the other 35 species
+
+hom.Sc.inp.db for yeast mappings to the other 35 species
 
 This vignette will discuss the different information contained within
 these packages and how to use these packages to get information about
@@ -67,10 +71,10 @@ tables that map relationships between genes of one species and genes
 of another.  For the database that is inside of the human package
 (hom.Hs.inp.db) the tables will be named according to the "other"
 species that they will map to.  As an example within the context of
-the human package, the mus_musculus table will map relationships
+the human package, the mus\_musculus table will map relationships
 between humans and mouse.  This particular table will be the exact
 same table that will be inside of the mouse package (hom.Mm.inp.db),
-but in that context the table will have the name homo_sapiens to
+but in that context the table will have the name homo\_sapiens to
 denote that in this other context is provides a mapping relationship
 between mouse and humans.
 
@@ -112,7 +116,7 @@ the same lists of values when using maps like this.
 You can of course look at the contents of a mapping in the usual way:
 
 <<listMapping>>=
-as.list(hom.Hs.inpMUSMU)[1:10]
+as.list(hom.Hs.inpMUSMU)[1:4]
 @
 
 When you do this you will probably notice that most of the seed
@@ -131,7 +135,14 @@ and then work over to the equivalent information in mouse (Msx2).  An
 important caveat to this is that the organism level packages are
 entrez gene centric.  This means that to extract meaningful
 information from them, it is always necessary to map through an entrez
-gene ID.
+gene ID.  In the example that follows we will show how you can take
+the human gene symbol MSX2, and then use one of the human organism
+mapping package to get its entrez gene ID, which can then be used to
+retrieve the ensemble protein ID that is needed to use the inparanoid
+data.  We can then use the inparanoid mapping to get a homologous
+mouse ID to the ensemble protein ID which is returned as a jackson lab
+ID.  Finally, the Jackson Lab ID can be mapped back to a mouse symbol
+by using the mouse organism mapping package.
 
 
 <<mapGeneExample>>=
@@ -159,9 +170,9 @@ mget("17702", org.Mm.egSYMBOL)
 @
 
 
-This example demonstrates how the inparanoid mappings can give you a
-shortcut to genes that are likely to be orthologs.  In addition, this
-example shows how you can tap into a lot of desirable information
+The previous example demonstrates how the inparanoid mappings can give
+you a shortcut to genes that are likely to be homologs.  In addition,
+this example shows how you can tap into a lot of desirable information
 about whatever gene mappings you find by using the inparanoid package
 in conjunction with the organism annotation packages and passing
 through an entrez gene ID.
@@ -186,60 +197,57 @@ mget("ENSP00000301011", hom.Hs.inpMUSMU)
 What if we wanted to know about other possible mappings that were not
 seed mappings?  To do this we could use the DBI interface.  But in
 order to do that we 1st have to look at what the underlying table
-looks like:
+looks like.  In order to that we will use the following 3 helper
+functions to extablish a connection to the database, list the tables
+contained by the database and list the fields within a table of
+interest:
 
 <<seedPairExample2>>=
 # make a connection to the human database
-mycon = hom.Hs.inp_dbconn()
-# make a list of all the tables that are available
+mycon <- hom.Hs.inp_dbconn()
+# make a list of all the tables that are available in the DB
 dbListTables(mycon)
 # make a list of the columns in the table of interest
 dbListFields(mycon, "mus_musculus")
-# or we could also just dump the entire schema to the screen
-hom.Hs.inp_dbschema() 
 @
 
-At this point we know the name of the table, and of the colums that
-this table has.  At this point we have all the information we need to
-start querying the database directly.  So lets probe the database with
-a simple query for all of the infomation about the ensembl protein ID
-"ENSP00000301011":
+At this point we know the name of the table for the mouse data must be
+mus\_musculus, and we also know the names of the colums that this
+table contains thanks to \Rfunction{dbListFields}.  So now we have all
+the information we need to start querying the database directly.  Lets
+begin by probing the database with a simple query for all of the
+infomation about the ensembl protein ID "ENSP00000301011":
 
 <<seedPairExample3>>=
 #make a query that will let us see which clust_id we need
-sql = paste("SELECT * FROM mus_musculus WHERE inp_id = 'ENSP00000301011';")
-dataOut = dbGetQuery(mycon, sql)
+sql <- "SELECT * FROM mus_musculus WHERE inp_id = 'ENSP00000301011';"
+#retrieve the data
+dataOut <- dbGetQuery(mycon, sql)
 dataOut
 @
 
-Now we can see that this ID belongs to cluster ID # 1731.  So now we
-can adjust our query slightly so that we pull out ALL the information
-about that entire group:
+From the results of this query, we can see that this ID belongs to
+cluster ID \# 1731.  Inparanoid groups genes that are considered to be
+related into groupings that all share a common cluster ID.  So now we
+can adjust our query very slightly so that we pull out ALL of the
+information about that entire group from the mus\_musculus table:
 
 <<seedPairExample4>>=
 #make a query that will let us see all the data that is affiliated with a clust id
-sql = paste("SELECT * FROM mus_musculus WHERE clust_id = '1731';")
-dataOut = dbGetQuery(mycon, sql)
+sql <- "SELECT * FROM mus_musculus WHERE clust_id = '1731';"
+#retrieve the data
+dataOut <- dbGetQuery(mycon, sql)
 dataOut
 @
 
-
-
-% #START with R. Start with: ENSP00000301011 and MGI:1923264, (these could come up on a 1:1 map view of mouse:human
-% #Then use the DBI to look at:
-% SELECT * FROM mus_musculus WHERE inp_id = "ENSP00000301011";
-% #THEN DO:
-% SELECT * FROM mus_musculus WHERE clust_id = "1731" limit 40;
-% #Which shows ID MGI:3648845 that is less closely related.  you can then get the info about what this is from the org packages and show how this is true...
-
-% ##Each database has the mappings (as tables) which contain the seed pairs along with the scoring for non-seed pairs.
-
-% ##Talk here about how you can use the DBI interface to go right down to the table and grab the other members of a clust_id thus getting the other related but less identical Gene IDs out...
-% ## You can also filter such results by cutoff for the score. (from 1 to 0 depending how similar it is to the initial seed pair
-
-% SELECT * FROM mus_musculus WHERE score < 1 AND species = "MUSMU" limit 40;
-% SELECT * FROM mus_musculus WHERE clust_id = "1731" limit 40;
-
+And there you have it, the complete inparanoid data about cluster\_id
+1731, including the member of that grouping that we used to find the
+group "ENSP00000301011".  Because the database in this example is the
+human inparanoid database, the mus\_musculus table shows us
+information about both mouse and human genes, and which groups they
+share.  If for example you wanted to see a table about mouse and
+zebrafish homologs, you would have to go look at the zebrafish table
+contained in the mouse package.
 
 
 \section{Session Information}
