@@ -167,7 +167,7 @@ list.
 
 <<myl>>=
 mylit = list()
-topics = c("Cautions", "Yeast", "Expression arrays",
+topics = c("Cautions", "Yeast", "Expression arrays", "Protein-DNA arrays",
   "Expression plus genotyping", "Copy number variation", "Statistics", "Computing")
 for (i in 1:length(topics)) mylit[[topics[i]]] = list()
 mylit[["Cautions"]][["Irreproducibility"]] = c("17987014", "15814023")
@@ -176,6 +176,7 @@ mylit[["Yeast"]][["Cell cycle"]] = c("9843569", "12399584")
 mylit[["Yeast"]][["Environmental stress response"]] = c("11102521")
 mylit[["Expression arrays"]][["Breast cancer/stem compendium"]] = c("18443585")
 mylit[["Expression arrays"]][["Pancreatic cancer/pathway addiction"]] = c("18413752")
+mylit[["Protein-DNA arrays"]][["TF binding specificities"]] = c("16998473", "16839757")
 mylit[["Expression plus genotyping"]][["Early work"]] = c("16251966", "17158513")
 mylit[["Expression plus genotyping"]][["Multiple populations"]] = c("17206142", "17873874")
 mylit[["Expression plus genotyping"]][["Drosophila"]] = c("17873888", "17418441")
