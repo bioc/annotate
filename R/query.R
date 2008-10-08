@@ -24,6 +24,40 @@ UniGeneQuery <- function(query, UGaddress="UniGene/",
     return(query)
 }
 
+entrezGeneByID <- function(query) {
+    
+    if (missing(query))
+        stop("No query, cannot proceed!")
+
+    ncbiURL <- .getNcbiURL()
+    ## Build up the query URL
+
+    query <- paste(ncbiURL, "/sites/entrez?db=gene&cmd=search&term=",query, sep="")
+
+    return(query)
+}
+
+entrezGeneQuery <- function(query) {
+
+    if (missing(query))
+        stop("No query, cannot proceed!")
+
+    ncbiURL <- .getNcbiURL()
+    ## Build up the query URL
+
+    str = ""
+    ##reduce the set of parameters so that they are all one concatenated thing
+    for(i in seq_len(length(query))){
+        if(i==1){str=query[i]}else{
+        str = paste(str,"%20",query[i],sep="")
+      }
+    }
+        
+    query <- paste(ncbiURL, "/sites/entrez?db=gene&cmd=search&term=",str, sep="")
+
+    return(query)
+}
+
 pmidQuery <- function(query) {
     if (missing(query))
         stop("No query, cannot proceed!")

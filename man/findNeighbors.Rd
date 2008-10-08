@@ -90,7 +90,7 @@ weightByConfi(foundLLs)
 
 \examples{
 if(require("humanCHRLOC")){
-   findNeighbors("humanCHRLOC", "10228", upBase = 600000, downBase = 600000)
+   findNeighbors("humanCHRLOC", "51806", 10, upBase = 600000, downBase = 600000)
 }else{
    print("Can not find neighbors without the required data package")
 }

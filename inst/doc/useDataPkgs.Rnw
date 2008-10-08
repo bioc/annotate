@@ -47,16 +47,16 @@ groups of libraries containing data assembled at genome level for
 human, mouse, or rat. \Rpackage{KEGG.db} and \Rpackage{GO.db} are source
 specific libraries containing generic data for various genomes.
 
-\begin{figure*}[htbp!]
-   \begin{center}
-     \includegraphics[width=\textwidth, angle=0]{DPChart}
-   \end{center}
-   \caption{{\small \label{fig:DPChart}A diagram showing the overall
-       structure and inter-relationship of Bioconductor annotation
-       data packages. Boxes show a single or group of data
-       packages. Lines between two boxes indicate connections through
-       the key denoted by the text beside each line.}}
-\end{figure*}
+% \begin{figure*}[htbp!]
+%    \begin{center}
+%      \includegraphics[width=\textwidth, angle=0]{DPChart}
+%    \end{center}
+%    \caption{{\small \label{fig:DPChart}A diagram showing the overall
+%        structure and inter-relationship of Bioconductor annotation
+%        data packages. Boxes show a single or group of data
+%        packages. Lines between two boxes indicate connections through
+%        the key denoted by the text beside each line.}}
+% \end{figure*}
 
 Each annotation library, when installed, contains a \texttt{data} and
 \texttt{man} subdirectory filled with assembled data and documentation

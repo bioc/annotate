@@ -12,7 +12,7 @@ UniGeneQuery(query, UGaddress="UniGene/", type="CID")
 \arguments{
   \item{query}{The UniGene identifiers. }
   \item{UGaddress}{ The address of UniGene, within the NCBI repository.}
-  \item{type}{What type of object is being asked for; eithe CID or SID }
+  \item{type}{What type of object is being asked for; eithe CID or UGID }
 }
 \details{
   Using published details from NCBI we construct an appropriate string

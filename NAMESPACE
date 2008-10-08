@@ -129,6 +129,8 @@ export(
        serializeDataPkgEnvs,
        serializeEnv,
        UniGeneQuery,
+       entrezGeneByID,
+       entrezGeneQuery,
        usedChromGenes,
        usedChromGenes,
        weightByConfi,

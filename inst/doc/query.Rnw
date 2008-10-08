@@ -68,11 +68,11 @@ can request them to be rendered in the browser or returned in XML.
 \item[pubmed] Users specify PubMed identifiers and can request them to
 be rendered in the browser or returned in XML. More details on parsing
 and manipulating the XML are given below.
-\item[locuslinkByID] Users specify Entrez Gene identifiers and the
+\item[entrezGeneByID] Users specify Entrez Gene identifiers and the
 appropriate links are opened in the browser. Entrez Gene does not
 provide XML so there is no download option, currently. The user can
 request that the URL be rendered or returned.
-\item[locuslinkQuery] Users specify a string that will be used as the
+\item[entrezGeneQuery] Users specify a string that will be used as the
 Entrez Gene query and the species of interest (there can be
 several). The user can request either that the URL be rendered or returned.
 \end{description}
@@ -84,16 +84,16 @@ processed using functionality provided by the \Rpackage{XML} package
 \citep{XML}. Specific details and examples for PubMed are given in
 Section~\ref{sec:pmq}.
 
-The function \Rfunction{locuslinkByID} takes a set of known Entrez Gene
+The function \Rfunction{entrezGeneByID} takes a set of known Entrez Gene
 identifiers and constructs a URL that will have these rendered. The
 user can either save the URL (perhaps to send to someone else or to
 embed in an HTML page, see the vignette on creating HTML output for
 more details).
 
-The function \Rfunction{locuslinkQuery} takes a character string to be
+The function \Rfunction{entrezGeneQuery} takes a character string to be
 used for querying PubMed. For example, this function call,
 \begin{verbatim}
-  locuslinkQuery("leukemia", "Hs")
+  entrezGeneQuery("leukemia", "Homo sapiens")
 \end{verbatim}
 will find all Human genes that have the word leukemia associated with them
 in their Entrez Gene records. Note that the R code is merely an
