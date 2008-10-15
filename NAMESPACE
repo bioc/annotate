@@ -134,5 +134,7 @@ export(
        usedChromGenes,
        usedChromGenes,
        weightByConfi,
-       whatACC
+       whatACC,
+       isValidKey,
+       updateSymbolsToValidKeys
        )
