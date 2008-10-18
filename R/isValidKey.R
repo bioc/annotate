@@ -8,8 +8,7 @@ isValidKey <- function(ids, pkg){
     conn <- do.call(paste(pkg, "_dbconn", sep=""), list())
 
     ##Check the schema
-    info <- do.call(paste(pkg, "_dbInfo", sep=""), list())
-    schema <- info[info[,"name"]=="DBSCHEMA",]["value"]
+    schema <- dbmeta(conn, "DBSCHEMA")
     
     if(schema == "YEAST_DB"){
         sql <- "select distinct systematic_name from sgd;"
@@ -35,8 +34,8 @@ updateSymbolsToValidKeys = function(symbols, pkg) {
     library(paste(pkg, ".db",sep=""),character.only = TRUE)
 
     ##Check the schema
-    info <- do.call(paste(pkg, "_dbInfo", sep=""), list())
-    schema <- info[info[,"name"]=="DBSCHEMA",]["value"]
+    conn <- do.call(paste(pkg, "_dbconn", sep=""), list())
+    schema <- dbmeta(conn, "DBSCHEMA")
 
     ##'pkg' cannot be a chip package.
     if(length(grep("CHIP_DB$", schema))>=1){
