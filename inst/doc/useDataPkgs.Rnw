@@ -20,7 +20,7 @@
 \begin{document}
 \title{Using Bioconductor's Annotation Libraries}
 
-\author{Jianhua Zhang}
+\author{Marc Carlson, Jianhua Zhang}
 \date{}
 \maketitle
 
@@ -33,19 +33,17 @@ annotation data libraries. Executable code is provided as examples.
 
 \section*{Contents}
 
-Bioconductor's annotation data libraries are constructed by assembling
-data collected from various public data repositories using
-Bioconductor's \Rpackage{AnnBuilder} package and distributed
-as regular R libraries that can be installed and loaded in the same way an R
-library is installed/loaded. Each annotation library
-is an independent unit that can be used alone or in conjunction with
-other annotation libraries. Figure 1 shows the relationship among
-libraries that are currently available. Platform specific libraries
-are a group annotation libraries assembled specifically for given
-platforms (e. g. Affymetrix HG\_U95Av2). CHRLOC and \texttt{org.XX.eg.db} are
-groups of libraries containing data assembled at genome level for
-human, mouse, or rat. \Rpackage{KEGG.db} and \Rpackage{GO.db} are source
-specific libraries containing generic data for various genomes.
+Bioconductor's annotation data libraries are constructed by assembling data
+collected from various public data repositories using Bioconductor's
+\Rpackage{AnnotationDbi} package and distributed as regular R libraries that
+can be installed and loaded in the same way an R library is
+installed/loaded. Each annotation library is an independent unit that can be
+used alone or in conjunction with other annotation libraries. Platform
+specific libraries are a group annotation libraries assembled specifically for
+given platforms (e. g. Affymetrix HG\_U95Av2). \texttt{org.XX.eg.db} are
+libraries containing data assembled at genome level for specific organisms
+such as human, mouse, fly, or rat. \Rpackage{KEGG.db} and \Rpackage{GO.db} are
+source specific libraries containing generic data for various genomes.
 
 % \begin{figure*}[htbp!]
 %    \begin{center}
@@ -58,51 +56,54 @@ specific libraries containing generic data for various genomes.
 %        the key denoted by the text beside each line.}}
 % \end{figure*}
 
-Each annotation library, when installed, contains a \texttt{data} and
-\texttt{man} subdirectory filled with assembled data and documentation
-about the data, respectively. Most assembled data are stored as binary R
-environment objects (hash table with key-value pairs) associating annotation
-values to a set of keys. For each environment object in the
-\texttt{data} directory, there is a corresponding help file in the
+Each annotation library, when installed, contains a sqlite database contained
+within the \texttt{extdata} along with a \texttt{man} subdirectory filled with
+documentation about the data. The data can be accessed using the standard
+methods that would work for the classic environment objects (hash table with
+key-value pairs) and act as if they were simple associations of annotation
+values to a set of keys. For each of these emulated environment objects (which
+we will refer to as mappings), there is a corresponding help file in the
 \texttt{man} directory with detail descriptions of the data file and usage.
+In addition to the traditional access to these data, these databases can also
+be accessed directly by using DBI interfaces which allow for powerful new
+combinations of these data.
 
-Each platform specific library contains R environment objects
-named following the convention of package name plus environment
-name. The package name is in lower case letters and the environment
-names are in capital letters. When a given environment maps platform
+Each platform specific library creates a series of these mapping objects
+named by following the convention of package name plus mapping
+name. The package name is in lower case letters and the mapping
+names are in capital letters. When a given mapping maps platform
 specific keys to annotation data, only the name of the annotation data
-is used for the name of the environment. Otherwise, the environment
-name have a pattern of key name and value name joined by a "2" in
+is used for the name of the mapping. Otherwise, the mapping
+names have a pattern of key name and value name joined by a "2" in
 between. For example, \Robject{hgu95av2ENTREZID} maps probe ids on 
-an Affymetrix human
-genome U95Av2 chip to EntrezGene IDs while \Robject{hgu95av2GO2PROBE} 
-maps Gene
-Ontology IDs to probe IDs. Names of the environment objects in a
+an Affymetrix human genome U95Av2 chip to EntrezGene IDs while \Robject{hgu95av2GO2PROBE} 
+maps Gene Ontology IDs to probe IDs. Names of the mappings available in a
 platform specific data package are not listed here to save space but
 are easily accessible as shown later in the section for usage.
 
-Genome level annotation libraries are named in the form of
-XXXCHARLOC and where XXX represents an organism
-name. Each data package in the CHRLOC group has Entrez Gene ids mapped
-to chromosomal location where transcription of genes corresponding to
-the Entrez Gene ids begins and ends. There is a START and END
-environment for Entrez Gene ids on each of the chromosomes
-(e. g. \Robject{humanCHRLOC1START} and \Robject{humanCHRLOC1END} for human chromosome
-number 1). Each library in the LLMappings group provides
-mappings/reverse mappings between Entrez Gene ids and some other
-commonly used public repository identifiers. Environment names are a
-cancatinations of the names of mapped ids with a 2 in between
-(e. g. \Robject{humanLLMappingsLL2GO}).
 
-The \Rpackage{KEGG.db} library contains mappings between ids such as Locuslink
-and \Rpackage{GO} to \Rpackage{KEGG} pathway ids and thus pathway names.
-The \Rpackage{GO.db} library maintain the directed acyclic graph structure of the original
-data from Gene Ontology Consortium by providing mappings of GO ids to
-their direct parents or children for each of the three categories
-(molecular function, cellular component, and biological process). In
-addition, mappings between Entrez Gene and \Rpackage{GO} ids are provided with
-evidence code that specifies the type of evidence that supports the
-annotation of a gene to a particular \Rpackage{GO} term.
+Genome level annotation libraries are named in the form of org.Xx.yy.db where
+Xx represents an abbreviation of the genus and species. Each of the organism
+wide genome anotation packages is based upon some type of widely used gene
+based identifier (such as an Entrez Gene id) that is mapped onto all the other
+features in the package.  The yy part of the name corresponds to this
+designation, where eg means a package is an entrez gene package and sgd is a
+package based on the sgd database etc.  In many cases the org packages will
+contain more different kinds of information that the platform based ones,
+since not all types of information are as widely sought after.
+
+
+The \Rpackage{KEGG.db} library contains mappings between ids such as Entrez
+Gene IDs and \Rpackage{GO} to \Rpackage{KEGG} pathway ids and thus also to
+pathway names.  The \Rpackage{GO.db} library maintain the directed acyclic
+graph structure of the original data from Gene Ontology Consortium by
+providing mappings of GO ids to their direct parents or children for each of
+the three categories (molecular function, cellular component, and biological
+process). Mappings between Entrez Gene and \Rpackage{GO} ids are also
+available to complement the the GO.db package. These mappings are found within
+the organism wide packages mentioned above. These mappings are provided with
+evidence code that specifies the type of evidence that supports the annotation
+of a gene to a particular \Rpackage{GO} term.
 
 \section*{Usage}
 
@@ -116,15 +117,10 @@ libraries have already been installed.
 
 \subsection*{Package installation}
 
-After downloading libraries \Rpackage{hgu95av2.db} and
-\Rpackage{GO.db} from the link to MetaData of the Bioconductor web site,
-install the libraries by typing R INSTALL library name in the
-directory where the library is stored under Unix or click the menu bar
-\textit{Packages} and then \textit{Install package(s) from local zip
-  files...} of an R session under Windows. Alternatively, if the
-\Rpackage{reposTools} library has already been installed/loaded, typing
-\Rfunction{install.packages2(library name)} installs the library for both
-Unix and Windows.
+After downloading libraries \Rpackage{hgu95av2.db} and \Rpackage{GO.db} by
+using biocLite, If the \Rpackage{reposTools} library has already been
+installed/loaded, typing \Rfunction{install.packages2(library name)} installs
+the library for both Unix and Windows.
 
 Typing library(library name) in an R session will load the library
 into R. For example,
@@ -137,37 +133,38 @@ library("GO.db")
 
 \subsection*{Documentations}
 
-Each library contains documentations for the library in general and
-each of the individual environment objects contained by the
-library. Two documents at the library level can be accessed by typing
-a library basename proceeded by a question mark (e. g. ?hgu95av2) and
-the library basename followed by a pair of brackets (e. g. hgu95av2()),
-respectively. The former indicates how the data package was built from
-what version of public data sources and the latter lists all the
-environments contained by a library and provides information on the
-total number of keys within each of the environment objects contained
-by the library and how many of these keys are annotated.
+Each library contains documentation for the library in general and each of the
+individual mapping objects contained by the library. Two documents at the
+library level can be accessed by typing a library basename proceeded by a
+question mark (e. g. ?hgu95av2) and the library basename followed by a pair of
+brackets (e. g. hgu95av2()), respectively. The former explains what the
+package is and details how a user can get more information, while the latter
+lists all the mappings contained by a library and provides information on
+the total number of keys within each of the maps contained by the library and
+how many of these keys are annotated.  In addition, the latter will indicate
+the sources for the information provided by the package as well as the date
+that these sources claim to have last been updated.
 
-The documentation for a given environment object can be accessed by
-typing the name of an environment object proceeded by a question mark
+The documentation for a given mapping object can be accessed by
+typing the name of an mapping object proceeded by a question mark
 (e. g. \Robject{hgu95av2GO}). The resulting documentation provides detail
-explanations to the environment object, data source used to build the
+explanations to the mapping object, data source used to build the
 object, and example code for accessing annotation data.
 
 \subsection*{Accessing annotation data within a library}
 
-Annotation data of a given library are stored as environment objects
+Annotation data of a given library are stored as mapping objects
 in the form of key (items to be annotated) and value (annotation for
-an key item) pairs. Each environment object provides annotation for keys
+an key item) pairs. Each mapping object provides annotation for keys
 for a particular subject reflected by the name of the object. For
 example, \Robject{hgu95av2GO} annotates probes on the HG\-U95Av2 chip
 with ids of the Gene Ontology terms the probes correspond to.
 
-The name of an environment object consists of package basename (\Rpackage{hgu95av2.db}) and
-environment name (\Rpackage{GO}) to avoid confusion when multiple libraries are loaded
-to the system at the same time. Data contained by an environment can
+The name of an mapping object consists of package basename (\Rpackage{hgu95av2.db}) and
+mapping name (\Rpackage{GO}) to avoid confusion when multiple libraries are loaded
+to the system at the same time. Data contained by an mapping can
 be accessed easily using Bioconductor's existing functions. For example, the following code
-stores all the keys contained by the \Robject{hgu95av2GO} environment object to
+stores all the keys contained by the \Robject{hgu95av2GO} mapping object to
 variable \textit{temp} and displays the first five keys on the screen:
 
 <<getGO>>=

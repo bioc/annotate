@@ -1,17 +1,7 @@
-##Given a list of IDs and a package, are these IDs valid primary IDs for this package?
-isValidKey <- function(ids, pkg){
-    #argument checking
-    if(!is.character(ids)) stop("'ids' must be a character vector of IDs that you wish to validate")    
-    library(paste(pkg, ".db",sep=""),character.only = TRUE)
-
-    ##Get a DB connection
-    conn <- do.call(paste(pkg, "_dbconn", sep=""), list())
-
-    ##Check the schema
-    schema <- dbmeta(conn, "DBSCHEMA")
-    
+##Helper function for schema checking:
+.checkSchema <- function(schema){
     if(schema == "YEAST_DB"){
-        sql <- "select distinct systematic_name from sgd;"
+        sql <- "select distinct systematic_name from sgd where systematic_name != 'NA';"
     }else if(length(grep("CHIP_DB$", schema))>=1 ){  #All chip packages have a probes table with probe_ids
         sql <- "select distinct probe_id from probes;"
     }else if(schema == "BOVINE_DB" || schema == "CANINE_DB" || schema == "CHICKEN_DB" || schema == "ECOLI_DB" || schema == "FLY_DB" || schema == "HUMAN_DB" || schema == "MALARIA_DB" || schema == "MOUSE_DB" || schema == "PIG_DB" || schema == "RAT_DB" || schema == "WORM_DB" || schema == "ZEBRAFISH_DB" ){
@@ -19,9 +9,33 @@ isValidKey <- function(ids, pkg){
     }else{
         stop("Unidentified database schema.  Cannot find central table.  May need to add schema options to isValidKey().")
     }    
+    return(sql)
+}
+
+##Given a list of IDs and a package, are these IDs valid primary IDs for this package?
+isValidKey <- function(ids, pkg){
+    ##argument checking
+    if(!is.character(ids)) stop("'ids' must be a character vector of IDs that you wish to validate")    
+    ##access the DB, get the primary IDs, and then test if they are in your list of ids
+    require(paste(pkg, ".db",sep=""),character.only = TRUE)
+    conn <- do.call(paste(pkg, "_dbconn", sep=""), list())
+    schema <- dbmeta(conn, "DBSCHEMA")
+    sql <- .checkSchema(schema)
     res <- dbGetQuery(conn, sql)
     res <- as.vector(res[,1])#slice to grab result which will always be a single column (based on the sql queries)
     return(ids %in% res)
+}
+
+##Given a package, what are all the unique valid primary IDs for this package?
+allValidKeys <- function(pkg){
+    ##access the DB and get all the primary IDs, (unique constraint already on the field being sought)
+    require(paste(pkg, ".db",sep=""),character.only = TRUE)
+    conn <- do.call(paste(pkg, "_dbconn", sep=""), list())
+    schema <- dbmeta(conn, "DBSCHEMA")
+    sql <- .checkSchema(schema)    
+    res <- dbGetQuery(conn, sql)
+    res <- as.vector(res[,1])#slice to grab result which will always be a single column (based on the sql queries)
+    return(res)
 }
 
 
@@ -31,7 +45,7 @@ isValidKey <- function(ids, pkg){
 updateSymbolsToValidKeys = function(symbols, pkg) {
     #argument checking
     if(!is.character(symbols)) stop("'symbols' must be a character vector of gene symbols that you wish to translate to the primary ID of the package")
-    library(paste(pkg, ".db",sep=""),character.only = TRUE)
+    require(paste(pkg, ".db",sep=""),character.only = TRUE)
 
     ##Check the schema
     conn <- do.call(paste(pkg, "_dbconn", sep=""), list())
