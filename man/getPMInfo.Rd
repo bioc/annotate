@@ -19,13 +19,10 @@ a list with one element per pubmed id processed by pubmed.  Each element of
 the list is in turn a list with elements for author list, title, journal
 info, and abstract text.
 }
-\references{  }
 \author{Vince Carey <stvjc@channing.harvard.edu>}
 \note{this should be turned into a method returning an instance of
 a formal class representing articles.    }
 
-
-\seealso{  }
 
 \examples{
 demo <- pubmed("11780146", 

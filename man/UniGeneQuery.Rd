@@ -27,8 +27,6 @@ A character vector containing the query string.
 \note{Be very careful about automatically querying this resource. It is
   considered antisocial behavior by the owners. }
 
-\seealso{}
-
 \examples{
   q1<-UniGeneQuery(c("Hs.293970", "Hs.155650"))
   q1

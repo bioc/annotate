@@ -13,8 +13,6 @@ getEvidence(inlist)
 \arguments{
   \item{inlist}{A list of GO identifers.}
 }
-\details{
-}
 \value{
   A \code{list} of the same length as the input list, each element is a
   vector of evidence codes.

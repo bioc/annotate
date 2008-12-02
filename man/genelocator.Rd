@@ -12,8 +12,6 @@ genelocator(x)
 \arguments{
   \item{x}{Undeterimined }
 }
-\details{
-}
 \value{
   This function is executed mainly for its side effect. When an image
   plot is active then \code{genelocator} can be called. When the image
@@ -23,7 +21,6 @@ genelocator(x)
 }
 
 \author{ R. Gentleman }
-\note{ }
 
 \seealso{ \code{\link{locator}}}
 
