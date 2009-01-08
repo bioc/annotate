@@ -1,6 +1,49 @@
-import(methods)
 import(AnnotationDbi)
-import(xtable)
+
+importClassesFrom(Biobase,
+                  eSet)
+
+importClassesFrom(methods,
+                  ANY,
+                  character,
+                  list,
+                  matrix,
+                  numeric,
+                  vector)
+
+importMethodsFrom(Biobase,
+                  annotation,
+                  contents,
+                  exprs,
+                  featureNames)
+
+importMethodsFrom(methods,
+                  initialize,
+                  show)
+
+importFrom(Biobase,
+           addVigs2WinMenu)
+
+importFrom(graphics,
+           abline,
+           identify,
+           plot)
+
+importFrom(methods,
+           is,
+           new)
+
+importFrom(stats,
+           heatmap)
+
+importFrom(utils,
+           browseURL,
+           compareVersion,
+           packageDescription)
+
+importFrom(xtable,
+           xtable)
+
 
 exportClasses(
               chromLocation,
