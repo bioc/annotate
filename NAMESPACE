@@ -1,5 +1,3 @@
-import(AnnotationDbi)
-
 importClassesFrom(Biobase,
                   eSet)
 
@@ -11,6 +9,26 @@ importClassesFrom(methods,
                   numeric,
                   vector)
 
+importMethodsFrom(AnnotationDbi,
+                  Definition,
+                  GOID,
+                  Secondary,
+                  Synonym,
+                  as.list,
+                  colnames,
+                  dbmeta,
+                  eapply,
+                  exists,
+                  get,
+                  ls,
+                  mappedRkeys,
+                  mget,
+                  ncol,
+                  nrow,
+                  Ontology,
+                  revmap,
+                  Term)
+
 importMethodsFrom(Biobase,
                   annotation,
                   contents,
@@ -18,6 +36,7 @@ importMethodsFrom(Biobase,
                   featureNames)
 
 importMethodsFrom(methods,
+                  "body<-",
                   initialize,
                   show)
 
@@ -30,6 +49,7 @@ importFrom(graphics,
            plot)
 
 importFrom(methods,
+           "@<-",
            is,
            new)
 
