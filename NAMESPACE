@@ -199,6 +199,9 @@ export(
        usedChromGenes,
        weightByConfi,
        whatACC,
+       setRepository,
+       getRepositories,
+       clearRepository,
        isValidKey,
        allValidKeys,
        updateSymbolsToValidKeys

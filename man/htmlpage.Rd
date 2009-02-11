@@ -25,10 +25,11 @@ htmlpage(genelist, filename, title, othernames, table.head,
     for creating the hypertext links. Currently available repositories
     include 'gb' (GenBank), 'en' (EntrezGene), 'omim' (Online Mendelian
     Inheritance in Man), 'sp' (SwissProt), 'affy' (Affymetrix), 'ug'
-    (UniGene), 'fb' (FlyBase), 'go' (Gene Ontology). Additional repositories
-    can easily be added. See \code{getQueryLink} for more information.}
-  \item{...}{Further arguments to be passed to \code{xtable} or
-    \code{print.xtable}.}
+    (UniGene), 'fb' (FlyBase), 'go' (Gene Ontology), 'ens' (Ensembl).
+    Additional repositories can easily be added. See
+  \code{setRepository} for more information.}
+  \item{...}{Further arguments to be passed. See details for more
+  information.}
 }
 \details{ This function will accept a list or \code{data.frame} of
   character vectors, each containing different ids that are to be turned
@@ -49,6 +50,11 @@ htmlpage(genelist, filename, title, othernames, table.head,
   \code{xtable} or \code{print.xtable}. One such argument would be
   'append=TRUE', which would allow one to put lots of tables in one
   page, as long as the filename argument remained the same.
+
+  Additionally, the Ensembl repository needs a species argument in order
+  to form a usable URI. This argument can be passed in the form of e.g.,
+  species = "Homo_sapiens". Note the capitalization of the genus, and
+  the separation by an underscore (_).
 }
 \value{
   This function is used only for the side effect of creating an HTML table.

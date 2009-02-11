@@ -209,7 +209,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     ## get the XML file contents from URL, and remove extra
     ## text strings before <xml...
     query <- paste(scan(query, what="", sep="\n"), "\n", collapse="\n")
-    query <- sub("^[^<]*<(.*)", "<\\1",query) 
+    query <- sub("^[^<]*<(.*)", "<\\1",query)
 
     retVal <- NULL
     xml <- try(xmlTreeParse(query,asText=TRUE,handlers=NULL,asTree=TRUE))
@@ -425,7 +425,7 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
     if(!missing(othernames)) {
        if(is.data.frame(othernames))
         len.vec <- c(len.vec, chklen(othernames))
-       else if( is.list(othernames)) 
+       else if( is.list(othernames))
             len.vec <- c(len.vec, sapply(othernames, chklen))
         else
             stop("The 'othernames' should be either a data.frame or a list",
@@ -437,15 +437,15 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
                    "discrepancy and re-run.\n"), .call=FALSE)
 
     ## This if/else not really required anymore -- repository has to be a list.
-    
+
     if (is.list(repository)){
         out <- NULL
         for(i in seq(along=repository)){
-            out <- cbind(out, getCells(genelist[[i]], repository[[i]]))
+            out <- cbind(out, getCells(genelist[[i]], repository[[i]], ...))
         }
     }
-   
-    else out <- getCells(genelist, repository)
+
+    else out <- getCells(genelist, repository, ...)
     if (!missing(othernames)) {
         if(is.data.frame(othernames))
             out <- data.frame(out, othernames)
@@ -480,17 +480,17 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
     print(out, type="html", file=filename, caption.placement="top",
           include.rownames=FALSE, sanitize.text.function=function(x) x,
           ...)
-    
+
 }
 
-getCells <-  function(ids, repository = "ug"){
+getCells <-  function(ids, repository = "ug", ...){
   # This function allows us to insert multiple links in each cell by
   # building up the HTML more incrementally. Passing a list of character
   # vectors will result in multiple links per cell. Otherwise we get one link per cell.
-  
+
   if(is.list(ids)){
     out <- vector()
-    temp <- lapply(ids, getQueryLink, repository=repository)
+    temp <- lapply(ids, getQueryLink, repository=repository, ...)
     for(i in seq(along = ids)){
       if(temp[i] != "&nbsp;")
         out[i] <- paste("<P><A HREF=\"", temp[[i]], "\">",
@@ -499,7 +499,7 @@ getCells <-  function(ids, repository = "ug"){
         out[i] <- temp[i]
     }
   }else{
-    temp <- getQueryLink(ids, repository)
+    temp <- getQueryLink(ids, repository, ...)
     blanks <- temp == "&nbsp;"
     out <- paste(" <A HREF=\"", temp, "\">",
                  ids, "</A>", sep = "")
@@ -508,23 +508,60 @@ getCells <-  function(ids, repository = "ug"){
   return(out)
 }
 
-getQueryLink <-function (ids, repository = "ug"){
-  switch(tolower(repository), ug = return(getQuery4UG(ids)),
-         ll = return(getQuery4LL(ids)), affy = return(getQuery4Affy(ids)),
-         gb = return(getQuery4GB(ids)), sp = return(getQuery4SP(ids)),
-         omim = return(getQuery4OMIM(ids)), fb = return(getQuery4FB(ids)),
-         en = return(getQuery4EN(ids)), tr = return(getQuery4TR(ids)),
-         go = return(getQuery4GO(ids)), stop("Unknown repository name"))
+## getQueryLink <-function (ids, repository = "ug", ...){
+##   switch(tolower(repository), ug = return(getQuery4UG(ids)),
+##          ll = return(getQuery4LL(ids)), affy = return(getQuery4Affy(ids)),
+##          gb = return(getQuery4GB(ids)), sp = return(getQuery4SP(ids)),
+##          omim = return(getQuery4OMIM(ids)), fb = return(getQuery4FB(ids)),
+##          en = return(getQuery4EN(ids)), tr = return(getQuery4TR(ids)),
+##          go = return(getQuery4GO(ids)), ens = return(getQuery4ENSEMBL(ids, ...)),
+##          random = return(getQuery4Random(ids)), stop("Unknown repository name"))
+## }
+
+## Code from Martin Morgan that allows end user to add arbitrary
+## repository
+
+## the interface: set, get, clear
+setRepository <- function(repository, FUN, ..., verbose=TRUE) 
+{
+    ## checs on repository, FUN, then...
+    if (verbose && exists(repository, .repositories))
+        warning("replacing repository '", repository, "'")
+    .repositories[[repository]] <- FUN
+}
+
+getRepositories <- function()
+{
+    ls(.repositories)
+}
+
+clearRepository <- function(repository, verbose=TRUE)
+{
+    if (!(length(repository) == 1 && is.character(repository)))
+        stop("argument 'repository' must be character(1)")
+    ## check repository, then
+    if (exists(repository, .repositories))
+        rm(list=repository, envir=.repositories)
+    else if (verbose)
+        warning("undefined repository '", repository, "'")
+}
+
+## this should be backward compatible
+getQueryLink <- function (ids, repository = "ug", ...) 
+{
+    if (!exists(repository, .repositories))
+        stop("unknown repository '", repository, "'")
+    .repositories[[repository]](ids, ...)
 }
 
 
-getTDRows <- function (ids, repository = "ug"){
+getTDRows <- function (ids, repository = "ug", ...){
   # Modification of Jianhua's original code to allow for multiple links per cell.
   out <- paste("<TD>", getCells(ids, repository), "</TD>", sep="")
   return(out)
 }
 
-getQuery4GO <- function(ids) {
+getQuery4GO <- function(ids, ...) {
 ##GO IDs
   blanks <- ids == "&nbsp;"
   AMIGO_URL <- "http://www.godatabase.org/cgi-bin/amigo/go.cgi?view=details&search_constraint=terms&depth=0&query=%s"
@@ -533,7 +570,7 @@ getQuery4GO <- function(ids) {
   return(out)
 }
 
-getQuery4Affy <- function (ids){
+getQuery4Affy <- function (ids, ...){
   # Affy IDs are all over the map, so there is no good way to catch any garbage input.
   # Here we have to rely on the end user to filter out garbage by passing an empty cell.
   blanks <- ids == "&nbsp;"
@@ -543,7 +580,7 @@ getQuery4Affy <- function (ids){
   return(out)
 }
 
-getQuery4UG <- function (ids){
+getQuery4UG <- function (ids, ...){
   # Slight modification of Jianhua's original code, replacing error message with
   # empty cells in the table.
   if(is.factor(ids))
@@ -565,7 +602,7 @@ getQuery4UG <- function (ids){
   return(temp)
 }
 
-getQuery4LL <- function (ids) {
+getQuery4LL <- function (ids, ...) {
   ## Here we rely on Entrez Gene IDs being all numeric to filter out garbage
   ## that will result in busted links.
   .Deprecated(msg="The 'll' repository argument is deprecated. Please use 'en'\n.")
@@ -586,8 +623,8 @@ getQuery4LL <- function (ids) {
   out <- vector()
   for (i in seq(along = ids)) {
     if (!blanks[i])
-      out[i] <- 
-        paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=gene&cmd=Retrieve&dopt=Graphics&list_uids=", 
+      out[i] <-
+        paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=gene&cmd=Retrieve&dopt=Graphics&list_uids=",
 
               ids[i], sep = "")
     else out[i] <- "&nbsp;"
@@ -595,7 +632,7 @@ getQuery4LL <- function (ids) {
   return(out)
 }
 
-getQuery4EN <- function (ids){
+getQuery4EN <- function (ids, ...){
   ## Here we rely on Entrez Gene IDs being all numeric to filter out garbage
   ## that will result in busted links.
   if(is.factor(ids)){
@@ -618,18 +655,18 @@ getQuery4EN <- function (ids){
   return(out)
 }
 
-getQuery4TR <- function(ids){
+getQuery4TR <- function(ids, ...){
     ## No automatic garbage checking. The ath1121501 has accnum values of 'multiple'
     ## that we can convert to blanks however.
     blanks <- ids == "&nbsp;" || ids == "multiple"
-    out <- paste("http://www.arabidopsis.org/servlets/Search?type=general&search_action=detail&method=1&name=", ids, 
+    out <- paste("http://www.arabidopsis.org/servlets/Search?type=general&search_action=detail&method=1&name=", ids,
                  "&sub_type=gene", sep="")
     out[blanks] <- "&nbsp;"
     return(out)
 }
 
 
-getQuery4GB <- function (ids){
+getQuery4GB <- function (ids, ...){
   # GenBank ids can be either GB or RefSeq, so there is no good way to filter garbage.
   # Again we rely on end user to pass blanks.
   blanks <- ids == "&nbsp;"
@@ -641,7 +678,7 @@ getQuery4GB <- function (ids){
 
 
 
-getQuery4SP <- function(ids){
+getQuery4SP <- function(ids, ...){
   ## SwissProt ids are not consistent enough to do any sort of garbage checking
   ## so here we rely on a blank being passed by the end user.
   blanks <- ids == "&nbsp;"
@@ -650,7 +687,7 @@ getQuery4SP <- function(ids){
   return(out)
 }
 
-getQuery4OMIM <- function(ids){
+getQuery4OMIM <- function(ids, ...){
   # Conversion here relies on the assumption that OMIM ids are all numeric
   # so any non-numeric entry must be some sort of garbage that will result in
   # a broken link.
@@ -668,16 +705,16 @@ getQuery4OMIM <- function(ids){
   }
   if(is.numeric(ids))
     blanks <- is.na(ids)
-  
+
   out <- paste("http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=", ids, sep="")
   if(!is.null(blanks))
     out[blanks] <- "&nbsp;"
 
   return(out)
-  
+
 }
 
-getQuery4FB <- function (ids){
+getQuery4FB <- function (ids, ...){
   ## Function to build links to flybase for drosophila arrays
   ## Here I rely on the flybase number starting with FBgn
   ## The end user can also pass an empty cell identifier
@@ -688,9 +725,36 @@ getQuery4FB <- function (ids){
   badFB <- function(x) if(length(x) != 2 || nchar(x[1]) != 0)
     return(TRUE) else return(FALSE)
   bIDS <- sapply(fbs, badFB)
-  out <- paste("http://flybase.bio.indiana.edu/.bin/fbidq.html?", 
+  out <- paste("http://flybase.bio.indiana.edu/.bin/fbidq.html?",
                     ids, sep = "")
   out[bIDS] <- "&nbsp;"
   return(out)
+}
+
+getQuery4ENSEMBL <- function(ids, ...){
+    ## function to build links to Ensembl
+    ## Ensembl IDs can start with ENSG, ENSE, ENSP or ENST at the very least
+
+    ids[is.na(ids)] <- "&nbsp;"
+    
+    if(is.factor(ids))
+        enids <- strsplit(as.character(ids), "ENS")
+    else
+        enids <- strsplit(ids, "ENS")
+    badENS <- function(x) if(length(x) !=2 || nchar(x[1]) != 0)
+        return(TRUE) else return(FALSE)
+    bIDS <- sapply(enids, badENS)
+    ##FIXME: should we do some error checking on the species?
+    ## it should be e.g., Homo_sapiens
+    if(!is.null(list(...)$species))
+        species <- list(...)$species
+    else
+        stop("To make links for Ensembl, you need to pass a 'species' argument.",
+             call. = FALSE)
+    out <- paste("http://www.ensembl.org/", species, "/Search/Summary?species=",
+                 species, ";idx=;q=", ids, sep = "")
+    out[bIDS] <- "&nbsp;"
+    
+    out
 }
 

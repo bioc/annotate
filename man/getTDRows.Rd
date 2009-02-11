@@ -11,6 +11,7 @@
 \alias{getCells}
 \alias{getTDRows}
 \alias{getQuery4TR}
+\alias{getQuery4ENSEMBL}
 
 \title{Functions to create hypertext links that can be placed in a table
   cell of a HTML file }
@@ -21,18 +22,19 @@
   constructed by \code{\link{htmlpage}.}
 }
 \usage{
-getQueryLink(ids, repository = "ug")
-getTDRows(ids, repository = "ug")
-getCells(ids, repository = "ug")
-getQuery4LL(ids)
-getQuery4UG(ids)
-getQuery4SP(ids)
-getQuery4GB(ids)
-getQuery4OMIM(ids)
-getQuery4Affy(ids)
-getQuery4FB(ids)
-getQuery4EN(ids)
-getQuery4TR(ids)
+getQueryLink(ids, repository = "ug", ...)
+getTDRows(ids, repository = "ug", ...)
+getCells(ids, repository = "ug", ...)
+getQuery4LL(ids, ...)
+getQuery4UG(ids, ...)
+getQuery4SP(ids, ...)
+getQuery4GB(ids, ...)
+getQuery4OMIM(ids, ...)
+getQuery4Affy(ids, ...)
+getQuery4FB(ids, ...)
+getQuery4EN(ids, ...)
+getQuery4TR(ids, ...)
+getQuery4ENSEMBL(ids, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -42,7 +44,10 @@ getQuery4TR(ids)
     multiple ids per gene.}
   \item{repository}{ A character string for the name of a public
     repository. Valid values include "ll", "ug", "gb", "sp", "omim",
-    "affy", "en", and "fb". See the details section for more information. }
+    "affy", "en", and "fb". See the details section for more
+    information. }
+  \item{...}{Allows end user to pass additional arguments. See details
+  for \code{\link{getQuery4ENSEMBL}} for more information.}
 }
 \details{
  \code{\link{getQuery4LL}} constructs hypertext links to LocusLink using the
@@ -71,7 +76,13 @@ getQuery4TR(ids)
  LocusLink has been deprecated by NCBI.
 
  \code{\link{getQuery4TR}} constructs hypertext links to TAIR using the
- provided ids. 
+ provided ids.
+
+ \code{\link{getQuery4ENSEMBL}} constructs hypertext links to Ensembl
+ using the provided ids. An additional 'species' argument must be passed
+ to this function via the \code{...} argument to \code{htmlpage}. The
+ form of the argument must be e.g., species="Homo_sapiens" for
+ human. Note the capitalized genus and underscore (_) separator.
  
  \code{\link{getQueryLink}} directs calls to construct hypertext links using
  the provided ids.

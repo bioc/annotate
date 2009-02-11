@@ -16,9 +16,26 @@
 }
 
 .onLoad <- function(libname, pkgname) {
+    .setDefaultRepositories()
     .buildAnnotateOpts()
     if(.Platform$OS.type == "windows" && require(Biobase) && interactive()
         && .Platform$GUI ==  "Rgui"){
         addVigs2WinMenu("annotate")
     }
+}
+
+.repositories <- new.env(parent = emptyenv())
+
+.setDefaultRepositories<- function() {
+    setRepository("ug", getQuery4UG)
+    setRepository("ll", getQuery4LL)
+    setRepository("affy", getQuery4Affy)
+    setRepository("gb", getQuery4GB)
+    setRepository("sp", getQuery4SP)
+    setRepository("omim", getQuery4OMIM)
+    setRepository("fb", getQuery4FB)
+    setRepository("en", getQuery4EN)
+    setRepository("tr", getQuery4TR)
+    setRepository("go", getQuery4GO)
+    setRepository("ens", getQuery4ENSEMBL)
 }
