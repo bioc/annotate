@@ -53,8 +53,8 @@ htmlpage(genelist, filename, title, othernames, table.head,
 
   Additionally, the Ensembl repository needs a species argument in order
   to form a usable URI. This argument can be passed in the form of e.g.,
-  species = "Homo_sapiens". Note the capitalization of the genus, and
-  the separation by an underscore (_).
+  species = "Homo\_sapiens". Note the capitalization of the genus, and
+  the separation by an underscore (\_).
 }
 \value{
   This function is used only for the side effect of creating an HTML table.
