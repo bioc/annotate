@@ -291,6 +291,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 }
 
 genelocator <- function(x) {
+    .Deprecated("none", package="annotate", msg = "is no longer supported")
   done<-FALSE
   while(!done) {
     v <- identify(x, n=1)

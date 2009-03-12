@@ -1,7 +1,7 @@
 neighborGeneFinder <- function(geneData, keyName = c("unigene", "locuslink"),
                                organism = c("human",  "mouse", "rat")){
 
-    .Deprecated("none", package="annotate", msg = "is no longer supported")
+    .Defunct("none", package="annotate", msg = "is no longer supported")
     require("tkWidgets", character.only = TRUE) ||
     stop(paste("neighbotGeneFinder requires the",
                              "tkWidgets package. Please have it installed"))
