@@ -19,9 +19,12 @@ PWAmat = function(data) {
         pathLL = as.list(dataE)
     else {
         pathLL = eapply(dataE, function(x) {
-            LLs = getEG(x, data)
-            LLs = LLs[!is.na(LLs)]
-            unique(LLs) })
+            x = x[!is.na(x)]
+            if(length(x)>0){
+                LLs = getEG(x, data)
+                LLs = LLs[!is.na(LLs)]
+                unique(LLs) }
+        })
     }
     uniqLL = unique(unlist(pathLL,use.names=FALSE))
     Amat = sapply(pathLL, function(x) {
