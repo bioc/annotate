@@ -7,7 +7,6 @@
 \alias{articleTitle}
 \alias{journal}
 \alias{pubDate}
-\alias{abstUrl}
 \alias{pmid}
 \alias{pubMedAbst,pubMedAbst-method}
 \alias{authors,pubMedAbst-method}
@@ -15,7 +14,6 @@
 \alias{articleTitle,pubMedAbst-method}
 \alias{journal,pubMedAbst-method}
 \alias{pubDate,pubMedAbst-method}
-\alias{abstUrl,pubMedAbst-method}
 \alias{pmid,pubMedAbst-method}
 \alias{show,pubMedAbst-method}  
 \title{Class pubMedAbst, a class to handle PubMed abstracts, and methods
@@ -29,7 +27,6 @@ for processing them.}
   \code{  articleTitle = ...., # object of class character}\cr
   \code{  journal      = ...., # Object of class character}\cr
   \code{  pubDate      = ...., # Object of class character}\cr
-  \code{  abstUrl      = ...., # Object of class character}\cr
   \code{  )}}
 \section{Slots}{
   \describe{
@@ -45,8 +42,6 @@ for processing them.}
       the article was published in. }
     \item{\code{pubDate}:}{Object of class \code{"character"} The date the
     journal was published. }
-    \item{\code{abstUrl}:}{Object of class \code{"character"} A URL, if
-      one is provided, contained in the abstract. }
   }
 }
 
@@ -56,8 +51,6 @@ for processing them.}
       for \code{pmid}}
     \item{abstText}{\code{signature(object = "pubMedAbst")}: An accessor
     function for \code{abstText}}
-    \item{abstUrl}{\code{signature(object = "pubMedAbst")}: An accessor
-      function for \code{abstUrl} }
     \item{articleTitle}{\code{signature(object = "pubMedAbst")}: An accessor
       function for \code{articleTitle} }
     \item{authors}{\code{signature(object = "pubMedAbst")}: An accessor

@@ -47,7 +47,7 @@ PMIDAmat = function(pkg, gene=NULL) {
         gene2pmid <- as.list(probe2pmid)
     }else{
         if(any(duplicated(gene))) warning("Gene is not unique.")
-        gene2pmid <- mget(unique(gene), probe2pmid)
+        gene2pmid <- mget(unique(gene), probe2pmid, ifnotfound=NA)
     }
     pmid <- unique(unlist(gene2pmid))
 
