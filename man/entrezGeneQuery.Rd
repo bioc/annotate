@@ -24,8 +24,6 @@ A character vector containing the query string.
 \note{Be very careful about automatically querying this resource. It is
   considered antisocial behavior by the owners. }
 
-\seealso{}
-
 \examples{
   q1<-entrezGeneQuery(c("leukemia", "Homo sapiens"))
   q1

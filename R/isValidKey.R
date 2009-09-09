@@ -1,10 +1,12 @@
 ##Helper function for schema checking:
-.checkSchema <- function(schema){
+.defineBaseSelectSQL <- function(schema){  
+  ##schema <- dbmeta(conn, "DBSCHEMA")
+  ##centralID <- dbmeta(conn, "CENTRALID")
     if(schema == "YEAST_DB"){
         sql <- "select distinct systematic_name from sgd where systematic_name != 'NA';"
-    }else if(length(grep("CHIP_DB$", schema))>=1 ){  #All chip packages have a probes table with probe_ids
+    }else if(length(grep("CHIP_DB$", schema))==1 ){  #All chip packages have a probes table with probe_ids
         sql <- "select distinct probe_id from probes;"
-    }else if(schema == "BOVINE_DB" || schema == "CANINE_DB" || schema == "CHICKEN_DB" || schema == "ECOLI_DB" || schema == "FLY_DB" || schema == "HUMAN_DB" || schema == "MALARIA_DB" || schema == "MOUSE_DB" || schema == "PIG_DB" || schema == "RAT_DB" || schema == "WORM_DB" || schema == "ZEBRAFISH_DB" ){
+    }else if(length(grep("_DB$", schema))==1 && length(grep("CHIP_DB$", schema))==0){
         sql <- "select distinct gene_id from genes;"
     }else{
         stop("Unidentified database schema.  Cannot find central table.  May need to add schema options to isValidKey().")
@@ -18,9 +20,9 @@ isValidKey <- function(ids, pkg){
     if(!is.character(ids)) stop("'ids' must be a character vector of IDs that you wish to validate")    
     ##access the DB, get the primary IDs, and then test if they are in your list of ids
     require(paste(pkg, ".db",sep=""),character.only = TRUE)
-    conn <- do.call(paste(pkg, "_dbconn", sep=""), list())
+    conn <- do.call(paste(pkg, "_dbconn", sep=""), list())    
     schema <- dbmeta(conn, "DBSCHEMA")
-    sql <- .checkSchema(schema)
+    sql <- .defineBaseSelectSQL(schema)
     res <- dbGetQuery(conn, sql)
     res <- as.vector(res[,1])#slice to grab result which will always be a single column (based on the sql queries)
     return(ids %in% res)
@@ -32,7 +34,7 @@ allValidKeys <- function(pkg){
     require(paste(pkg, ".db",sep=""),character.only = TRUE)
     conn <- do.call(paste(pkg, "_dbconn", sep=""), list())
     schema <- dbmeta(conn, "DBSCHEMA")
-    sql <- .checkSchema(schema)    
+    sql <- .defineBaseSelectSQL(schema)    
     res <- dbGetQuery(conn, sql)
     res <- as.vector(res[,1])#slice to grab result which will always be a single column (based on the sql queries)
     return(res)

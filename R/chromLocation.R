@@ -15,12 +15,16 @@
                                              ))
 
     # Define the accessors
-    if (is.null(getGeneric("organism")))
-        setGeneric("organism", function(object)
-                   standardGeneric("organism"))
+##     if (is.null(getGeneric("organism")))
+##         setGeneric("organism", function(object)
+##                    standardGeneric("organism"))
 
     setMethod("organism", "chromLocation", function(object)
               object@organism)
+
+    setMethod("organism", "character", function(object)
+              get(paste(object,"ORGANISM",sep="")))
+
 
     if (is.null(getGeneric("dataSource")))
         setGeneric("dataSource", function(object)

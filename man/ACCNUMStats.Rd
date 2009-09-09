@@ -31,9 +31,6 @@ whatACC(accs)
   ACCNUMStats counts the number of probes that are mapped to different
   types of public ids and have the results presented in a table.
 }
-\value{
- 
-}
 \references{The ACCNUM environment of a platform dependent BioC data package}
 \author{Jianhua Zhang}
 \examples{
