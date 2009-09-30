@@ -18,7 +18,7 @@
 }
 
 \value{
-  The name of the organism used for this package
+  The name of the organism used for this package or object
 }
   
 
@@ -26,7 +26,14 @@
 
 \examples{
   require(hgu95av2.db)
+  ## get the organism for this annotation package
   organism("hgu95av2")
+
+  ## get the organism this object refers to
+  ## (for a ChromLocation object)
+  z <- buildChromLocation("hgu95av2")
+  organism(z)
+
 }
 
 \keyword{manip}
