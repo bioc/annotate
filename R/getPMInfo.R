@@ -28,7 +28,7 @@ tagVals <- function(x,tag) {
 # adds information to various local vectors and lists as xmlDOMApply
 # walks through the tree.
 #
- if (class(x) != "XMLDocument") stop("only applies to XMLDocument")
+ if (!inherits(x, "XMLDocument")) stop("only applies to XMLDocument")
  arts <- function() {
   pmarts <- list()
   pmart <- list()
@@ -48,7 +48,7 @@ tagVals <- function(x,tag) {
      pmart[["abstract"]] <<- xmlValue(x)
     }
    if(inherits(x, "XMLNode") & xmlName(x) == "PubmedArticle") {
-     id <- tagVals(x, "PMID")
+     id <- xmlValue(getNodeSet(x, "/PubmedArticle/*/PMID")[[1L]])
      pmarts[[id]] <<- pmart
      pmart <<- list()
      cur  <<- cur+1
@@ -64,7 +64,7 @@ tagVals <- function(x,tag) {
    }
    if (inherits(x, "XMLNode") & xmlName(x) == "JournalIssue") {
     jikids <- xmlChildren(x)
-    for (i in 1:length(jikids))
+    for (i in seq_along(jikids))
      {
      if (xmlName(jikids[[i]]) == "Volume")
        jinfo <<- c(jinfo,vol=xmlValue(jikids[[i]]))
