@@ -73,7 +73,7 @@ pmidQuery <- function(query) {
 
 genbank <- function(..., disp=c("data","browser"),
                     type=c("accession", "uid"),
-                    pmaddress=.pmfetch("Nucleotide",disp,type)) {
+                    pmaddress=.efetch("Nucleotide",disp,type)) {
     params <- list(...)
     params <- unlist(params)
     disp <- match.arg(disp)
@@ -110,9 +110,12 @@ genbank <- function(..., disp=c("data","browser"),
     }
 }
 
+## bad query string:
+## query = "http://www.ncbi.nih.gov/entrez/utils/pmfetch.fcgi?report=xml&mode=text&tool=bioconductor&db=Nucleotide&id=571320,4103966"
+
 pubmed  <- function(..., disp=c("data","browser"),
                     type=c("uid","accession"),
-                    pmaddress=.pmfetch("PubMed",disp,type)) {
+                    pmaddress=.efetch("PubMed",disp,type)) {
     params <- list(...)
     params <- unlist(params)
 
@@ -256,16 +259,44 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     }
 }
 
-.pmfetch <- function(db="PubMed", disp=c("data","browser"),
+## TODO: retire this method by replacing it with .efetch (NCBI is no longer supporting URLs of this ilk)
+## .pmfetch <- function(db="PubMed", disp=c("data","browser"),
+##                      type=c("uid","accession")) {
+##     ## Returns the base query string for the pmfetch engine @ pubmed
+
+##     disp <- match.arg(disp)
+##     type <- match.arg(type)
+
+##     if (disp == "data") {
+##         base <-
+##     "entrez/utils/pmfetch.fcgi?report=xml&mode=text&tool=bioconductor&db="
+##     }
+##     else {
+##         base1 <- "entrez/query.fcgi?tool=bioconductor&cmd="
+##         if (type == "uid") {
+##             base2 <- "Retrieve&db="
+##         }
+##         else {
+##             base2 <- "Search&db="
+##         }
+##         base <- paste(base1,base2,sep="")
+##     }
+##     return(paste(base,db,sep=""))
+## }
+
+
+## Needed to replace the aging (and obsoleted by NCBI) pmfetch...
+.efetch <- function(db="PubMed", disp=c("data","browser"),
                      type=c("uid","accession")) {
-    ## Returns the base query string for the pmfetch engine @ pubmed
+
+    ## Returns the base query string for the efetch engine
 
     disp <- match.arg(disp)
     type <- match.arg(type)
 
     if (disp == "data") {
         base <-
-    "entrez/utils/pmfetch.fcgi?report=xml&mode=text&tool=bioconductor&db="
+    "entrez/eutils/efetch.fcgi?tool=bioconductor&rettype=xml&retmode=text&db="
     }
     else {
         base1 <- "entrez/query.fcgi?tool=bioconductor&cmd="
@@ -279,6 +310,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     }
     return(paste(base,db,sep=""))
 }
+
 
 .transformAccession <- function(args, disp, type, db) {
     ## Used to change accession ID arguments to query functions

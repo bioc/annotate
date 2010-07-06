@@ -119,7 +119,7 @@ export(
        .getIdTag,
        .getNcbiURL,
        .handleXML,
-       .pmfetch,
+       .efetch,
        .transformAccession,
        ACC2homology,
        accessionToUID,

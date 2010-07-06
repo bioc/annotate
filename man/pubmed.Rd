@@ -9,7 +9,7 @@
 }
 \usage{
 pubmed(...,disp=c("data","browser"), type=c("uid","accession"),
-       pmaddress=.pmfetch("PubMed", disp, type))
+       pmaddress=.efetch("PubMed", disp, type))
 }
 \arguments{
   \item{...}{Vectorized set of Pubmed ID's}
@@ -18,7 +18,7 @@ pubmed(...,disp=c("data","browser"), type=c("uid","accession"),
     user's browser.}
   \item{type}{Denotes whether the arguments are accession numbers or
     UIDS.  Defaults to uids.}
-  \item{pmaddress}{Specific path to the pubmed pmfetch engine from the
+  \item{pmaddress}{Specific path to the pubmed efetch engine from the
     NCBI website.}
 }
 \details{
