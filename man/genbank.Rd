@@ -8,7 +8,7 @@
 }
 \usage{
 genbank(...,disp=c("data","browser"), type=c("accession","uid"),
-        pmaddress=.pmfetch("Nucleotide", disp, type))
+        pmaddress=.efetch("Nucleotide", disp, type))
 }
 \arguments{
   \item{...}{Vectorized set of Genbank accession numbers or NCBI UIDs}
@@ -17,7 +17,7 @@ genbank(...,disp=c("data","browser"), type=c("accession","uid"),
     user's browser.}
   \item{type}{Denotes whether the arguments are accession numbers or
     UIDS.  Defaults to accession values.}
-  \item{pmaddress}{Specific path to the pubmed pmfetch engine from the
+  \item{pmaddress}{Specific path to the pubmed efetch engine from the
     NCBI website.}
 
 }
