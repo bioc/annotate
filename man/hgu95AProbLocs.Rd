@@ -1,5 +1,5 @@
 \name{hgu95AProbLocs}
-\docType{instance}
+\docType{methods}
 \alias{hgu95AProbLocs}
 \title{chromLocation instance hgu95AProbLocs, an example of a chromLocation 
 object}
