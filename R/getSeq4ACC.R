@@ -17,10 +17,15 @@ getGI <- function(accNum){
 
 getSEQ <- function(gi){
 
-    seq <- readLines(paste("http://www.ncbi.nlm.nih.gov/entrez/batchseq.cgi?",
-                 "cmd=&txt=on&save=&cfm=&list_uids=", gi, "&",
-                 "db=nucleotide&extrafeat=16&term=&view=fasta&",
-                 "dispmax=20&SendTo=t&__from=&__to=&__strand=", sep = ""))
+    ## Old stuff left just in case NCBI changes things back on us (10/15/10)
+    ## seq <- readLines(paste("http://www.ncbi.nlm.nih.gov/entrez/batchseq.cgi?",
+    ##              "cmd=&txt=on&save=&cfm=&list_uids=", gi, "&",
+    ##              "db=nucleotide&extrafeat=16&term=&view=fasta&",
+    ##              "dispmax=20&SendTo=t&__from=&__to=&__strand=", sep = ""))
+
+    seq <- readLines(paste("http://www.ncbi.nlm.nih.gov/entrez/eutils/",
+                 "efetch.fcgi?db=nucleotide&rettype=fasta&id=",gi,
+                  sep = ""))
 
     if(length(seq) == 0){
         stop("Failed to extract the sequence")
