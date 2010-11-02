@@ -204,5 +204,6 @@ export(
        clearRepository,
        isValidKey,
        allValidKeys,
-       updateSymbolsToValidKeys
+       updateSymbolsToValidKeys,
+       blastSequences
        )
