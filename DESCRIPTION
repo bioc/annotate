@@ -35,4 +35,4 @@ Collate: AllGenerics.R
          serializeEnv.R 
 	 blastSequences.R
          zzz.R
-biocViews: Annotation, Pathways, GO, Affymetrix
+biocViews: Annotation, Pathways, GO
