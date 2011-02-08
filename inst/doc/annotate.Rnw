@@ -86,7 +86,7 @@ provided in the \Rfunction{annotate} package is provided in
 We now turn our attention to interfaces to the meta-data packages and
 how and when they will be useful.  The annotation library provides
 interface support for the different meta-data packages
-(\url{http://www.bioconductor.org/data/metaData.html} that are available
+(\url{http://www.bioconductor.org/help/bioc-views/release/data/annotation/} that are available
 through the Bioconductor Project. We have tried to make these
 different meta-data packages modular, in the sense that all of them
 should have similar sets of mappings from manufacturer IDs to specific
