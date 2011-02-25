@@ -31,7 +31,7 @@ pubmed(...,disp=c("data","browser"), type=c("uid","accession"),
   WARNING:  The powers that be at NCBI have been known to ban the IP
   addresses of users who abuse their servers (currently defined as
   less then 2 seconds between queries).  Do NOT put this function in
-  a type loop or you may find your access revoked.
+  a tight loop or you may find your access revoked.
 }
 \value{
   If the option "data" is used, an object of type XMLDoc is returned,
