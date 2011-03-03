@@ -9,6 +9,8 @@ importClassesFrom(methods,
                   numeric,
                   vector)
 
+importMethodsFrom(DBI, dbGetQuery)
+
 importMethodsFrom(AnnotationDbi,
                   Definition,
                   GOID,

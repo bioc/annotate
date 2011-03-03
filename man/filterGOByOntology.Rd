@@ -22,7 +22,7 @@ of the ontology specified by \code{ontology}.
 }
 \author{Seth Falcon}
 \examples{
-haveGO <- suppressWarnings(require("GO"))
+haveGO <- suppressWarnings(require("GO.db"))
 if (haveGO) {
     ids <- c("GO:0001838", "GO:0001839")
     stopifnot(all(filterGOByOntology(ids, "BP")))
