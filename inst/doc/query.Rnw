@@ -221,7 +221,7 @@ but we currently have PubMed ID values that we want to use.  The
 
 <<>>=
 y <- genbank(ids[1:10], type="uid")
-b <- xmlRoot(x)
+b <- xmlRoot(y)
 @
 
 At this point the object {\tt b} can be manipulated in a manner similar
