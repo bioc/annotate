@@ -1,3 +1,22 @@
+## Try three times and give error if all attempts fail.
+.tryParseResult <- function(url){
+  for(i in 1:4){
+     tryResult <- try(xmlTreeParse(url, useInternalNodes=TRUE), silent=TRUE)
+     if(is(tryResult,"try-error") && i < 4){
+         Sys.sleep(20)
+     }else if(is(tryResult,"try-error") && i >= 4){
+         msg = paste("After 3 attempts, annotate is still not getting", 
+                     "results from the web service. Please try again later.", 
+                      sep=" ")
+         stop(paste(strwrap(msg,exdent=2), collapse="\n"))  
+     }else{
+	result <- xmlTreeParse(url, useInternalNodes=TRUE)
+	return(result)
+     }
+  }
+}
+
+
 blastSequences <- function(x,database="nr",
                            hitListSize="10",
                            filter="L",
@@ -31,9 +50,9 @@ blastSequences <- function(x,database="nr",
 
   ## and then finally retrieve and parse the result
   url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
-  ## Service needs TIME to generate this file.  So do some counting.
-  Sys.sleep(20) ## 10 seconds sometimes works, but sometimes not.
-  result <- xmlTreeParse(url1, useInternalNodes=TRUE)  
+  ## Service needs TIME to generate this file.  So try a few times as needed.
+  Sys.sleep(20) ## almost always seems to need this much sleep.  
+  result <- .tryParseResult(url1)
   qseq <- xpathApply(result, "//Hsp_qseq", xmlValue)
   hseq <- xpathApply(result, "//Hsp_hseq", xmlValue)
 
@@ -48,7 +67,3 @@ blastSequences <- function(x,database="nr",
   }
   res 
 }
-
-
-
-
