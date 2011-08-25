@@ -8,7 +8,7 @@
 }
 \usage{
 genbank(...,disp=c("data","browser"), type=c("accession","uid"),
-        pmaddress=.efetch("Nucleotide", disp, type))
+        pmaddress=.efetch("gene", disp, type))
 }
 \arguments{
   \item{...}{Vectorized set of Genbank accession numbers or NCBI UIDs}
