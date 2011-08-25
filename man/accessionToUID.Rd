@@ -35,6 +35,9 @@ accessionToUID(...,db=c("genbank","pubmed"))
      xdoc <- genbank(x, type="uid",disp="data")
 
      ## Can handle multiple inputs
-     y <- accessionToUID("M16653","U892893",db="pubmed")
+     y <- accessionToUID("M16653","U892893",db="genbank")
 }
 \keyword{interface}
+
+
+

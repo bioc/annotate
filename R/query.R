@@ -73,7 +73,7 @@ pmidQuery <- function(query) {
 
 genbank <- function(..., disp=c("data","browser"),
                     type=c("accession", "uid"),
-                    pmaddress=.efetch("Nucleotide",disp,type)) {
+                    pmaddress=.efetch("gene",disp,type)) {
     params <- list(...)
     params <- unlist(params)
     disp <- match.arg(disp)
@@ -154,6 +154,7 @@ pubmed  <- function(..., disp=c("data","browser"),
     }
 }
 
+
 accessionToUID <- function(...,db=c("genbank","pubmed")) {
     ## Passed an accession #, returns a pubmed UID
     accNum <- list(...)
@@ -167,25 +168,24 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     accNum <- gsub("\\,","+OR+",accNum)
 
     if (db == "genbank") {
-        db <- "nucleotide"
+        db <- "gene"
     }
     else {
         db <- "PubMed"
     }
     query <- paste(.getNcbiURL(), "entrez/utils/pmqty.fcgi?db=", db,
-                   "&tool=bioconductor&mode=xml&term=",accNum,sep="")
+                   "&tool=bioconductor&term=",accNum,sep="")
 
-    ## get the XML file contents from URL, and remove extra
-    ## text strings before <xml...
     query <- paste(scan(query, what="", sep="\n"), "\n", collapse="\n")
-
-    ## try another way to get UID
-    retVal <- unlist(strsplit(query, "'"))
-    retVal <- grep("gi_[0-9]*", retVal, value=T)
-    if (length(retVal)==0)
-	retVal <- NULL
-    else {
-	retVal <- gsub("gi_", "", retVal)
+    ## clean up unwanted tags to extract the IDs...
+    str <- sub("^.+<Body>","",query)
+    str <- sub("</Body>.+$","",str)
+    str <- gsub("<Br>","",str)
+    str <- gsub("\n","",str)
+    str <- sub("^ ","",str)
+    str <- sub(" $","",str)
+    retVal <- unlist(strsplit(str, " "))
+    if (length(retVal)==0){retVal <- NULL} else {
 	retVal <- paste(retVal, collapse=",")
     }
 
