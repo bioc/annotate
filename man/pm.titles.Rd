@@ -21,8 +21,8 @@ element is the title of the corresponding abstract.
 \seealso{\code{\link{pm.abstGrep}}}
 \examples{
   library("hgu95av2.db")
-  hoxa9 <- "37809_at"
+  hoxa9 <- "37806_at"
   absts <- pm.getabst(hoxa9, "hgu95av2")
-  pm.titles(absts)
+  pm.titles(absts)[[1]][[1]]
 }
 \keyword{manip}

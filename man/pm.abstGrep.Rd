@@ -28,9 +28,9 @@ pm.abstGrep(pattern, absts, ...)
 \seealso{\code{\link{pm.getabst}}, \code{\link{pm.titles}}}
 \examples{
   library("hgu95av2.db")
-  hoxa9 <- "37809_at"
+  hoxa9 <- "37806_at"
   absts <- pm.getabst(hoxa9, "hgu95av2")
-  pm.abstGrep("NUP98", absts[[1]])
-  pm.abstGrep("apoptosis", absts[[1]])
+  pm.abstGrep("SH3", absts[[1]])
+  pm.abstGrep("autism", absts[[1]])
 }
 \keyword{manip}
