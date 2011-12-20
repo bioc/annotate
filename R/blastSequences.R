@@ -1,25 +1,15 @@
 ## Try three times and give error if all attempts fail.
 .tryParseResult <- function(url){
-  tf <- tempfile()
-  
-  for(i in 1:4)
-  {
-      download.file(url, tf)
-      f = file(tf)
-      lines <- readLines(tf)
-      close(f)
-      statusLine <- grep("Status=", lines, value=TRUE)
-      if (length(statusLine) == 0) ## is this XML?
-          return(xmlTreeParse(tf, useInternalNodes=TRUE))
-      if (i < 4)
-        Sys.sleep(10)
-  }
-  msg = paste("After 3 attempts, annotate is still not getting", 
-              "results from the web service. Please try again later.", 
-               sep=" ")
-  stop(paste(strwrap(msg,exdent=2), collapse="\n"))  
+ for (i in 1:4) {
+     result <- tryCatch({
+         xmlTreeParse(url, useInternalNodes=TRUE,
+                      error = xmlErrorCumulator(immediate=FALSE))
+     }, error=function(err) NULL)
+     if (!is.null(result)) return(result)
+     Sys.sleep(10)
+ }
+ stop("no results after 3 attempts; please try again later")
 }
-
 
 ## Using the REST-ish API described at
 ## http://www.ncbi.nlm.nih.gov/blast/Doc/node2.html
@@ -49,20 +39,12 @@ blastSequences <- function(x,database="nr",
    ## wait 5 seconds before request, to be polite, as requested
    ## by the documentation (if we are going to make several requests).
    Sys.sleep(5)
-   resCode <- download.file(url0, results)
-   f = file(results)
-   lines <- readLines(f)
-   close(f)
-   ## Look for job ID
-   ridLine <- grep("RID = ([.]*)", lines, value=TRUE)
-   m <- regexec("RID = ([^\n]*)", ridLine)
-   rm <- regmatches(ridLine, m)
-   rid <- rm[[1]][2]
-   ## Look for RTOE (estimated time to completion)
-   rtoeLine <- grep("RTOE = ",  lines, value=TRUE)
-   m <- regexec("RTOE = ([^\n]*)", rtoeLine)
-   rm <- regmatches(rtoeLine, m)
-   rtoe <- as.integer(rm[[1]][2])
+   post <- htmlTreeParse(url0, useInternalNodes=TRUE)
+   
+   x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
+   rid <- sub(".*RID = ([[:alnum:]]+).*", "\\1", x)
+   rtoe <- as.integer(sub(".*RTOE = ([[:digit:]]+).*", "\\1", x))
+   
    url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
    ## wait RTOE seconds
    Sys.sleep(rtoe)
