@@ -39,6 +39,7 @@ blastSequences <- function(x,database="nr",
    ## wait 5 seconds before request, to be polite, as requested
    ## by the documentation (if we are going to make several requests).
    Sys.sleep(5)
+   require(XML)
    post <- htmlTreeParse(url0, useInternalNodes=TRUE)
    
    x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
