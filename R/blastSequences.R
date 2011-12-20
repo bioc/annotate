@@ -39,6 +39,7 @@ blastSequences <- function(x,database="nr",
    ## wait 5 seconds before request, to be polite, as requested
    ## by the documentation (if we are going to make several requests).
    Sys.sleep(5)
+   require(XML)
    post <- htmlTreeParse(url0, useInternalNodes=TRUE)
    
    x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
@@ -48,7 +49,6 @@ blastSequences <- function(x,database="nr",
    url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
    ## wait RTOE seconds
    Sys.sleep(rtoe)
-   require(XML)
    result <- .tryParseResult(url1)
    qseq <- xpathApply(result, "//Hsp_qseq", xmlValue)
    hseq <- xpathApply(result, "//Hsp_hseq", xmlValue)
