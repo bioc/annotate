@@ -132,7 +132,7 @@ neighborGeneFinder <- function(geneData, keyName = c("unigene", "locuslink"),
     tkpack(baseFrame, expand = FALSE, fill = "x")
     UNFrame <- tkframe(upFrame)
     upNeighbors <- makeViewer(UNFrame, vHeight = 10, vWidth = 15,
-                          vScrol = TRUE, hScrol = FALSE, what = "list")
+                          vScroll = TRUE, hScroll = FALSE, what = "list")
     tkpack(UNFrame, expand = TRUE, fill = "both")
     tkpack(upFrame, side = "left", expand = TRUE, fill = "y", padx = 5)
 
@@ -146,7 +146,7 @@ neighborGeneFinder <- function(geneData, keyName = c("unigene", "locuslink"),
     tkpack(baseFrame, expand = FALSE, fill = "x")
     DNFrame <- tkframe(downFrame)
     downNeighbors <- makeViewer(DNFrame, vHeight = 10, vWidth = 15,
-                          vScrol = TRUE, hScrol = FALSE, what = "list")
+                          vScroll = TRUE, hScroll = FALSE, what = "list")
     tkpack(DNFrame, expand = TRUE, fill = "both")
     tkpack(downFrame, side = "left", expand = TRUE, fill = "y",
            padx = 5)

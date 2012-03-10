@@ -76,7 +76,7 @@ hasGOannote <- function(x, which="MF") {
          stop("need a character argument")
      if(length(x) == 0 )
          return( character(0))
-     wh <- mget(x, env=GOTERM, ifnotfound=NA)
+     wh <- mget(x, envir=GOTERM, ifnotfound=NA)
      return( sapply(wh, Ontology) )
  }
 
@@ -85,9 +85,9 @@ hasGOannote <- function(x, which="MF") {
          stop("need a character argument")
      if(length(x) == 0 )
          return(list())
-     hasMF <- mget(x, env=GOMFPARENTS, ifnotfound=NA)
-     hasBP <- mget(x, env=GOBPPARENTS, ifnotfound=NA)
-     hasCC <- mget(x, env=GOCCPARENTS, ifnotfound=NA)
+     hasMF <- mget(x, envir=GOMFPARENTS, ifnotfound=NA)
+     hasBP <- mget(x, envir=GOBPPARENTS, ifnotfound=NA)
+     hasCC <- mget(x, envir=GOCCPARENTS, ifnotfound=NA)
      lenx <- length(x)
      rval <- vector("list", length=lenx)
      names(rval) <- x
@@ -111,9 +111,9 @@ hasGOannote <- function(x, which="MF") {
          stop("need a character argument")
      if(length(x) == 0 )
          return(list())
-     hasMF <- mget(x, env=GOMFCHILDREN, ifnotfound=NA)
-     hasBP <- mget(x, env=GOBPCHILDREN, ifnotfound=NA)
-     hasCC <- mget(x, env=GOCCCHILDREN, ifnotfound=NA)
+     hasMF <- mget(x, envir=GOMFCHILDREN, ifnotfound=NA)
+     hasBP <- mget(x, envir=GOBPCHILDREN, ifnotfound=NA)
+     hasCC <- mget(x, envir=GOCCCHILDREN, ifnotfound=NA)
      lenx <- length(x)
      rval <- vector("list", length=lenx)
      names(rval) <- x
@@ -135,7 +135,7 @@ hasGOannote <- function(x, which="MF") {
          stop("need a character argument")
      if(length(x) == 0 )
          return(list())
-     terms <- mget(x, env=GOTERM, ifnotfound=NA)
+     terms <- mget(x, envir=GOTERM, ifnotfound=NA)
      isNA = sapply(terms,function(x) !(isS4(x) && is(x, "GOTerms")))
      if( any(isNA) )
          terms = terms[!isNA]

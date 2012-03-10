@@ -2,7 +2,7 @@ LL2homology <- function(homoPkg, llids){
     if(!require(homoPkg, character.only = TRUE))
                   stop("Package homology not available!")
 
-    hgids <- mget(as.character(llids), env = get(paste(homoPkg,
+    hgids <- mget(as.character(llids), envir = get(paste(homoPkg,
                                     "LL2HGID", sep = "")), ifnotfound = NA)
 
     #if(length(hgids) == 1){
@@ -16,7 +16,7 @@ ACC2homology <- function(accs, homoPkg){
     if(!require(homoPkg, character.only = TRUE))
         stop(paste("Package", homoPkg, "not available!"))
 
-    hgids <- mget(as.character(accs), env = get(paste(homoPkg, "ACC2HGID",
+    hgids <- mget(as.character(accs), envir = get(paste(homoPkg, "ACC2HGID",
                   sep = ""), pos = match(paste("package:", homoPkg, sep = ""),
                          search())), ifnotfound = NA)
     return(sapply(hgids, HGID2homology, homoPkg))
@@ -30,7 +30,7 @@ HGID2homology <- function(hgid, homoPkg){
     for(i in hgid){
         options(show.error.messages = FALSE)
         tryMe <- try(get(as.character(i),
-                         env = get(paste(homoPkg, "DATA", sep = ""),
+                         envir = get(paste(homoPkg, "DATA", sep = ""),
                          pos = match(paste("package:", homoPkg, sep = ""),
                          search()))))
         options(show.error.messages = TRUE)
