@@ -469,16 +469,8 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
                    "have mis-matched lengths.\nPlease check this",
                    "discrepancy and re-run.\n"), .call=FALSE)
 
-    ## This if/else not really required anymore -- repository has to be a list.
+    out <- mapply(getCells, genelist, repository, SIMPLIFY=TRUE)
 
-    if (is.list(repository)){
-        out <- NULL
-        for(i in seq(along=repository)){
-            out <- cbind(out, getCells(genelist[[i]], repository[[i]], ...))
-        }
-    }
-
-    else out <- getCells(genelist, repository, ...)
     if (!missing(othernames)) {
         if(is.data.frame(othernames))
             out <- data.frame(out, othernames)
@@ -513,7 +505,6 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
     print(out, type="html", file=filename, caption.placement="top",
           include.rownames=FALSE, sanitize.text.function=function(x) x,
           ...)
-
 }
 
 getCells <-  function(ids, repository = "ug", ...){
@@ -715,7 +706,8 @@ getQuery4SP <- function(ids, ...){
   ## SwissProt ids are not consistent enough to do any sort of garbage checking
   ## so here we rely on a blank being passed by the end user.
   blanks <- ids == "&nbsp;"
-  out <- paste("http://us.expasy.org/cgi-bin/get-entries?disp=1&AC=",ids, sep="")
+  ## http://www.uniprot.org/uniprot?query=1&AC=P21108
+  out <- paste("http://www.uniprot.org/uniprot/", ids, sep="")
   out[blanks] <- "&nbsp;"
   return(out)
 }
