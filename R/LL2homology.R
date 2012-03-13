@@ -1,4 +1,5 @@
 LL2homology <- function(homoPkg, llids){
+    warning("This function has been DEPRECATED.")
     if(!require(homoPkg, character.only = TRUE))
                   stop("Package homology not available!")
 
@@ -13,6 +14,7 @@ LL2homology <- function(homoPkg, llids){
 }
 
 ACC2homology <- function(accs, homoPkg){
+    warning("This function has been DEPRECATED.")
     if(!require(homoPkg, character.only = TRUE))
         stop(paste("Package", homoPkg, "not available!"))
 
@@ -23,6 +25,7 @@ ACC2homology <- function(accs, homoPkg){
 }
 
 HGID2homology <- function(hgid, homoPkg){
+    warning("This function has been DEPRECATED.")
     homoGenes <- list()
 
     #  hgid may be of length greater than 1 as a LL id may be mapped to
