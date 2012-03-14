@@ -469,7 +469,7 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
                    "have mis-matched lengths.\nPlease check this",
                    "discrepancy and re-run.\n"), .call=FALSE)
 
-    out <- mapply(getCells, genelist, repository, SIMPLIFY=TRUE)
+    out <- mapply(getCells, genelist, repository, ..., SIMPLIFY=TRUE)
 
     if (!missing(othernames)) {
         if(is.data.frame(othernames))
@@ -706,7 +706,7 @@ getQuery4SP <- function(ids, ...){
   ## SwissProt ids are not consistent enough to do any sort of garbage checking
   ## so here we rely on a blank being passed by the end user.
   blanks <- ids == "&nbsp;"
-  ## http://www.uniprot.org/uniprot?query=1&AC=P21108
+  ## http://www.uniprot.org/uniprot/P21108
   out <- paste("http://www.uniprot.org/uniprot/", ids, sep="")
   out[blanks] <- "&nbsp;"
   return(out)
