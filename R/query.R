@@ -469,7 +469,7 @@ htmlpage <- function (genelist, filename, title, othernames, table.head,
                    "have mis-matched lengths.\nPlease check this",
                    "discrepancy and re-run.\n"), .call=FALSE)
 
-    out <- mapply(getCells, genelist, repository, SIMPLIFY=TRUE)
+    out <- mapply(getCells, genelist, repository, ..., SIMPLIFY=TRUE)
 
     if (!missing(othernames)) {
         if(is.data.frame(othernames))
