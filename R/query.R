@@ -588,8 +588,8 @@ getTDRows <- function (ids, repository = "ug", ...){
 getQuery4GO <- function(ids, ...) {
 ##GO IDs
   blanks <- ids == "&nbsp;"
-  AMIGO_URL <- "http://www.godatabase.org/cgi-bin/amigo/go.cgi?view=details&search_constraint=terms&depth=0&query=%s"
-  out <- sapply(ids, function(x) sprintf(AMIGO_URL, x))
+  AMIGO_URL <- "http://amigo.geneontology.org/cgi-bin/amigo/term_details?term="
+  out <- paste(AMIGO_URL, ids, sep = "")
   out[blanks] = "&nbsp;"
   return(out)
 }
@@ -731,7 +731,7 @@ getQuery4OMIM <- function(ids, ...){
   if(is.numeric(ids))
     blanks <- is.na(ids)
 
-  out <- paste("http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=", ids, sep="")
+  out <- paste("http://www.omim.org/entry/", ids, sep="")
   if(!is.null(blanks))
     out[blanks] <- "&nbsp;"
 
@@ -776,8 +776,8 @@ getQuery4ENSEMBL <- function(ids, ...){
     else
         stop("To make links for Ensembl, you need to pass a 'species' argument.",
              call. = FALSE)
-    out <- paste("http://www.ensembl.org/", species, "/Search/Summary?species=",
-                 species, ";idx=;q=", ids, sep = "")
+    out <- paste("http://www.ensembl.org/", species, "/Gene/Variation_Gene/Table?g=",
+                 ids, sep = "")
     out[bIDS] <- "&nbsp;"
     
     out
