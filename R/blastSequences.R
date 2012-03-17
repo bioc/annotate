@@ -1,6 +1,6 @@
-## Try three times and give error if all attempts fail.
+## Try five times and give error if all attempts fail.
 .tryParseResult <- function(url){
- for (i in 1:4) {
+ for (i in 1:6) {
      result <- tryCatch({
          xmlTreeParse(url, useInternalNodes=TRUE,
                       error = xmlErrorCumulator(immediate=FALSE))
@@ -8,7 +8,7 @@
      if (!is.null(result)) return(result)
      Sys.sleep(10)
  }
- stop("no results after 3 attempts; please try again later")
+ stop("no results after 5 attempts; please try again later")
 }
 
 ## Using the REST-ish API described at
