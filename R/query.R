@@ -776,7 +776,7 @@ getQuery4ENSEMBL <- function(ids, ...){
     else
         stop("To make links for Ensembl, you need to pass a 'species' argument.",
              call. = FALSE)
-    out <- paste("http://www.ensembl.org/", species, "/Gene/Variation_Gene/Table?g=",
+    out <- paste("http://www.ensembl.org/", species, "/Gene/Summary?g=",
                  ids, sep = "")
     out[bIDS] <- "&nbsp;"
     
