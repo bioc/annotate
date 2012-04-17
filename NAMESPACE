@@ -177,7 +177,6 @@ export(
        lookUp,
        makeAnchor,
        mapOrgs,
-       neighborGeneFinder,
        p2LL,
        pm.abstGrep,
        pm.getabst,

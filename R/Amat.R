@@ -97,12 +97,7 @@ GOmnplot = function (x, eset, data = "hgu133plus2", group, ...)
 }
 
 p2LL = function(data) {
-    .Deprecated("p2LL", package="annotate")
-    LLe = get(paste(data, "ENTREZID", sep=""))
-    g1 = unlist(as.list(LLe))
-    g2 = names(g1)
-    names(g1) = NULL
-    split(g2, g1)
+    .Defunct("p2LL", package="annotate")
 }
 
 setGeneric("KEGG2heatmap", function(x, eset, data, ...) 

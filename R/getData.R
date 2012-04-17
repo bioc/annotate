@@ -48,8 +48,7 @@ getGO <- function(x, data) {
   }
 
   getLL <- function(x, data) {
-      .Deprecated("getLL", package="annotate", msg="please use getEG")
-      unlist(lookUp(x, data, "ENTREZID"))
+      .Defunct("getLL", package="annotate", msg="please use getEG")
   }
 
   getEG <- function(x, data) {
