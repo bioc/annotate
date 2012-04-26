@@ -3,7 +3,6 @@
 \alias{getQuery4UG}
 \alias{getQuery4SP}
 \alias{getQuery4OMIM}
-\alias{getQuery4LL}
 \alias{getQuery4GB}
 \alias{getQuery4Affy}
 \alias{getQuery4FB}
@@ -25,7 +24,6 @@
 getQueryLink(ids, repository = "ug", ...)
 getTDRows(ids, repository = "ug", ...)
 getCells(ids, repository = "ug", ...)
-getQuery4LL(ids, ...)
 getQuery4UG(ids, ...)
 getQuery4SP(ids, ...)
 getQuery4GB(ids, ...)
@@ -50,9 +48,6 @@ getQuery4ENSEMBL(ids, ...)
   for \code{\link{getQuery4ENSEMBL}} for more information.}
 }
 \details{
- \code{\link{getQuery4LL}} constructs hypertext links to LocusLink using the
- provided ids.
- 
  \code{\link{getQuery4GB}} constructs hypertext links to GenBank using the
  provided ids.
  
@@ -72,9 +67,8 @@ getQuery4ENSEMBL(ids, ...)
  the provided ids.
 
  \code{\link{getQuery4EN}} constructs hypertext links to EntrezGene
- using the provided ids. This supercedes \code{getQuery4LL}, as
- LocusLink has been deprecated by NCBI.
-
+ using the provided ids. 
+ 
  \code{\link{getQuery4TR}} constructs hypertext links to TAIR using the
  provided ids.
 
@@ -92,7 +86,7 @@ getQuery4ENSEMBL(ids, ...)
  \code{\link{getCells}} constructs each cell of the resulting table.
 
  Note that some of these functions (\code{getQuery4OMIM},
- \code{getQuery4UG}, \code{getQuery4LL}), \code{getQuery4FB} attempt to
+ \code{getQuery4UG}, \code{getQuery4FB}) attempt to
  return empty cells for ids that don't make sense, rather than broken
  links. For the other getQuery4XX functions, the end user must replace
  all nonsense ids with "&nbsp;" in order to have an empty cell.

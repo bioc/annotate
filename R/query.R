@@ -323,15 +323,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 }
 
 genelocator <- function(x) {
-    .Deprecated("none", package="annotate", msg = "is no longer supported")
-  done<-FALSE
-  while(!done) {
-    v <- identify(x, n=1)
-    if (length(v)==0)
-      done <- TRUE
-    else
-      print(paste("hi I'm number", v))
-  }
+    .Defunct("none", package="annotate", msg = "is no longer supported")
 }
 
 
@@ -534,7 +526,6 @@ getCells <-  function(ids, repository = "ug", ...){
 
 ## getQueryLink <-function (ids, repository = "ug", ...){
 ##   switch(tolower(repository), ug = return(getQuery4UG(ids)),
-##          ll = return(getQuery4LL(ids)), affy = return(getQuery4Affy(ids)),
 ##          gb = return(getQuery4GB(ids)), sp = return(getQuery4SP(ids)),
 ##          omim = return(getQuery4OMIM(ids)), fb = return(getQuery4FB(ids)),
 ##          en = return(getQuery4EN(ids)), tr = return(getQuery4TR(ids)),
@@ -627,33 +618,7 @@ getQuery4UG <- function (ids, ...){
 }
 
 getQuery4LL <- function (ids, ...) {
-  ## Here we rely on Entrez Gene IDs being all numeric to filter out garbage
-  ## that will result in busted links.
-  .Deprecated(msg="The 'll' repository argument is deprecated. Please use 'en'\n.")
-  if (is.factor(ids)) {
-    options(warn = -1)
-    ids <- as.numeric(as.character(ids))
-    options(warn = 0)
-    blanks <- is.na(ids)
-  }
-  if (is.character(ids)) {
-    options(warn = -1)
-    ids <- as.numeric(ids)
-    options(warn = 0)
-    blanks <- is.na(ids)
-  }
-  if (is.numeric(ids))
-    blanks <- is.na(ids)
-  out <- vector()
-  for (i in seq(along = ids)) {
-    if (!blanks[i])
-      out[i] <-
-        paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=gene&cmd=Retrieve&dopt=Graphics&list_uids=",
-
-              ids[i], sep = "")
-    else out[i] <- "&nbsp;"
-  }
-  return(out)
+  .Defunct(msg="The 'll' repository argument is deprecated. Please use 'en'\n.")
 }
 
 getQuery4EN <- function (ids, ...){

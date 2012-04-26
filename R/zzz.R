@@ -28,7 +28,6 @@
 
 .setDefaultRepositories<- function() {
     setRepository("ug", getQuery4UG)
-    setRepository("ll", getQuery4LL)
     setRepository("affy", getQuery4Affy)
     setRepository("gb", getQuery4GB)
     setRepository("sp", getQuery4SP)

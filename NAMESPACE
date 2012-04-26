@@ -140,7 +140,6 @@ export(
        findChr4LL,
        findNeighbors,
        genbank,
-       genelocator,
        getAnnMap,
        getBoundary,
        getEG,
