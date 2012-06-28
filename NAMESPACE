@@ -66,6 +66,10 @@ importFrom(utils,
 importFrom(xtable,
            xtable)
 
+importFrom(XML,
+           xmlParse,
+           xpathApply,
+           xmlValue)
 
 exportClasses(
               chromLocation,

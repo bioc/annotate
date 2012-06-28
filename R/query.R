@@ -156,6 +156,7 @@ pubmed  <- function(..., disp=c("data","browser"),
 
 
 accessionToUID <- function(...,db=c("genbank","pubmed")) {
+    #require(XML)
     ## Passed an accession #, returns a pubmed UID
     accNum <- list(...)
     accNum <- unlist(accNum)
@@ -173,18 +174,15 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     else {
         db <- "PubMed"
     }
-    query <- paste(.getNcbiURL(), "entrez/utils/pmqty.fcgi?db=", db,
+    query <- paste(.getNcbiURL(), "entrez/eutils/esearch.fcgi?db=", db,
                    "&tool=bioconductor&term=",accNum,sep="")
 
-    query <- paste(scan(query, what="", sep="\n"), "\n", collapse="\n")
-    ## clean up unwanted tags to extract the IDs...
-    str <- sub("^.+<Body>","",query)
-    str <- sub("</Body>.+$","",str)
-    str <- gsub("<Br>","",str)
-    str <- gsub("\n","",str)
-    str <- sub("^ ","",str)
-    str <- sub(" $","",str)
-    retVal <- unlist(strsplit(str, " "))
+    ## parse using XML package
+    doc <- xmlParse(query)
+    res <- xpathApply(doc=doc, path="/eSearchResult/IdList/Id",
+                      fun=xmlValue)
+    
+    retVal <- unlist(res)
     if (length(retVal)==0){retVal <- NULL} else {
 	retVal <- paste(retVal, collapse=",")
     }
@@ -235,7 +233,8 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     }
 
     if (!exists("ncbiURL")) {
-        ncbiURL <- "http://www.ncbi.nih.gov/"
+        ncbiURL <- "http://eutils.ncbi.nlm.nih.gov"
+        ## old one: "http://www.ncbi.nih.gov/"
     }
 
     return(ncbiURL)

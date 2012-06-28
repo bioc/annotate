@@ -13,7 +13,7 @@ accessionToUID(...,db=c("genbank","pubmed"))
   \item{db}{Which database this accession number refers to, defaults to Genbank}
 }
 \details{
-  Utilizes the PubMed tool pmqty.cgi to convert an accession number
+  Utilizes the PubMed tool esearch.fcgi to convert an accession number
   into a valid NCBI UID number.
 
   WARNING:  The powers that be at NCBI have been known to ban the IP
