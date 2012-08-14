@@ -93,7 +93,7 @@ mybs = DNAString(myseq)
 
 match1 = matchPattern(as.character(myPr[1,1]), mybs)
 match1
-as.matrix(match1)
+as.matrix(ranges(match1))
 myPr[1,5]
 @
 And we can see that in this case the 13th nucleotide is indeed in
@@ -129,7 +129,7 @@ match2 = matchPattern(reverseComplement(DNAString(Prstr)), mybs)
 
 nchar(match2)
 
-nchar(myseq) - as.matrix(match2)
+nchar(myseq) - as.matrix(ranges(match2))
 myPr[1,5]
 @
 

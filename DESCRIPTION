@@ -7,7 +7,7 @@ Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
 Depends: R (>= 2.10), AnnotationDbi (>= 0.1.15)
 Imports: Biobase, AnnotationDbi, DBI, xtable, graphics, utils, stats,
 	 methods, XML (>= 0.92-2)
-Suggests: Biobase, hgu95av2.db, genefilter, Biostrings (>= 2.4.4), rae230a.db,
+Suggests: Biobase, hgu95av2.db, genefilter, Biostrings (>= 2.25.10), rae230a.db,
           rae230aprobe, tkWidgets, GO.db, org.Hs.eg.db, XML (>= 0.92-2),
           org.Mm.eg.db, hom.Hs.inp.db, humanCHRLOC, Rgraphviz
 License: Artistic-2.0
