@@ -18,6 +18,10 @@ annPkgName <- function(name, type=c("db", "env")) {
       name
 }
 
+## For cases where there is not a Bimap, but where there is an AnnoationDb
+## object with a cols() value that matches the map argument, we want getAnnMap
+## to spawn up an AnnotationDbMap object and return that.
+
 getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
     typeMissed <- FALSE
     searchName <- NULL
