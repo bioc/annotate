@@ -9,7 +9,7 @@ Imports: Biobase, AnnotationDbi, DBI, xtable, graphics, utils, stats,
 	 methods, XML (>= 0.92-2), BiocGenerics (>= 0.1.13)
 Suggests: Biobase, hgu95av2.db, genefilter, Biostrings (>= 2.25.10), rae230a.db,
           rae230aprobe, tkWidgets, GO.db, org.Hs.eg.db, XML (>= 0.92-2),
-          org.Mm.eg.db, hom.Hs.inp.db, humanCHRLOC, Rgraphviz
+          org.Mm.eg.db, hom.Hs.inp.db, humanCHRLOC, Rgraphviz, RUnit,
 License: Artistic-2.0
 LazyLoad: yes
 Collate: AllGenerics.R
