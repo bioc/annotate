@@ -73,5 +73,15 @@ getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
         }
     })
     mapName <- paste(annObjPrefix(chip), map, sep="")
-    get(mapName, envir=pkgEnv, inherits=FALSE)
+    if(exists(mapName, envir=pkgEnv, inherits=FALSE)){
+      return( get(mapName, envir=pkgEnv, inherits=FALSE) ) 
+    }else{
+      ## spawn up a new AnnotationDbMap
+      ## I have to turn chip into an AnnotationDb object... charVec -> object
+      ## AND I should probably use a constructor for this to make sure that
+      ## things are kosher!
+  #    new(AnnotationDbMap, AnnotDb=chip, cols=map)
+      ## temp:
+      return( get(mapName, envir=pkgEnv, inherits=FALSE) ) 
+    }
 }
