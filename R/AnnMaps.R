@@ -76,12 +76,11 @@ getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
     if(exists(mapName, envir=pkgEnv, inherits=FALSE)){
       return( get(mapName, envir=pkgEnv, inherits=FALSE) ) 
     }else{
+      ## chip will be a character, but we need to make it into a real thing.
       ## spawn up a new AnnotationDbMap
-      ## I have to turn chip into an AnnotationDb object... charVec -> object
-      ## AND I should probably use a constructor for this to make sure that
-      ## things are kosher!
-  #    new(AnnotationDbMap, AnnotDb=chip, cols=map)
-      ## temp:
-      return( get(mapName, envir=pkgEnv, inherits=FALSE) ) 
+      realChip <- eval(parse(text=chip))
+      if(map %in% cols(realChip)){ ## if cols says its present
+        return (new("AnnotationDbMap", AnnotDb=realChip, cols=map))
+      }
     }
 }
