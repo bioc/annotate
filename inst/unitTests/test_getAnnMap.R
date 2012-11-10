@@ -10,5 +10,5 @@ test_getAnnMap <- function(){
   checkTrue( class(map) == "AnnDbMap" )
   ## and test for a map that does not (but which is available via select)
   map2 <- getAnnMap("ONTOLOGY","org.Hs.eg.db")
-  checkTrue( class(map2) == "AnnotationDbMap" )
+  checkTrue( class(map2) == "FlatBimap" )
 }

@@ -77,10 +77,33 @@ getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
       return( get(mapName, envir=pkgEnv, inherits=FALSE) ) 
     }else{
       ## chip will be a character, but we need to make it into a real thing.
-      ## spawn up a new AnnotationDbMap
-      realChip <- eval(parse(text=chip))
-      if(map %in% cols(realChip)){ ## if cols says its present
-        return (new("AnnotationDbMap", AnnotDb=realChip, cols=map))
+      ## spawn up a new FlatBimap
+      db <- eval(parse(text=chip))
+      if(map %in% cols(db)){ ## if cols says its present
+##         #return (new("AnnotationDbMap", AnnotDb=db, cols=map))
+##         cols <- map
+##         keys <- keys(db)
+##         suppressWarnings(tab <- select(db, keys, cols))
+## ## idx = apply(tab, MARGIN=1, function(x){!any(is.na(x))})
+## ## tab <- tab[idx,]
+##         lkys <- unique(tab[,1])[!is.na(unique(tab[,1]))]
+##         rkys <- unique(tab[,2])[!is.na(unique(tab[,2]))]
+##         bm <- new("FlatBimap",
+##                   colmetanames=c("Lkeyname", "Rkeyname"),
+##                   direction=1,
+##                   data=tab,
+##                   Lkeys=lkys,
+##                   Rkeys=rkys)  ## 1st two cols are what matters
+##         return(bm)
+           return(AnnotationDbi:::makeFlatBimapUsingSelect(db,
+                                                           col=map))
       }
     }
 }
+
+
+
+## code to just make a flatBimap from scratch
+## library(org.Hs.eg.db)
+## tab = select(org.Hs.eg.db, keys=c(1,2,3), cols="CHR")
+## bm = new("FlatBimap", colmetanames=c("Lkeyname", "Rkeyname"), direction=1, data=tab, Lkeys=tab[,1], Rkeys=tab[,2])  

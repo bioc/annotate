@@ -3,6 +3,9 @@ import(BiocGenerics)
 importClassesFrom(Biobase,
                   eSet)
 
+importClassesFrom(AnnotationDbi,
+                  FlatBimap)
+
 importClassesFrom(methods,
                   ANY,
                   character,
