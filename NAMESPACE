@@ -56,7 +56,6 @@ importFrom(graphics,
            plot)
 
 importFrom(methods,
-           "@<-",
            is,
            new)
 
