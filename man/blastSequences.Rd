@@ -48,8 +48,11 @@
 }
 
 \examples{
+
 ## x can be an entrez gene ID
 blastSequences(17702)
+
+if(interactive()){
 
 ## or x can be a sequence
 blastSequences(x = "GGCCTTCATTTACCCAAAATG")
@@ -57,4 +60,6 @@ blastSequences(x = "GGCCTTCATTTACCCAAAATG")
 ## hitListSize does not promise that you will get the number of matches you
 ## want..  It will just try to get that many.
 blastSequences(x = "GGCCTTCATTTACCCAAAATG", hitListSize="20")
+
+}
 }

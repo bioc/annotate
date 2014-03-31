@@ -6,7 +6,7 @@
                       error = xmlErrorCumulator(immediate=FALSE))
      }, error=function(err) NULL)
      if (!is.null(result)) return(result)
-     Sys.sleep(10)
+     Sys.sleep(30)
  }
  stop("no results after 5 attempts; please try again later")
 }
@@ -38,17 +38,20 @@ blastSequences <- function(x,database="nr",
    results <- tempfile()
    ## wait 5 seconds before request, to be polite, as requested
    ## by the documentation (if we are going to make several requests).
-   Sys.sleep(5)
+   ## Sys.sleep(10)
    require(XML)
    post <- htmlTreeParse(url0, useInternalNodes=TRUE)
    
    x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
    rid <- sub(".*RID = ([[:alnum:]]+).*", "\\1", x)
-   rtoe <- as.integer(sub(".*RTOE = ([[:digit:]]+).*", "\\1", x))
+   ## start by taking however long NCBI thinks it will take and multiply by 20
+   ## sadly, I did NOT make that number up.  :(
+   rtoe <- as.integer(sub(".*RTOE = ([[:digit:]]+).*", "\\1", x)) * 20
    
    url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
    ## wait RTOE seconds
-   Sys.sleep(rtoe)
+   message("Waiting for NCBI to process the request")
+   Sys.sleep(rtoe)   
    result <- .tryParseResult(url1)
    qseq <- xpathApply(result, "//Hsp_qseq", xmlValue)
    hseq <- xpathApply(result, "//Hsp_hseq", xmlValue)
@@ -65,3 +68,4 @@ blastSequences <- function(x,database="nr",
    res 
 }
 
+## took 11.5 minutes to do a blast...  (ugh)
