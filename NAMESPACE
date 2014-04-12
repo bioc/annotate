@@ -23,6 +23,7 @@ importMethodsFrom(AnnotationDbi,
                   Synonym,
                   as.list,
                   colnames,
+                  columns,
                   dbmeta,
                   eapply,
                   exists,
@@ -71,8 +72,12 @@ importFrom(xtable,
            xtable)
 
 importFrom(XML,
+           getNodeSet,
            htmlParse,
+           xmlDOMApply,
            xmlParse,
+           xmlChildren,
+           xmlName,
            xpathApply,
            xmlValue)
 

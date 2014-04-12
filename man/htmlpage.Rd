@@ -62,7 +62,6 @@ htmlpage(genelist, filename, title, othernames, table.head,
 \author{Robert Gentleman <rgentlem@fhcrc.org>, further
   modifications by James W. MacDonald <jmacdon@med.umich.edu>}
 \examples{
-  library("annotate")
   ## A very simple example. Two columns, one with links, the other without.
 
   gos <- paste("GO:000000", 1:9, sep="")

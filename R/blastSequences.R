@@ -61,11 +61,11 @@ blastSequences <- function(x,database="nr",
    ## Instead lets put it into a DNAStringSet and make a MultipleSeqAlignment
    ## out of it.
    require(Biostrings)
-   res <- list()
-   for(i in seq_len(length(qseq))){
-     res[i] <- DNAMultipleAlignment( c(hseq[[i]],qseq[[i]]),
-                                     rowmask=as(IRanges(), "NormalIRanges"),
-                                     colmask=as(IRanges(), "NormalIRanges"))
+   res <- vector("list", length(qseq))
+   for(i in seq_along(qseq)){
+     res[[i]] <- Biostrings::DNAMultipleAlignment(
+         c(hseq[[i]],qseq[[i]]), rowmask=as(IRanges(), "NormalIRanges"),
+         colmask=as(IRanges(), "NormalIRanges"))
    }
    res 
 }
