@@ -194,10 +194,6 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 .handleXML <- function(query,handlers=NULL) {
     ## In the case of an error retrieving proper XML output,
     ## will return NA to the calling function
-    require(XML) || stop("Sorry, you need the XML package!")
-    ## Make sure that XML version is what we require
-    ## !!! Need to make this automatic, hardcode version in for now
-
     options(show.error.messages = FALSE)
     on.exit(options(show.error.messages = TRUE))
 

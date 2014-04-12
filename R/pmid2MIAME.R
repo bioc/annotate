@@ -6,7 +6,6 @@ pmid2MIAME = function (pmid)
 #
 # need to think about validity checking here .. DTD?
 #
-    require("XML") || stop("need the XML package for this function")
     x = pubmed(pmid)
     rr = xmlRoot(x)
     top = xmlChildren(rr)

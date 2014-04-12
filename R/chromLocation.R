@@ -272,7 +272,7 @@ chrCats<-function(data)
     {
       strToManip<-xx[[i]]
 
-      if (length(grep("|", strToManip, fixed=T)) > 0)
+      if (length(grep("|", strToManip, fixed=TRUE)) > 0)
       {
         strToManip<-unlist(strsplit(strToManip, "|", fixed=TRUE))
       }

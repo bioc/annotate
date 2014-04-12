@@ -27,8 +27,6 @@ blastSequences <- function(x,database="nr",
                            program="blastn",
                            timeout=40)
 {
-   require(XML)
-
    ## TODO: lots of argument checking and testing.  Also,
    ## depending on which program string is used we need to make the correct
    ## kind of object at the end (so blastn means DNAMultipleAlignment, and
