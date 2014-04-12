@@ -197,12 +197,6 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     require(XML) || stop("Sorry, you need the XML package!")
     ## Make sure that XML version is what we require
     ## !!! Need to make this automatic, hardcode version in for now
-    xmlVers <- packageDescription("XML",fields="Version")
-    reqXmlVers <- "0.92-2"
-    if (compareVersion(xmlVers,reqXmlVers) < 0)
-        stop(paste("Installed XML version is ",xmlVers,
-                   " while this functionality requires ", reqXmlVers,
-                   ":  Please update your XML package.",sep=""))
 
     options(show.error.messages = FALSE)
     on.exit(options(show.error.messages = TRUE))
@@ -214,7 +208,6 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 
     retVal <- NULL
     xml <- try(xmlTreeParse(query,asText=TRUE,handlers=NULL,asTree=TRUE))
-    options(show.error.messages = TRUE)
 
     if (inherits(xml,"try-error") == TRUE) {
         return(NA)
