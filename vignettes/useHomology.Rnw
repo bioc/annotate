@@ -116,7 +116,7 @@ the same lists of values when using maps like this.
 You can of course look at the contents of a mapping in the usual way:
 
 <<listMapping>>=
-as.list(hom.Hs.inpMUSMU)[1:4]
+as.list(hom.Hs.inpMUSMU[1:4])
 @
 
 When you do this you will probably notice that most of the seed
@@ -206,7 +206,7 @@ interest:
 # make a connection to the human database
 mycon <- hom.Hs.inp_dbconn()
 # make a list of all the tables that are available in the DB
-dbListTables(mycon)
+head(dbListTables(mycon))
 # make a list of the columns in the table of interest
 dbListFields(mycon, "mus_musculus")
 @

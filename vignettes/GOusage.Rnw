@@ -240,7 +240,7 @@ We can find out how many terms are in each of the different ontologies
 by:
 <<sizeofonts>>=
 
- zz = eapply(GOTERM, function(x) x@Ontology)
+ zz = Ontology(GOTERM)
  table(unlist(zz))
 
 @
@@ -270,12 +270,12 @@ convert the data from \Robject{GOTERM} into a character vector to make
 it easier to do multiple searches.
 
 <<finding these>>=
- goterms = unlist(eapply(GOTERM, function(x) x@Term))
- whmf = grep("molecular_function", goterms)
+ goterms = unlist(Term(GOTERM))
+ whmf = grep("fertilization", goterms)
 @
 
 So we see that there are \Sexpr{length(whmf)} terms with the string
-``molecular\_function'' in them in the ontology. They can be accessed
+``fertilization'' in them in the ontology. They can be accessed
 by subsetting the \Robject{goterms} object.
 
 <<subsetGT>>=

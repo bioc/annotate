@@ -168,8 +168,7 @@ stores all the keys contained by the \Robject{hgu95av2GO} mapping object to
 variable \textit{temp} and displays the first five keys on the screen:
 
 <<getGO>>=
-temp <- as.list(hgu95av2GO)
-temp[5]
+as.list(hgu95av2GO[5])
 @
 
 To obtain annotation for a given set of keys, one may use the
