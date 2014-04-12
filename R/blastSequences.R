@@ -1,14 +1,21 @@
 ## Try five times and give error if all attempts fail.
-.tryParseResult <- function(url){
- for (i in 1:6) {
-     result <- tryCatch({
-         xmlTreeParse(url, useInternalNodes=TRUE,
-                      error = xmlErrorCumulator(immediate=FALSE))
-     }, error=function(err) NULL)
-     if (!is.null(result)) return(result)
-     Sys.sleep(30)
- }
- stop("no results after 5 attempts; please try again later")
+.tryParseResult <- function(url, rtoe, timeout) {
+    start <- Sys.time()
+    end <- Sys.time() + timeout
+    repeat {
+        Sys.sleep(min(rtoe, end - Sys.time()))
+        result <- tryCatch({
+            xmlParse(url, error = xmlErrorCumulator(immediate=FALSE))
+        }, XMLParserErrorList=function(err) {
+            NULL
+        })
+        if (!is.null(result))
+            return(result)
+        if (Sys.time() > end)
+            break
+    }
+    stop("'blastSequences' timeout after ", as.integer(Sys.time() - start),
+         " seconds", call.=FALSE)
 }
 
 ## Using the REST-ish API described at
@@ -17,7 +24,11 @@ blastSequences <- function(x,database="nr",
                            hitListSize="10",
                            filter="L",
                            expect="10",
-                           program="blastn"){
+                           program="blastn",
+                           timeout=40)
+{
+   require(XML)
+
    ## TODO: lots of argument checking and testing.  Also,
    ## depending on which program string is used we need to make the correct
    ## kind of object at the end (so blastn means DNAMultipleAlignment, and
@@ -36,23 +47,14 @@ blastSequences <- function(x,database="nr",
                   "&EXPECT=",expect,"&PROGRAM=",program, sep="")
    url0 <- sprintf("%s?%s&CMD=Put", baseUrl, query)
    results <- tempfile()
-   ## wait 5 seconds before request, to be polite, as requested
-   ## by the documentation (if we are going to make several requests).
-   ## Sys.sleep(10)
-   require(XML)
-   post <- htmlTreeParse(url0, useInternalNodes=TRUE)
+   post <- htmlParse(url0)
    
    x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
    rid <- sub(".*RID = ([[:alnum:]]+).*", "\\1", x)
-   ## start by taking however long NCBI thinks it will take and multiply by 20
-   ## sadly, I did NOT make that number up.  :(
-   rtoe <- as.integer(sub(".*RTOE = ([[:digit:]]+).*", "\\1", x)) * 20
-   
+   rtoe <- as.integer(sub(".*RTOE = ([[:digit:]]+).*", "\\1", x))
    url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
-   ## wait RTOE seconds
-   message("Waiting for NCBI to process the request")
-   Sys.sleep(rtoe)   
-   result <- .tryParseResult(url1)
+   message("estimated response time: ", rtoe, " seconds")
+   result <- .tryParseResult(url1, rtoe, timeout)
    qseq <- xpathApply(result, "//Hsp_qseq", xmlValue)
    hseq <- xpathApply(result, "//Hsp_hseq", xmlValue)
 

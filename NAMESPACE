@@ -71,6 +71,7 @@ importFrom(xtable,
            xtable)
 
 importFrom(XML,
+           htmlParse,
            xmlParse,
            xpathApply,
            xmlValue)

@@ -12,7 +12,8 @@
 }
 
 \usage{
-  blastSequences(x, database, hitListSize, filter, expect, program)
+  blastSequences(x, database, hitListSize, filter, expect, program,
+      timeout=40)
 }
 
 \arguments{
@@ -35,6 +36,9 @@
   \item{program}{
     Which program do you want to use for blast.  Default value is blastn.
   }
+  \item{timeout}{
+    Approximate maximum length of time, in seconds, to wait for a result.
+  }
 }
 
 \details{
@@ -50,16 +54,16 @@
 \examples{
 
 ## x can be an entrez gene ID
-blastSequences(17702)
+blastSequences(17702, timeout=40)
 
-if(interactive()){
+if (interactive()) {
 
-## or x can be a sequence
-blastSequences(x = "GGCCTTCATTTACCCAAAATG")
+    ## or x can be a sequence
+    blastSequences(x = "GGCCTTCATTTACCCAAAATG")
 
-## hitListSize does not promise that you will get the number of matches you
-## want..  It will just try to get that many.
-blastSequences(x = "GGCCTTCATTTACCCAAAATG", hitListSize="20")
+    ## hitListSize does not promise that you will get the number of
+    ## matches you want..  It will just try to get that many.
+    blastSequences(x = "GGCCTTCATTTACCCAAAATG", hitListSize="20")
 
 }
 }
