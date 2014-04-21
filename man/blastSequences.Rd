@@ -44,9 +44,8 @@
   }
   \item{as}{
     character(1) indicating whether the result from the NCBI server
-    should be parsed to a list of
-    \code{\linkS4class{DNAMultipleAlignment}} instances, represented as
-    a \code{data.frame}, or returned as XML.
+    should be parsed to a list of \code{DNAMultipleAlignment} instances,
+    represented as a \code{data.frame}, or returned as XML.
   }
 
 }
@@ -60,7 +59,8 @@
 
 \value{
 
-  By default, a series of \code{\linkS4class{DNAMultipleAlignment}}
+  By default, a series of \code{DNAMultipleAlignment} (see
+  \code{\link[Biostrings]{MultipleAlignment-class}}
   objects. Alternatively, a \code{data.frame} or XML document returned
   from the NCBI server. The \code{data.frame} is a \sQuote{long form}
   representation of the \sQuote{Hit} and \sQuote{Hsp} results returned
