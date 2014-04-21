@@ -11,11 +11,25 @@
         })
         if (!is.null(result))
             return(result)
-        if (Sys.time() > end)
+        elapsed <- as.integer(Sys.time() - start)
+        if (Sys.time() > end) {
+            if (interactive()) {
+                msg <- sprintf("timeout after %d seconds; retry? [y/n] ",
+                               elapsed)
+                repeat {
+                    ans <- substr(tolower(readline(msg)), 1, 1)
+                    if (ans %in% c("y", "n"))
+                        break
+                }
+                if (ans == "y") {
+                    end <- Sys.time() + timeout
+                    next
+                }
+            }
             break
+        }
     }
-    stop("'blastSequences' timeout after ", as.integer(Sys.time() - start),
-         " seconds", call.=FALSE)
+    stop("'blastSequences' timeout after ", elapsed, " seconds", call.=FALSE)
 }
 
 ## Using the REST-ish API described at
@@ -25,7 +39,8 @@ blastSequences <- function(x,database="nr",
                            filter="L",
                            expect="10",
                            program="blastn",
-                           timeout=40)
+                           timeout=40,
+                           parse.result=TRUE)
 {
    ## TODO: lots of argument checking and testing.  Also,
    ## depending on which program string is used we need to make the correct
@@ -53,11 +68,13 @@ blastSequences <- function(x,database="nr",
    url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
    message("estimated response time: ", rtoe, " seconds")
    result <- .tryParseResult(url1, rtoe, timeout)
-   qseq <- xpathApply(result, "//Hsp_qseq", xmlValue)
-   hseq <- xpathApply(result, "//Hsp_hseq", xmlValue)
-
+   if (!parse.result)
+       return(result)
+   
    ## Instead lets put it into a DNAStringSet and make a MultipleSeqAlignment
    ## out of it.
+   qseq <- xpathApply(result, "//Hsp_qseq", xmlValue)
+   hseq <- xpathApply(result, "//Hsp_hseq", xmlValue)
    require(Biostrings)
    res <- vector("list", length(qseq))
    for(i in seq_along(qseq)){
@@ -65,7 +82,7 @@ blastSequences <- function(x,database="nr",
          c(hseq[[i]],qseq[[i]]), rowmask=as(IRanges(), "NormalIRanges"),
          colmask=as(IRanges(), "NormalIRanges"))
    }
-   res 
+   res
 }
 
 ## took 11.5 minutes to do a blast...  (ugh)
