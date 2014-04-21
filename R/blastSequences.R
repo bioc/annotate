@@ -1,4 +1,35 @@
-## Try five times and give error if all attempts fail.
+.blastSequencesToDNAMultipleAlignment <- function(xml) {
+   qseq <- xpathSApply(xml, "//Hsp_qseq", xmlValue)
+   hseq <- xpathSApply(xml, "//Hsp_hseq", xmlValue)
+   require(Biostrings)
+   res <- vector("list", length(qseq))
+   for(i in seq_along(qseq)){
+     res[[i]] <- Biostrings::DNAMultipleAlignment(
+         c(hseq[[i]],qseq[[i]]), rowmask=as(IRanges(), "NormalIRanges"),
+         colmask=as(IRanges(), "NormalIRanges"))
+   }
+   res
+}
+
+.blastSequencesToDataFrame <- function(xml) {
+    if (xpathSApply(xml, "count(//Hit)") == 0L) {
+        message("'blastSequences' returned 0 matches")
+        return(data.frame())
+    }
+
+    hit <- xml["//Hit"]
+    hitdf <- xmlToDataFrame(hit)
+    hitdf <- hitdf[, names(hitdf) != "Hit_hsps", drop=FALSE]
+    
+    len <- sapply(hit, xpathSApply, "count(.//Hsp)")
+    hsp <- xmlToDataFrame(xml["//Hsp"])
+
+    df <- cbind(hitdf[rep(seq_len(nrow(hitdf)), len),, drop=FALSE],
+                hsp)
+    rownames(df) <- NULL
+    df
+}
+
 .tryParseResult <- function(url, rtoe, timeout) {
     start <- Sys.time()
     end <- Sys.time() + timeout
@@ -40,49 +71,39 @@ blastSequences <- function(x,database="nr",
                            expect="10",
                            program="blastn",
                            timeout=40,
-                           parse.result=TRUE)
+                           as=c("DNAMultipleAlignment", "data.frame", "XML"))
 {
-   ## TODO: lots of argument checking and testing.  Also,
-   ## depending on which program string is used we need to make the correct
-   ## kind of object at the end (so blastn means DNAMultipleAlignment, and
-   ## blastp means AAMultipleAlignment etc.
+    PARSE <- switch(match.arg(as),
+                    DNAMultipleAlignment=.blastSequencesToDNAMultipleAlignment,
+                    data.frame=.blastSequencesToDataFrame,
+                    XML=identity)
+    ## TODO: lots of argument checking and testing.  Also,
+    ## depending on which program string is used we need to make the correct
+    ## kind of object at the end (so blastn means DNAMultipleAlignment, and
+    ## blastp means AAMultipleAlignment etc.
 
-   ## So:
-   ## 1) get online values these parameters can be
-   ## 2) document those
-   ## 3) restrict their vals in the code here.
-   ## 4) for program, use this to determine what object is returned.
-   
-   ## assemble the query
-   baseUrl <- "http://www.ncbi.nlm.nih.gov/blast/Blast.cgi"
-   query <- paste("QUERY=",as.character(x),"&DATABASE=",database,
-                  "&HITLIST_SIZE=",hitListSize,"&FILTER=",filter,
-                  "&EXPECT=",expect,"&PROGRAM=",program, sep="")
-   url0 <- sprintf("%s?%s&CMD=Put", baseUrl, query)
-   results <- tempfile()
-   post <- htmlParse(url0)
-   
-   x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
-   rid <- sub(".*RID = ([[:alnum:]]+).*", "\\1", x)
-   rtoe <- as.integer(sub(".*RTOE = ([[:digit:]]+).*", "\\1", x))
-   url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
-   message("estimated response time: ", rtoe, " seconds")
-   result <- .tryParseResult(url1, rtoe, timeout)
-   if (!parse.result)
-       return(result)
-   
-   ## Instead lets put it into a DNAStringSet and make a MultipleSeqAlignment
-   ## out of it.
-   qseq <- xpathApply(result, "//Hsp_qseq", xmlValue)
-   hseq <- xpathApply(result, "//Hsp_hseq", xmlValue)
-   require(Biostrings)
-   res <- vector("list", length(qseq))
-   for(i in seq_along(qseq)){
-     res[[i]] <- Biostrings::DNAMultipleAlignment(
-         c(hseq[[i]],qseq[[i]]), rowmask=as(IRanges(), "NormalIRanges"),
-         colmask=as(IRanges(), "NormalIRanges"))
-   }
-   res
+    ## So:
+    ## 1) get online values these parameters can be
+    ## 2) document those
+    ## 3) restrict their vals in the code here.
+    ## 4) for program, use this to determine what object is returned.
+    
+    ## assemble the query
+    baseUrl <- "http://www.ncbi.nlm.nih.gov/blast/Blast.cgi"
+    query <- paste("QUERY=",as.character(x),"&DATABASE=",database,
+                   "&HITLIST_SIZE=",hitListSize,"&FILTER=",filter,
+                   "&EXPECT=",expect,"&PROGRAM=",program, sep="")
+    url0 <- sprintf("%s?%s&CMD=Put", baseUrl, query)
+    results <- tempfile()
+    post <- htmlParse(url0)
+    
+    x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
+    rid <- sub(".*RID = ([[:alnum:]]+).*", "\\1", x)
+    rtoe <- as.integer(sub(".*RTOE = ([[:digit:]]+).*", "\\1", x))
+    url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
+    message("estimated response time: ", rtoe, " seconds")
+    result <- .tryParseResult(url1, rtoe, timeout)
+    PARSE(result)
 }
 
 ## took 11.5 minutes to do a blast...  (ugh)

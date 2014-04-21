@@ -13,8 +13,8 @@
       query.
 
       \item \code{blastSequences} accepts an argument
-      \code{parse.result} which, when set to FALSE, returns the result
-      of the XML query rather than a DNAMultipleAlignment instance.
+      \code{as} controlling the representation of the return value,
+      either a DNAMultipleAlignment, a data.frame, or the XML.
 
     }
   }

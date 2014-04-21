@@ -13,7 +13,7 @@
 
 \usage{
   blastSequences(x, database, hitListSize, filter, expect, program,
-      timeout=40, parse.result=TRUE)
+      timeout=40, as=c("DNAMultipleAlignment", "data.frame", "XML"))
 }
 
 \arguments{
@@ -42,10 +42,11 @@
   \item{timeout}{
     Approximate maximum length of time, in seconds, to wait for a result.
   }
-  \item{parse.result}{
-    logical(1) indicating whether the result should be parsed from the
-    XML format returned by the server to a list of
-    \code{\linkS4class{DNAMultipleAlignment}} instances.
+  \item{as}{
+    character(1) indicating whether the result from the NCBI server
+    should be parsed to a list of
+    \code{\linkS4class{DNAMultipleAlignment}} instances, represented as
+    a \code{data.frame}, or returned as XML.
   }
 
 }
@@ -59,9 +60,12 @@
 
 \value{
 
-  A series of MultipleAlignment objects of the appropriate type or, if
-  \code{parse.result=FALSE}, an XML document returned from the NCBI
-  server. The XML document is described by
+  By default, a series of \code{\linkS4class{DNAMultipleAlignment}}
+  objects. Alternatively, a \code{data.frame} or XML document returned
+  from the NCBI server. The \code{data.frame} is a \sQuote{long form}
+  representation of the \sQuote{Hit} and \sQuote{Hsp} results returned
+  from the server. The XML document is the result of the \code{xmlParse}
+  function of the XML library, and follows the format described by
   \url{http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd} and
   \url{http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.mod.dtd}. }
 
@@ -72,7 +76,7 @@
 \examples{
 
 ## x can be an entrez gene ID
-blastSequences(17702, timeout=40)
+blastSequences(17702, timeout=40, as="data.frame")
 
 if (interactive()) {
 
