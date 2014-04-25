@@ -31,10 +31,12 @@
 }
 
 .tryParseResult <- function(url, rtoe, timeout) {
+    message("estimated response time ", rtoe, " seconds")
     start <- Sys.time()
     end <- Sys.time() + timeout
     repeat {
-        Sys.sleep(min(rtoe, end - Sys.time()))
+        dt <- as.double(end - Sys.time(), units="secs")
+        Sys.sleep(min(rtoe, dt))
         result <- tryCatch({
             xmlParse(url, error = xmlErrorCumulator(immediate=FALSE))
         }, XMLParserErrorList=function(err) {
@@ -42,11 +44,11 @@
         })
         if (!is.null(result))
             return(result)
-        elapsed <- as.integer(Sys.time() - start)
+        elapsed <- as.double(Sys.time() - start, units="secs")
         if (Sys.time() > end) {
             if (interactive()) {
-                msg <- sprintf("timeout after %d seconds; retry? [y/n] ",
-                               elapsed)
+                msg <- sprintf("timeout after %.0f seconds; wait another %d seconds? [y/n] ",
+                               elapsed, timeout)
                 repeat {
                     ans <- substr(tolower(readline(msg)), 1, 1)
                     if (ans %in% c("y", "n"))
@@ -58,9 +60,13 @@
                 }
             }
             break
+        } else {
+            message(sprintf("elapsed time %.0f seconds", elapsed))
         }
     }
-    stop("'blastSequences' timeout after ", elapsed, " seconds", call.=FALSE)
+    msg <- sprintf("'blastSequences' timeout after %.0f seconds",
+                   elapsed)
+    stop(msg, call.=FALSE)
 }
 
 ## Using the REST-ish API described at
@@ -101,7 +107,6 @@ blastSequences <- function(x,database="nr",
     rid <- sub(".*RID = ([[:alnum:]]+).*", "\\1", x)
     rtoe <- as.integer(sub(".*RTOE = ([[:digit:]]+).*", "\\1", x))
     url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
-    message("estimated response time: ", rtoe, " seconds")
     result <- .tryParseResult(url1, rtoe, timeout)
     PARSE(result)
 }
