@@ -1,3 +1,5 @@
+import(methods)
+
 import(BiocGenerics)
 
 importClassesFrom(Biobase,
@@ -6,14 +8,6 @@ importClassesFrom(Biobase,
 importClassesFrom(AnnotationDbi,
                   FlatBimap)
 
-importClassesFrom(methods,
-                  ANY,
-                  character,
-                  list,
-                  matrix,
-                  numeric,
-                  vector)
-
 importMethodsFrom(DBI, dbGetQuery)
 
 importMethodsFrom(AnnotationDbi,
@@ -21,7 +15,6 @@ importMethodsFrom(AnnotationDbi,
                   GOID,
                   Secondary,
                   Synonym,
-                  as.list,
                   colnames,
                   columns,
                   dbmeta,
@@ -43,11 +36,6 @@ importMethodsFrom(Biobase,
                   exprs,
                   featureNames)
 
-importMethodsFrom(methods,
-                  "body<-",
-                  initialize,
-                  show)
-
 importFrom(Biobase,
            addVigs2WinMenu)
 
@@ -55,10 +43,6 @@ importFrom(graphics,
            abline,
            identify,
            plot)
-
-importFrom(methods,
-           is,
-           new)
 
 importFrom(stats,
            heatmap)
