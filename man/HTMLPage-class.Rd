@@ -52,7 +52,7 @@
   \describe{
     \item{show}{\code{signature(object = "HTMLPage")}: Describes
       information about the page}
-    \item{fileName}{\code{signature(object = "HTMLPage")}: Gets the
+    \item{fileName}{\code{signature(x = "HTMLPage")}: Gets the
       fileName slot}
     \item{pageText}{\code{signature(object = "HTMLPage")}: Gets the
       pageText slot}
