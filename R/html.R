@@ -16,7 +16,7 @@ makeAnchor <- function(link, title, toMain=FALSE) {
     setClass("HTMLPage", representation(fileName="character",
                                         pageText="character",
                                         pageTitle="character"))
-    setMethod("fileName", "HTMLPage", function(x, ...) x@fileName)
+    setMethod("fileName", "HTMLPage", function(object, ...) object@fileName)
 
     if (is.null(getGeneric("pageText")))
         setGeneric("pageText", function(object, ...)
