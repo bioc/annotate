@@ -6,7 +6,7 @@ Description: Using R enviroments for annotation.
 Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
 Depends: R (>= 2.10), AnnotationDbi (>= 1.27.5), XML
 Imports: Biobase, DBI, xtable, graphics, utils, stats, methods,
-        BiocGenerics (>= 0.13.1)
+        BiocGenerics (>= 0.13.5)
 Suggests: hgu95av2.db, genefilter, Biostrings (>= 2.25.10), rae230a.db,
         rae230aprobe, tkWidgets, GO.db, org.Hs.eg.db, org.Mm.eg.db,
         hom.Hs.inp.db, humanCHRLOC, Rgraphviz, RUnit,
