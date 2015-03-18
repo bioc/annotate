@@ -15,9 +15,6 @@
                                              ))
 
     # Define the accessors
-##     if (is.null(getGeneric("organism")))
-##         setGeneric("organism", function(object)
-##                    standardGeneric("organism"))
 
     setMethod("organism", "chromLocation", function(object)
               object@organism)
