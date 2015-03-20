@@ -131,42 +131,34 @@ yeast, and fly, we also provide the needed data in the organism level
 packages so that you can map back from inparanoid to a more familiar
 set of IDs.  Here is an example of how you can chain annotation
 packages together to start with a common gene symbol for human (MSX2),
-and then work over to the equivalent information in mouse (Msx2).  An
-important caveat to this is that the organism level packages are
-entrez gene centric.  This means that to extract meaningful
-information from them, it is always necessary to map through an entrez
-gene ID.  In the example that follows we will show how you can take
-the human gene symbol MSX2, and then use one of the human organism
-mapping package to get its entrez gene ID, which can then be used to
-retrieve the ensemble protein ID that is needed to use the inparanoid
-data.  We can then use the inparanoid mapping to get a homologous
-mouse ID to the ensemble protein ID which is returned as a jackson lab
-ID.  Finally, the Jackson Lab ID can be mapped back to a mouse symbol
-by using the mouse organism mapping package.
+and then work over to the equivalent information in mouse (Msx2).  
 
 
 <<mapGeneExample>>=
 # load the organism annotation data for human
 library(org.Hs.eg.db)
 
-# get the entrex gene ID for gene symbol "MSX2"
-mget("MSX2", org.Hs.egSYMBOL2EG)
-
-# get the ensembl protein ID for the entrez gene ID "4488"
-mget("4488", org.Hs.egENSEMBLPROT)
+# get the entrex gene ID and ensembl protein id for gene symbol "MSX2"
+select(org.Hs.eg.db, 
+       keys="MSX2", 
+       columns=c("ENTREZID","ENSEMBLPROT"), 
+       keytype="SYMBOL")
 
 # use the inparanoid package to get the mouse gene that is considered 
 # equivalent to ensembl protein ID "ENSP00000239243"
-mget("ENSP00000239243", hom.Hs.inpMUSMU)
+select(hom.Hs.inp.db, 
+       keys="ENSP00000239243", 
+       columns="MUS_MUSCULUS", 
+       keytype="HOMO_SAPIENS")
 
 # load the organism annotation data for mouse
 library(org.Mm.eg.db)
 
-# get the entrez gene ID for Jackson labs ID "MGI:97169"
-mget("MGI:97169", org.Mm.egMGI2EG)
-
-# finally get the gene symbol for entrez gene ID "17702" from mouse
-mget("17702", org.Mm.egSYMBOL)
+# get the entrez gene ID and gene Symbol for "ENSMUSP00000021922"
+select(org.Mm.eg.db, 
+       keys="ENSMUSP00000021922", 
+       columns=c("ENTREZID","SYMBOL"), 
+       keytype="ENSEMBLPROT")
 @
 
 
