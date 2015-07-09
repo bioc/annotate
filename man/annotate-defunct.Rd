@@ -5,6 +5,7 @@
 \alias{neighborGeneFinder}
 \alias{genelocator}
 \alias{getQuery4LL}
+\alias{probesByLL}
 %
 \description{
   The functions or variables listed here are no longer part of the annotate package.
@@ -13,6 +14,7 @@
 neighborGeneFinder()
 genelocator()
 getQuery4LL()
+probesByLL()
 }
 \seealso{
   \code{\link{Defunct}}

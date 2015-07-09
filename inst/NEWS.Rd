@@ -1,7 +1,18 @@
 \name{annotate-NEWS}
 \title{annotate News}
 
-\section{CHANGES IN VERSION 1.43.}{
+\section{CHANGES IN VERSION 1.47}{
+  \subsection{DEFUNCT}{
+    \itemize{
+
+      \item \code{probesByLL} is now defunct; use
+      \code{AnnotationDbi::select()} instead.
+
+    }
+  }
+}
+
+\section{CHANGES IN VERSION 1.43}{
 
   \subsection{NEW FEATURES}{
 
