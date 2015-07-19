@@ -36,39 +36,42 @@
     df
 }
 
-.tryParseResult <- function(url, rtoe, timeout) {
+.tryParseResult <- function(baseUrl, rid, rtoe, timeout) {
     message("estimated response time ", rtoe, " seconds")
     start <- Sys.time()
     end <- Sys.time() + timeout
+    url <- sprintf("%s?CMD=Get&FORMAT_OBJECT=SearchInfo&RID=%s",
+                   baseUrl, rid)
+    Sys.sleep(min(rtoe, timeout))
     repeat {
-        dt <- max(1, as.double(end - Sys.time(), units="secs"))
-        Sys.sleep(min(rtoe, dt))
-        result <- tryCatch({
-            xmlParse(url, error = xmlErrorCumulator(immediate=FALSE))
-        }, XMLParserErrorList=function(err) {
-            NULL
-        })
-        if (!is.null(result))
-            return(result)
         elapsed <- as.double(Sys.time() - start, units="secs")
-        if (Sys.time() > end) {
-            if (interactive()) {
-                msg <- sprintf("timeout after %.0f seconds; wait another %d seconds? [y/n] ",
-                               elapsed, timeout)
+        result <- as(htmlParse(url, error = xmlErrorCumulator(immediate=FALSE)),
+                     "character")
+
+        if (grepl("Status=FAILED", result))
+            stop("BLAST search failed")
+        else if  (grepl("Status=UNKNOWN", result))
+            stop("BLAST search expired")
+        else if (grepl("Status=READY", result)) {
+            url <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
+            result <- xmlParse(url, error = xmlErrorCumulator(immediate=FALSE))
+            return(result)
+        } else if (grepl("Status=WAITING", result)) {
+            message(sprintf("elapsed time %.0f seconds", elapsed))
+            if (Sys.time() > end && interactive()) {
+                msg <- sprintf("wait another %d seconds? [y/n] ", timeout)
                 repeat {
-                    ans <- substr(tolower(readline(msg)), 1, 1)
+                    ans <- substr(trimws(tolower(readline(msg))), 1, 1)
                     if (ans %in% c("y", "n"))
                         break
                 }
-                if (ans == "y") {
-                    end <- Sys.time() + timeout
-                    next
-                }
+                if (ans == "n")
+                    break
+                end <- Sys.time() + timeout
             }
-            break
-        } else {
-            message(sprintf("elapsed time %.0f seconds", elapsed))
-        }
+            Sys.sleep(10)
+        } else
+            stop("BLAST search unknown response") 
     }
     msg <- sprintf("'blastSequences' timeout after %.0f seconds",
                    elapsed)
@@ -112,8 +115,7 @@ blastSequences <- function(x,database="nr",
     x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
     rid <- sub(".*RID = ([[:alnum:]]+).*", "\\1", x)
     rtoe <- as.integer(sub(".*RTOE = ([[:digit:]]+).*", "\\1", x))
-    url1 <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
-    result <- .tryParseResult(url1, rtoe, timeout)
+    result <- .tryParseResult(baseUrl, rid, rtoe, timeout)
     PARSE(result)
 }
 

@@ -11,6 +11,10 @@
       \item \code{blastSequences} supports multiple sequence queries;
       use \code{as="data.frame"} for output.
 
+      \item Improve \code{blastSequences} strategy for result retrieval,
+      querying the appropriate API for status every 10 seconds after
+      initial estimated processing time.
+
     }
   }
 }

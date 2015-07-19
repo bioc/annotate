@@ -64,9 +64,10 @@
   \code{\link[Biostrings]{MultipleAlignment-class}}
   objects. Alternatively, a \code{data.frame} or XML document returned
   from the NCBI server. The \code{data.frame} is a \sQuote{long form}
-  representation of the \sQuote{Hit} and \sQuote{Hsp} results returned
-  from the server. The XML document is the result of the \code{xmlParse}
-  function of the XML library, and follows the format described by
+  representation of the \sQuote{Iteration}, \sQuote{Hit} and
+  \sQuote{Hsp} results returned from the server. The XML document is the
+  result of the \code{xmlParse} function of the XML library, and follows
+  the format described by
   \url{http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd} and
   \url{http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.mod.dtd}. }
 
