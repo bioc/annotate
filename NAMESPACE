@@ -65,8 +65,9 @@ importFrom(XML,
            xmlParse,
            xmlRoot,
            xmlTreeParse,
+           xmlValue,
            xpathApply,
-           xmlValue)
+           xpathSApply)
 
 exportClasses(
               chromLocation,

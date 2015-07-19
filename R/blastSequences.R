@@ -35,7 +35,7 @@
     start <- Sys.time()
     end <- Sys.time() + timeout
     repeat {
-        dt <- as.double(end - Sys.time(), units="secs")
+        dt <- max(1, as.double(end - Sys.time(), units="secs"))
         Sys.sleep(min(rtoe, dt))
         result <- tryCatch({
             xmlParse(url, error = xmlErrorCumulator(immediate=FALSE))
