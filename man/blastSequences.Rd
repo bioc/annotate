@@ -19,7 +19,8 @@
 \arguments{
   \item{x}{
     A sequence as a character vector or an integer corresponding to an
-    entrez gene ID.
+    entrez gene ID. Submit multiple sequences as a length-1 character
+    vector, \code{x = ">ID-1\nACATGCTA\n>ID-2\nAAACCACTT"}.
   }
   \item{database}{
     Which NCBI database to use. If not \dQuote{blastn}, then set

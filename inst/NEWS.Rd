@@ -8,6 +8,9 @@
       \item \code{probesByLL} is now defunct; use
       \code{AnnotationDbi::select()} instead.
 
+      \item \code{blastSequences} supports multiple sequence queries;
+      use \code{as="data.frame"} for output.
+
     }
   }
 }

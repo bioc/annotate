@@ -17,15 +17,21 @@
         return(data.frame())
     }
 
-    hit <- xml["//Hit"]
-    hitdf <- xmlToDataFrame(hit)
-    hitdf <- hitdf[, names(hitdf) != "Hit_hsps", drop=FALSE]
-    
-    len <- sapply(hit, xpathSApply, "count(.//Hsp)")
-    hsp <- xmlToDataFrame(xml["//Hsp"])
+    iter <- xml["//Iteration"]
+    iterlen <- sapply(iter, xpathSApply, "count(.//Hsp)")
+    iterdf <- xmlToDataFrame(iter, stringsAsFactors=FALSE)
 
-    df <- cbind(hitdf[rep(seq_len(nrow(hitdf)), len),, drop=FALSE],
-                hsp)
+    hit <- xml["//Hit"]
+    hitlen <- sapply(hit, xpathSApply, "count(.//Hsp)")
+    hitdf <- xmlToDataFrame(hit, stringsAsFactors=FALSE)
+    hitdf <- hitdf[, names(hitdf) != "Hit_hsps", drop=FALSE]
+
+    hsp <- xmlToDataFrame(xml["//Hsp"] , stringsAsFactors=FALSE)
+
+    df <- cbind(
+        iterdf[rep(seq_len(nrow(iterdf)), iterlen),, drop=FALSE],
+        hitdf[rep(seq_len(nrow(hitdf)), hitlen),, drop=FALSE],
+        hsp)
     rownames(df) <- NULL
     df
 }
