@@ -24,7 +24,7 @@
   }
   \item{database}{
     Which NCBI database to use. If not \dQuote{blastn}, then set
-    \code{parse.result=FALSE}
+    \code{as="XML"}
   }
   \item{hitListSize}{
     Number of hits to keep.
