@@ -90,6 +90,7 @@ get that information.  A quick look at the mappings that are available
 when you load the human package will show you these:
 
 <<loadAndListPackages>>=
+library(DBI)
 library("hom.Hs.inp.db")
 ls("package:hom.Hs.inp.db")
 @
