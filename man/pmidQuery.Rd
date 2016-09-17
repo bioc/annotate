@@ -18,7 +18,7 @@ pmidQuery(query)
 \value{
   A character string containing the appropriate URL
 }
-\references{NCBI, \url{http://www.ncbi.nih.gov/} }
+\references{NCBI, \url{https://www.ncbi.nih.gov/} }
 \author{Jeff Gentry}
 
 \seealso{\code{\link{UniGeneQuery}}}

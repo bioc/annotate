@@ -69,7 +69,7 @@ ACC2homology(accs, homoPkg)
   Both functions returns a list of sub-lists containing data for
   homologous genes in other organisms.
 }
-\references{\url{http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?=homologene}}
+\references{\url{https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?=homologene}}
 \author{Jianhua Zhang}
 
 \examples{

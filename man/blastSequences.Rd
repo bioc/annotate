@@ -55,7 +55,7 @@
   Right now the function only works for "blastn".
 
   The NCBI URL api used by this function is documented at
-  \url{http://www.ncbi.nlm.nih.gov/blast/Doc/urlapi.html}
+  \url{https://www.ncbi.nlm.nih.gov/blast/Doc/urlapi.html}
 }
 
 \value{
@@ -68,8 +68,8 @@
   \sQuote{Hsp} results returned from the server. The XML document is the
   result of the \code{xmlParse} function of the XML library, and follows
   the format described by
-  \url{http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd} and
-  \url{http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.mod.dtd}. }
+  \url{https://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd} and
+  \url{https://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.mod.dtd}. }
 
 \author{
   M. Carlson

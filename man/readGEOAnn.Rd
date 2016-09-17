@@ -13,11 +13,11 @@
   and returns a matrix containing the data.
 }
 \usage{
-readGEOAnn(GEOAccNum, url = "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
-readIDNAcc(GEOAccNum, url = "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
-getGPLNames(url ="http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?") 
+readGEOAnn(GEOAccNum, url = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
+readIDNAcc(GEOAccNum, url = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
+getGPLNames(url ="https://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?") 
 getSAGEFileInfo(url =
-                       "http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?view=platforms&prtype=SAGE&dtype=SAGE")
+                       "https://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?view=platforms&prtype=SAGE&dtype=SAGE")
 getSAGEGPL(organism = "Homo sapiens", enzyme = c("NlaIII", "Sau3A"))
 readUrl(url)
 }

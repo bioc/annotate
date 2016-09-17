@@ -1,6 +1,6 @@
 getGI <- function(accNum){
     # Get the gi based on the Accession number
-    gi <- readLines(paste("http://www.ncbi.nlm.nih.gov/entrez/",
+    gi <- readLines(paste("https://www.ncbi.nlm.nih.gov/entrez/",
                           "query.fcgi?db=Nucleotide&cmd=search&term=",
                           accNum, sep = ""))
     gi <- gsub(paste(".*gi\\|([0-9]+)\\|[a-zA-Z0-9]+\\|", accNum,
@@ -23,7 +23,7 @@ getSEQ <- function(gi){
     ##              "db=nucleotide&extrafeat=16&term=&view=fasta&",
     ##              "dispmax=20&SendTo=t&__from=&__to=&__strand=", sep = ""))
 
-    seq <- readLines(paste("http://www.ncbi.nlm.nih.gov/entrez/eutils/",
+    seq <- readLines(paste("https://www.ncbi.nlm.nih.gov/entrez/eutils/",
                  "efetch.fcgi?db=nucleotide&rettype=fasta&id=",gi,
                   sep = ""))
 

@@ -45,7 +45,8 @@
     Sys.sleep(min(rtoe, timeout))
     repeat {
         elapsed <- as.double(Sys.time() - start, units="secs")
-        result <- as(htmlParse(url, error = xmlErrorCumulator(immediate=FALSE)),
+        result <- as(htmlParse(getURL(url, followlocation=TRUE),
+                               error = xmlErrorCumulator(immediate=FALSE)),
                      "character")
 
         if (grepl("Status=FAILED", result))
@@ -54,7 +55,8 @@
             stop("BLAST search expired")
         else if (grepl("Status=READY", result)) {
             url <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
-            result <- xmlParse(url, error = xmlErrorCumulator(immediate=FALSE))
+            result <- xmlParse(getURL(url, followlocation=TRUE),
+                               error = xmlErrorCumulator(immediate=FALSE))
             return(result)
         } else if (grepl("Status=WAITING", result)) {
             message(sprintf("elapsed time %.0f seconds", elapsed))
@@ -104,13 +106,12 @@ blastSequences <- function(x,database="nr",
     ## 4) for program, use this to determine what object is returned.
     
     ## assemble the query
-    baseUrl <- "http://www.ncbi.nlm.nih.gov/blast/Blast.cgi"
+    baseUrl <- "https://www.ncbi.nlm.nih.gov/blast/Blast.cgi"
     query <- paste("QUERY=",as.character(x),"&DATABASE=",database,
                    "&HITLIST_SIZE=",hitListSize,"&FILTER=",filter,
                    "&EXPECT=",expect,"&PROGRAM=",program, sep="")
     url0 <- sprintf("%s?%s&CMD=Put", baseUrl, query)
-    results <- tempfile()
-    post <- htmlParse(url0)
+    post <- htmlParse(getURL(url0, followlocation=TRUE))
     
     x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
     rid <- sub(".*RID = ([[:alnum:]]+).*", "\\1", x)

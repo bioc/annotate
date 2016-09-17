@@ -55,6 +55,9 @@ importFrom(utils,
 importFrom(xtable,
            xtable)
 
+importFrom(RCurl,
+           getURL)
+
 importFrom(XML,
            getNodeSet,
            htmlParse,

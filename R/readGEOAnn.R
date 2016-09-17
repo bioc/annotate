@@ -3,7 +3,7 @@
 # and GEOAccNum is the GEO accession number representing a file in the
 # database
 readIDNAcc <- function(GEOAccNum, url =
-                       "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?"){
+                       "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?"){
     temp <- readGEOAnn(GEOAccNum, url)
     return(temp[,c("ID", "GB_ACC")])
 }
@@ -19,7 +19,7 @@ getSAGEGPL <- function(organism = "Homo sapiens",
 }
 
 getSAGEFileInfo <- function(url =
-                       "http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?view=platforms&prtype=SAGE&dtype=SAGE"){
+                       "https://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?view=platforms&prtype=SAGE&dtype=SAGE"){
     temp <- readUrl(url)
     # Get the GPL number, organism, and enzyme type
     temp <- matrix(temp[grep("<TD", temp)], ncol = 8,
@@ -36,7 +36,7 @@ getSAGEFileInfo <- function(url =
 # and GEOAccNum is the GEO accession number representing a file in the
 # database
 readGEOAnn <- function(GEOAccNum, url =
-                       "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?"){
+                       "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?"){
 
     temp <- readUrl(paste(url, "acc=", GEOAccNum,
                    "&view=data&form=text&targ=self", sep = ""))
@@ -53,7 +53,7 @@ readGEOAnn <- function(GEOAccNum, url =
 
 # Read from GEO and map GEO accession numbers to array names.
 getGPLNames <- function(url =
-                        "http://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?"){
+                        "https://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?"){
     temp <- readUrl(paste(url,
                       "view=platforms&prtype=nucleotide&dtype=commercial",
                       sep = ""))
