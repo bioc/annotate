@@ -76,7 +76,8 @@ hasGOannote <- function(x, which="MF") {
          stop("need a character argument")
      if(length(x) == 0 )
          return( character(0))
-     wh <- mget(x, envir=GOTERM, ifnotfound=NA)
+     loadNamespace("GO.db")
+     wh <- mget(x, envir=GO.db::GOTERM, ifnotfound=NA)
      return( sapply(wh, Ontology) )
  }
 
@@ -85,9 +86,10 @@ hasGOannote <- function(x, which="MF") {
          stop("need a character argument")
      if(length(x) == 0 )
          return(list())
-     hasMF <- mget(x, envir=GOMFPARENTS, ifnotfound=NA)
-     hasBP <- mget(x, envir=GOBPPARENTS, ifnotfound=NA)
-     hasCC <- mget(x, envir=GOCCPARENTS, ifnotfound=NA)
+     loadNamespace("GO.db")
+     hasMF <- mget(x, envir=GO.db::GOMFPARENTS, ifnotfound=NA)
+     hasBP <- mget(x, envir=GO.db::GOBPPARENTS, ifnotfound=NA)
+     hasCC <- mget(x, envir=GO.db::GOCCPARENTS, ifnotfound=NA)
      lenx <- length(x)
      rval <- vector("list", length=lenx)
      names(rval) <- x
@@ -111,9 +113,10 @@ hasGOannote <- function(x, which="MF") {
          stop("need a character argument")
      if(length(x) == 0 )
          return(list())
-     hasMF <- mget(x, envir=GOMFCHILDREN, ifnotfound=NA)
-     hasBP <- mget(x, envir=GOBPCHILDREN, ifnotfound=NA)
-     hasCC <- mget(x, envir=GOCCCHILDREN, ifnotfound=NA)
+     loadNamespace("GO.db")
+     hasMF <- mget(x, envir=GO.db::GOMFCHILDREN, ifnotfound=NA)
+     hasBP <- mget(x, envir=GO.db::GOBPCHILDREN, ifnotfound=NA)
+     hasCC <- mget(x, envir=GO.db::GOCCCHILDREN, ifnotfound=NA)
      lenx <- length(x)
      rval <- vector("list", length=lenx)
      names(rval) <- x
@@ -135,7 +138,8 @@ hasGOannote <- function(x, which="MF") {
          stop("need a character argument")
      if(length(x) == 0 )
          return(list())
-     terms <- mget(x, envir=GOTERM, ifnotfound=NA)
+     loadNamespace("GO.db")
+     terms <- mget(x, envir=GO.db::GOTERM, ifnotfound=NA)
      isNA = sapply(terms,function(x) !(isS4(x) && is(x, "GOTerms")))
      if( any(isNA) )
          terms = terms[!isNA]

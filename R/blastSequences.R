@@ -1,12 +1,14 @@
 .blastSequencesToDNAMultipleAlignment <- function(xml) {
+   loadNamespace("Biostrings")
+   loadNamespace("IRanges")
    qseq <- xpathSApply(xml, "//Hsp_qseq", xmlValue)
    hseq <- xpathSApply(xml, "//Hsp_hseq", xmlValue)
-   require(Biostrings)
    res <- vector("list", length(qseq))
    for(i in seq_along(qseq)){
      res[[i]] <- Biostrings::DNAMultipleAlignment(
-         c(hseq[[i]],qseq[[i]]), rowmask=as(IRanges(), "NormalIRanges"),
-         colmask=as(IRanges(), "NormalIRanges"))
+         c(hseq[[i]],qseq[[i]]),
+         rowmask=as(IRanges::IRanges(), "NormalIRanges"),
+         colmask=as(IRanges::IRanges(), "NormalIRanges"))
    }
    res
 }
