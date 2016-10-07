@@ -68,7 +68,7 @@ The workhorse URL generator is:
 options(width=55)
 mkURL = function(
    id="12584122",
-   pre = "http://www.ncbi.nlm.nih.gov/pubmed/",
+   pre = "https://www.ncbi.nlm.nih.gov/pubmed/",
    post="?ordinalpos=9&itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_RVDocSum") {
  paste(pre, id, post, sep="")
 }

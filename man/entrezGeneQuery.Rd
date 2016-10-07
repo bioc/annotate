@@ -19,7 +19,7 @@ entrezGeneQuery(query)
 \value{
 A character vector containing the query string.
 }
-\references{NCBI, \url{http://www.ncbi.nih.gov/} }
+\references{NCBI, \url{https://www.ncbi.nih.gov/} }
 \author{Marc Carlson}
 \note{Be very careful about automatically querying this resource. It is
   considered antisocial behavior by the owners. }

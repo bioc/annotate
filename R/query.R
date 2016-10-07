@@ -178,7 +178,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
                    "&tool=bioconductor&term=",accNum,sep="")
 
     ## parse using XML package
-    doc <- xmlParse(query)
+    doc <- xmlParse(getURL(query))
     res <- xpathApply(doc=doc, path="/eSearchResult/IdList/Id",
                       fun=xmlValue)
     
@@ -222,7 +222,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     }
 
     if (!exists("ncbiURL")) {
-        ncbiURL <- "http://eutils.ncbi.nlm.nih.gov"
+        ncbiURL <- "https://eutils.ncbi.nlm.nih.gov"
         ## old one: "http://www.ncbi.nih.gov/"
     }
 
@@ -597,7 +597,7 @@ getQuery4UG <- function (ids, ...){
   temp <- vector()
   for( i in seq(along=ids)){
     if(!bIDs[i])
-    temp[i] <- paste("http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=",
+    temp[i] <- paste("https://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=",
                      ugs[[i]][1], "&CID=", ugs[[i]][2], sep = "")
     else
     temp[i] <- "&nbsp;"
@@ -626,7 +626,7 @@ getQuery4EN <- function (ids, ...){
   }
   if(is.numeric(ids))
     blanks <- is.na(ids)
-  out <- paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=gene&cmd=Retrieve&dopt=Graphics&list_uids=",
+  out <- paste("https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=gene&cmd=Retrieve&dopt=Graphics&list_uids=",
                ids, sep = "")
   out[blanks] <- "&nbsp;"
   return(out)
@@ -647,7 +647,7 @@ getQuery4GB <- function (ids, ...){
   # GenBank ids can be either GB or RefSeq, so there is no good way to filter garbage.
   # Again we rely on end user to pass blanks.
   blanks <- ids == "&nbsp;"
-  out <- paste("http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=Nucleotide&cmd=search&term=",
+  out <- paste("https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=Nucleotide&cmd=search&term=",
                ids, sep="")
   out[blanks] <- "&nbsp;"
   return(out)

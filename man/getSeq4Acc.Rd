@@ -33,7 +33,7 @@ getSEQ(gi)
 \value{
   getSEQ returns a character string of nucleotide sequence
 }
-\references{\url{http://www.ncbi.nlm.nih.gov/entrez/query.fcgi}}
+\references{\url{https://www.ncbi.nlm.nih.gov/entrez/query.fcgi}}
 \author{Jianhua Zhang}
 
 \examples{
