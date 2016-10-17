@@ -1,6 +1,6 @@
 Package: annotate
 Title: Annotation for microarrays
-Version: 1.51.1
+Version: 1.52.0
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
