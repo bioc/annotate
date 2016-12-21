@@ -84,7 +84,7 @@
 
 ## Using the REST-ish API described at
 ## http://www.ncbi.nlm.nih.gov/blast/Doc/node2.html
-blastSequences <- function(x,database="nr",
+blastSequences <- function(x, database="nr",
                            hitListSize="10",
                            filter="L",
                            expect="10",
@@ -109,7 +109,7 @@ blastSequences <- function(x,database="nr",
     
     ## assemble the query
     baseUrl <- "https://www.ncbi.nlm.nih.gov/blast/Blast.cgi"
-    query <- paste("QUERY=",as.character(x),"&DATABASE=",database,
+    query <- paste("QUERY=", URLencode(as.character(x)), "&DATABASE=",database,
                    "&HITLIST_SIZE=",hitListSize,"&FILTER=",filter,
                    "&EXPECT=",expect,"&PROGRAM=",program, sep="")
     url0 <- sprintf("%s?%s&CMD=Put", baseUrl, query)
