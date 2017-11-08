@@ -1,11 +1,14 @@
 ##Helper function for schema checking:
-.defineBaseSelectSQL <- function(schema){  
+.defineBaseSelectSQL <- function(schema, conn){  
   ##schema <- dbmeta(conn, "DBSCHEMA")
   ##centralID <- dbmeta(conn, "CENTRALID")
     if(schema == "YEAST_DB"){
         sql <- "select distinct systematic_name from sgd where systematic_name != 'NA';"
     }else if(length(grep("CHIP_DB$", schema))==1 ){  #All chip packages have a probes table with probe_ids
         sql <- "select distinct probe_id from probes;"
+    }else if(length(grep("NOSCHEMA", schema))==1 ){ ## NOSCHEMA can have weird columns
+        toget <- dbListFields(conn, "genes")[2]
+        sql <- paste("select distinct", toget, "from genes;")
     }else if(length(grep("_DB$", schema))==1 && length(grep("CHIP_DB$", schema))==0){
         sql <- "select distinct gene_id from genes;"
     }else{
@@ -15,30 +18,53 @@
 }
 
 ##Given a list of IDs and a package, are these IDs valid primary IDs for this package?
-isValidKey <- function(ids, pkg){
+setMethod("isValidKey", c("character", "character"),
+          function(ids, pkg){
     ##argument checking
     if(!is.character(ids)) stop("'ids' must be a character vector of IDs that you wish to validate")    
     ##access the DB, get the primary IDs, and then test if they are in your list of ids
     require(paste(pkg, ".db",sep=""),character.only = TRUE)
     conn <- do.call(paste(pkg, "_dbconn", sep=""), list())    
     schema <- dbmeta(conn, "DBSCHEMA")
-    sql <- .defineBaseSelectSQL(schema)
+    sql <- .defineBaseSelectSQL(schema, conn)
     res <- dbGetQuery(conn, sql)
     res <- as.vector(res[,1])#slice to grab result which will always be a single column (based on the sql queries)
     return(ids %in% res)
-}
+})
+
+setMethod("isValidKey", c("character","OrgDb"),
+          function(ids, pkg){
+    conn <- dbconn(pkg)
+    schema <- dbmeta(conn, "DBSCHEMA")
+    sql <- .defineBaseSelectSQL(schema, conn)
+    res <- dbGetQuery(conn, sql)
+    res <- as.vector(res[,1])
+    return(ids %in% res)
+})
+
 
 ##Given a package, what are all the unique valid primary IDs for this package?
-allValidKeys <- function(pkg){
+setMethod("allValidKeys", "character",
+          function(pkg){
     ##access the DB and get all the primary IDs, (unique constraint already on the field being sought)
     require(paste(pkg, ".db",sep=""),character.only = TRUE)
     conn <- do.call(paste(pkg, "_dbconn", sep=""), list())
     schema <- dbmeta(conn, "DBSCHEMA")
-    sql <- .defineBaseSelectSQL(schema)    
+    sql <- .defineBaseSelectSQL(schema, conn)    
     res <- dbGetQuery(conn, sql)
     res <- as.vector(res[,1])#slice to grab result which will always be a single column (based on the sql queries)
     return(res)
-}
+})
+
+setMethod("allValidKeys", "OrgDb",
+          function(pkg){
+    conn <- dbconn(pkg)
+    schema <- dbmeta(conn, "DBSCHEMA")
+    sql <- .defineBaseSelectSQL(schema, conn)    
+    res <- dbGetQuery(conn, sql)
+    res <- as.vector(res[,1])#slice to grab result which will always be a single column (based on the sql queries)
+    return(res)
+})
 
 
 ##Given a list of gene symbols, return the primary ID (or probe if its a chip package) that should be used.

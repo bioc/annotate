@@ -8,7 +8,7 @@ importClassesFrom(Biobase,
 importClassesFrom(AnnotationDbi,
                   FlatBimap)
 
-importMethodsFrom(DBI, dbGetQuery, dbListTables)
+importMethodsFrom(DBI, dbGetQuery, dbListTables, dbListFields)
 
 importMethodsFrom(AnnotationDbi,
                   Definition,

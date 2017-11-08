@@ -1,6 +1,6 @@
 Package: annotate
 Title: Annotation for microarrays
-Version: 1.57.0
+Version: 1.57.1
 Author: R. Gentleman
 Description: Using R enviroments for annotation.
 Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
@@ -12,7 +12,7 @@ Suggests: hgu95av2.db, genefilter, Biostrings (>= 2.25.10), IRanges, rae230a.db,
         hom.Hs.inp.db, humanCHRLOC, Rgraphviz, RUnit,
 License: Artistic-2.0
 LazyLoad: yes
-Collate: ACCNUMStats.R Amat.R AnnMaps.R chromLocation.R
+Collate: AllGenerics.R ACCNUMStats.R Amat.R AnnMaps.R chromLocation.R
         compatipleVersions.R findNeighbors.R getData.R getPMInfo.R
         getSeq4ACC.R GOhelpers.R homoData.R html.R isValidKey.R
         LL2homology.R pmid2MIAME.R probesByLL.R pubMedAbst.R query.R

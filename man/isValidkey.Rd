@@ -1,7 +1,12 @@
+\docType{methods}
 \name{isValidKey}
 \alias{isValidKey}
 \alias{allValidKeys}
-\title{Get or verify valid IDs for a package.}
+\alias{isValidKey,character,character-method}
+\alias{isValidKey,character,OrgDb-method}
+\alias{allValidKeys,character-method}
+\alias{allValidKeys,OrgDb-method}
+\title{Get or verify valid IDs for a package or OrgDb object.}
 \description{
   These functions either verify that a list of IDs are primary and valid IDs
   for a package, or else return all the valid primary IDs from a package
@@ -9,10 +14,20 @@
 \usage{
 isValidKey(ids, pkg)
 allValidKeys(pkg)
+
+\S4method{isValidKey}{character,character}(ids, pkg)
+
+\S4method{isValidKey}{character,OrgDb}(ids, pkg)
+
+\S4method{allValidKeys}{character}(pkg)
+
+\S4method{allValidKeys}{OrgDb}(pkg)
+
 }
 \arguments{
   \item{ids}{A character vector containing IDs that you wish to validate.}
-  \item{pkg}{The package name of the chip for which we wish to validate IDs.}
+  \item{pkg}{Either the name of an installed annotation package (e.g.,
+    "org.Hs.eg.db"), or an uninstalled annotation package, e.g., from AnnotationHub.}
 }
 \details{
   Every package has some kind of ID that is central to that package.
