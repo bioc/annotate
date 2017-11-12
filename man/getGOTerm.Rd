@@ -52,9 +52,7 @@ getGOOntology(x)
 \examples{
  library("GO.db")
 
- sG <- c("GO:0005515", "GO:0000123", "GO:0000124", "GO:0000125",
-         "GO:0000126", "GO:0020033", "GO:0006830", 
-         "GO:0015916")
+ sG <- sample(keys(GO.db, "GOID"), 8)
 
  gT <- getGOTerm(sG)
  gP <- getGOParents(sG)
