@@ -135,7 +135,7 @@ pubmed  <- function(..., disp=c("data","browser"),
     args <- .transformAccession(args, disp, type,"pubmed")
 
     if (is.null(args)) {
-        print(paste("No XML records available for accession number",err))
+        message("No XML records available for accession number ", err)
         return(NULL)
     }
 
