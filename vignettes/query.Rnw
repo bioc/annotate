@@ -153,7 +153,7 @@ We next generate the query and store the results in a variable named
 manipulate it we will use functions provided by the XML package.
 
 <<getabsts>>=
-x <- pubmed(ids)
+x <- pubmed(ids[1:10])
 a <- xmlRoot(x)
 numAbst <- length(xmlChildren(a))
 numAbst
