@@ -117,8 +117,8 @@ libraries have already been installed.
 
 \subsection*{Package installation}
 
-After downloading libraries \Rpackage{hgu95av2.db} and \Rpackage{GO.db} by
-using biocLite, If the \Rpackage{reposTools} library has already been
+Download libraries \Rpackage{hgu95av2.db} and \Rpackage{GO.db} with 
+BiocManager::install(). If the \Rpackage{reposTools} library has already been
 installed/loaded, typing \Rfunction{install.packages2(library name)} installs
 the library for both Unix and Windows.
 
