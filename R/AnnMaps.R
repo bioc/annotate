@@ -78,7 +78,7 @@ getAnnMap <- function(map, chip, load=TRUE, type=c("db", "env")) {
     }else{
       ## chip will be a character, but we need to make it into a real thing.
       ## spawn up a new FlatBimap
-      db <- eval(parse(text=chip))
+      db <- eval(parse(text=pkg))
       if(map %in% columns(db)){ ## if cols says its present
            return(AnnotationDbi:::makeFlatBimapUsingSelect(db,
                                                            col=map))
