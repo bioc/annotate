@@ -87,25 +87,23 @@ hasGOannote <- function(x, which="MF") {
      if(length(x) == 0 )
          return(list())
      loadNamespace("GO.db")
-     hasMF <- mget(x, envir=GO.db::GOMFPARENTS, ifnotfound=NA)
-     hasBP <- mget(x, envir=GO.db::GOBPPARENTS, ifnotfound=NA)
-     hasCC <- mget(x, envir=GO.db::GOCCPARENTS, ifnotfound=NA)
-     lenx <- length(x)
-     rval <- vector("list", length=lenx)
-     names(rval) <- x
-     rval <- vector("list", length=lenx)
-     names(rval) <- x
-     for(i in 1:lenx) {
-         if( (length(hasMF[[i]]) > 1 ) || !is.na(hasMF[[i]]) )
-             rval[[i]] <- list(Ontology="MF", Parents=hasMF[[i]])
-         else if( (length(hasMF[[i]]) > 1 ) || !is.na(hasBP[[i]]) )
-             rval[[i]] <- list(Ontology="BP", Parents=hasBP[[i]])
-         else if( (length(hasMF[[i]]) > 1 ) || !is.na(hasCC[[i]]) )
-             rval[[i]] <- list(Ontology="CC", Parents=hasCC[[i]])
-         else
-             stop(paste(x[i], "is not a member of any ontology"))
-     }
-     return(rval)
+     MF_parents <- mget(x, envir=GO.db::GOMFPARENTS, ifnotfound=NA)
+     BP_parents <- mget(x, envir=GO.db::GOBPPARENTS, ifnotfound=NA)
+     CC_parents <- mget(x, envir=GO.db::GOCCPARENTS, ifnotfound=NA)
+     lapply(setNames(seq_along(x), x),
+         function(i) {
+             xi_parents <- MF_parents[[i]]
+             if (!identical(xi_parents, NA))
+                 return(list(Ontology="MF", Parents=xi_parents))
+             xi_parents <- BP_parents[[i]]
+             if (!identical(xi_parents, NA))
+                 return(list(Ontology="BP", Parents=xi_parents))
+             xi_parents <- CC_parents[[i]]
+             if (!identical(xi_parents, NA))
+                 return(list(Ontology="CC", Parents=xi_parents))
+             stop(paste(x[[i]], "is not a member of any ontology"))
+         }
+     )
  }
 
  getGOChildren <- function(x) {
@@ -114,23 +112,23 @@ hasGOannote <- function(x, which="MF") {
      if(length(x) == 0 )
          return(list())
      loadNamespace("GO.db")
-     hasMF <- mget(x, envir=GO.db::GOMFCHILDREN, ifnotfound=NA)
-     hasBP <- mget(x, envir=GO.db::GOBPCHILDREN, ifnotfound=NA)
-     hasCC <- mget(x, envir=GO.db::GOCCCHILDREN, ifnotfound=NA)
-     lenx <- length(x)
-     rval <- vector("list", length=lenx)
-     names(rval) <- x
-     for(i in 1:lenx) {
-         if( (length(hasMF[[i]]) > 1 ) || !is.na(hasMF[[i]]) )
-             rval[[i]] <- list(Ontology="MF", Children=hasMF[[i]])
-         else if( (length(hasMF[[i]]) > 1 ) || !is.na(hasBP[[i]]) )
-             rval[[i]] <- list(Ontology="BP", Children=hasBP[[i]])
-         else if( (length(hasMF[[i]]) > 1 ) || !is.na(hasCC[[i]]) )
-             rval[[i]] <- list(Ontology="CC", Children=hasCC[[i]])
-         else
-             rval[[i]] <- list()
-     }
-     return(rval)
+     MF_children <- mget(x, envir=GO.db::GOMFCHILDREN, ifnotfound=NA)
+     BP_children <- mget(x, envir=GO.db::GOBPCHILDREN, ifnotfound=NA)
+     CC_children <- mget(x, envir=GO.db::GOCCCHILDREN, ifnotfound=NA)
+     lapply(setNames(seq_along(x), x),
+         function(i) {
+             xi_children <- MF_children[[i]]
+             if (!identical(xi_children, NA))
+                 return(list(Ontology="MF", Children=xi_children))
+             xi_children <- BP_children[[i]]
+             if (!identical(xi_children, NA))
+                 return(list(Ontology="BP", Children=xi_children))
+             xi_children <- CC_children[[i]]
+             if (!identical(xi_children, NA))
+                 return(list(Ontology="CC", Children=xi_children))
+             list()  # not an error (unlike for getGOParents() above)
+         }
+     )
  }
 
  getGOTerm <- function(x) {
