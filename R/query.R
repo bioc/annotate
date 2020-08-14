@@ -178,6 +178,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
                    "&tool=bioconductor&term=",accNum,sep="")
 
     ## parse using XML package
+    Sys.sleep(0.15)  # avoid HTTP Error 429 "Too Many Requests"
     doc <- xmlParse(getURL(query))
     res <- xpathApply(doc=doc, path="/eSearchResult/IdList/Id",
                       fun=xmlValue)
@@ -199,6 +200,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 
     ## get the XML file contents from URL, and remove extra
     ## text strings before <xml...
+    Sys.sleep(0.15)  # avoid HTTP Error 429 "Too Many Requests"
     query <- paste(scan(query, what="", sep="\n"), "\n", collapse="\n")
     query <- sub("^[^<]*<(.*)", "<\\1",query)
 
