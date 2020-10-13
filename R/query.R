@@ -154,6 +154,25 @@ pubmed  <- function(..., disp=c("data","browser"),
     }
 }
 
+## A replacement for RCurl::getURL()
+##
+## Oct 13, 2020: RCurl::getURL() started to fail recently on Windows for
+## some HTTPS requests e.g. we started to see the following error on all
+## the Bioconductor Windows build machines (tokay1, riesling1, tokay2):
+##   > library(RCurl)
+##   > query <- "https://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=gene&to$
+##   > doc <- RCurl::getURL(query)
+##   Error in function (type, msg, asError = TRUE)  :
+##     error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
+## The reason is not clear but we suspect a server-side issue with the SSL
+## certificate that only manifests itself with RCurl::getURL() on Windows.
+## httr::GET() doesn't seem to be affected so accessionToUID() now uses this
+## instead of RCurl::getURL().
+getURL2 <- function(url)
+{
+    response <- httr::GET(url)
+    rawToChar(response$content)
+}
 
 accessionToUID <- function(...,db=c("genbank","pubmed")) {
     #require(XML)
@@ -179,7 +198,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
 
     ## parse using XML package
     Sys.sleep(0.15)  # avoid HTTP Error 429 "Too Many Requests"
-    doc <- xmlParse(getURL(query))
+    doc <- xmlParse(getURL2(query))  # RCurl::getURL() has issues, see above
     res <- xpathApply(doc=doc, path="/eSearchResult/IdList/Id",
                       fun=xmlValue)
     
