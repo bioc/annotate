@@ -45,6 +45,7 @@ importFrom(graphics,
            plot)
 
 importFrom(stats,
+           setNames,
            heatmap)
 
 importFrom(utils,
