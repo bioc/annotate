@@ -166,8 +166,8 @@ pubmed  <- function(..., disp=c("data","browser"),
 ##     error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
 ## The reason is not clear but we suspect a server-side issue with the SSL
 ## certificate that only manifests itself with RCurl::getURL() on Windows.
-## httr::GET() doesn't seem to be affected so accessionToUID() now uses this
-## instead of RCurl::getURL().
+## httr::GET() doesn't seem to be affected so starting with annotate 1.67.2
+## accessionToUID() and blastSequences() use this instead of RCurl::getURL().
 getURL2 <- function(url)
 {
     response <- httr::GET(url)

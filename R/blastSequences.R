@@ -47,7 +47,9 @@
     Sys.sleep(min(rtoe, timeout))
     repeat {
         elapsed <- as.double(Sys.time() - start, units="secs")
-        result <- as(htmlParse(getURL(url, followlocation=TRUE),
+        ## RCurl::getURL(url, followlocation=TRUE) has issues.
+        ## See getURL2() in R/query.R
+        result <- as(htmlParse(getURL2(url),
                                error = xmlErrorCumulator(immediate=FALSE)),
                      "character")
 
@@ -57,7 +59,9 @@
             stop("BLAST search expired")
         else if (grepl("Status=READY", result)) {
             url <- sprintf("%s?RID=%s&FORMAT_TYPE=XML&CMD=Get", baseUrl, rid)
-            result <- xmlParse(getURL(url, followlocation=TRUE),
+            ## RCurl::getURL(url, followlocation=TRUE) has issues.
+            ## See getURL2() in R/query.R
+            result <- xmlParse(getURL2(url),
                                error = xmlErrorCumulator(immediate=FALSE))
             return(result)
         } else if (grepl("Status=WAITING", result)) {
@@ -113,7 +117,9 @@ blastSequences <- function(x, database="nr",
                    "&HITLIST_SIZE=",hitListSize,"&FILTER=",filter,
                    "&EXPECT=",expect,"&PROGRAM=",program, sep="")
     url0 <- sprintf("%s?%s&CMD=Put", baseUrl, query)
-    post <- htmlParse(getURL(url0, followlocation=TRUE))
+    ## RCurl::getURL(url, followlocation=TRUE) has issues.
+    ## See getURL2() in R/query.R
+    post <- htmlParse(getURL2(url0))
     
     x <- post[['string(//comment()[contains(., "QBlastInfoBegin")])']]
     rid <- sub(".*RID = ([[:alnum:]]+).*", "\\1", x)

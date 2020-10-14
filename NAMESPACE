@@ -60,9 +60,6 @@ importFrom(xtable,
 importFrom(httr,
            GET)
 
-importFrom(RCurl,
-           getURL)
-
 importFrom(XML,
            getNodeSet,
            htmlParse,
