@@ -6,6 +6,8 @@ Authors@R: c(
         person("Jeff", "Gentry", role = "aut"),
         person("Kritika", "Verma", role = "ctb",
                 comment = "Converted chromLOC vignette from Sweave to RMarkdown / HTML."),
+        person("Manvi", "Yaduvanshi", role = "ctb",
+                comment = "Converted useDataPkgs vignette from Sweave to RMarkdown / HTML."),
         person("Bioconductor Package Maintainer",
                 email = "maintainer@bioconductor.org", role = "cre"))
 Description: Using R enviroments for annotation.
