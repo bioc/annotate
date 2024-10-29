@@ -160,7 +160,6 @@ export(
        getGOParents,
        getGOTerm,
        getGPLNames,
-       getLL,
        getOntology,
        getOrgNameNCode,
        getPMID,

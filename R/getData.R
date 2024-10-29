@@ -47,10 +47,6 @@ getGO <- function(x, data) {
       lookUp(x, data, "PMID")
   }
 
-  getLL <- function(x, data) {
-      .Defunct("getLL", package="annotate", msg="please use getEG")
-  }
-
   getEG <- function(x, data) {
       unlist(lookUp(x, data, "ENTREZID"))
   }
