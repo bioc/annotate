@@ -25,7 +25,7 @@ UniGeneQuery <- function(query, UGaddress="UniGene/",
 }
 
 entrezGeneByID <- function(query) {
-    
+
     if (missing(query))
         stop("No query, cannot proceed!")
 
@@ -52,7 +52,7 @@ entrezGeneQuery <- function(query) {
         str = paste(str,"%20",query[i],sep="")
       }
     }
-        
+
     query <- paste(ncbiURL, "/sites/entrez?db=gene&cmd=search&term=",str, sep="")
 
     return(query)
@@ -201,7 +201,7 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     doc <- xmlParse(getURL2(query))  # RCurl::getURL() has issues, see above
     res <- xpathApply(doc=doc, path="/eSearchResult/IdList/Id",
                       fun=xmlValue)
-    
+
     retVal <- unlist(res)
     if (length(retVal)==0){retVal <- NULL} else {
 	retVal <- paste(retVal, collapse=",")
@@ -541,7 +541,7 @@ getCells <-  function(ids, repository = "ug", ...){
 ## repository
 
 ## the interface: set, get, clear
-setRepository <- function(repository, FUN, ..., verbose=TRUE) 
+setRepository <- function(repository, FUN, ..., verbose=TRUE)
 {
     ## checs on repository, FUN, then...
     if (verbose && exists(repository, .repositories))
@@ -566,7 +566,7 @@ clearRepository <- function(repository, verbose=TRUE)
 }
 
 ## this should be backward compatible
-getQueryLink <- function (ids, repository = "ug", ...) 
+getQueryLink <- function (ids, repository = "ug", ...)
 {
     if (!exists(repository, .repositories))
         stop("unknown repository '", repository, "'")
@@ -726,7 +726,7 @@ getQuery4ENSEMBL <- function(ids, ...){
     ## Ensembl IDs can start with ENSG, ENSE, ENSP or ENST at the very least
 
     ids[is.na(ids)] <- "&nbsp;"
-    
+
     if(is.factor(ids))
         enids <- strsplit(as.character(ids), "ENS")
     else
@@ -744,7 +744,7 @@ getQuery4ENSEMBL <- function(ids, ...){
     out <- paste("http://www.ensembl.org/", species, "/Gene/Summary?g=",
                  ids, sep = "")
     out[bIDS] <- "&nbsp;"
-    
+
     out
 }
 
