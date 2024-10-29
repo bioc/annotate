@@ -331,11 +331,6 @@ accessionToUID <- function(...,db=c("genbank","pubmed")) {
     return(args)
 }
 
-genelocator <- function(x) {
-    .Defunct("none", package="annotate", msg = "is no longer supported")
-}
-
-
 pmAbst2HTML <- function(absts, filename, title, frames = FALSE,
                       table.center=TRUE) {
     ## Currently just a very naive implementation of a pmid2html type

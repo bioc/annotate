@@ -3,7 +3,6 @@
 \title{Defunct Functions in Package \pkg{annotate}}
 %------ PLEASE: put \alias{.} here for  EACH !
 \alias{neighborGeneFinder}
-\alias{genelocator}
 \alias{getQuery4LL}
 %
 \description{
@@ -11,7 +10,6 @@
 }
 \usage{
 neighborGeneFinder()
-genelocator()
 getQuery4LL()
 }
 \seealso{
