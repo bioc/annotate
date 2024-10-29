@@ -2,10 +2,10 @@
 \alias{LL2homology}
 \alias{HGID2homology}
 \alias{ACC2homology}
-\title{DEPRECATED Functions that find the homology data for a given set of
+\title{DEFUNCT Functions that find the homology data for a given set of
   LocusLink ids or HomoloGeneIDs}
 \description{
-  These functions are DEPRECATED. All this functionality has been
+  These functions are DEFUNCT. All this functionality has been
   replaced by inPARANOID packages.
   Given a set of LocusLink ids or NCBI HomoloGeneIDs, the functions obtain the
   homology data and represent them as a list of sub-lists using the
@@ -74,12 +74,12 @@ ACC2homology(accs, homoPkg)
 
 \examples{
 \dontrun{
-    ## hsahomology is a deprecated package! 
+    ## hsahomology is a defunct package!
     if(require("hsahomology")){
         llids <- ls(env = hsahomologyLL2HGID)[2:5]
         LL2homology("hsahomology", llids)
     }
-    
+
 }
 }
 \keyword{misc}
