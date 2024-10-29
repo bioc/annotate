@@ -621,10 +621,6 @@ getQuery4UG <- function (ids, ...){
   return(temp)
 }
 
-getQuery4LL <- function (ids, ...) {
-  .Defunct(msg="The 'll' repository argument is deprecated. Please use 'en'\n.")
-}
-
 getQuery4EN <- function (ids, ...){
   ## Here we rely on Entrez Gene IDs being all numeric to filter out garbage
   ## that will result in busted links.
