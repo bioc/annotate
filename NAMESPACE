@@ -184,7 +184,6 @@ export(
        lookUp,
        makeAnchor,
        mapOrgs,
-       p2LL,
        pm.abstGrep,
        pm.getabst,
        pm.titles,

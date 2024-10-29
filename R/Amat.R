@@ -96,10 +96,6 @@ GOmnplot = function (x, eset, data = "hgu133plus2", group, ...)
     return(tts)
 }
 
-p2LL = function(data) {
-    .Defunct("p2LL", package="annotate")
-}
-
 setGeneric("KEGG2heatmap", function(x, eset, data, ...) 
                              standardGeneric("KEGG2heatmap"))
 
