@@ -190,7 +190,6 @@ export(
        pmid2MIAME,
        PMIDAmat,
        pmidQuery,
-       probesByLL,
        pubmed,
        PWAmat,
        readGEOAnn,
