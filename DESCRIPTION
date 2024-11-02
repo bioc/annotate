@@ -23,7 +23,7 @@ LazyLoad: yes
 Collate: AllGenerics.R ACCNUMStats.R Amat.R AnnMaps.R chromLocation.R
         compatipleVersions.R findNeighbors.R getData.R getPMInfo.R
         getSeq4ACC.R GOhelpers.R homoData.R html.R isValidKey.R
-        LL2homology.R pmid2MIAME.R probesByLL.R pubMedAbst.R query.R
+        LL2homology.R pmid2MIAME.R pubMedAbst.R query.R
         readGEOAnn.R serializeEnv.R blastSequences.R zzz.R
         test_annotate_package.R
 biocViews: Annotation, Pathways, GO

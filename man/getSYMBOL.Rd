@@ -3,7 +3,6 @@
 \alias{getGO}
 \alias{getGOdesc}
 \alias{getPMID}
-\alias{getLL}
 \alias{getEG}
 \alias{lookUp}
 \alias{getUniqAnnItem}
@@ -15,7 +14,6 @@
 }
 \usage{
 getSYMBOL(x, data)
-getLL(x, data)
 getEG(x, data)
 getGO(x, data)
 getPMID(x, data)
